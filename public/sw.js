@@ -2,6 +2,7 @@ const CACHE_NAME = 'nsk-challenge-v2';
 const PRECACHE_ASSETS = [
   './',
   './index.html',
+  './icon.png',
   './icon.svg',
   './manifest.json',
   './home_bg.jpg',

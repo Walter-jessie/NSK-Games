@@ -129,15 +129,15 @@ export default function MobilePWAInstallOverlay() {
           {/* Game Icon */}
           <div className="mb-3 sm:mb-4">
             <img
-              src="./icon.svg"
-              alt="NSK Challenge Icon"
-              className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.9),0_0_25px_rgba(230,0,18,0.3)] border border-white/10 object-contain"
+              src="./icon.png"
+              alt="NSK Games Icon"
+              className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.9),0_0_25px_rgba(230,0,18,0.3)] border border-white/10 object-contain p-1 bg-white/5 backdrop-blur-sm"
             />
           </div>
 
           {/* Game Name */}
           <h1 className="text-lg sm:text-2xl font-heading font-black tracking-wider uppercase text-white mb-6 sm:mb-8 leading-tight">
-            NSK BEARING <span className="text-[#E60012]">CHALLENGE</span>
+            NSK <span className="text-[#E60012]">GAMES</span>
           </h1>
 
           {/* Action Buttons */}
