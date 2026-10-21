@@ -281,22 +281,25 @@ let arrowTexture = null;
 function getArrowTexture() {
   if (arrowTexture) return arrowTexture;
   const c = document.createElement('canvas');
-  c.width = 64;
+  c.width = 96;
   c.height = 64;
   const ctx = c.getContext('2d');
+
+  // A stroked chevron, not a solid arrow: two thick arms meeting at a point,
+  // pointing away from the camera once the quad is laid flat.
+  ctx.strokeStyle = '#6ef09a';
+  ctx.lineWidth = 17;
+  ctx.lineCap = 'butt';
+  ctx.lineJoin = 'miter';
+  ctx.miterLimit = 4;
   ctx.shadowColor = '#22c55e';
-  ctx.shadowBlur = 10;
-  ctx.fillStyle = '#4ade80';
+  ctx.shadowBlur = 12;
   ctx.beginPath();
-  ctx.moveTo(32, 8);
-  ctx.lineTo(58, 40);
-  ctx.lineTo(44, 40);
-  ctx.lineTo(44, 56);
-  ctx.lineTo(20, 56);
-  ctx.lineTo(20, 40);
-  ctx.lineTo(6, 40);
-  ctx.closePath();
-  ctx.fill();
+  ctx.moveTo(14, 50);
+  ctx.lineTo(48, 17);
+  ctx.lineTo(82, 50);
+  ctx.stroke();
+
   arrowTexture = new THREE.CanvasTexture(c);
   arrowTexture.colorSpace = THREE.SRGBColorSpace;
   return arrowTexture;
@@ -541,9 +544,9 @@ export default function Runner3DScene({
     // Forward chevrons painted ahead of the player, in whichever lane the
     // player is in. Three instances, one draw call.
     const ARROW_COUNT = 3;
-    const ARROW_GAP = 2.6;
+    const ARROW_GAP = 1.05;
     const arrows = new THREE.InstancedMesh(
-      new THREE.PlaneGeometry(0.72, 0.72),
+      new THREE.PlaneGeometry(0.92, 0.62),
       new THREE.MeshBasicMaterial({
         map: getArrowTexture(),
         color: 0x5bf08a,
@@ -558,7 +561,13 @@ export default function Runner3DScene({
     arrows.frustumCulled = false;
     const arrowZ = new Float32Array(ARROW_COUNT);
     let arrowLaneX = currentXRef.current;
-    for (let i = 0; i < ARROW_COUNT; i++) arrowZ[i] = PLAYER_Z - 2.0 - i * ARROW_GAP;
+    for (let i = 0; i < ARROW_COUNT; i++) arrowZ[i] = PLAYER_Z - 1.7 - i * ARROW_GAP;
+
+    // Per-instance colour, so one chevron can brighten at a time without
+    // needing a material each. setColorAt allocates the attribute.
+    const ARROW_BASE = new THREE.Color(0x5bf08a);
+    const arrowColor = new THREE.Color();
+    for (let i = 0; i < ARROW_COUNT; i++) arrows.setColorAt(i, ARROW_BASE);
     scene.add(arrows);
 
     // Seed every instance matrix now. The animation loop renders a single
@@ -711,6 +720,17 @@ export default function Runner3DScene({
         dashes.setMatrixAt(i, dummy.matrix);
       }
       dashes.instanceMatrix.needsUpdate = true;
+
+      // A pulse running outward through the chevrons, nearest first. Three
+      // colour writes a frame; the geometry never moves.
+      const pulse = (timestamp * 0.0022) % 1;
+      for (let i = 0; i < ARROW_COUNT; i++) {
+        const phase = (pulse - i * 0.26 + 1) % 1;
+        const peak = Math.max(0, 1 - Math.abs(phase - 0.35) * 3.4);
+        arrowColor.copy(ARROW_BASE).multiplyScalar(0.4 + peak * 0.95);
+        arrows.setColorAt(i, arrowColor);
+      }
+      if (arrows.instanceColor) arrows.instanceColor.needsUpdate = true;
 
       // Chevrons hold station ahead of the runner and only follow the lane
       // sideways, so this writes nothing while the player stays put.
