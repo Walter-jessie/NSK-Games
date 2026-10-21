@@ -40,9 +40,9 @@ export function StatusBlock({ snap }) {
 }
 
 const ACTIONS = {
-  smash: { cls: 'pa-act-smash', icon: '🔨', label: ['SMASH', 'CRATE'] },
-  repair: { cls: 'pa-act-repair', icon: '⚡', label: ['REPAIR', 'MACHINE'] },
-  needBearings: { cls: 'pa-act-need', icon: '⚠️', label: ['NEED', 'BEARINGS!'] },
+  smash: { cls: 'pa-act-smash', label: ['SMASH', 'CRATE'] },
+  repair: { cls: 'pa-act-repair', label: ['REPAIR', 'MACHINE'] },
+  needBearings: { cls: 'pa-act-need', label: ['NEED', 'BEARINGS'] },
 };
 
 export function SmartActionButton({ action, onPress }) {
@@ -54,7 +54,6 @@ export function SmartActionButton({ action, onPress }) {
       className={`pa-act ${a.cls}`}
       onPointerDown={(e) => { e.preventDefault(); onPress(); }}
     >
-      <span className="pa-act-icon">{a.icon}</span>
       <span>{a.label[0]}</span>
       <span>{a.label[1]}</span>
     </button>

@@ -116,8 +116,9 @@ export default function PlantArenaPage({ employeeId = 'NSK-GUEST', onSubmitScore
           <StatusBlock snap={snap} />
           <MiniMap engine={engine} layout={layout} />
           <button type="button" className="pa-mute" onClick={() => { audio.setMuted(!muted); setMuted(!muted); }}>
-            {muted ? '🔇' : '🔊'}
+            {muted ? 'SOUND OFF' : 'SOUND ON'}
           </button>
+          {snap.hint && <div className="pa-hint">SMASH THE WOODEN CRATE</div>}
           {banner && <div className="pa-banner">{banner}</div>}
           {toast && <div className="pa-toast">{toast}</div>}
           <VirtualJoystick onChange={joy} />
@@ -131,17 +132,21 @@ export default function PlantArenaPage({ employeeId = 'NSK-GUEST', onSubmitScore
             <div className="pa-kicker">NSK GAME 2</div>
             <h1>PLANT ARENA REPAIR</h1>
             <p className="pa-lead">Rogue drones are sabotaging the 10 NSK test machines. Keep the plant running for 90 seconds.</p>
-            <ul>
-              <li><b>Find NSK crates</b> (red NSK logo). Plain crates are empty.</li>
-              <li><b>Smash</b> a crate to get a bearing. Carry up to 5.</li>
-              <li><b>Repair</b> red machines before their timer runs out.</li>
-              <li>8 repairs wins. 3 failed machines and the plant shuts down.</li>
-            </ul>
+
+            <div className="pa-controls">LEFT THUMB MOVES &middot; RIGHT THUMB ACTS</div>
+
+            <ol className="pa-steps">
+              <li><span className="pa-step-n">1</span><span>Smash crates to find bearings. Only the ones stamped <b>NSK</b> hold any.</span></li>
+              <li><span className="pa-step-n">2</span><span>The bearing is thrown clear. <b>Chase it down</b> to pick it up, up to 5 at a time.</span></li>
+              <li><span className="pa-step-n">3</span><span>Repair the <b>red machines</b> before their timers run out.</span></li>
+              <li><span className="pa-step-n">4</span><span><b>8 repairs wins.</b> 3 machines lost and the plant shuts down.</span></li>
+            </ol>
+
             <div className="pa-row">
-              <button type="button" className="pa-btn pa-btn-go" onClick={start}>START MISSION</button>
+              <button type="button" className="pa-btn pa-btn-go" onClick={start}>PLAY</button>
               {onExit && <button type="button" className="pa-btn" onClick={onExit}>BACK</button>}
             </div>
-            <div className="pa-small">Left thumb: move · Right thumb: action · Keyboard: WASD + Space</div>
+            <div className="pa-small">Keyboard: WASD to move, Space to act</div>
           </div>
         </div>
       )}
@@ -164,7 +169,15 @@ export default function PlantArenaPage({ employeeId = 'NSK-GUEST', onSubmitScore
           </div>
         </div>
       )}
-      <div className="pa-rotate"><div><div className="pa-rotate-icon">📱</div>Rotate your phone to landscape to play</div></div>
+      <div className="pa-rotate">
+        <div>
+          <svg className="pa-rotate-icon" viewBox="0 0 48 32" aria-hidden="true">
+            <rect x="1.5" y="1.5" width="45" height="29" rx="4" fill="none" stroke="currentColor" strokeWidth="3" />
+            <rect x="7" y="7" width="34" height="18" rx="2" fill="currentColor" opacity="0.25" />
+          </svg>
+          Rotate your phone to landscape to play
+        </div>
+      </div>
     </div>
   );
 }

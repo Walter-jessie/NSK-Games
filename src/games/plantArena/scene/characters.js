@@ -172,6 +172,22 @@ export function createDrone() {
 }
 
 /* ---------------- Crates ---------------- */
+// The official mark, loaded once. Until it arrives the crate falls back to
+// drawn letterforms, then the texture is rebuilt in place.
+let nskLogoImg = null;
+let nskLogoLoad = null;
+function loadNskLogo() {
+  if (nskLogoLoad) return nskLogoLoad;
+  nskLogoLoad = new Promise((resolve) => {
+    if (typeof Image === 'undefined') return resolve(null);
+    const img = new Image();
+    img.onload = () => { nskLogoImg = img; resolve(img); };
+    img.onerror = () => resolve(null);
+    img.src = `${import.meta.env.BASE_URL}images/nsk_logo.png`;
+  });
+  return nskLogoLoad;
+}
+
 function crateTexture(nsk) {
   return canvasTexture(256, 256, (ctx, w, h) => {
     const base = nsk ? C.woodAmber : C.woodDark;
@@ -193,12 +209,21 @@ function crateTexture(nsk) {
     if (nsk) {
       ctx.fillStyle = C.white;
       ctx.beginPath(); ctx.roundRect(42, 80, w - 84, 96, 12); ctx.fill();
-      ctx.fillStyle = C.nskRed;
-      ctx.beginPath(); ctx.roundRect(50, 88, w - 100, 80, 8); ctx.fill();
-      ctx.fillStyle = C.white;
-      ctx.font = '900 64px "Arial Black", Arial, sans-serif';
-      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-      ctx.fillText('NSK', w / 2, 130);
+      if (!nskLogoImg) {
+        ctx.fillStyle = C.nskRed;
+        ctx.beginPath(); ctx.roundRect(50, 88, w - 100, 80, 8); ctx.fill();
+      }
+      if (nskLogoImg) {
+        // Fit the real mark inside the red plate, keeping its aspect ratio.
+        const plateW = w - 124;
+        const drawH = plateW * (nskLogoImg.height / nskLogoImg.width);
+        ctx.drawImage(nskLogoImg, (w - plateW) / 2, 130 - drawH / 2, plateW, drawH);
+      } else {
+        ctx.fillStyle = C.white;
+        ctx.font = '900 64px "Arial Black", Arial, sans-serif';
+        ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        ctx.fillText('NSK', w / 2, 130);
+      }
     }
   });
 }
@@ -229,6 +254,14 @@ export function createCrateField(decoyPositions, nskPositions) {
   };
   const decoys = make(decoyPositions, false);
   const nsk = make(nskPositions, true);
+
+  // Swap in the real mark as soon as it decodes.
+  loadNskLogo().then((img) => {
+    if (!img || !nsk.mesh.material) return;
+    nsk.mesh.material.map?.dispose();
+    nsk.mesh.material.map = crateTexture(true);
+    nsk.mesh.material.needsUpdate = true;
+  });
   return {
     group,
     // Hide a smashed crate by collapsing its instance. Decoys and NSK crates

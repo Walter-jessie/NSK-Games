@@ -160,9 +160,17 @@ export default function BearingModelViewer({
     // 1. Scene
     const scene = new THREE.Scene();
 
-    // 2. Camera with pleasant isometric framing (centered for full-height display)
-    const camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 100);
-    camera.position.set(0, 0.15, 5.5);
+    // 2. Camera with pleasant framing showing the FULL bearing assembly with comfortable margins
+    const fov = 40;
+    const aspect = width / height;
+    const camera = new THREE.PerspectiveCamera(fov, aspect, 0.1, 100);
+
+    // Fit bearing (diameter ~6.7 to 7.2 with aura) comfortably with clean breathing room (~25% margin)
+    const targetDim = 7.2;
+    const fovRad = (fov * Math.PI) / 180;
+    const fitDistance = (targetDim / 2) / Math.tan(fovRad / 2) / Math.min(1.0, aspect / 1.15) / 0.78;
+    const spawnDistance = Math.max(10.5, Math.min(15.0, fitDistance));
+    camera.position.set(0, 0.15, spawnDistance);
 
     // 3. WebGL Renderer with High-Quality Tonemapping (Mobile Optimized)
     const renderer = new THREE.WebGLRenderer({
@@ -224,8 +232,8 @@ export default function BearingModelViewer({
     controls.enableDamping = true;
     controls.dampingFactor = 0.06;
     controls.enablePan = false;
-    controls.minDistance = 4.2;
-    controls.maxDistance = 14.0;
+    controls.minDistance = 5.0;
+    controls.maxDistance = 25.0;
     controlsRef.current = controls;
 
     // 7. Dynamic Assembled Bearing Model
