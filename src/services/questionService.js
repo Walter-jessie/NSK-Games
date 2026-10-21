@@ -33,79 +33,51 @@ function shuffle(array) {
 
 const LANE_LABELS = ['A', 'B', 'C', 'D'];
 
-// A run should keep the player running across the track. Two answers in a row
-// on the same lane mean the player stands still, and neighbouring lanes are
-// only a nudge, so sequences are scored on how far the player has to travel
-// and the best of a batch is used.
-const SEQUENCE_CANDIDATES = 240;
-const ADJACENT_LANE_PENALTY = 0.6;  // B -> C is movement, but barely
-const PING_PONG_PENALTY = 1.8;      // A,D,A,D is its own pattern
+// A run must use all four lanes. Picking each answer's lane independently at
+// random leaves one lane untouched in about a fifth of runs, which reads as a
+// dead option, so every run is dealt from a bag holding each lane two or three
+// times. The order is then a plain shuffle: no lane is favoured and no jump
+// distance is steered.
+//
+// Landing on the lane the player is already standing in is allowed, but a run
+// full of them means standing still, so a deal with more than one is reshuffled.
+const MAX_STAYS = 1;
+const MAX_DEALS = 60;
 
 /**
- * Balanced bag of lanes: every lane used about equally over the run, so no
- * lane is starved and none is over-represented.
+ * A bag holding each lane an equal number of times, with any remainder handed
+ * out at random. For a 10-question run that is two lanes used three times and
+ * two used twice.
  */
 function laneBag(count) {
   const bag = [];
   const perLane = Math.floor(count / LANE_LABELS.length);
   for (const label of LANE_LABELS) bag.push(...Array(perLane).fill(label));
-  const extras = shuffle(LANE_LABELS).slice(0, count - bag.length);
-  return [...bag, ...extras];
+  return [...bag, ...shuffle(LANE_LABELS).slice(0, count - bag.length)];
 }
 
-/**
- * Average lanes crossed per question, minus penalties for the shapes that read
- * as a pattern on screen. Higher is a livelier run.
- */
-function scoreLaneSequence(seq, startLane) {
-  let travelled = 0;
-  let penalty = 0;
-
-  for (let i = 0; i < seq.length; i++) {
-    const from = i === 0 ? startLane : LANE_LABELS.indexOf(seq[i - 1]);
-    const gap = Math.abs(LANE_LABELS.indexOf(seq[i]) - from);
-
-    travelled += gap;
-    if (gap === 1) penalty += ADJACENT_LANE_PENALTY;
-    // A,D,A,D reads as a rhythm the player can ride without reading the answer
-    if (i >= 3 && seq[i] === seq[i - 2] && seq[i - 1] === seq[i - 3]) penalty += PING_PONG_PENALTY;
-  }
-
-  return (travelled - penalty) / seq.length;
+/** Number of questions whose answer sits on the lane the player is already in. */
+function countStays(sequence, startLane) {
+  let stays = sequence[0] === LANE_LABELS[startLane] ? 1 : 0;
+  for (let i = 1; i < sequence.length; i++) if (sequence[i] === sequence[i - 1]) stays++;
+  return stays;
 }
 
 /**
  * Picks which lane holds the correct answer for each question in the run.
- * No two answers in a row share a lane, and the run is chosen to make the
- * player cross as much of the track as possible without falling into an
- * obvious rhythm.
+ * Every lane gets used, the order is random, and staying put stays rare.
  */
 export function buildAnswerLaneSequence(count, startLane = 1) {
   if (count <= 0) return [];
 
-  let best = null;
-  let bestScore = -Infinity;
+  const bag = laneBag(count);
+  let sequence = shuffle(bag);
 
-  for (let attempt = 0; attempt < SEQUENCE_CANDIDATES; attempt++) {
-    const bag = shuffle(laneBag(count));
-    const seq = [];
-
-    while (bag.length) {
-      // Never repeat the lane the player is already standing in.
-      const previous = seq.length ? seq.at(-1) : null;
-      let pick = bag.findIndex((label) => label !== previous);
-      if (pick === -1) pick = 0; // only the current lane left: unavoidable
-      seq.push(bag.splice(pick, 1)[0]);
-    }
-
-    const score = scoreLaneSequence(seq, startLane);
-    if (score > bestScore) {
-      bestScore = score;
-      best = seq;
-    }
+  for (let deal = 0; deal < MAX_DEALS && countStays(sequence, startLane) > MAX_STAYS; deal++) {
+    sequence = shuffle(bag);
   }
 
-  return best;
+  return sequence;
 }
 
 /**

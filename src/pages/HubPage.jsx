@@ -145,17 +145,17 @@ export default function HubPage() {
       </div>
 
       {/* ── TOP HEADER (Top Left User Chip, Center Dev Test Button, & Top Right NSK Logo) ── */}
-      <header className="relative z-30 flex items-center justify-between px-3 sm:px-6 md:px-8 pt-2 sm:pt-3 md:pt-4 pointer-events-auto">
+      <header className="relative z-30 flex items-center justify-between px-4 pt-2.5 pointer-events-auto">
         {/* User Status Chip on Left */}
-        <div className="flex items-center gap-1.5 sm:gap-2 bg-black/55 backdrop-blur-md border border-white/15 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full shadow-lg text-white">
-          <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-gradient-to-br from-[#E60012] to-[#b3000d] flex items-center justify-center text-white shadow-sm ring-1 ring-white/20 shrink-0">
-            <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-white" viewBox="0 0 20 20" fill="currentColor">
+        <div className="flex items-center gap-1.5 bg-black/55 backdrop-blur-md border border-white/15 px-3 py-1 rounded-full shadow-lg text-white">
+          <div className="w-6 h-6 rounded-full bg-gradient-to-br from-[#E60012] to-[#b3000d] flex items-center justify-center text-white shadow-sm ring-1 ring-white/20 shrink-0">
+            <svg className="w-3.5 h-3.5 text-white" viewBox="0 0 20 20" fill="currentColor">
               <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
             </svg>
           </div>
           <div className="flex flex-col">
-            <span className="text-[11px] sm:text-xs font-mono font-bold leading-none">{employeeId}</span>
-            <span className="text-[8px] sm:text-[9px] text-slate-300 leading-none mt-0.5 truncate max-w-[100px] sm:max-w-[180px]">
+            <span className="text-xs font-mono font-bold leading-none">{employeeId}</span>
+            <span className="text-[9px] text-slate-300 leading-none mt-0.5 truncate max-w-[120px]">
               {deptMap[department] || department}
             </span>
           </div>
@@ -164,7 +164,7 @@ export default function HubPage() {
               logout();
               navigate('/');
             }}
-            className="ml-1.5 sm:ml-2 text-[9px] sm:text-[10px] text-slate-300 hover:text-white px-1.5 sm:px-2 py-0.5 rounded-full border border-white/20 hover:bg-white/10 transition-colors"
+            className="ml-1.5 text-[10px] text-slate-300 hover:text-white px-2 py-0.5 rounded-full border border-white/20 hover:bg-white/10 transition-colors"
             title="Sign Out"
           >
             Logout
@@ -175,36 +175,36 @@ export default function HubPage() {
         <button
           id="btn-fast-test-game2"
           onClick={() => navigate('/game/plant-arena')}
-          className="flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full bg-slate-900/90 hover:bg-slate-800 text-amber-300 border border-amber-400/80 text-[10px] sm:text-xs font-mono font-bold tracking-wider transition-all shadow-md active:scale-95 animate-pulse"
+          className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-900/90 hover:bg-slate-800 text-amber-300 border border-amber-400/80 text-xs font-mono font-bold tracking-wider transition-all shadow-md active:scale-95 animate-pulse"
           title="Fast Testing: Click to jump directly to Game 2 (Plant Arena Repair)"
         >
           <span>🔬</span>
           <span>TEST GAME 2</span>
-          <span className="text-[8px] sm:text-[9px] bg-amber-400 text-slate-950 px-1 py-0.2 rounded font-black uppercase">
+          <span className="text-[9px] bg-amber-400 text-slate-950 px-1 py-0.2 rounded font-black uppercase">
             DEV
           </span>
         </button>
 
         {/* Top-Right: Pure NSK Logo */}
-        <div className="flex items-center gap-2 sm:gap-3">
+        <div className="flex items-center gap-2">
           <img
             src="./nsk_logo.png"
             alt="NSK"
-            className="h-6 sm:h-8 md:h-10 w-auto object-contain drop-shadow-sm"
+            className="h-7 w-auto object-contain drop-shadow-sm"
           />
         </div>
       </header>
 
       {/* ── LOCKED STAGE NOTICE TOAST ── */}
       {lockedToast && (
-        <div className="absolute top-14 sm:top-20 right-4 sm:right-16 z-50 bg-slate-950/95 border-2 border-amber-500/80 text-amber-300 px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl text-xs sm:text-sm font-mono font-bold shadow-2xl shadow-black/80 flex items-center gap-2 animate-bounce">
-          <span className="text-sm sm:text-lg">🔒</span>
+        <div className="absolute top-14 right-4 z-50 bg-slate-950/95 border-2 border-amber-500/80 text-amber-300 px-3.5 py-2 rounded-xl text-xs font-mono font-bold shadow-2xl shadow-black/80 flex items-center gap-2 animate-bounce">
+          <span className="text-sm">🔒</span>
           <span>STAGE 2 LOCKED · Complete Stage 1 (Bearing Runner) first!</span>
         </div>
       )}
 
       {/* ── TWO SLANTED GAME PANELS (Centered in Middle of Screen) ── */}
-      <main className="detroit-diagonal-container absolute right-0 top-0 bottom-0 h-full z-30 flex items-center justify-center pointer-events-none select-none pl-8 sm:pl-16 md:pl-24 pt-2 pb-8 sm:pb-10 my-auto">
+      <main className="detroit-diagonal-container absolute right-0 top-0 bottom-0 h-full z-30 flex items-center justify-center pointer-events-none select-none pl-12 pt-2 pb-8 my-auto">
         <div className="flex items-center pointer-events-auto">
           {/* GAME 1: BEARING RUNNER (Active) */}
           <div
@@ -344,7 +344,7 @@ export default function HubPage() {
         </div>
       </main>
 
-      {/* ── PLAY BUTTON (Sleek, right-edge slanted trigger) ── */}
+      {/* ── PLAY BUTTON (Sleek, right-edge slanted trigger - Locked fixed dimensions) ── */}
       <div className="absolute top-[75%] right-0 -translate-y-1/2 z-40 pointer-events-auto">
         <button
           id="btn-play-game"
@@ -353,12 +353,12 @@ export default function HubPage() {
           title="Start Challenge Campaign"
         >
           <div
-            className="pl-5 sm:pl-8 md:pl-12 pr-3 sm:pr-5 md:pr-7 py-1 sm:py-2 md:py-3 bg-red-600 hover:bg-red-500 active:bg-red-700 text-white font-heading font-black text-xs sm:text-base md:text-xl tracking-widest uppercase transition-all shadow-xl shadow-red-600/40 flex items-center justify-center gap-1.5 sm:gap-2.5 border-t border-l border-red-300/40"
+            className="w-28 h-9 pl-5 pr-3 bg-red-600 hover:bg-red-500 active:bg-red-700 text-white font-heading font-black text-xs tracking-widest uppercase transition-all shadow-xl shadow-red-600/40 flex items-center justify-center gap-1.5 border-t border-l border-red-300/40"
             style={{
               clipPath: 'polygon(18% 0%, 100% 0%, 100% 100%, 0% 100%)',
             }}
           >
-            <span className="text-xs sm:text-base md:text-lg transform group-hover:scale-110 transition-transform">
+            <span className="text-xs transform group-hover:scale-110 transition-transform">
               ▶
             </span>
             <span className="drop-shadow-md">PLAY</span>
@@ -366,7 +366,7 @@ export default function HubPage() {
         </button>
       </div>
 
-      {/* ── BOTTOM BUTTONS BAR (Leaderboard Trapezoid Tab - Low Profile) ── */}
+      {/* ── BOTTOM BUTTONS BAR (Leaderboard Trapezoid Tab - Locked fixed dimensions) ── */}
       <footer className="absolute bottom-0 inset-x-0 z-40 flex items-end justify-center pointer-events-none pb-0">
         <div className="flex justify-center pointer-events-auto">
           <button
@@ -376,12 +376,12 @@ export default function HubPage() {
             title="View Plant Leaderboard"
           >
             <div
-              className="px-4 sm:px-6 md:px-8 py-0.5 sm:py-1 md:py-1.5 bg-slate-900 hover:bg-red-600 active:bg-red-700 text-white font-heading font-black text-[9px] sm:text-[11px] md:text-xs tracking-widest uppercase transition-all shadow-lg shadow-slate-950/70 hover:shadow-red-600/50 flex items-center justify-center gap-1 sm:gap-1.5 border-t border-x border-white/20 hover:border-red-400"
+              className="w-44 h-7 bg-slate-900 hover:bg-red-600 active:bg-red-700 text-white font-heading font-black text-[10px] tracking-widest uppercase transition-all shadow-lg shadow-slate-950/70 hover:shadow-red-600/50 flex items-center justify-center gap-1.5 border-t border-x border-white/20 hover:border-red-400"
               style={{
-                clipPath: 'polygon(12% 0%, 88% 0%, 100% 100%, 0% 100%)',
+                clipPath: 'polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%)',
               }}
             >
-              <span className="text-[10px] sm:text-xs md:text-sm transform group-hover:rotate-12 transition-transform">🏆</span>
+              <span className="text-xs transform group-hover:rotate-12 transition-transform">🏆</span>
               <span className="drop-shadow-md">LEADERBOARD</span>
             </div>
           </button>

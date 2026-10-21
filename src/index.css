@@ -325,30 +325,20 @@
   }
 }
 
-/* Fluid Slanted Game Panels in Hub Page: Perfectly scale to mobile height so they never overflow */
+/* Slanted Game Panels in Hub Page: Locked 3:4 aspect ratio prevents independent horizontal stretching on 2K or wide screens */
 .hub-game-panel {
-  width: min(260px, 25vw, 36vh);
-  height: min(320px, 50vh);
-}
-@media (min-height: 520px) {
-  .hub-game-panel {
-    width: clamp(230px, 22vw, 340px);
-    height: clamp(280px, 48vh, 420px);
-  }
+  height: clamp(200px, 52vh, 275px);
+  aspect-ratio: 0.76 / 1;
+  width: auto;
+  max-width: 215px;
 }
 
 /* Connecting dashed line between game panels */
 .hub-panel-connector {
-  width: min(90px, 10vw, 13vh);
-  margin-left: calc(-1 * min(30px, 3.2vw, 4vh));
-  margin-right: calc(-1 * min(30px, 3.2vw, 4vh));
-}
-@media (min-height: 520px) {
-  .hub-panel-connector {
-    width: clamp(70px, 9vw, 130px);
-    margin-left: calc(-1 * clamp(20px, 2.5vw, 40px));
-    margin-right: calc(-1 * clamp(20px, 2.5vw, 40px));
-  }
+  height: 2px;
+  width: 50px;
+  margin-left: -18px;
+  margin-right: -18px;
 }
 
 /* Hero NSK Bearing Image (Centered to Left Visible Region) */

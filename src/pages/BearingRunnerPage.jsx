@@ -431,30 +431,30 @@ export default function BearingRunnerPage() {
         </div>
       )}
 
-      {/* ═══ TOP GAME HUD & Q&A (High-Contrast White & NSK Red Question + Expanded Answers) ═══ */}
+      {/* ═══ TOP GAME HUD & Q&A (Locked Container: Stable Proportions on 1080p, 2K & All Displays) ═══ */}
       {(phase === 'playing' || phase === 'feedback') && (
-        <div className="absolute top-0 left-0 right-0 z-30 pointer-events-auto h-[42vh] sm:h-[45vh] md:h-[46vh] flex flex-col justify-start gap-2 sm:gap-3 px-2 sm:px-6 md:px-10 lg:px-14 pt-2 sm:pt-3 pb-2.5 bg-gradient-to-b from-[#050810]/98 via-[#050810]/92 to-transparent">
+        <div className="absolute top-0 left-0 right-0 z-30 pointer-events-auto flex flex-col justify-start gap-2 px-3 pt-2 pb-2 bg-gradient-to-b from-[#050810]/98 via-[#050810]/90 to-transparent">
           {/* Question Row at Very Top with integrated Parts Counter */}
           {currentQ && (
-            <div key={`q-${qIdx}`} className="flex items-center gap-2 sm:gap-3 max-w-5xl mx-auto w-full flex-shrink-0 game-question-enter">
-              {/* Parts Counter Badge (NSK Red Gradient) */}
-              <div className="px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl sm:rounded-2xl bg-gradient-to-br from-[#E60012] via-[#d60011] to-[#99000c] border-2 border-red-300 text-white whitespace-nowrap shrink-0 shadow-[0_4px_20px_rgba(230,0,18,0.4)] flex flex-col sm:flex-row items-center justify-center gap-0.5 sm:gap-2 min-h-[52px] sm:min-h-[66px] md:min-h-[74px]">
-                <span className="text-white/90 font-black uppercase text-[9px] sm:text-[11px] tracking-widest">PARTS</span>
-                <span className="font-heading font-black text-sm sm:text-lg md:text-xl text-white">{collectedParts.length}/10</span>
+            <div key={`q-${qIdx}`} className="flex items-center gap-2 max-w-3xl mx-auto w-full flex-shrink-0 game-question-enter">
+              {/* Parts Counter Badge (NSK Red Gradient - Fixed Stable Dimensions) */}
+              <div className="px-3 py-1.5 rounded-xl bg-gradient-to-br from-[#E60012] via-[#d60011] to-[#99000c] border-2 border-red-300 text-white whitespace-nowrap shrink-0 shadow-md flex items-center justify-center gap-1.5 h-12">
+                <span className="text-white/90 font-black uppercase text-[10px] tracking-widest">PARTS</span>
+                <span className="font-heading font-black text-sm text-white">{collectedParts.length}/10</span>
               </div>
 
-              {/* High-Contrast White Question Panel with Bold NSK Red Border */}
-              <div className="flex-1 bg-white border-[3px] sm:border-4 border-[#E60012] rounded-xl sm:rounded-2xl px-3 sm:px-6 py-2.5 sm:py-3.5 shadow-[0_6px_30px_rgba(230,0,18,0.35),0_4px_16px_rgba(0,0,0,0.6)] text-center flex items-center justify-center min-h-[52px] sm:min-h-[66px] md:min-h-[74px]">
-                <p className="text-xs sm:text-base md:text-lg lg:text-xl font-heading font-black text-slate-950 leading-snug tracking-wide uppercase line-clamp-2">
+              {/* High-Contrast White Question Panel with Bold NSK Red Border - Fixed Stable Dimensions */}
+              <div className="flex-1 bg-white border-[3px] border-[#E60012] rounded-xl px-4 py-2 shadow-md text-center flex items-center justify-center h-12">
+                <p className="text-xs sm:text-sm font-heading font-black text-slate-950 leading-snug tracking-wide uppercase line-clamp-2">
                   {currentQ.question}
                 </p>
               </div>
             </div>
           )}
 
-          {/* Options: Prominent, Expanded Answer Cards covering more screen area */}
+          {/* Options: 4 Locked, Uniform Answer Cards (Never stretched into long slabs on 2K) */}
           {currentQ && (
-            <div key={`o-${qIdx}`} className="flex-1 grid grid-cols-4 gap-2 sm:gap-3 md:gap-4 game-options-enter max-w-5xl mx-auto w-full items-stretch min-h-[56px] sm:min-h-[72px] md:min-h-[82px]">
+            <div key={`o-${qIdx}`} className="grid grid-cols-4 gap-2 game-options-enter max-w-3xl mx-auto w-full items-stretch h-14">
               {LANE_LABELS.map((label, idx) => {
                 const isSelected = playerLane === idx;
                 const isCorrectAnswer = currentQ.correct === label;
@@ -462,30 +462,30 @@ export default function BearingRunnerPage() {
                   <button
                     key={label}
                     onClick={() => jumpToLane(idx)}
-                    className={`relative py-2 sm:py-3 px-2 sm:px-3 rounded-xl sm:rounded-2xl transition-all duration-150 select-none flex items-center justify-center gap-1.5 sm:gap-2.5 h-full min-h-[52px] sm:min-h-[68px] md:min-h-[78px] ${
+                    className={`relative py-1.5 px-2 rounded-xl transition-all duration-150 select-none flex items-center justify-center gap-2 h-full ${
                       isSelected
-                        ? 'bg-gradient-to-r from-[#E60012] via-[#ff1a2e] to-[#cc0010] border-[3px] border-white text-white shadow-[0_0_30px_rgba(230,0,18,0.95)] ring-2 sm:ring-4 ring-red-400/80 scale-[1.03] z-20'
-                        : 'bg-[#0b101e]/95 border-2 border-slate-600/90 hover:border-white/50 hover:bg-[#12192e] backdrop-blur-md text-white shadow-[0_4px_16px_rgba(0,0,0,0.6)]'
+                        ? 'bg-gradient-to-r from-[#E60012] via-[#ff1a2e] to-[#cc0010] border-[3px] border-white text-white shadow-[0_0_20px_rgba(230,0,18,0.9)] ring-2 ring-red-400 scale-[1.02] z-20'
+                        : 'bg-[#0b101e]/95 border-2 border-slate-600/90 hover:border-white/50 hover:bg-[#12192e] backdrop-blur-md text-white shadow-md'
                     }`}
                   >
                     {/* [TESTING HELPER] Dot on correct answer */}
                     {isCorrectAnswer && (
                       <span
                         title="[Testing Mode] Correct Answer"
-                        className="absolute top-1.5 right-1.5 w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-emerald-400 border border-emerald-200 shadow-sm shadow-emerald-400 animate-pulse pointer-events-none z-20"
+                        className="absolute top-1 right-1 w-2.5 h-2.5 rounded-full bg-emerald-400 border border-emerald-200 shadow-sm shadow-emerald-400 animate-pulse pointer-events-none z-20"
                       />
                     )}
-                    {isSelected && <div className="absolute inset-0 game-option-shimmer pointer-events-none rounded-xl sm:rounded-2xl" />}
+                    {isSelected && <div className="absolute inset-0 game-option-shimmer pointer-events-none rounded-xl" />}
                     
-                    {/* Letter Badge (A, B, C, D) */}
-                    <span className={`relative z-10 inline-flex w-6 h-6 sm:w-8 sm:h-8 md:w-9 md:h-9 rounded-lg sm:rounded-xl items-center justify-center text-xs sm:text-sm md:text-base font-heading font-black shrink-0 shadow-sm ${
+                    {/* Letter Badge (A, B, C, D) - Fixed Size */}
+                    <span className={`relative z-10 inline-flex w-7 h-7 rounded-lg items-center justify-center text-xs font-heading font-black shrink-0 shadow-sm ${
                       isSelected ? 'bg-white text-[#E60012]' : 'bg-white/15 text-white border border-white/20'
                     }`}>
                       {label}
                     </span>
 
-                    {/* Words Text - High Contrast & Large */}
-                    <span className={`relative z-10 text-[11px] sm:text-xs md:text-sm lg:text-base font-bold sm:font-black leading-snug line-clamp-2 text-left ${
+                    {/* Words Text - High Contrast & Clean Size */}
+                    <span className={`relative z-10 text-xs font-bold leading-tight line-clamp-2 text-left ${
                       isSelected ? 'text-white drop-shadow-md font-black' : 'text-slate-100'
                     }`}>
                       {currentQ.options[label]}
@@ -585,7 +585,7 @@ export default function BearingRunnerPage() {
         </div>
       )}
 
-      {/* ═══ TOUCH STEERING CONTROLS (Left / Right Arrow Icons - EXTRA LARGE ARROWS) ═══ */}
+      {/* ═══ TOUCH STEERING CONTROLS (Left / Right Arrow Icons - Locked Fixed Ergonomic Size) ═══ */}
       {(phase === 'playing' || phase === 'feedback') && (
         <>
           <button
@@ -596,14 +596,14 @@ export default function BearingRunnerPage() {
               e.stopPropagation();
               moveLeft();
             }}
-            className={`absolute bottom-2 left-2 sm:bottom-3 sm:left-3 md:bottom-5 md:left-5 z-40 w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-xl sm:rounded-2xl flex items-center justify-center transition-all select-none shadow-[0_8px_25px_rgba(0,0,0,0.85)] border-2 ${
+            className={`absolute bottom-3 left-3 z-40 w-16 h-16 rounded-2xl flex items-center justify-center transition-all select-none shadow-[0_8px_25px_rgba(0,0,0,0.85)] border-2 ${
               playerLane === 0
                 ? 'bg-slate-900/40 border-white/5 text-slate-600 opacity-25 cursor-not-allowed'
                 : 'bg-slate-900/95 backdrop-blur-xl border-white/35 text-white hover:border-red-500 hover:bg-slate-800 active:bg-red-600 active:scale-95 active:border-red-400 active:shadow-red-600/80 ring-1 ring-white/15'
             }`}
             style={{ touchAction: 'manipulation' }}
           >
-            <svg className="w-9 h-9 sm:w-11 sm:h-11 md:w-13 md:h-13 drop-shadow-md" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3.5}>
+            <svg className="w-10 h-10 drop-shadow-md" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
             </svg>
           </button>
@@ -616,14 +616,14 @@ export default function BearingRunnerPage() {
               e.stopPropagation();
               moveRight();
             }}
-            className={`absolute bottom-2 right-2 sm:bottom-3 sm:right-3 md:bottom-5 md:right-5 z-40 w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-xl sm:rounded-2xl flex items-center justify-center transition-all select-none shadow-[0_8px_25px_rgba(0,0,0,0.85)] border-2 ${
+            className={`absolute bottom-3 right-3 z-40 w-16 h-16 rounded-2xl flex items-center justify-center transition-all select-none shadow-[0_8px_25px_rgba(0,0,0,0.85)] border-2 ${
               playerLane === LANE_COUNT - 1
                 ? 'bg-slate-900/40 border-white/5 text-slate-600 opacity-25 cursor-not-allowed'
                 : 'bg-slate-900/95 backdrop-blur-xl border-white/35 text-white hover:border-red-500 hover:bg-slate-800 active:bg-red-600 active:scale-95 active:border-red-400 active:shadow-red-600/80 ring-1 ring-white/15'
             }`}
             style={{ touchAction: 'manipulation' }}
           >
-            <svg className="w-9 h-9 sm:w-11 sm:h-11 md:w-13 md:h-13 drop-shadow-md" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3.5}>
+            <svg className="w-10 h-10 drop-shadow-md" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
             </svg>
           </button>
