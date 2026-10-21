@@ -327,27 +327,27 @@
 
 /* Fluid Slanted Game Panels in Hub Page: Perfectly scale to mobile height so they never overflow */
 .hub-game-panel {
-  width: min(320px, 30vw, 38vh);
-  height: min(390px, 45vh);
+  width: min(260px, 25vw, 36vh);
+  height: min(320px, 50vh);
 }
-@media (min-height: 640px) {
+@media (min-height: 520px) {
   .hub-game-panel {
-    width: clamp(250px, 22vw, 350px);
-    height: clamp(320px, 46vh, 440px);
+    width: clamp(230px, 22vw, 340px);
+    height: clamp(280px, 48vh, 420px);
   }
 }
 
 /* Connecting dashed line between game panels */
 .hub-panel-connector {
-  width: min(130px, 14vw, 17vh);
-  margin-left: calc(-1 * min(40px, 4.5vw, 5.5vh));
-  margin-right: calc(-1 * min(40px, 4.5vw, 5.5vh));
+  width: min(90px, 10vw, 13vh);
+  margin-left: calc(-1 * min(30px, 3.2vw, 4vh));
+  margin-right: calc(-1 * min(30px, 3.2vw, 4vh));
 }
-@media (min-height: 640px) {
+@media (min-height: 520px) {
   .hub-panel-connector {
-    width: clamp(90px, 10vw, 150px);
-    margin-left: calc(-1 * clamp(25px, 3vw, 45px));
-    margin-right: calc(-1 * clamp(25px, 3vw, 45px));
+    width: clamp(70px, 9vw, 130px);
+    margin-left: calc(-1 * clamp(20px, 2.5vw, 40px));
+    margin-right: calc(-1 * clamp(20px, 2.5vw, 40px));
   }
 }
 

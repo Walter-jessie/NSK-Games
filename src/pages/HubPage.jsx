@@ -201,8 +201,8 @@ export default function HubPage() {
         </div>
       )}
 
-      {/* ── TWO SLANTED GAME PANELS (Centered in Middle of Screen, Shifted Down) ── */}
-      <main className="detroit-diagonal-container absolute right-0 top-0 bottom-0 h-full z-30 flex items-center justify-center pointer-events-none select-none pl-8 sm:pl-16 md:pl-24 pt-12 sm:pt-16 pb-2 sm:pb-4 my-auto">
+      {/* ── TWO SLANTED GAME PANELS (Centered in Middle of Screen) ── */}
+      <main className="detroit-diagonal-container absolute right-0 top-0 bottom-0 h-full z-30 flex items-center justify-center pointer-events-none select-none pl-8 sm:pl-16 md:pl-24 pt-2 pb-8 sm:pb-10 my-auto">
         <div className="flex items-center pointer-events-auto">
           {/* GAME 1: BEARING RUNNER (Active) */}
           <div
@@ -342,8 +342,8 @@ export default function HubPage() {
         </div>
       </main>
 
-      {/* ── PLAY BUTTON (Fluid, shifted down, flush with right screen edge) ── */}
-      <div className="absolute top-[80%] right-0 -translate-y-1/2 z-40 pointer-events-auto">
+      {/* ── PLAY BUTTON (Sleek, right-edge slanted trigger) ── */}
+      <div className="absolute top-[75%] right-0 -translate-y-1/2 z-40 pointer-events-auto">
         <button
           id="btn-play-game"
           onClick={() => setShowDifficultyModal(true)}
@@ -351,12 +351,12 @@ export default function HubPage() {
           title="Start Challenge Campaign"
         >
           <div
-            className="pl-8 sm:pl-14 md:pl-20 pr-4 sm:pr-8 md:pr-12 py-2 sm:py-3.5 md:py-5 bg-red-600 hover:bg-red-500 active:bg-red-700 text-white font-heading font-black text-lg sm:text-2xl md:text-3xl lg:text-4xl tracking-widest uppercase transition-all shadow-2xl shadow-red-600/50 hover:shadow-red-600/75 flex items-center justify-center gap-2 sm:gap-3 border-t-2 border-l-2 border-red-300/40"
+            className="pl-5 sm:pl-8 md:pl-12 pr-3 sm:pr-5 md:pr-7 py-1 sm:py-2 md:py-3 bg-red-600 hover:bg-red-500 active:bg-red-700 text-white font-heading font-black text-xs sm:text-base md:text-xl tracking-widest uppercase transition-all shadow-xl shadow-red-600/40 flex items-center justify-center gap-1.5 sm:gap-2.5 border-t border-l border-red-300/40"
             style={{
               clipPath: 'polygon(18% 0%, 100% 0%, 100% 100%, 0% 100%)',
             }}
           >
-            <span className="text-lg sm:text-2xl md:text-3xl transform group-hover:scale-110 transition-transform">
+            <span className="text-xs sm:text-base md:text-lg transform group-hover:scale-110 transition-transform">
               ▶
             </span>
             <span className="drop-shadow-md">PLAY</span>
@@ -364,7 +364,7 @@ export default function HubPage() {
         </button>
       </div>
 
-      {/* ── BOTTOM BUTTONS BAR (Leaderboard Trapezoid Tab - Fluid Proportions) ── */}
+      {/* ── BOTTOM BUTTONS BAR (Leaderboard Trapezoid Tab - Low Profile) ── */}
       <footer className="absolute bottom-0 inset-x-0 z-40 flex items-end justify-center pointer-events-none pb-0">
         <div className="flex justify-center pointer-events-auto">
           <button
@@ -374,12 +374,12 @@ export default function HubPage() {
             title="View Plant Leaderboard"
           >
             <div
-              className="px-6 sm:px-12 md:px-20 py-2 sm:py-3.5 md:py-5 bg-slate-900 hover:bg-red-600 active:bg-red-700 text-white font-heading font-black text-xs sm:text-sm md:text-base lg:text-lg tracking-widest uppercase transition-all shadow-2xl shadow-slate-950/70 hover:shadow-red-600/50 flex items-center justify-center gap-2 sm:gap-3 border-t-2 sm:border-t-4 border-x-2 sm:border-x-4 border-white/20 hover:border-red-400"
+              className="px-5 sm:px-8 md:px-14 py-1 sm:py-1.5 md:py-2 bg-slate-900 hover:bg-red-600 active:bg-red-700 text-white font-heading font-black text-[10px] sm:text-xs md:text-sm tracking-widest uppercase transition-all shadow-xl shadow-slate-950/70 hover:shadow-red-600/50 flex items-center justify-center gap-1.5 sm:gap-2 border-t-2 border-x-2 border-white/20 hover:border-red-400"
               style={{
                 clipPath: 'polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%)',
               }}
             >
-              <span className="text-sm sm:text-xl md:text-2xl transform group-hover:rotate-12 transition-transform">🏆</span>
+              <span className="text-xs sm:text-base md:text-lg transform group-hover:rotate-12 transition-transform">🏆</span>
               <span className="drop-shadow-md">LEADERBOARD</span>
             </div>
           </button>
