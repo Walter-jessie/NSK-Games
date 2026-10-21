@@ -630,66 +630,67 @@ export default function BearingRunnerPage() {
         </>
       )}
 
-      {/* ═══ TUTORIAL OVERLAY (Original Design & Texts with Scaling Fixed) ═══ */}
+      {/* ═══ TUTORIAL OVERLAY (Ultra-Compact Mobile Landscape Layout) ═══ */}
       {phase === 'tutorial' && (
-        <div className="absolute inset-0 z-50 flex items-center justify-center bg-[#050810]/97 backdrop-blur-md px-4 py-2 overflow-y-auto">
-          <div className="max-w-sm sm:max-w-md w-full text-center flex flex-col justify-between my-auto py-1 max-h-[96vh]">
+        <div className="absolute inset-0 z-50 flex items-center justify-center bg-[#050810]/97 backdrop-blur-md px-3 py-1.5 overflow-hidden">
+          <div className="max-w-sm w-full text-center flex flex-col justify-between my-auto py-1">
             {/* Title */}
             <div>
-              <h2 className="font-heading font-black text-xl sm:text-2xl text-white tracking-wider uppercase mb-1">
+              <h2 className="font-heading font-black text-base sm:text-lg text-white tracking-wider uppercase mb-0.5">
                 BEARING RUNNER
               </h2>
-              <div className="w-12 sm:w-16 h-0.5 sm:h-1 bg-red-600 mx-auto rounded-full mb-1.5" />
-              <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-white/5 border border-white/10 text-[10px] sm:text-xs font-semibold text-slate-300">
+              <div className="w-12 h-0.5 bg-red-600 mx-auto rounded-full mb-1" />
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/5 border border-white/10 text-[9px] font-semibold text-slate-300">
                 <span>⬅️ ➡️</span>
                 <span>Switch Lanes &amp; Select Answers</span>
               </div>
             </div>
 
-            {/* Minimal Instructions (Original clean layout & exact texts) */}
-            <div className="space-y-1.5 sm:space-y-2 text-left my-2 sm:my-2.5">
-              <div className="flex items-center gap-3">
-                <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-white/10 flex items-center justify-center text-xs font-heading font-black text-red-400 flex-shrink-0">
+            {/* Minimal Instructions */}
+            <div className="space-y-1 text-left my-1.5">
+              <div className="flex items-center gap-2">
+                <span className="w-5 h-5 rounded-md bg-white/10 flex items-center justify-center text-[10px] font-heading font-black text-red-400 flex-shrink-0">
                   1
                 </span>
-                <p className="text-xs sm:text-sm text-slate-300 leading-tight">
+                <p className="text-[11px] text-slate-300 leading-tight">
                   Choose the <span className="text-white font-bold">correct answer lane</span>
                 </p>
               </div>
 
-              <div className="flex items-center gap-3">
-                <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-white/10 flex items-center justify-center text-xs font-heading font-black text-red-400 flex-shrink-0">
+              <div className="flex items-center gap-2">
+                <span className="w-5 h-5 rounded-md bg-white/10 flex items-center justify-center text-[10px] font-heading font-black text-red-400 flex-shrink-0">
                   2
                 </span>
-                <p className="text-xs sm:text-sm text-slate-300 leading-tight">
-                  Get a <span className="text-white font-bold">bearing part</span> for every correct answer
+                <p className="text-[11px] text-slate-300 leading-tight">
+                  Get a <span className="text-white font-bold">bearing part</span> for each correct answer
                 </p>
               </div>
 
-              <div className="flex items-center gap-3">
-                <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-white/10 flex items-center justify-center text-xs font-heading font-black text-red-400 flex-shrink-0">
+              <div className="flex items-center gap-2">
+                <span className="w-5 h-5 rounded-md bg-white/10 flex items-center justify-center text-[10px] font-heading font-black text-red-400 flex-shrink-0">
                   3
                 </span>
-                <p className="text-xs sm:text-sm text-slate-300 leading-tight">
-                  Collect all parts to <span className="text-white font-bold">build your own bearing</span> ⚙️
+                <p className="text-[11px] text-slate-300 leading-tight">
+                  Collect all parts to <span className="text-white font-bold">build your bearing</span> ⚙️
                 </p>
               </div>
             </div>
 
             {/* Touch input icons */}
-            <div className="flex items-center justify-center gap-4 my-1.5 sm:my-2">
-              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-white/8 border border-white/15 flex items-center justify-center text-lg sm:text-xl text-slate-400">
+            <div className="flex items-center justify-center gap-3 my-1">
+              <div className="w-8 h-8 rounded-lg bg-white/8 border border-white/15 flex items-center justify-center text-sm text-slate-400">
                 ◀
               </div>
-              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-white/8 border border-white/15 flex items-center justify-center text-lg sm:text-xl text-slate-400">
+              <div className="w-8 h-8 rounded-lg bg-white/8 border border-white/15 flex items-center justify-center text-sm text-slate-400">
                 ▶
               </div>
             </div>
 
-            {/* Play button from original design */}
+            {/* Play button */}
             <button
+              id="btn-tutorial-play"
               onClick={handleStartGame}
-              className="w-full py-2.5 sm:py-3 rounded-xl bg-slate-900 hover:bg-red-600 active:bg-red-700 text-white font-heading font-black text-sm sm:text-base tracking-[0.3em] uppercase transition-all shadow-lg hover:shadow-red-600/30 active:scale-[0.98] border-2 border-white/10 hover:border-red-500"
+              className="w-full py-2 rounded-xl bg-slate-900 hover:bg-red-600 active:bg-red-700 text-white font-heading font-black text-xs tracking-[0.2em] uppercase transition-all shadow-lg hover:shadow-red-600/30 active:scale-[0.98] border-2 border-white/10 hover:border-red-500"
             >
               ▶ &nbsp; PLAY
             </button>
