@@ -6,6 +6,7 @@ import MobilePWAInstallOverlay from './components/common/MobilePWAInstallOverlay
 import { isFullscreen, requestFullscreen, initFullscreenRecovery } from './utils/fullscreen';
 
 import LoginPage from './pages/LoginPage';
+import LandscapeEnforcer from './components/common/LandscapeEnforcer';
 
 // Lazy-load secondary pages for smaller initial bundle
 const HubPage = lazy(() => import('./pages/HubPage'));
@@ -192,6 +193,9 @@ export default function App() {
         visible={fsRecoveryVisible}
         onTap={handleRecoveryTap}
       />
+
+      {/* ═══ Dedicated Landscape Enforcer (Prompts rotation if device held in portrait) ═══ */}
+      <LandscapeEnforcer />
 
       <Suspense fallback={<LoadingScreen />}>
         <Routes>

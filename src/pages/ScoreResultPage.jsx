@@ -114,7 +114,7 @@ export default function ScoreResultPage() {
   };
 
   return (
-    <div className="relative h-full w-full overflow-hidden bg-[#f8fafc] text-slate-800 select-none font-body flex flex-col sm:flex-row">
+    <div className="relative h-full w-full overflow-hidden bg-[#f8fafc] text-slate-800 select-none font-body flex flex-row">
       {/* ── CAD Blueprint Background Watermark (Matching Login / Home Page) ── */}
       <div
         className="absolute inset-0 bg-cover bg-center pointer-events-none z-0 opacity-20 anim-cad-watermark"
@@ -144,9 +144,9 @@ export default function ScoreResultPage() {
       </svg>
 
       {/* ═══════════════════════════════════════════════════════════════════
-          LEFT COLUMN (58-62% WIDTH): Interactive 3D Assembled Bearing Model (FULL VIEW)
+          LEFT COLUMN (60% WIDTH): Interactive 3D Assembled Bearing Model (FULL VIEW)
           ═══════════════════════════════════════════════════════════════════ */}
-      <div className="relative w-full sm:w-[58%] lg:w-[62%] h-[48vh] sm:h-full flex flex-col p-2 sm:p-3 z-10 border-b sm:border-b-0 sm:border-r border-slate-200 overflow-hidden">
+      <div className="relative w-[60%] h-full flex flex-col p-2 sm:p-3 z-10 border-r border-slate-200 overflow-hidden">
         {/* Top Header Badge */}
         <div className="absolute top-2 left-2 sm:top-3 sm:left-3 z-20 flex items-center gap-2 px-2.5 py-1 rounded-lg bg-white/90 backdrop-blur-md border border-slate-200/80 shadow-xs">
           <div className="w-1.5 h-3.5 sm:h-4 bg-[#E60012] rounded-full" />
@@ -168,9 +168,9 @@ export default function ScoreResultPage() {
       </div>
 
       {/* ═══════════════════════════════════════════════════════════════════
-          RIGHT COLUMN (38-42% WIDTH): Correct Answers, Parts Gallery & Performance
+          RIGHT COLUMN (40% WIDTH): Correct Answers, Parts Gallery & Performance
           ═══════════════════════════════════════════════════════════════════ */}
-      <div className="relative w-full sm:w-[42%] lg:w-[38%] h-[52vh] sm:h-full flex flex-col justify-between p-2 sm:p-3 z-10 overflow-y-auto">
+      <div className="relative w-[40%] h-full flex flex-col justify-between p-2 sm:p-3 z-10 overflow-y-auto">
         <div className="space-y-1.5 sm:space-y-2">
           {/* Header Row: Employee & Pure NSK Red Logo */}
           <div className="flex items-center justify-between pb-1 border-b border-slate-200">

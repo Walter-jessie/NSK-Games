@@ -292,37 +292,10 @@
   animation: fadeIn 0.3s ease-out;
 }
 
-/* Diagonal Split Layout (Locked to 0.129 slope - EXACTLY parallel to Game Panels at all screen sizes) */
+/* Diagonal Split Layout (Locked to 0.129 slope - EXACTLY parallel to Game Panels in dedicated landscape mode) */
 .detroit-diagonal-container {
-  width: 60%;
+  width: 66%;
   clip-path: polygon(12.9vh 0, 100% 0, 100% 100%, 0% 100%);
-}
-
-@media (max-width: 1024px) and (orientation: landscape) {
-  .detroit-diagonal-container {
-    width: 66%;
-    clip-path: polygon(12.9vh 0, 100% 0, 100% 100%, 0% 100%);
-  }
-}
-
-@media (max-height: 520px) and (orientation: landscape) {
-  .detroit-diagonal-container {
-    width: 68%;
-    clip-path: polygon(12.9vh 0, 100% 0, 100% 100%, 0% 100%);
-  }
-}
-
-@media (orientation: portrait) and (max-width: 640px) {
-  .detroit-diagonal-container {
-    width: 100%;
-    height: 65%;
-    top: auto;
-    bottom: 0;
-    clip-path: polygon(0 6%, 100% 0, 100% 100%, 0% 100%);
-  }
-  .nsk-diagonal-line {
-    display: none;
-  }
 }
 
 /* Slanted Game Panels in Hub Page: Locked 3:4 aspect ratio that scales dynamically with screen height */
@@ -349,12 +322,6 @@
   filter: brightness(0.96) contrast(1.05);
 }
 
-@media (max-width: 640px) and (orientation: portrait) {
-  .hero-nsk-bearing-img {
-    object-position: 60% 40%;
-  }
-}
-
 /* Hub Page Hero Image (Engineer with Glowing NSK Bearing - Centered to Left Region) */
 .hub-engineer-hero-img {
   width: 100%;
@@ -364,10 +331,22 @@
   filter: brightness(0.96) contrast(1.05);
 }
 
-@media (max-width: 640px) and (orientation: portrait) {
-  .hub-engineer-hero-img {
-    object-position: 60% 25%;
+/* ════ Dedicated Landscape Enforcer (AAA Mobile Game Standard) ════ */
+.portrait-rotate-prompt {
+  display: none;
+}
+@media (orientation: portrait) {
+  .portrait-rotate-prompt {
+    display: flex !important;
   }
+}
+@keyframes rotatePhoneAnim {
+  0%, 15% { transform: rotate(0deg); }
+  50%, 75% { transform: rotate(-90deg); }
+  90%, 100% { transform: rotate(0deg); }
+}
+.rotate-phone-anim {
+  animation: rotatePhoneAnim 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 
 /* ===== Mild Slow Technical Animations (CAD Facets & Crosshairs) ===== */
