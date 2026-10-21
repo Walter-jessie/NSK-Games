@@ -1,4 +1,4 @@
-const CACHE_NAME = 'nsk-challenge-v2';
+const CACHE_NAME = 'nsk-challenge-v3';
 const PRECACHE_ASSETS = [
   './',
   './index.html',
