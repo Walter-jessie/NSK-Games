@@ -1,15 +1,35 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 /**
  * LandscapeEnforcer
- * AAA Mobile Game standard: When a user holds their phone vertically in portrait,
+ * AAA Mobile Game standard: Strictly Landscape Only.
+ * When a user holds their phone vertically in portrait (or if window width < height),
  * this overlay gracefully prompts them to rotate to landscape mode.
- * Automatically hidden via CSS (@media (orientation: landscape)) when in landscape.
+ * Dual-layer enforcement: CSS media query + JavaScript resize/orientation listener.
  */
 export default function LandscapeEnforcer() {
+  const [isPortrait, setIsPortrait] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    return window.innerHeight > window.innerWidth;
+  });
+
+  useEffect(() => {
+    const checkOrientation = () => {
+      setIsPortrait(window.innerHeight > window.innerWidth);
+    };
+    window.addEventListener('resize', checkOrientation);
+    window.addEventListener('orientationchange', checkOrientation);
+    return () => {
+      window.removeEventListener('resize', checkOrientation);
+      window.removeEventListener('orientationchange', checkOrientation);
+    };
+  }, []);
+
   return (
     <div
-      className="portrait-rotate-prompt fixed inset-0 z-[9999] bg-[#050810] flex-col items-center justify-center p-6 text-center select-none backdrop-blur-xl"
+      className={`portrait-rotate-prompt fixed inset-0 z-[999999] bg-[#050810] flex flex-col items-center justify-center p-6 text-center select-none backdrop-blur-xl ${
+        isPortrait ? '!flex' : ''
+      }`}
       style={{ touchAction: 'none' }}
     >
       {/* Background Subtle CAD Watermark */}
@@ -42,7 +62,7 @@ export default function LandscapeEnforcer() {
       {/* Industrial Spec Tag */}
       <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[10px] font-mono text-slate-400">
         <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
-        <span>DEDICATED LANDSCAPE DISPLAY (20:9 · 19.5:9)</span>
+        <span>DEDICATED LANDSCAPE DISPLAY ONLY</span>
       </div>
     </div>
   );

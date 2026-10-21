@@ -190,7 +190,7 @@ export default function HubPage() {
           <img
             src="./nsk_logo.png"
             alt="NSK"
-            className="h-7 w-auto object-contain drop-shadow-sm"
+            className="h-[clamp(24px,5.8vh,68px)] w-auto object-contain drop-shadow-sm"
           />
         </div>
       </header>
@@ -353,12 +353,12 @@ export default function HubPage() {
           title="Start Challenge Campaign"
         >
           <div
-            className="w-[clamp(112px,24vh,240px)] h-[clamp(36px,8vh,72px)] pl-[clamp(18px,4vh,36px)] pr-[clamp(10px,2.5vh,24px)] bg-red-600 hover:bg-red-500 active:bg-red-700 text-white font-heading font-black text-[clamp(11px,2.4vh,20px)] tracking-widest uppercase transition-all shadow-xl shadow-red-600/40 flex items-center justify-center gap-[1.5vh] border-t border-l border-red-300/40"
+            className="w-[clamp(112px,25vh,340px)] h-[clamp(36px,8.5vh,100px)] pl-[clamp(18px,4vh,44px)] pr-[clamp(10px,2.5vh,28px)] bg-red-600 hover:bg-red-500 active:bg-red-700 text-white font-heading font-black text-[clamp(11px,2.5vh,26px)] tracking-widest uppercase transition-all shadow-xl shadow-red-600/40 flex items-center justify-center gap-[1.5vh] border-t border-l border-red-300/40"
             style={{
               clipPath: 'polygon(18% 0%, 100% 0%, 100% 100%, 0% 100%)',
             }}
           >
-            <span className="text-[clamp(11px,2.4vh,20px)] transform group-hover:scale-110 transition-transform">
+            <span className="text-[clamp(11px,2.5vh,26px)] transform group-hover:scale-110 transition-transform">
               ▶
             </span>
             <span className="drop-shadow-md">PLAY</span>
@@ -376,12 +376,12 @@ export default function HubPage() {
             title="View Plant Leaderboard"
           >
             <div
-              className="w-[clamp(176px,38vh,360px)] h-[clamp(28px,6.5vh,56px)] bg-slate-900 hover:bg-red-600 active:bg-red-700 text-white font-heading font-black text-[clamp(10px,2.1vh,15px)] tracking-widest uppercase transition-all shadow-lg shadow-slate-950/70 hover:shadow-red-600/50 flex items-center justify-center gap-[1.5vh] border-t border-x border-white/20 hover:border-red-400"
+              className="w-[clamp(176px,38vh,520px)] h-[clamp(28px,6.8vh,80px)] bg-slate-900 hover:bg-red-600 active:bg-red-700 text-white font-heading font-black text-[clamp(10px,2.2vh,22px)] tracking-widest uppercase transition-all shadow-lg shadow-slate-950/70 hover:shadow-red-600/50 flex items-center justify-center gap-[1.5vh] border-t border-x border-white/20 hover:border-red-400"
               style={{
                 clipPath: 'polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%)',
               }}
             >
-              <span className="text-[clamp(11px,2.3vh,18px)] transform group-hover:rotate-12 transition-transform">🏆</span>
+              <span className="text-[clamp(11px,2.3vh,24px)] transform group-hover:rotate-12 transition-transform">🏆</span>
               <span className="drop-shadow-md">LEADERBOARD</span>
             </div>
           </button>

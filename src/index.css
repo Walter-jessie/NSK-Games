@@ -12,7 +12,29 @@
     -webkit-tap-highlight-color: transparent;
   }
 
-  html, body, #root {
+  html {
+    /* ══════ UNITY-STYLE CANVAS SCALER (LANDSCAPE MATCH HEIGHT) ══════
+       Reference Height = 400px (1080p FHD+ Indian standard 20:9 mobile landscape).
+       Base scale: 1rem = 16px at 400px height (font-size = 100vh / 25).
+       - At 360px height (720p budget): 1rem = 14.4px
+       - At 400px height (1080p mobile FHD+): 1rem = 16.0px
+       - At 440px height (iPhone 16 Pro Max): 1rem = 17.6px
+       - At 720px height (HD tablet / 720p monitor): 1rem = 28.8px
+       - At 1080px height (FHD 1080p display / 2400x1080): 1rem = 43.2px
+       - At 1440px height (2K / QHD display): 1rem = 57.6px
+       Guarantees every button, icon, and card occupies the exact same visual proportion
+       of the screen across all mobile resolutions and display densities, exactly like Unity!
+    */
+    font-size: clamp(13px, calc(100vh / 25), 58px);
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    background-color: #0c0d11;
+    color: #F1F5F9;
+    font-family: 'Inter', sans-serif;
+  }
+
+  body, #root {
     height: 100%;
     width: 100%;
     overflow: hidden;
@@ -300,7 +322,7 @@
 
 /* Slanted Game Panels in Hub Page: Locked 3:4 aspect ratio that scales dynamically with screen height */
 .hub-game-panel {
-  height: clamp(190px, 54vh, 600px);
+  height: clamp(190px, 54vh, 900px);
   aspect-ratio: 0.76 / 1;
   width: auto;
 }
@@ -308,7 +330,7 @@
 /* Connecting dashed line between game panels */
 .hub-panel-connector {
   height: 2px;
-  width: clamp(40px, 9vh, 90px);
+  width: clamp(30px, 8.5vh, 140px);
   margin-left: -3.5vh;
   margin-right: -3.5vh;
 }
@@ -331,11 +353,11 @@
   filter: brightness(0.96) contrast(1.05);
 }
 
-/* ════ Dedicated Landscape Enforcer (AAA Mobile Game Standard) ════ */
+/* ════ Dedicated Landscape Enforcer (Strict Landscape Only) ════ */
 .portrait-rotate-prompt {
   display: none;
 }
-@media (orientation: portrait) {
+@media (orientation: portrait), (max-aspect-ratio: 1/1) {
   .portrait-rotate-prompt {
     display: flex !important;
   }
