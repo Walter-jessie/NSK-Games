@@ -582,6 +582,7 @@ export default function BearingRunnerPage() {
       )}
 
       {/* ═══ TOUCH STEERING CONTROLS (Fluid Height Scale: Proportional across 720p, 1080p & 2K) ═══ */}
+      {/* ═══ TOUCH STEERING CONTROLS (Enlarged Arcade Paddle Size per User Specification) ═══ */}
       {(phase === 'playing' || phase === 'feedback') && (
         <>
           <button
@@ -592,14 +593,14 @@ export default function BearingRunnerPage() {
               e.stopPropagation();
               moveLeft();
             }}
-            className={`absolute bottom-[2vh] left-[2vh] z-40 w-[clamp(72px,18vh,155px)] h-[clamp(72px,18vh,155px)] rounded-[clamp(18px,4vh,36px)] flex items-center justify-center transition-all select-none shadow-[0_8px_25px_rgba(0,0,0,0.85)] border-2 ${
+            className={`absolute bottom-[2vh] left-[2vh] z-40 w-[clamp(100px,28vh,200px)] h-[clamp(118px,34vh,230px)] rounded-[clamp(20px,5vh,38px)] flex items-center justify-center transition-all select-none shadow-[0_10px_35px_rgba(0,0,0,0.85)] border-2 ${
               playerLane === 0
                 ? 'bg-slate-900/40 border-white/5 text-slate-600 opacity-25 cursor-not-allowed'
                 : 'bg-slate-900/95 backdrop-blur-xl border-cyan-500/40 text-white hover:border-cyan-400 hover:bg-slate-800 active:bg-cyan-600 active:scale-95 active:border-cyan-300 active:shadow-cyan-500/80 ring-1 ring-cyan-400/30'
             }`}
             style={{ touchAction: 'manipulation' }}
           >
-            <svg className="w-[clamp(44px,11.5vh,95px)] h-[clamp(44px,11.5vh,95px)] drop-shadow-md" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3.8}>
+            <svg className="w-[clamp(56px,16vh,115px)] h-[clamp(56px,16vh,115px)] drop-shadow-md" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={4}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
             </svg>
           </button>
@@ -612,14 +613,14 @@ export default function BearingRunnerPage() {
               e.stopPropagation();
               moveRight();
             }}
-            className={`absolute bottom-[2vh] right-[2vh] z-40 w-[clamp(72px,18vh,155px)] h-[clamp(72px,18vh,155px)] rounded-[clamp(18px,4vh,36px)] flex items-center justify-center transition-all select-none shadow-[0_8px_25px_rgba(0,0,0,0.85)] border-2 ${
+            className={`absolute bottom-[2vh] right-[2vh] z-40 w-[clamp(100px,28vh,200px)] h-[clamp(118px,34vh,230px)] rounded-[clamp(20px,5vh,38px)] flex items-center justify-center transition-all select-none shadow-[0_10px_35px_rgba(0,0,0,0.85)] border-2 ${
               playerLane === LANE_COUNT - 1
                 ? 'bg-slate-900/40 border-white/5 text-slate-600 opacity-25 cursor-not-allowed'
                 : 'bg-slate-900/95 backdrop-blur-xl border-cyan-500/40 text-white hover:border-cyan-400 hover:bg-slate-800 active:bg-cyan-600 active:scale-95 active:border-cyan-300 active:shadow-cyan-500/80 ring-1 ring-cyan-400/30'
             }`}
             style={{ touchAction: 'manipulation' }}
           >
-            <svg className="w-[clamp(44px,11.5vh,95px)] h-[clamp(44px,11.5vh,95px)] drop-shadow-md" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3.8}>
+            <svg className="w-[clamp(56px,16vh,115px)] h-[clamp(56px,16vh,115px)] drop-shadow-md" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={4}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
             </svg>
           </button>
