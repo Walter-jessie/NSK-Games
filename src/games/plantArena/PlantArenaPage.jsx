@@ -112,7 +112,7 @@ export default function PlantArenaPage({ employeeId = 'NSK-GUEST', onSubmitScore
       <div ref={markersRef} className="pa-markers" />
       {snap && phase === 'playing' && (
         <div className="pa-hud">
-          <TopBar snap={snap} employee={employeeId} sessionSeconds={RULES.sessionSeconds} />
+          <TopBar snap={snap} sessionSeconds={RULES.sessionSeconds} />
           <StatusBlock snap={snap} />
           <MiniMap engine={engine} layout={layout} />
           <button type="button" className="pa-mute" onClick={() => { audio.setMuted(!muted); setMuted(!muted); }}>
@@ -141,9 +141,7 @@ export default function PlantArenaPage({ employeeId = 'NSK-GUEST', onSubmitScore
             <ol className="pa-tut-steps">
               <li><span className="pa-tut-n">1</span><span>Smash crates to find <b>bearings</b></span></li>
               <li><span className="pa-tut-n">2</span><span>Only crates stamped <b>NSK</b> hold one</span></li>
-              <li><span className="pa-tut-n">3</span><span>The bearing is <b>thrown clear</b> &mdash; chase it down</span></li>
-              <li><span className="pa-tut-n">4</span><span>Repair <b>red machines</b> before their timers end</span></li>
-              <li><span className="pa-tut-n">5</span><span><b>8 repairs wins</b>, 3 machines lost shuts the plant</span></li>
+              <li><span className="pa-tut-n">3</span><span>Repair <b>red machines</b> before their timers end</span></li>
             </ol>
 
             <button type="button" className="pa-tut-play" onClick={start}>

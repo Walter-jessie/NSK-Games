@@ -5,11 +5,10 @@ const fmt = (secs) => {
   return `${Math.floor(t / 60)}:${String(t % 60).padStart(2, '0')}`;
 };
 
-export function TopBar({ snap, employee, sessionSeconds }) {
+export function TopBar({ snap, sessionSeconds }) {
   const final = snap.wave === snap.waveCount - 1;
   return (
     <div className="pa-bar">
-      <div className="pa-panel">EMPLOYEE: <span className="pa-o">{employee}</span></div>
       <div className={`pa-panel pa-c ${final ? 'pa-final' : ''}`}>
         {final ? 'FINAL WAVE' : `WAVE ${snap.wave + 1}/${snap.waveCount}`} · <span className="pa-red">{snap.waveName.toUpperCase()}</span>
       </div>
@@ -22,13 +21,8 @@ export function TopBar({ snap, employee, sessionSeconds }) {
 }
 
 export function StatusBlock({ snap }) {
-  const integ = Math.max(0, snap.integrity);
   return (
     <>
-      <div className="pa-integrity">
-        PLANT INTEGRITY <span className={integ > 50 ? 'pa-g' : 'pa-red'}>{integ}%</span>
-        <div className="pa-meter"><i className={integ > 50 ? '' : 'pa-low'} style={{ width: `${integ}%` }} /></div>
-      </div>
       <div className="pa-chips">
         <div className={`pa-chip ${snap.bearings === 0 ? 'pa-empty' : ''}`}>
           BEARINGS <span className="pa-o">{snap.bearings}/{snap.backpackSize}</span>
