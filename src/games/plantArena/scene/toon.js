@@ -155,13 +155,16 @@ export class PartBuilder {
   torus(r, tube, color, t, rs = 6, ts = 14) { return this.add(new THREE.TorusGeometry(r, tube, rs, ts), color, t); }
   cone(r, h, color, t, seg = 10) { return this.add(new THREE.ConeGeometry(r, h, seg), color, t); }
 
-  build({ outline = 2.2 } = {}) {
+  build({ outline = 2.2, polygonOffset = false } = {}) {
     const group = new THREE.Group();
     group.name = this.name;
     if (this.solid.length) {
       const geo = mergeGeometries(this.solid);
       geo.computeVertexNormals();
-      const mesh = new THREE.Mesh(geo, toonMaterial());
+      const mat = polygonOffset
+        ? surfaceMaterial({ vertexColors: true, polygonOffset: true, polygonOffsetFactor: -1, polygonOffsetUnits: -1 })
+        : toonMaterial();
+      const mesh = new THREE.Mesh(geo, mat);
       mesh.name = `${this.name}_body`;
       mesh.castShadow = true;
       mesh.receiveShadow = true;

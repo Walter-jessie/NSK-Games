@@ -194,13 +194,16 @@ export default function App() {
         onTap={handleRecoveryTap}
       />
 
+      {/* ═══ Mobile PWA Install Overlay (First screen on mobile) ═══ */}
+      <MobilePWAInstallOverlay />
+
       {/* ═══ Dedicated Landscape Enforcer (Prompts rotation if device held in portrait) ═══ */}
       <LandscapeEnforcer />
 
       <Suspense fallback={<LoadingScreen />}>
         <Routes>
           <Route path="/" element={<LoginPage />} />
-          <Route path="/install" element={<MobilePWAInstallOverlay />} />
+          <Route path="/install" element={<MobilePWAInstallOverlay forced />} />
           <Route path="/hub" element={<ProtectedRoute><HubPage /></ProtectedRoute>} />
           <Route path="/game/bearing-runner" element={<ProtectedRoute><BearingRunnerPage /></ProtectedRoute>} />
           <Route path="/results" element={<ProtectedRoute><ScoreResultPage /></ProtectedRoute>} />

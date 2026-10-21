@@ -2,10 +2,9 @@ import React, { useState, useEffect } from 'react';
 
 /**
  * LandscapeEnforcer
- * AAA Mobile Game standard: Strictly Landscape Only.
- * When a user holds their phone vertically in portrait (or if window width < height),
- * this overlay gracefully prompts them to rotate to landscape mode.
- * Dual-layer enforcement: CSS media query + JavaScript resize/orientation listener.
+ * Prompts rotation to landscape mode when device is in portrait.
+ * Yields completely to MobilePWAInstallOverlay when the install prompt is pending
+ * so mobile users first see the minimal Install Page as requested.
  */
 export default function LandscapeEnforcer() {
   const [isPortrait, setIsPortrait] = useState(() => {
@@ -13,17 +12,40 @@ export default function LandscapeEnforcer() {
     return window.innerHeight > window.innerWidth;
   });
 
+  const [isInstallPending, setIsInstallPending] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    const standalone =
+      window.matchMedia('(display-mode: standalone)').matches ||
+      window.navigator.standalone === true;
+    const dismissed = sessionStorage.getItem('nsk_pwa_dismissed') === '1';
+    const isMobile = /android|iphone|ipad|ipod|mobile|touch/i.test(navigator.userAgent || '') || (window.innerWidth <= 840);
+    return isMobile && !standalone && !dismissed;
+  });
+
   useEffect(() => {
     const checkOrientation = () => {
       setIsPortrait(window.innerHeight > window.innerWidth);
     };
+
+    const handlePWADismissed = () => {
+      setIsInstallPending(false);
+    };
+
     window.addEventListener('resize', checkOrientation);
     window.addEventListener('orientationchange', checkOrientation);
+    window.addEventListener('pwa-dismissed', handlePWADismissed);
+
     return () => {
       window.removeEventListener('resize', checkOrientation);
       window.removeEventListener('orientationchange', checkOrientation);
+      window.removeEventListener('pwa-dismissed', handlePWADismissed);
     };
   }, []);
+
+  // Do not show rotate prompt if the minimal PWA Install screen is currently pending
+  if (isInstallPending) {
+    return null;
+  }
 
   return (
     <div

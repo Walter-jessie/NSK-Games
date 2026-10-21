@@ -46,7 +46,14 @@ function floorMaterial() {
   map.wrapS = map.wrapT = THREE.RepeatWrapping;
   map.repeat.set(16, 11);
   map.anisotropy = 4;
-  return surfaceMaterial({ map, roughness: 0.88, metalness: 0.05 });
+  return surfaceMaterial({
+    map,
+    roughness: 0.88,
+    metalness: 0.05,
+    polygonOffset: true,
+    polygonOffsetFactor: 2,
+    polygonOffsetUnits: 2,
+  });
 }
 
 function wallMaterial(height) {
@@ -143,9 +150,20 @@ function spawnPad() {
     ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
     ctx.fillText('NSK', w / 2, h / 2 + 4);
   });
-  const m = new THREE.Mesh(new THREE.PlaneGeometry(4.4, 4.4), surfaceMaterial({ map, transparent: true, depthWrite: false, roughness: 0.8 }));
+  const m = new THREE.Mesh(
+    new THREE.PlaneGeometry(4.4, 4.4),
+    surfaceMaterial({
+      map,
+      transparent: true,
+      depthWrite: false,
+      roughness: 0.8,
+      polygonOffset: true,
+      polygonOffsetFactor: -1.5,
+      polygonOffsetUnits: -1.5,
+    })
+  );
   m.rotation.x = -Math.PI / 2;
-  m.position.y = 0.02;
+  m.position.y = 0.045;
   m.receiveShadow = true;
   return m;
 }
@@ -163,10 +181,18 @@ export function blobShadow(radius, opacity = 0.35) {
   }
   const m = new THREE.Mesh(
     new THREE.PlaneGeometry(radius * 2, radius * 2),
-    new THREE.MeshBasicMaterial({ map: blobTex, transparent: true, opacity, depthWrite: false }),
+    new THREE.MeshBasicMaterial({
+      map: blobTex,
+      transparent: true,
+      opacity,
+      depthWrite: false,
+      polygonOffset: true,
+      polygonOffsetFactor: -1,
+      polygonOffsetUnits: -1,
+    }),
   );
   m.rotation.x = -Math.PI / 2;
-  m.position.y = 0.015;
+  m.position.y = 0.075;
   m.name = 'blobShadow';
   return m;
 }
@@ -182,16 +208,15 @@ export function createArena(layout) {
   group.add(floor);
 
   // Floor markings: roaming highways, lane arrows and machine bays.
+  // Distinct elevation layers with thin profiles to completely eliminate Z-fighting.
   const decals = new PartBuilder('floorMarkings');
-  // Three heights, so the layers stack instead of fighting for the same pixels:
-  // road markings, then the machine bay plate over them, then the bay outline.
-  const flat = (w, d, color, x, z) => decals.box(w, 0.01, d, color, { p: [x, 0.012, z] });
-  const bayPlate = (w, d, color, x, z) => decals.box(w, 0.01, d, color, { p: [x, 0.018, z] });
-  const bayLine = (w, d, color, x, z) => decals.box(w, 0.01, d, color, { p: [x, 0.024, z] });
+  const flat = (w, d, color, x, z) => decals.box(w, 0.008, d, color, { p: [x, 0.024, z] });
+  const roadLine = (w, d, color, x, z) => decals.box(w, 0.008, d, color, { p: [x, 0.034, z] });
+  const dash = (w, d, color, x, z) => decals.box(w, 0.008, d, color, { p: [x, 0.044, z] });
+  const bayPlate = (w, d, color, x, z) => decals.box(w, 0.008, d, color, { p: [x, 0.054, z] });
+  const bayLine = (w, d, color, x, z) => decals.box(w, 0.010, d, color, { p: [x, 0.064, z] });
 
   // A bay is the footprint a machine owns. Road paint stops here.
-  // Sized just over the bench itself (2.3 x 1.8 half-extents) rather than the
-  // old oversized outline, which pushed into the central highway.
   const BAY_HW = 2.8;
   const BAY_HD = 2.1;
   const bays = layout.machines.map((m) => toWorld(m.pos));
@@ -215,33 +240,34 @@ export function createArena(layout) {
     return out;
   };
 
-  const band = (lo, hi, thickness, color, axis, offset) => {
+  const band = (lo, hi, thickness, color, axis, offset, isEdge = false) => {
     const len = hi - lo;
     const mid = (lo + hi) / 2;
-    if (axis === 'x') flat(len, thickness, color, mid, offset);
-    else flat(thickness, len, color, offset, mid);
+    const fn = isEdge ? roadLine : flat;
+    if (axis === 'x') fn(len, thickness, color, mid, offset);
+    else fn(thickness, len, color, offset, mid);
   };
 
   // East-west highway and its edge lines, broken around the bays.
   for (const [lo, hi] of runs(-(W / 2 - 1), W / 2 - 1, (x) => inBay(x, 0, 0.2))) {
     band(lo, hi, 4.2, '#2c3037', 'x', 0);
-    for (const s of [-1, 1]) band(lo, hi, 0.2, '#b8861c', 'x', s * 2.2);
+    for (const s of [-1, 1]) band(lo, hi, 0.2, '#b8861c', 'x', s * 2.2, true);
   }
-  // North-south spine and its edge lines. This is the one that used to run
-  // straight through the machines standing at x = 0.
-  for (const [lo, hi] of runs(-(D / 2 - 1), D / 2 - 1, (z) => inBay(0, z, 0.2))) {
+  // North-south spine and its edge lines, skipping the central intersection (Math.abs(z) <= 2.1)
+  // so that the East-west highway and North-south spine never overlap at (0, 0).
+  for (const [lo, hi] of runs(-(D / 2 - 1), D / 2 - 1, (z) => inBay(0, z, 0.2) || Math.abs(z) <= 2.1)) {
     band(lo, hi, 4.2, '#2c3037', 'z', 0);
-    for (const s of [-1, 1]) band(lo, hi, 0.2, '#b8861c', 'z', s * 2.2);
+    for (const s of [-1, 1]) band(lo, hi, 0.2, '#b8861c', 'z', s * 2.2, true);
   }
 
-  // Centre dashes, skipped wherever a bay owns the floor.
-  for (let x = -27; x <= 27; x += 3) if (Math.abs(x) > 3 && !inBay(x, 0, 0.4)) flat(1.4, 0.18, '#8f8668', x, 0);
-  for (let z = -17; z <= 17; z += 3) if (Math.abs(z) > 3 && !inBay(0, z, 0.4)) flat(0.18, 1.4, '#8f8668', 0, z);
+  // Centre dashes, elevated cleanly above the road
+  for (let x = -27; x <= 27; x += 3) if (Math.abs(x) > 3 && !inBay(x, 0, 0.4)) dash(1.4, 0.18, '#8f8668', x, 0);
+  for (let z = -17; z <= 17; z += 3) if (Math.abs(z) > 3 && !inBay(0, z, 0.4)) dash(0.18, 1.4, '#8f8668', 0, z);
 
   // Perimeter lines hug the walls, clear of everything.
   for (const s of [-1, 1]) {
-    flat(W - 2, 0.25, '#b8861c', 0, s * (D / 2 - 1.2));
-    flat(0.25, D - 2, '#b8861c', s * (W / 2 - 1.2), 0);
+    roadLine(W - 2, 0.25, '#b8861c', 0, s * (D / 2 - 1.2));
+    roadLine(0.25, D - 2, '#b8861c', s * (W / 2 - 1.2), 0);
   }
 
   for (const b of bays) {
@@ -252,7 +278,7 @@ export function createArena(layout) {
     bayLine(0.2, BAY_HD * 2, '#d06a22', b.x - BAY_HW, b.z);
     bayLine(0.2, BAY_HD * 2, '#d06a22', b.x + BAY_HW, b.z);
   }
-  group.add(decals.build({ outline: 0 }));
+  group.add(decals.build({ outline: 0, polygonOffset: true }));
   group.add(spawnPad());
 
   // Walls: tall on the far (north) side and flanks, low rail on the camera side.

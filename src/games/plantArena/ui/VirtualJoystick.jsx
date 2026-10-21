@@ -1,50 +1,93 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useCallback, useEffect } from 'react';
 
-// Floating thumbstick: appears where the thumb lands on the left half of the
-// screen. Tracks its own pointer id so the action button never steals it.
-// onChange(x, z) gets a vector in -1..1 (screen right = +x, screen down = +z).
-// The base is drawn relative to the zone, so the zone can sit anywhere on screen.
-export default function VirtualJoystick({ onChange, radius = 56, deadZone = 0.12 }) {
+// Ultra-responsive floating thumbstick:
+// Appears instantly where the thumb lands on the left zone.
+// Uses direct DOM transform updates for 0ms input lag and smooth 60-120Hz tracking.
+// onChange(x, z) gets a normalized vector in -1..1.
+export default function VirtualJoystick({ onChange, radius = 56, deadZone = 0.04 }) {
   const pointer = useRef(null);
-  const [stick, setStick] = useState(null);
+  const baseRef = useRef(null);
+  const knobRef = useRef(null);
+  const [active, setActive] = useState(false);
 
-  const update = (e) => {
-    const p = pointer.current;
-    let dx = e.clientX - p.ox;
-    let dy = e.clientY - p.oy;
-    const len = Math.hypot(dx, dy);
-    if (len > radius) { dx = (dx / len) * radius; dy = (dy / len) * radius; }
-    const mag = Math.min(1, len / radius);
-    // unit direction, scaled by how far past the dead zone the thumb is
-    const nx = len > 0 ? dx / Math.min(len, radius) : 0;
-    const ny = len > 0 ? dy / Math.min(len, radius) : 0;
-    const scaled = mag < deadZone ? 0 : (mag - deadZone) / (1 - deadZone);
-    onChange(nx * scaled, ny * scaled);
-    setStick({ ox: p.ox - p.rx, oy: p.oy - p.ry, kx: dx, ky: dy });
+  const updateStick = useCallback(
+    (clientX, clientY) => {
+      const p = pointer.current;
+      if (!p) return;
+      let dx = clientX - p.ox;
+      let dy = clientY - p.oy;
+      const len = Math.hypot(dx, dy);
+      if (len > radius) {
+        dx = (dx / len) * radius;
+        dy = (dy / len) * radius;
+      }
+      const mag = Math.min(1, len / radius);
+      const nx = len > 0 ? dx / Math.min(len, radius) : 0;
+      const ny = len > 0 ? dy / Math.min(len, radius) : 0;
+      const scaled = mag < deadZone ? 0 : (mag - deadZone) / (1 - deadZone);
+
+      onChange(nx * scaled, ny * scaled);
+
+      if (knobRef.current) {
+        knobRef.current.style.transform = `translate3d(${dx}px, ${dy}px, 0)`;
+      }
+    },
+    [onChange, radius, deadZone]
+  );
+
+  const handlePointerDown = (e) => {
+    if (pointer.current) return;
+    e.currentTarget.setPointerCapture(e.pointerId);
+    const r = e.currentTarget.getBoundingClientRect();
+    pointer.current = {
+      id: e.pointerId,
+      ox: e.clientX,
+      oy: e.clientY,
+      rx: r.left,
+      ry: r.top,
+    };
+    setActive(true);
+
+    // Initial position setup
+    requestAnimationFrame(() => {
+      if (baseRef.current) {
+        baseRef.current.style.left = `${e.clientX - r.left}px`;
+        baseRef.current.style.top = `${e.clientY - r.top}px`;
+      }
+      if (knobRef.current) {
+        knobRef.current.style.transform = 'translate3d(0px, 0px, 0)';
+      }
+    });
+  };
+
+  const handlePointerMove = (e) => {
+    if (pointer.current?.id === e.pointerId) {
+      updateStick(e.clientX, e.clientY);
+    }
+  };
+
+  const handlePointerEnd = (e) => {
+    if (pointer.current?.id !== e.pointerId) return;
+    pointer.current = null;
+    setActive(false);
+    onChange(0, 0);
   };
 
   return (
     <div
       className="pa-joy-zone"
-      onPointerDown={(e) => {
-        if (pointer.current) return;
-        e.currentTarget.setPointerCapture(e.pointerId);
-        const r = e.currentTarget.getBoundingClientRect();
-        pointer.current = { id: e.pointerId, ox: e.clientX, oy: e.clientY, rx: r.left, ry: r.top };
-        setStick({ ox: e.clientX - r.left, oy: e.clientY - r.top, kx: 0, ky: 0 });
-      }}
-      onPointerMove={(e) => { if (pointer.current?.id === e.pointerId) update(e); }}
-      onPointerUp={(e) => {
-        if (pointer.current?.id !== e.pointerId) return;
-        pointer.current = null;
-        setStick(null);
-        onChange(0, 0);
-      }}
-      onPointerCancel={() => { pointer.current = null; setStick(null); onChange(0, 0); }}
+      onPointerDown={handlePointerDown}
+      onPointerMove={handlePointerMove}
+      onPointerUp={handlePointerEnd}
+      onPointerCancel={handlePointerEnd}
     >
-      {stick ? (
-        <div className="pa-joy-base" style={{ left: stick.ox, top: stick.oy, width: radius * 2, height: radius * 2 }}>
-          <div className="pa-joy-knob" style={{ transform: `translate(${stick.kx}px, ${stick.ky}px)` }} />
+      {active ? (
+        <div
+          ref={baseRef}
+          className="pa-joy-base"
+          style={{ width: radius * 2, height: radius * 2 }}
+        >
+          <div ref={knobRef} className="pa-joy-knob" />
         </div>
       ) : (
         <div className="pa-joy-hint" style={{ width: radius * 2, height: radius * 2 }}>

@@ -62,7 +62,7 @@ export default function PlantArenaPage({ employeeId = 'NSK-GUEST', onSubmitScore
     setEngine(eng);
     setSnap(eng.snapshot());
     submitted.current = false;
-    const id = setInterval(() => setSnap(eng.snapshot()), 100);
+    const id = setInterval(() => setSnap(eng.snapshot()), 25);
     return () => {
       clearInterval(id);
       audio.stopSiren();
@@ -108,7 +108,10 @@ export default function PlantArenaPage({ employeeId = 'NSK-GUEST', onSubmitScore
     engineRef.current?.start();
   }, []);
 
-  const press = useCallback(() => { engineRef.current?.act(); }, []);
+  const press = useCallback(() => {
+    engineRef.current?.act();
+    if (engineRef.current) setSnap(engineRef.current.snapshot());
+  }, []);
   const joy = useCallback((x, z) => engineRef.current?.setJoystick(x, z), []);
 
   const phase = snap?.phase ?? 'ready';

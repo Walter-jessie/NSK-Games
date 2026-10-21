@@ -515,7 +515,7 @@ export class GameEngine {
     const cur = this.worker.group.rotation.y;
     let diff = p.facing - cur;
     diff = Math.atan2(Math.sin(diff), Math.cos(diff));
-    this.worker.group.rotation.y = cur + diff * Math.min(1, dt * 14);
+    this.worker.group.rotation.y = cur + diff * Math.min(1, dt * 36);
     this.worker.update(dt, s.phase === 'playing' ? p.speed01 : 0);
     this.worker.setCarried(s.bearings);
 

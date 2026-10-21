@@ -231,18 +231,26 @@ function create3DGates() {
     hanger.position.set(x, BEAM_Y + 0.22, 0.06);
     gatesAssembly.add(hanger);
 
-    // Lane colour laid on the floor, which is what the player actually aims at
+    // Lane colour laid on the floor, elevated cleanly with depth bias to prevent Z-fighting
     const strip = new THREE.Mesh(
       new THREE.PlaneGeometry(1.7, 0.46),
-      new THREE.MeshBasicMaterial({ color: theme.hex, transparent: true, opacity: 0.85 }),
+      new THREE.MeshBasicMaterial({
+        color: theme.hex,
+        transparent: true,
+        opacity: 0.85,
+        depthWrite: false,
+        polygonOffset: true,
+        polygonOffsetFactor: -2,
+        polygonOffsetUnits: -2,
+      }),
     );
     strip.rotation.x = -Math.PI / 2;
-    strip.position.set(x, 0.03, 0);
+    strip.position.set(x, 0.06, 0);
     gatesAssembly.add(strip);
 
     // ── Portal: membrane across the opening, plus a lit lintel and jambs ──
     const openW = 1.84;
-    const openH = BEAM_Y - 0.33;
+    const openH = BEAM_Y - 0.38;
 
     const membrane = new THREE.Mesh(
       new THREE.PlaneGeometry(openW, openH),
@@ -256,19 +264,19 @@ function create3DGates() {
         blending: THREE.AdditiveBlending,
       }),
     );
-    membrane.position.set(x, openH / 2, 0);
+    membrane.position.set(x, openH / 2 + 0.05, 0);
     membrane.renderOrder = 2;
     gatesAssembly.add(membrane);
 
     const glow = new THREE.MeshBasicMaterial({ color: theme.hex });
 
     const lintel = new THREE.Mesh(new THREE.BoxGeometry(openW, 0.07, 0.1), glow);
-    lintel.position.set(x, openH, 0.13);
+    lintel.position.set(x, openH + 0.05, 0.13);
     gatesAssembly.add(lintel);
 
     for (const side of [-1, 1]) {
       const jamb = new THREE.Mesh(new THREE.BoxGeometry(0.05, openH, 0.1), glow);
-      jamb.position.set(x + side * (openW / 2), openH / 2, 0.13);
+      jamb.position.set(x + side * (openW / 2), openH / 2 + 0.05, 0.13);
       gatesAssembly.add(jamb);
     }
   });
@@ -441,6 +449,9 @@ export default function Runner3DScene({
       color: 0x111726,
       roughness: 0.4,
       metalness: 0.5,
+      polygonOffset: true,
+      polygonOffsetFactor: 2,
+      polygonOffsetUnits: 2,
     });
     const floor = new THREE.Mesh(floorGeo, floorMat);
     floor.rotation.x = -Math.PI / 2;
@@ -448,42 +459,45 @@ export default function Runner3DScene({
     scene.add(floor);
     floorRef.current = floor;
 
-    // Lane Dividers
-    const dividerGeo = new THREE.BoxGeometry(0.04, 0.015, 80);
+    // Lane Dividers - elevated cleanly above the floor plane with depth offset
+    const dividerGeo = new THREE.BoxGeometry(0.04, 0.01, 80);
     const dividerMat = new THREE.MeshBasicMaterial({
       color: 0x1e3a8a,
       transparent: true,
       opacity: 0.45,
+      polygonOffset: true,
+      polygonOffsetFactor: 1,
+      polygonOffsetUnits: 1,
     });
     [-2.0, 0.0, 2.0].forEach((divX) => {
       const divider = new THREE.Mesh(dividerGeo, dividerMat);
-      divider.position.set(divX, 0.01, -25);
+      divider.position.set(divX, 0.018, -25);
       scene.add(divider);
     });
 
     // Factory safety marking down both edges of the bay, with the dark keyline
-    // a painted floor line always carries.
     const edgeMat = new THREE.MeshStandardMaterial({
       color: 0xf2b705,
       roughness: 0.65,
       metalness: 0.1,
       emissive: 0x6b4e00,
       emissiveIntensity: 0.6,
+      polygonOffset: true,
+      polygonOffsetFactor: 0.5,
+      polygonOffsetUnits: 0.5,
     });
     const keylineMat = new THREE.MeshBasicMaterial({ color: 0x0b0f18 });
     [-4.18, 4.18].forEach((ex) => {
-      const edge = new THREE.Mesh(new THREE.BoxGeometry(0.26, 0.016, 80), edgeMat);
-      edge.position.set(ex, 0.012, -25);
+      const edge = new THREE.Mesh(new THREE.BoxGeometry(0.26, 0.014, 80), edgeMat);
+      edge.position.set(ex, 0.024, -25);
       scene.add(edge);
 
-      const keyline = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.018, 80), keylineMat);
-      keyline.position.set(ex + (ex < 0 ? 0.18 : -0.18), 0.013, -25);
+      const keyline = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.016, 80), keylineMat);
+      keyline.position.set(ex + (ex < 0 ? 0.18 : -0.18), 0.026, -25);
       scene.add(keyline);
     });
 
-    // Animated highway road dashes at 3.8m intervals.
-    // One InstancedMesh: this used to be 45 separate meshes, so 45 draw calls
-    // and 45 transform updates every frame.
+    // Animated highway road dashes at 3.8m intervals - elevated above dividers
     const DASH_ROWS = 15;
     const DASH_LANES = [-2.0, 0.0, 2.0];
     const DASH_COUNT = DASH_ROWS * DASH_LANES.length;
@@ -491,9 +505,12 @@ export default function Runner3DScene({
       color: 0x38bdf8,
       transparent: true,
       opacity: 0.85,
+      polygonOffset: true,
+      polygonOffsetFactor: -1,
+      polygonOffsetUnits: -1,
     });
     const dashes = new THREE.InstancedMesh(
-      new THREE.BoxGeometry(0.09, 0.025, 1.6),
+      new THREE.BoxGeometry(0.09, 0.014, 1.6),
       dashMat,
       DASH_COUNT,
     );
@@ -512,12 +529,9 @@ export default function Runner3DScene({
     }
     scene.add(dashes);
 
-    // Seed every instance matrix now. The animation loop renders a single
-    // static frame while paused and returns before it scrolls anything, so
-    // without this the tutorial frame would show all instances stacked at the
-    // origin.
+    // Seed every instance matrix at elevated y = 0.038
     for (let i = 0; i < DASH_COUNT; i++) {
-      dummy.position.set(dashX[i], 0.02, dashZ[i]);
+      dummy.position.set(dashX[i], 0.038, dashZ[i]);
       dummy.rotation.set(0, 0, 0);
       dummy.scale.set(1, 1, 1);
       dummy.updateMatrix();
@@ -656,7 +670,7 @@ export default function Runner3DScene({
         let z = dashZ[i] + advance;
         if (z > 9.6) z -= 53.2; // 14 intervals * 3.8m
         dashZ[i] = z;
-        dummy.position.set(dashX[i], 0.02, z);
+        dummy.position.set(dashX[i], 0.038, z);
         dummy.rotation.set(0, 0, 0);
         dummy.scale.set(1, 1, 1);
         dummy.updateMatrix();

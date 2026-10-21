@@ -283,8 +283,8 @@ export default function BearingRunnerPage() {
     const isPlayActive = phaseRef.current === 'playing' || phaseRef.current === 'feedback';
     if (!isPlayActive) return;
     const now = performance.now();
-    // Guard against duplicate touchstart + synthetic click double-firing
-    if (now - lastMoveTimeRef.current < 200) return;
+    // Guard against duplicate touchstart + synthetic click double-firing (snappy 60ms)
+    if (now - lastMoveTimeRef.current < 60) return;
     lastMoveTimeRef.current = now;
 
     setPlayerLane((prev) => {
@@ -299,8 +299,8 @@ export default function BearingRunnerPage() {
     const isPlayActive = phaseRef.current === 'playing' || phaseRef.current === 'feedback';
     if (!isPlayActive) return;
     const now = performance.now();
-    // Guard against duplicate touchstart + synthetic click double-firing
-    if (now - lastMoveTimeRef.current < 200) return;
+    // Guard against duplicate touchstart + synthetic click double-firing (snappy 60ms)
+    if (now - lastMoveTimeRef.current < 60) return;
     lastMoveTimeRef.current = now;
 
     setPlayerLane((prev) => {
@@ -315,7 +315,7 @@ export default function BearingRunnerPage() {
     const isPlayActive = phaseRef.current === 'playing' || phaseRef.current === 'feedback';
     if (!isPlayActive) return;
     const now = performance.now();
-    if (now - lastMoveTimeRef.current < 200) return;
+    if (now - lastMoveTimeRef.current < 60) return;
     lastMoveTimeRef.current = now;
 
     if (laneIndex >= 0 && laneIndex < LANE_COUNT) {
@@ -566,14 +566,20 @@ export default function BearingRunnerPage() {
         >
           {/* Left half tap zone */}
           <div
-            onClick={moveLeft}
+            onPointerDown={(e) => {
+              e.preventDefault();
+              moveLeft();
+            }}
             className="flex-1 h-full cursor-pointer active:bg-cyan-400/[0.04] transition-colors"
             style={{ touchAction: 'manipulation' }}
             title="Tap left to steer left"
           />
           {/* Right half tap zone */}
           <div
-            onClick={moveRight}
+            onPointerDown={(e) => {
+              e.preventDefault();
+              moveRight();
+            }}
             className="flex-1 h-full cursor-pointer active:bg-cyan-400/[0.04] transition-colors"
             style={{ touchAction: 'manipulation' }}
             title="Tap right to steer right"
@@ -589,6 +595,11 @@ export default function BearingRunnerPage() {
             type="button"
             aria-label="Steer Left"
             disabled={playerLane === 0}
+            onPointerDown={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              moveLeft();
+            }}
             onClick={(e) => {
               e.stopPropagation();
               moveLeft();
@@ -598,7 +609,7 @@ export default function BearingRunnerPage() {
                 ? 'bg-slate-900/40 border-white/5 text-slate-600 opacity-25 cursor-not-allowed'
                 : 'bg-slate-900/95 backdrop-blur-xl border-cyan-500/40 text-white hover:border-cyan-400 hover:bg-slate-800 active:bg-cyan-600 active:scale-95 active:border-cyan-300 active:shadow-cyan-500/80 ring-1 ring-cyan-400/30'
             }`}
-            style={{ touchAction: 'manipulation' }}
+            style={{ touchAction: 'none' }}
           >
             <svg className="w-[clamp(56px,16vh,115px)] h-[clamp(56px,16vh,115px)] drop-shadow-md" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={4}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
@@ -609,6 +620,11 @@ export default function BearingRunnerPage() {
             type="button"
             aria-label="Steer Right"
             disabled={playerLane === LANE_COUNT - 1}
+            onPointerDown={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              moveRight();
+            }}
             onClick={(e) => {
               e.stopPropagation();
               moveRight();
@@ -618,7 +634,7 @@ export default function BearingRunnerPage() {
                 ? 'bg-slate-900/40 border-white/5 text-slate-600 opacity-25 cursor-not-allowed'
                 : 'bg-slate-900/95 backdrop-blur-xl border-cyan-500/40 text-white hover:border-cyan-400 hover:bg-slate-800 active:bg-cyan-600 active:scale-95 active:border-cyan-300 active:shadow-cyan-500/80 ring-1 ring-cyan-400/30'
             }`}
-            style={{ touchAction: 'manipulation' }}
+            style={{ touchAction: 'none' }}
           >
             <svg className="w-[clamp(56px,16vh,115px)] h-[clamp(56px,16vh,115px)] drop-shadow-md" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={4}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
