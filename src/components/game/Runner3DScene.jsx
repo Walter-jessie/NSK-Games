@@ -276,6 +276,100 @@ function create3DGates() {
   return gatesAssembly;
 }
 
+/**
+ * Shop-floor atmosphere: fine steel motes drifting down the bay with a few
+ * warm grinding sparks among them.
+ *
+ * One Points cloud, so the whole effect is a single draw call. Colour is per
+ * vertex rather than per material, which is what lets the cool motes and the
+ * warm sparks share that one cloud. Kept clear of the middle of the track so
+ * nothing drifts across the lane the player is reading.
+ */
+const MOTE_COUNT = 180;
+function createShopFloorMotes() {
+  const sprite = document.createElement('canvas');
+  sprite.width = 32;
+  sprite.height = 32;
+  const sctx = sprite.getContext('2d');
+  const grad = sctx.createRadialGradient(16, 16, 0, 16, 16, 16);
+  grad.addColorStop(0, 'rgba(255,255,255,1)');
+  grad.addColorStop(0.4, 'rgba(255,255,255,0.55)');
+  grad.addColorStop(1, 'rgba(255,255,255,0)');
+  sctx.fillStyle = grad;
+  sctx.fillRect(0, 0, 32, 32);
+  const spriteTex = new THREE.CanvasTexture(sprite);
+
+  const positions = new Float32Array(MOTE_COUNT * 3);
+  const colors = new Float32Array(MOTE_COUNT * 3);
+  const drift = new Float32Array(MOTE_COUNT);
+  const baseY = new Float32Array(MOTE_COUNT);
+
+  const place = (i) => {
+    // Push each mote out of the centre so the lanes stay clean to read.
+    const side = Math.random() < 0.5 ? -1 : 1;
+    const x = side * (1.4 + Math.random() * 4.6);
+    // Kept low: higher up and against the dark sky they read as stars rather
+    // than as dust hanging in a lit bay.
+    const y = 0.12 + Math.random() * 1.9;
+    const z = -40 + Math.random() * 42;
+    positions[i * 3] = x;
+    positions[i * 3 + 1] = y;
+    positions[i * 3 + 2] = z;
+    baseY[i] = y;
+    drift[i] = 0.4 + Math.random() * 1.6;
+
+    // Roughly one in five is a warm spark off a grinding wheel.
+    if (Math.random() < 0.2) {
+      colors[i * 3] = 1.0;
+      colors[i * 3 + 1] = 0.62;
+      colors[i * 3 + 2] = 0.24;
+    } else {
+      colors[i * 3] = 0.82;
+      colors[i * 3 + 1] = 0.89;
+      colors[i * 3 + 2] = 1.0;
+    }
+  };
+  for (let i = 0; i < MOTE_COUNT; i++) place(i);
+
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+  geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+  const points = new THREE.Points(
+    geo,
+    new THREE.PointsMaterial({
+      size: 0.115,
+      map: spriteTex,
+      vertexColors: true,
+      transparent: true,
+      opacity: 0.75,
+      depthWrite: false,
+      sizeAttenuation: true,
+      blending: THREE.AdditiveBlending,
+    }),
+  );
+  points.name = 'ShopFloorMotes';
+  points.frustumCulled = false;
+
+  points.userData.update = (advance, timestamp) => {
+    const attr = geo.attributes.position;
+    const t = timestamp * 0.001;
+    for (let i = 0; i < MOTE_COUNT; i++) {
+      // Motes hang in the air, so they travel slower than the track itself.
+      let z = attr.array[i * 3 + 2] + advance * drift[i];
+      if (z > 3) {
+        z -= 44;
+        attr.array[i * 3] = (Math.random() < 0.5 ? -1 : 1) * (1.4 + Math.random() * 4.6);
+      }
+      attr.array[i * 3 + 2] = z;
+      attr.array[i * 3 + 1] = baseY[i] + Math.sin(t * 0.8 + i) * 0.07;
+    }
+    attr.needsUpdate = true;
+  };
+
+  return points;
+}
+
 export default function Runner3DScene({
   playerLane = 1,
   gateProgress = 0, // 0 to 1 (0 = far away, 1 = collision line)
@@ -410,6 +504,10 @@ export default function Runner3DScene({
     const ambientLight = new THREE.AmbientLight(0xffffff, 1.35);
     scene.add(ambientLight);
 
+    // Shop-floor atmosphere (single draw call)
+    const motes = createShopFloorMotes();
+    scene.add(motes);
+
     // 6. 3D Player Character Container
     const playerContainer = new THREE.Group();
     playerContainer.name = 'PlayerContainer';
@@ -509,6 +607,9 @@ export default function Runner3DScene({
           dash.position.z -= 53.2; // 14 intervals * 3.8m = 53.2m
         }
       });
+
+      // 1b. Drift the shop-floor motes down the bay
+      motes.userData.update(syncSpeed * safeDelta, timestamp);
 
       // 2. Position portal gates in the exact same render frame (eliminates 1-frame React delay)
       if (gatesRef.current) {
