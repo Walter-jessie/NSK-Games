@@ -148,8 +148,10 @@ export default function HubPage() {
       <header className="relative z-30 flex items-center justify-between px-3 sm:px-6 md:px-8 pt-2 sm:pt-3 md:pt-4 pointer-events-auto">
         {/* User Status Chip on Left */}
         <div className="flex items-center gap-1.5 sm:gap-2 bg-black/55 backdrop-blur-md border border-white/15 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full shadow-lg text-white">
-          <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-red-600 flex items-center justify-center text-[9px] sm:text-[10px] font-bold text-white shadow-sm">
-            {employeeId?.slice(0, 2)?.toUpperCase() || 'NS'}
+          <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-gradient-to-br from-[#E60012] to-[#b3000d] flex items-center justify-center text-white shadow-sm ring-1 ring-white/20 shrink-0">
+            <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-white" viewBox="0 0 20 20" fill="currentColor">
+              <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+            </svg>
           </div>
           <div className="flex flex-col">
             <span className="text-[11px] sm:text-xs font-mono font-bold leading-none">{employeeId}</span>

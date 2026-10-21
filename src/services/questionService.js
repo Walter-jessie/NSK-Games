@@ -31,6 +31,103 @@ function shuffle(array) {
   return arr;
 }
 
+const LANE_LABELS = ['A', 'B', 'C', 'D'];
+
+// A run should keep the player running across the track. Two answers in a row
+// on the same lane mean the player stands still, and neighbouring lanes are
+// only a nudge, so sequences are scored on how far the player has to travel
+// and the best of a batch is used.
+const SEQUENCE_CANDIDATES = 240;
+const ADJACENT_LANE_PENALTY = 0.6;  // B -> C is movement, but barely
+const PING_PONG_PENALTY = 1.8;      // A,D,A,D is its own pattern
+
+/**
+ * Balanced bag of lanes: every lane used about equally over the run, so no
+ * lane is starved and none is over-represented.
+ */
+function laneBag(count) {
+  const bag = [];
+  const perLane = Math.floor(count / LANE_LABELS.length);
+  for (const label of LANE_LABELS) bag.push(...Array(perLane).fill(label));
+  const extras = shuffle(LANE_LABELS).slice(0, count - bag.length);
+  return [...bag, ...extras];
+}
+
+/**
+ * Average lanes crossed per question, minus penalties for the shapes that read
+ * as a pattern on screen. Higher is a livelier run.
+ */
+function scoreLaneSequence(seq, startLane) {
+  let travelled = 0;
+  let penalty = 0;
+
+  for (let i = 0; i < seq.length; i++) {
+    const from = i === 0 ? startLane : LANE_LABELS.indexOf(seq[i - 1]);
+    const gap = Math.abs(LANE_LABELS.indexOf(seq[i]) - from);
+
+    travelled += gap;
+    if (gap === 1) penalty += ADJACENT_LANE_PENALTY;
+    // A,D,A,D reads as a rhythm the player can ride without reading the answer
+    if (i >= 3 && seq[i] === seq[i - 2] && seq[i - 1] === seq[i - 3]) penalty += PING_PONG_PENALTY;
+  }
+
+  return (travelled - penalty) / seq.length;
+}
+
+/**
+ * Picks which lane holds the correct answer for each question in the run.
+ * No two answers in a row share a lane, and the run is chosen to make the
+ * player cross as much of the track as possible without falling into an
+ * obvious rhythm.
+ */
+export function buildAnswerLaneSequence(count, startLane = 1) {
+  if (count <= 0) return [];
+
+  let best = null;
+  let bestScore = -Infinity;
+
+  for (let attempt = 0; attempt < SEQUENCE_CANDIDATES; attempt++) {
+    const bag = shuffle(laneBag(count));
+    const seq = [];
+
+    while (bag.length) {
+      // Never repeat the lane the player is already standing in.
+      const previous = seq.length ? seq.at(-1) : null;
+      let pick = bag.findIndex((label) => label !== previous);
+      if (pick === -1) pick = 0; // only the current lane left: unavoidable
+      seq.push(bag.splice(pick, 1)[0]);
+    }
+
+    const score = scoreLaneSequence(seq, startLane);
+    if (score > bestScore) {
+      bestScore = score;
+      best = seq;
+    }
+  }
+
+  return best;
+}
+
+/**
+ * Rebuilds a question with its correct answer sitting on `targetLabel` and the
+ * three distractors shuffled across the remaining lanes. Placement is tracked
+ * per option rather than by text, so questions that repeat an option string are
+ * still scored correctly.
+ */
+function placeAnswerAt(question, targetLabel) {
+  const labels = Object.keys(question.options || {});
+  if (!labels.includes(targetLabel)) return question;
+
+  const distractors = shuffle(labels.filter((l) => l !== question.correct).map((l) => question.options[l]));
+
+  const options = {};
+  labels.forEach((label) => {
+    options[label] = label === targetLabel ? question.options[question.correct] : distractors.pop();
+  });
+
+  return { ...question, options, correct: targetLabel };
+}
+
 /**
  * Resolves question bank by department ID (handles sub-departments)
  */
@@ -59,8 +156,10 @@ export function getAnsweredQuestionIds(employeeId) {
  * Selects 10 questions for a game run with:
  * 1. NO-REPEAT guarantee (prioritizes unseen questions).
  * 2. DIFFICULTY FILTERING / PROGRESSION ('easy' | 'medium' | 'hard' | 'progressive').
+ * 3. LANE CHOREOGRAPHY: the correct answers are spread across the track so the
+ *    player keeps moving, starting from `startLane` (the spawn lane).
  */
-export function getQuestionsForGame(employeeId, deptId, count = 10, difficulty = 'progressive') {
+export function getQuestionsForGame(employeeId, deptId, count = 10, difficulty = 'progressive', startLane = 1) {
   const bank = getDepartmentBank(deptId);
   const allQuestions = bank.questions || [];
   const answeredIds = new Set(getAnsweredQuestionIds(employeeId));
@@ -114,8 +213,11 @@ export function getQuestionsForGame(employeeId, deptId, count = 10, difficulty =
     });
   }
 
+  const run = finalQuestions.slice(0, count);
+  const lanes = buildAnswerLaneSequence(run.length, startLane);
+
   return {
-    questions: finalQuestions.slice(0, count),
+    questions: run.map((q, i) => placeAnswerAt(q, lanes[i])),
     totalInBank: allQuestions.length,
     answeredCount: answeredIds.size,
     isBankCompleted: bankRecycled,
