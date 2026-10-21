@@ -35,7 +35,7 @@ export function StatusBlock({ snap }) {
 
 const ACTIONS = {
   smash: { cls: 'pa-act-smash', label: ['SMASH', 'CRATE'] },
-  repair: { cls: 'pa-act-repair', label: ['REPAIR', 'MACHINE'] },
+  repair: { cls: 'pa-act-repair', label: ['REPAIR', 'TEST RIG'] },
   needBearings: { cls: 'pa-act-need', label: ['NEED', 'BEARINGS'] },
 };
 

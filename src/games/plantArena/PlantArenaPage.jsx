@@ -39,7 +39,7 @@ export default function PlantArenaPage({ employeeId = 'NSK-GUEST', onSubmitScore
         case 'bearingCollected': audio.pickup(); break;
         case 'machineRepaired': audio.repair(); break;
         case 'machineAttacked': audio.attack(); break;
-        case 'machineFailed': audio.fail(); setToast('MACHINE FAILED!'); break;
+        case 'machineFailed': audio.fail(); setToast('TEST RIG LOST!'); break;
         case 'needBearings': audio.needBearings(); setToast('FIND AN NSK CRATE FOR BEARINGS'); break;
         case 'waveStarted':
           audio.wave();
@@ -141,7 +141,7 @@ export default function PlantArenaPage({ employeeId = 'NSK-GUEST', onSubmitScore
             <ol className="pa-tut-steps">
               <li><span className="pa-tut-n">1</span><span>Smash crates to find <b>bearings</b></span></li>
               <li><span className="pa-tut-n">2</span><span>Only crates stamped <b>NSK</b> hold one</span></li>
-              <li><span className="pa-tut-n">3</span><span>Repair <b>red machines</b> before their timers end</span></li>
+              <li><span className="pa-tut-n">3</span><span>Repair the <b>red test rigs</b> before their timers end</span></li>
             </ol>
 
             <button type="button" className="pa-tut-play" onClick={start}>
