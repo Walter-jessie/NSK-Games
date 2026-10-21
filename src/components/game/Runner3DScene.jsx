@@ -632,7 +632,7 @@ export default function Runner3DScene({
       lastTime = timestamp;
 
       const safeDelta = Math.min(Math.max(delta, 0.001), 0.05); // Safe delta avoiding NaN/hitch
-      const speed = currentSpeedRef.current || 0.017;
+      const speed = currentSpeedRef.current || 0.0065;
 
       // Exact synchronized 3D speed matching portal gate velocity
       const syncSpeed = (38 / 78) * (speed * 1000);
