@@ -101,9 +101,8 @@ export default function PlantArenaPage({ employeeId = 'NSK-GUEST', onSubmitScore
   const start = useCallback(() => {
     setOpening(true);
     audio.unlock();
-    const el = document.documentElement;
-    if (matchMedia('(pointer: coarse)').matches && el.requestFullscreen && !document.fullscreenElement) {
-      el.requestFullscreen().then(() => screen.orientation?.lock?.('landscape')).catch(() => {});
+    if (screen.orientation?.lock) {
+      screen.orientation.lock('landscape').catch(() => {});
     }
     engineRef.current?.start();
   }, []);

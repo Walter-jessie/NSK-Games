@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import soundEffects from '../../services/audioService';
-import { requestFullscreen, isFullscreen } from '../../utils/fullscreen';
 
 /**
  * Cinematic NSK Title Splash Screen
@@ -38,9 +37,6 @@ export default function CinematicSplashScreen({ onComplete, durationMs = 4000 })
 
   const handleInteraction = () => {
     soundEffects.playCinematicIntro();
-    if (!isFullscreen()) {
-      requestFullscreen().catch(() => {});
-    }
   };
 
   return (
