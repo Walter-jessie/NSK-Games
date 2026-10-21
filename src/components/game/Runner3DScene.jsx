@@ -654,6 +654,11 @@ export default function Runner3DScene({
       }
       dashes.instanceMatrix.needsUpdate = true;
 
+      // 1.5. Update shop-floor motes & grinding sparks streaming past runner
+      if (motes.userData && motes.userData.update) {
+        motes.userData.update(advance, timestamp);
+      }
+
       // 2. Position portal gates in the exact same render frame (eliminates 1-frame React delay)
       if (gatesRef.current) {
         gatesRef.current.position.z = GATE_SPAWN_Z + gateProgressRef.current * (GATE_PASS_Z - GATE_SPAWN_Z);
