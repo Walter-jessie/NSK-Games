@@ -3,7 +3,7 @@
 // facing +Z (towards the game camera).
 import * as THREE from 'three';
 import { PALETTE as C, PartBuilder, addBearing, canvasTexture, toonMaterial, surfaceMaterial, mergeStatic } from './toon.js';
-import { createSparks, floorGlow, halo } from './fx.js';
+import { createFire, createSparks, floorGlow, halo } from './fx.js';
 
 export const MACHINE_FX = { sparks: 24, arcs: 3 };
 
@@ -177,11 +177,13 @@ function bench(def) {
   lampHalo.position.y = 1.68;
   postGroup.add(lampHalo);
   const sparks = createSparks({ sparks: MACHINE_FX.sparks, arcs: MACHINE_FX.arcs, radius: 1.5, height: 2.3 });
+  const fire = createFire();
+  root.add(fire.group);
   sparks.group.position.y = TOP;
   sparks.group.visible = false;
   root.add(sparks.group);
 
-  const state = { status: 'ok', speed: 1, savedTime: 0 };
+  const state = { status: 'ok', speed: 1, savedTime: 0, danger: 1 };
   const green = new THREE.Color(C.green);
   const red = new THREE.Color(C.nskRed);
   const dead = new THREE.Color('#5a1015');
@@ -202,6 +204,11 @@ function bench(def) {
     for (const fn of animators) fn(t, state.speed);
     sparks.group.visible = state.status === 'attacked';
     if (sparks.group.visible) sparks.update(dt, t);
+    // Catches alight once the countdown is past halfway, building as it runs
+    // out, so a rig in real trouble is obvious from across the arena.
+    const burning = state.status === 'attacked' && state.danger < 0.5;
+    fire.setHeat(burning ? Math.min(1, (0.5 - state.danger) / 0.38) : 0);
+    fire.update(dt, t);
     alarmGlow.material.opacity = state.status === 'attacked' ? 0.85 + Math.sin(t * 8) * 0.15 : state.status === 'failed' ? 0.15 : 0;
     savedGlow.material.opacity = state.status === 'saved' ? 0.85 * (1 - state.savedTime / 2.5) : 0;
     alarmGlow.visible = alarmGlow.material.opacity > 0;
@@ -242,6 +249,8 @@ function bench(def) {
     group: root,
     ring,
     setStatus(s, { hold = false } = {}) { state.status = s; state.savedTime = 0; state.holdSaved = hold; },
+    // Fraction of the repair countdown still left, 1 down to 0.
+    setDanger(v) { state.danger = v; },
     get status() { return state.status; },
     update,
   };

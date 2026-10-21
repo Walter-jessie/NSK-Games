@@ -238,3 +238,78 @@ export function createPop(scene, { color = '#ffd27a', grains = 26 } = {}) {
     },
   };
 }
+
+// Flame licking off a rig once its countdown is past halfway. One additive
+// Points cloud per rig, hidden until it is needed, so an idle rig costs
+// nothing to draw.
+export function createFire({ count = 40, radius = 1.15, height = 2.8 } = {}) {
+  const group = new THREE.Group();
+  group.name = 'fire';
+  group.visible = false;
+
+  const pos = new Float32Array(count * 3);
+  const vel = new Float32Array(count * 3);
+  const life = new Float32Array(count);
+  const span = new Float32Array(count);
+
+  const seed = (i, stagger = false) => {
+    const a = Math.random() * Math.PI * 2;
+    const r = Math.sqrt(Math.random()) * radius;
+    pos[i * 3] = Math.cos(a) * r;
+    pos[i * 3 + 1] = 0.15;
+    pos[i * 3 + 2] = Math.sin(a) * r;
+    vel[i * 3] = (Math.random() - 0.5) * 0.5;
+    vel[i * 3 + 1] = 1.5 + Math.random() * 2.1;
+    vel[i * 3 + 2] = (Math.random() - 0.5) * 0.5;
+    span[i] = 0.5 + Math.random() * 0.7;
+    life[i] = stagger ? Math.random() * span[i] : span[i];
+  };
+  for (let i = 0; i < count; i++) seed(i, true);
+
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+  const mat = new THREE.PointsMaterial({
+    color: '#ff8a26',
+    size: 0.62,
+    map: radialTexture(),
+    transparent: true,
+    opacity: 0,
+    depthWrite: false,
+    blending: THREE.AdditiveBlending,
+    toneMapped: false,
+  });
+  const pts = new THREE.Points(geo, mat);
+  pts.frustumCulled = false;
+  group.add(pts);
+
+  // Heat pooled on the floor under the flame.
+  const pool = floorGlow(radius * 1.9, '#ff6a18', 0);
+  pool.position.y = 0.05;
+  group.add(pool);
+
+  let heat = 0;
+  return {
+    group,
+    // 0 = not burning, 1 = fully alight
+    setHeat(v) {
+      heat = Math.max(0, Math.min(1, v));
+      group.visible = heat > 0.01;
+    },
+    update(dt, t) {
+      if (!group.visible) return;
+      for (let i = 0; i < count; i++) {
+        life[i] -= dt;
+        if (life[i] <= 0) { seed(i); continue; }
+        pos[i * 3] += vel[i * 3] * dt;
+        pos[i * 3 + 1] += vel[i * 3 + 1] * dt * (0.6 + heat * 0.8);
+        pos[i * 3 + 2] += vel[i * 3 + 2] * dt;
+        if (pos[i * 3 + 1] > height) life[i] = 0;
+      }
+      geo.attributes.position.needsUpdate = true;
+      const flicker = 0.82 + Math.sin(t * 19) * 0.1 + Math.sin(t * 7.3) * 0.08;
+      mat.opacity = heat * flicker;
+      mat.size = 0.44 + heat * 0.3;
+      pool.material.opacity = heat * 0.42 * flicker;
+    },
+  };
+}

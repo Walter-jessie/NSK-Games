@@ -457,7 +457,7 @@ export class GameEngine {
       if (!el) {
         el = document.createElement('div');
         el.className = 'pa-marker';
-        el.innerHTML = '<div class="pa-marker-pill">REPAIR</div><div class="pa-marker-ring"><span></span><i class="pa-marker-arrow"></i></div>';
+        el.innerHTML = '<div class="pa-marker-pill">REPAIR</div><div class="pa-marker-bar"><i></i></div><i class="pa-marker-arrow"></i>';
         this.markersLayer.appendChild(el);
         this.markers.set(m.code, el);
       }
@@ -479,11 +479,12 @@ export class GameEngine {
       if (sx > w - mapW - 50 && sy < mapBottom) sy = mapBottom;
       el.classList.toggle('off', off);
       el.style.transform = `translate(${sx}px, ${sy}px) translate(-50%, ${off ? -50 : -100}%)`;
-      const secs = Math.ceil(m.timer);
-      el.style.setProperty('--p', `${(m.timer / m.timerMax) * 100}%`);
-      el.classList.toggle('urgent', m.timer < 6);
-      const span = el.querySelector('span');
-      if (span.textContent !== `${secs}`) span.textContent = `${secs}`;
+      // A bar reads faster than a number at a glance, and the colour carries
+      // the urgency: green at full, through amber, to red as it empties.
+      const frac = m.timerMax ? Math.max(0, m.timer / m.timerMax) : 0;
+      el.style.setProperty('--p', `${frac * 100}%`);
+      el.style.setProperty('--c', `hsl(${Math.round(120 * frac)} 85% 48%)`);
+      el.classList.toggle('urgent', frac < 0.3);
     }
     for (const [code, el] of this.markers) {
       if (!seen.has(code)) { el.remove(); this.markers.delete(code); }
@@ -517,6 +518,7 @@ export class GameEngine {
       const v = this.arena.machines.get(m.code);
       const want = STATUS_TO_SCENE[m.status];
       if (v.status !== want) v.setStatus(want, { hold: true });
+      v.setDanger(m.status === 'attacked' && m.timerMax ? m.timer / m.timerMax : 1);
     }
     this.arena.update(dt, t);
     this.lights.update(t, this.arena.machines);
