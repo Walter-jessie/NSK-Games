@@ -284,7 +284,9 @@ function getArrowTexture() {
   c.width = 64;
   c.height = 64;
   const ctx = c.getContext('2d');
-  ctx.fillStyle = '#7dd3fc';
+  ctx.shadowColor = '#22c55e';
+  ctx.shadowBlur = 10;
+  ctx.fillStyle = '#4ade80';
   ctx.beginPath();
   ctx.moveTo(32, 8);
   ctx.lineTo(58, 40);
@@ -539,22 +541,24 @@ export default function Runner3DScene({
     // Forward chevrons painted ahead of the player, in whichever lane the
     // player is in. Three instances, one draw call.
     const ARROW_COUNT = 3;
-    const ARROW_GAP = 3.2;
-    const ARROW_SPAN = ARROW_COUNT * ARROW_GAP;
+    const ARROW_GAP = 2.6;
     const arrows = new THREE.InstancedMesh(
-      new THREE.PlaneGeometry(0.62, 0.62),
+      new THREE.PlaneGeometry(0.72, 0.72),
       new THREE.MeshBasicMaterial({
         map: getArrowTexture(),
+        color: 0x5bf08a,
         transparent: true,
-        opacity: 0.55,
+        opacity: 0.9,
         depthWrite: false,
+        blending: THREE.AdditiveBlending,
       }),
       ARROW_COUNT,
     );
     arrows.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
     arrows.frustumCulled = false;
     const arrowZ = new Float32Array(ARROW_COUNT);
-    for (let i = 0; i < ARROW_COUNT; i++) arrowZ[i] = PLAYER_Z - 2.2 - i * ARROW_GAP;
+    let arrowLaneX = currentXRef.current;
+    for (let i = 0; i < ARROW_COUNT; i++) arrowZ[i] = PLAYER_Z - 2.0 - i * ARROW_GAP;
     scene.add(arrows);
 
     // Plant beyond the guard rails, so the sides are not empty dark. One
@@ -742,17 +746,19 @@ export default function Runner3DScene({
       }
       dashes.instanceMatrix.needsUpdate = true;
 
-      for (let i = 0; i < ARROW_COUNT; i++) {
-        let z = arrowZ[i] + advance;
-        if (z > PLAYER_Z + 0.6) z -= ARROW_SPAN;
-        arrowZ[i] = z;
-        dummy.position.set(currentXRef.current, 0.022, z);
-        dummy.rotation.set(-Math.PI / 2, 0, 0);
-        dummy.scale.set(1, 1, 1);
-        dummy.updateMatrix();
-        arrows.setMatrixAt(i, dummy.matrix);
+      // Chevrons hold station ahead of the runner and only follow the lane
+      // sideways, so this writes nothing while the player stays put.
+      if (currentXRef.current !== arrowLaneX) {
+        arrowLaneX = currentXRef.current;
+        for (let i = 0; i < ARROW_COUNT; i++) {
+          dummy.position.set(arrowLaneX, 0.022, arrowZ[i]);
+          dummy.rotation.set(-Math.PI / 2, 0, 0);
+          dummy.scale.set(1, 1, 1);
+          dummy.updateMatrix();
+          arrows.setMatrixAt(i, dummy.matrix);
+        }
+        arrows.instanceMatrix.needsUpdate = true;
       }
-      arrows.instanceMatrix.needsUpdate = true;
 
       for (let i = 0; i < PROP_COUNT; i++) {
         let z = propZ[i] + advance;
