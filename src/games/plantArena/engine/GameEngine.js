@@ -457,7 +457,7 @@ export class GameEngine {
       if (!el) {
         el = document.createElement('div');
         el.className = 'pa-marker';
-        el.innerHTML = '<div class="pa-marker-pill">REPAIR</div><div class="pa-marker-bar"><i></i></div><i class="pa-marker-arrow"></i>';
+        el.innerHTML = '<div class="pa-marker-pill">REPAIR</div><div class="pa-marker-bar"><i></i></div><div class="pa-marker-ring"><span></span></div><i class="pa-marker-arrow"></i>';
         this.markersLayer.appendChild(el);
         this.markers.set(m.code, el);
       }
@@ -476,15 +476,21 @@ export class GameEngine {
         sy = cy + Math.sin(ang) * t;
         el.style.setProperty('--arrow', `${ang}rad`);
       }
-      if (sx > w - mapW - 50 && sy < mapBottom) sy = mapBottom;
+      if (off && sx > w - mapW - 50 && sy < mapBottom) sy = mapBottom;
       el.classList.toggle('off', off);
       el.style.transform = `translate(${sx}px, ${sy}px) translate(-50%, ${off ? -50 : -100}%)`;
-      // A bar reads faster than a number at a glance, and the colour carries
-      // the urgency: green at full, through amber, to red as it empties.
+      // On screen the bar sits on the rig, where a glance is enough. Pinned to
+      // the edge as a direction pointer there is no rig to sit on and no room
+      // for a bar, so that case keeps the seconds count it always had.
       const frac = m.timerMax ? Math.max(0, m.timer / m.timerMax) : 0;
       el.style.setProperty('--p', `${frac * 100}%`);
       el.style.setProperty('--c', `hsl(${Math.round(120 * frac)} 85% 48%)`);
       el.classList.toggle('urgent', frac < 0.3);
+      if (off) {
+        const secs = `${Math.ceil(m.timer)}`;
+        const span = el.querySelector('span');
+        if (span.textContent !== secs) span.textContent = secs;
+      }
     }
     for (const [code, el] of this.markers) {
       if (!seen.has(code)) { el.remove(); this.markers.delete(code); }

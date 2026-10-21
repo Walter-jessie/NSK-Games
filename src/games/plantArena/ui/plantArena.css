@@ -51,12 +51,16 @@
 .pa-marker { --ring: clamp(54px, 11vw, 92px); position: absolute; left: 0; top: 0; display: flex; flex-direction: column; align-items: center; gap: 4px; will-change: transform; }
 .pa-marker-pill { background: linear-gradient(#3aa0ff, #1a5fd0); border: 2px solid #ffc75a; border-radius: 9px; padding: 2px 12px; font-size: clamp(10px, 2.2vh, 17px); box-shadow: 0 3px 0 #0b2a66; }
 .pa-marker-bar { width: var(--ring); height: clamp(7px, 1.5vh, 11px); border-radius: 5px; background: #20242c; border: 1px solid #000; overflow: hidden; box-shadow: 0 2px 0 #0008; }
+.pa-marker-ring { --dot: clamp(26px, 5.2vh, 40px); display: none; width: var(--dot); aspect-ratio: 1; border-radius: 50%; background: conic-gradient(var(--c, #ff4a3a) var(--p), #ffffff22 0); place-items: center; }
+.pa-marker-ring span { width: 72%; aspect-ratio: 1; border-radius: 50%; background: #140b0b; display: grid; place-items: center; font-size: clamp(9px, 1.7vh, 13px); }
 .pa-marker-bar > i { display: block; height: 100%; width: var(--p, 100%); background: var(--c, #46f08a); transition: width .1s linear; }
 
-.pa-marker.urgent .pa-marker-bar { animation: pa-blinkr .4s infinite alternate; }
+.pa-marker.urgent .pa-marker-bar, .pa-marker.urgent .pa-marker-ring { animation: pa-blinkr .4s infinite alternate; }
 @keyframes pa-blinkr { to { transform: scale(1.15); } }
-.pa-marker-arrow { display: none; position: absolute; left: 50%; top: 50%; width: 14px; height: 18px; margin: -9px 0 0 -7px; background: #ff4a3a; clip-path: polygon(0 0, 100% 50%, 0 100%, 30% 50%); transform: rotate(var(--arrow)) translateX(calc(var(--ring) / 2 + 9px)); }
+.pa-marker-arrow { display: none; position: absolute; left: 50%; top: 50%; width: 14px; height: 18px; margin: -9px 0 0 -7px; background: #ff4a3a; clip-path: polygon(0 0, 100% 50%, 0 100%, 30% 50%); transform: rotate(var(--arrow)) translateX(calc(clamp(26px, 5.2vh, 40px) / 2 + 9px)); }
 .pa-marker.off .pa-marker-pill { display: none; }
+.pa-marker.off .pa-marker-bar { display: none; }
+.pa-marker.off .pa-marker-ring { display: grid; }
 .pa-marker.off .pa-marker-arrow { display: block; }
 
 /* overlays */
