@@ -6,6 +6,7 @@ import { getQuestionsForGame, markQuestionsAnswered } from '../services/question
 import { submitScore } from '../services/supabaseService';
 import soundEffects from '../services/audioService';
 import Runner3DScene, { loadRunnerModel } from '../components/game/Runner3DScene';
+import { BEARING_PARTS } from '../config/bearingParts';
 
 // ─── Game Constants ───────────────────────────────────────────
 const LANE_COUNT = 4;
@@ -13,20 +14,6 @@ const LANE_LABELS = ['A', 'B', 'C', 'D'];
 const COLLISION_Y = 78;
 const PASS_THROUGH_Y = 81.5; // Fast, seamless 180ms pass-through so question advances instantly without stalling
 const COUNTDOWN_SECS = 3;
-
-// Bearing parts collected for correct answers
-const BEARING_PARTS = [
-  { name: 'Outer Ring', icon: '🔩' },
-  { name: 'Inner Ring', icon: '⚙️' },
-  { name: 'Steel Balls', icon: '🔵' },
-  { name: 'Cage', icon: '🛡️' },
-  { name: 'Seal', icon: '🔒' },
-  { name: 'Grease', icon: '🧴' },
-  { name: 'Shield', icon: '🛞' },
-  { name: 'Retainer', icon: '📎' },
-  { name: 'Snap Ring', icon: '💍' },
-  { name: 'Housing', icon: '🏗️' },
-];
 
 export const DIFFICULTY_CONFIG = {
   easy: {
@@ -443,16 +430,16 @@ export default function BearingRunnerPage() {
         <div className="absolute top-0 left-0 right-0 z-30 pointer-events-auto flex flex-col justify-start gap-2 px-3 pt-2 pb-2 bg-gradient-to-b from-[#050810]/98 via-[#050810]/90 to-transparent">
           {/* Question Row at Very Top with integrated Parts Counter */}
           {currentQ && (
-            <div key={`q-${qIdx}`} className="flex items-center gap-2 max-w-3xl mx-auto w-full flex-shrink-0 game-question-enter">
-              {/* Parts Counter Badge (NSK Red Gradient - Fixed Stable Dimensions) */}
-              <div className="px-3 py-1.5 rounded-xl bg-gradient-to-br from-[#E60012] via-[#d60011] to-[#99000c] border-2 border-red-300 text-white whitespace-nowrap shrink-0 shadow-md flex items-center justify-center gap-1.5 h-12">
-                <span className="text-white/90 font-black uppercase text-[10px] tracking-widest">PARTS</span>
-                <span className="font-heading font-black text-sm text-white">{collectedParts.length}/10</span>
+            <div key={`q-${qIdx}`} className="flex items-center gap-2 max-w-[min(94vw,160vh)] mx-auto w-full flex-shrink-0 game-question-enter">
+              {/* Parts Counter Badge (NSK Red Gradient - Fluid Height Scale) */}
+              <div className="px-3 py-1.5 rounded-xl bg-gradient-to-br from-[#E60012] via-[#d60011] to-[#99000c] border-2 border-red-300 text-white whitespace-nowrap shrink-0 shadow-md flex items-center justify-center gap-1.5 h-[clamp(38px,9vh,80px)]">
+                <span className="text-white/90 font-black uppercase text-[clamp(9px,1.9vh,15px)] tracking-widest">PARTS</span>
+                <span className="font-heading font-black text-[clamp(12px,2.6vh,22px)] text-white">{collectedParts.length}/10</span>
               </div>
 
-              {/* High-Contrast White Question Panel with Bold NSK Red Border - Fixed Stable Dimensions */}
-              <div className="flex-1 bg-white border-[3px] border-[#E60012] rounded-xl px-4 py-2 shadow-md text-center flex items-center justify-center h-12">
-                <p className="text-xs sm:text-sm font-heading font-black text-slate-950 leading-snug tracking-wide uppercase line-clamp-2">
+              {/* High-Contrast White Question Panel with Bold NSK Red Border - Fluid Height Scale */}
+              <div className="flex-1 bg-white border-[3px] border-[#E60012] rounded-xl px-4 py-1.5 shadow-md text-center flex items-center justify-center h-[clamp(38px,9vh,80px)]">
+                <p className="text-[clamp(11px,2.4vh,22px)] font-heading font-black text-slate-950 leading-snug tracking-wide uppercase line-clamp-2">
                   {currentQ.question}
                 </p>
               </div>
@@ -461,7 +448,7 @@ export default function BearingRunnerPage() {
 
           {/* Options: 4 Locked, Uniform Answer Cards (Never stretched into long slabs on 2K) */}
           {currentQ && (
-            <div key={`o-${qIdx}`} className="grid grid-cols-4 gap-2 game-options-enter max-w-3xl mx-auto w-full items-stretch h-14">
+            <div key={`o-${qIdx}`} className="grid grid-cols-4 gap-2 game-options-enter max-w-[min(94vw,160vh)] mx-auto w-full items-stretch h-[clamp(46px,10.5vh,96px)]">
               {LANE_LABELS.map((label, idx) => {
                 const isSelected = playerLane === idx;
                 const isCorrectAnswer = currentQ.correct === label;
@@ -469,7 +456,7 @@ export default function BearingRunnerPage() {
                   <button
                     key={label}
                     onClick={() => jumpToLane(idx)}
-                    className={`relative py-1.5 px-2 rounded-xl transition-all duration-150 select-none flex items-center justify-center gap-2 h-full ${
+                    className={`relative py-1 px-2 rounded-xl transition-all duration-150 select-none flex items-center justify-center gap-2 h-full ${
                       isSelected
                         ? 'bg-gradient-to-r from-[#E60012] via-[#ff1a2e] to-[#cc0010] border-[3px] border-white text-white shadow-[0_0_20px_rgba(230,0,18,0.9)] ring-2 ring-red-400 scale-[1.02] z-20'
                         : 'bg-[#0b101e]/95 border-2 border-slate-600/90 hover:border-white/50 hover:bg-[#12192e] backdrop-blur-md text-white shadow-md'
@@ -484,15 +471,15 @@ export default function BearingRunnerPage() {
                     )}
                     {isSelected && <div className="absolute inset-0 game-option-shimmer pointer-events-none rounded-xl" />}
                     
-                    {/* Letter Badge (A, B, C, D) - Fixed Size */}
-                    <span className={`relative z-10 inline-flex w-7 h-7 rounded-lg items-center justify-center text-xs font-heading font-black shrink-0 shadow-sm ${
+                    {/* Letter Badge (A, B, C, D) - Fluid Proportions */}
+                    <span className={`relative z-10 inline-flex w-[clamp(24px,5vh,48px)] h-[clamp(24px,5vh,48px)] rounded-lg items-center justify-center text-[clamp(11px,2.2vh,20px)] font-heading font-black shrink-0 shadow-sm ${
                       isSelected ? 'bg-white text-[#E60012]' : 'bg-white/15 text-white border border-white/20'
                     }`}>
                       {label}
                     </span>
 
                     {/* Words Text - High Contrast & Clean Size */}
-                    <span className={`relative z-10 text-xs font-bold leading-tight line-clamp-2 text-left ${
+                    <span className={`relative z-10 text-[clamp(11px,2.2vh,18px)] font-bold leading-tight line-clamp-2 text-left ${
                       isSelected ? 'text-white drop-shadow-md font-black' : 'text-slate-100'
                     }`}>
                       {currentQ.options[label]}
@@ -525,7 +512,9 @@ export default function BearingRunnerPage() {
           <div className="flex flex-col items-center px-4 py-2.5 rounded-2xl bg-slate-950/85 border border-cyan-400/50 shadow-[0_0_35px_rgba(56,189,248,0.45)] backdrop-blur-md">
             <span className="text-5xl sm:text-6xl drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)] animate-pulse">{flyingPart.icon}</span>
             <div className="flex items-center gap-1.5 mt-2 bg-cyan-950/90 border border-cyan-400/40 px-3 py-0.5 rounded-full whitespace-nowrap shadow-md">
-              <span className="text-[10px] text-cyan-400 font-heading font-black uppercase tracking-wider">+ PART</span>
+              <span className="text-[10px] text-cyan-400 font-heading font-black uppercase tracking-wider">
+                {flyingPart.kind === 'process' ? '+ PROCESS' : '+ PART'}
+              </span>
               <span className="text-xs sm:text-sm font-heading font-black text-white">
                 {flyingPart.name}
               </span>
@@ -592,7 +581,7 @@ export default function BearingRunnerPage() {
         </div>
       )}
 
-      {/* ═══ TOUCH STEERING CONTROLS (Left / Right Arrow Icons - Locked Fixed Ergonomic Size) ═══ */}
+      {/* ═══ TOUCH STEERING CONTROLS (Fluid Height Scale: Proportional across 720p, 1080p & 2K) ═══ */}
       {(phase === 'playing' || phase === 'feedback') && (
         <>
           <button
@@ -603,14 +592,14 @@ export default function BearingRunnerPage() {
               e.stopPropagation();
               moveLeft();
             }}
-            className={`absolute bottom-3 left-3 z-40 w-16 h-16 rounded-2xl flex items-center justify-center transition-all select-none shadow-[0_8px_25px_rgba(0,0,0,0.85)] border-2 ${
+            className={`absolute bottom-[2.5vh] left-[2.5vh] z-40 w-[clamp(56px,14vh,120px)] h-[clamp(56px,14vh,120px)] rounded-[clamp(14px,3vh,26px)] flex items-center justify-center transition-all select-none shadow-[0_8px_25px_rgba(0,0,0,0.85)] border-2 ${
               playerLane === 0
                 ? 'bg-slate-900/40 border-white/5 text-slate-600 opacity-25 cursor-not-allowed'
                 : 'bg-slate-900/95 backdrop-blur-xl border-white/35 text-white hover:border-red-500 hover:bg-slate-800 active:bg-red-600 active:scale-95 active:border-red-400 active:shadow-red-600/80 ring-1 ring-white/15'
             }`}
             style={{ touchAction: 'manipulation' }}
           >
-            <svg className="w-10 h-10 drop-shadow-md" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3.5}>
+            <svg className="w-[clamp(32px,8.5vh,70px)] h-[clamp(32px,8.5vh,70px)] drop-shadow-md" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
             </svg>
           </button>
@@ -623,14 +612,14 @@ export default function BearingRunnerPage() {
               e.stopPropagation();
               moveRight();
             }}
-            className={`absolute bottom-3 right-3 z-40 w-16 h-16 rounded-2xl flex items-center justify-center transition-all select-none shadow-[0_8px_25px_rgba(0,0,0,0.85)] border-2 ${
+            className={`absolute bottom-[2.5vh] right-[2.5vh] z-40 w-[clamp(56px,14vh,120px)] h-[clamp(56px,14vh,120px)] rounded-[clamp(14px,3vh,26px)] flex items-center justify-center transition-all select-none shadow-[0_8px_25px_rgba(0,0,0,0.85)] border-2 ${
               playerLane === LANE_COUNT - 1
                 ? 'bg-slate-900/40 border-white/5 text-slate-600 opacity-25 cursor-not-allowed'
                 : 'bg-slate-900/95 backdrop-blur-xl border-white/35 text-white hover:border-red-500 hover:bg-slate-800 active:bg-red-600 active:scale-95 active:border-red-400 active:shadow-red-600/80 ring-1 ring-white/15'
             }`}
             style={{ touchAction: 'manipulation' }}
           >
-            <svg className="w-10 h-10 drop-shadow-md" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3.5}>
+            <svg className="w-[clamp(32px,8.5vh,70px)] h-[clamp(32px,8.5vh,70px)] drop-shadow-md" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
             </svg>
           </button>

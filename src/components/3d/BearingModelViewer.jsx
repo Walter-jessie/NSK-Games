@@ -6,7 +6,6 @@ import {
   DIMENSIONS,
   ballPositions,
   createCageGeometry,
-  createCageRivetGeometry,
   createInnerRingGeometry,
   createOuterRingGeometry,
 } from './bearingGeometry.js';
@@ -54,19 +53,17 @@ function createDynamicBearing(partsCount = 10) {
     color: 0x475569, metalness: 0.6, roughness: 0.7, wireframe: partsCount === 0,
   });
 
-  // ── Slot 1: Outer Ring ──
-  const outerRing = new THREE.Mesh(createOuterRingGeometry(), partsCount >= 1 ? ringSteel : damagedSteel);
-  outerRing.castShadow = true;
-  outerRing.receiveShadow = true;
-  bearingGroup.add(outerRing);
+  // Only the first four parts are physical: the bearing is complete once the
+  // cage goes on. Slots 5-10 are shop-floor steps and fittings that score but
+  // add no geometry, so nothing below reads past partsCount >= 4.
 
-  // ── Slot 2: Inner Ring, with the NSK hub cap closing the bore ──
-  const innerRing = new THREE.Mesh(createInnerRingGeometry(), partsCount >= 2 ? innerSteel : damagedSteel);
+  // ── Slot 1: Inner Casing, with the NSK hub cap closing the bore ──
+  const innerRing = new THREE.Mesh(createInnerRingGeometry(), partsCount >= 1 ? innerSteel : damagedSteel);
   innerRing.castShadow = true;
   innerRing.receiveShadow = true;
   bearingGroup.add(innerRing);
 
-  if (partsCount >= 2) {
+  if (partsCount >= 1) {
     const capR = d.innerBoreR * 1.02;
     const capT = 0.06;
 
@@ -96,8 +93,8 @@ function createDynamicBearing(partsCount = 10) {
     }
   }
 
-  // ── Slot 3: Chrome Balls ──
-  if (partsCount >= 3) {
+  // ── Slot 2: Bearing Balls ──
+  if (partsCount >= 2) {
     const ballGeo = new THREE.SphereGeometry(d.ballR, 24, 18);
     for (const [x, y, z] of ballPositions()) {
       const ball = new THREE.Mesh(ballGeo, ballChrome);
@@ -107,77 +104,17 @@ function createDynamicBearing(partsCount = 10) {
     }
   }
 
-  // ── Slot 4: Retainer Cage (collars and bridges; rivets arrive at slot 8) ──
+  // ── Slot 3: Outer Casing ──
+  const outerRing = new THREE.Mesh(createOuterRingGeometry(), partsCount >= 3 ? ringSteel : damagedSteel);
+  outerRing.castShadow = true;
+  outerRing.receiveShadow = true;
+  bearingGroup.add(outerRing);
+
+  // ── Slot 4: Retainer Cage (collars, bridges and their rivets) ──
   if (partsCount >= 4) {
     const cage = new THREE.Mesh(createCageGeometry(), cageSteel);
     cage.castShadow = true;
     bearingGroup.add(cage);
-  }
-
-  const annulus = new THREE.RingGeometry(d.innerR + 0.02, d.outerBoreR - 0.02, 64);
-
-  // ── Slot 5: Contact Seal (nitrile, front face) ──
-  if (partsCount >= 5) {
-    const seal = new THREE.Mesh(
-      annulus,
-      new THREE.MeshStandardMaterial({
-        color: 0x1e293b, roughness: 0.85, metalness: 0.1,
-        transparent: true, opacity: 0.55, side: THREE.DoubleSide,
-      }),
-    );
-    seal.position.z = d.width / 2 + 0.004;
-    bearingGroup.add(seal);
-  }
-
-  // ── Slot 6: Synthetic Grease (polyurea film packed into the raceway) ──
-  if (partsCount >= 6) {
-    const grease = new THREE.Mesh(
-      new THREE.TorusGeometry(d.pitchR, d.ballR * 0.8, 10, 72),
-      new THREE.MeshStandardMaterial({
-        color: 0xd9b26a, roughness: 0.45, metalness: 0, transparent: true, opacity: 0.45,
-      }),
-    );
-    bearingGroup.add(grease);
-  }
-
-  // ── Slot 7: Dust Shield (pressed steel, back face) ──
-  if (partsCount >= 7) {
-    const shield = new THREE.Mesh(
-      annulus,
-      new THREE.MeshStandardMaterial({
-        color: 0xb8c2cf, metalness: 0.9, roughness: 0.3, envMapIntensity: 1.2,
-        transparent: true, opacity: 0.6, side: THREE.DoubleSide,
-      }),
-    );
-    shield.position.z = -d.width / 2 - 0.004;
-    bearingGroup.add(shield);
-  }
-
-  // ── Slot 8: Retainer Rivets (join the cage bridges) ──
-  if (partsCount >= 8) {
-    const rivets = new THREE.Mesh(createCageRivetGeometry(), cageSteel);
-    bearingGroup.add(rivets);
-  }
-
-  // ── Slot 9: Snap Ring (axial lock, seated on the outer ring) ──
-  if (partsCount >= 9) {
-    const snapRing = new THREE.Mesh(
-      new THREE.TorusGeometry(d.outerR + 0.02, 0.028, 10, 80),
-      ringSteel,
-    );
-    snapRing.position.z = d.width * 0.3;
-    bearingGroup.add(snapRing);
-  }
-
-  // ── Slot 10: Bearing Housing (the cast collar the bearing presses into) ──
-  if (partsCount >= 10) {
-    const housing = new THREE.Mesh(
-      new THREE.TorusGeometry(d.outerR + 0.15, 0.1, 14, 80),
-      new THREE.MeshStandardMaterial({
-        color: 0x55606e, metalness: 0.55, roughness: 0.62, envMapIntensity: 1.1,
-      }),
-    );
-    bearingGroup.add(housing);
   }
 
   // ── Golden Master Precision Ring Aura (Installed if partsCount === 10) ──

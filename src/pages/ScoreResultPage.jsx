@@ -4,20 +4,7 @@ import useGameStore from '../stores/gameStore';
 import useAuthStore from '../stores/authStore';
 import BearingModelViewer from '../components/3d/BearingModelViewer';
 import homeBg from '../assets/home_bg.jpg';
-
-// 10 Bearing Components collected for each correct answer (0 to 10)
-const BEARING_PARTS = [
-  { name: 'Outer Ring', icon: '🔩', type: 'Hardened Raceway', slot: 1 },
-  { name: 'Inner Ring', icon: '⚙️', type: 'Bore & Keyway', slot: 2 },
-  { name: 'Chrome Balls', icon: '🔵', type: 'SUJ2 Spheres', slot: 3 },
-  { name: 'Retainer Cage', icon: '🛡️', type: 'Brass Separator', slot: 4 },
-  { name: 'Contact Seal', icon: '🔒', type: 'Nitrile Elastomer', slot: 5 },
-  { name: 'Synthetic Grease', icon: '🧴', type: 'Polyurea Lube', slot: 6 },
-  { name: 'Dust Shield', icon: '🛞', type: 'Labyrinth Shield', slot: 7 },
-  { name: 'Retainer Rivets', icon: '📎', type: 'Cage Alignment', slot: 8 },
-  { name: 'Snap Ring', icon: '💍', type: 'Axial Lock', slot: 9 },
-  { name: 'Bearing Housing', icon: '🏗️', type: 'Rigid Cast Support', slot: 10 },
-];
+import { BEARING_PARTS } from '../config/bearingParts';
 
 export default function ScoreResultPage() {
   const navigate = useNavigate();

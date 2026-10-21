@@ -118,9 +118,9 @@ export function createInnerRingGeometry(segments = 96) {
 }
 
 /**
- * Pressed-steel cage: a collar hugging each ball joined by bridges, merged into
- * a single draw call. The rivets are a separate geometry because the game
- * awards them as their own collectible part.
+ * Pressed-steel cage: a collar hugging each ball, joined by riveted bridges,
+ * merged into a single draw call. Riveting happens as the cage goes on, so the
+ * rivets are part of this geometry rather than a separate piece.
  */
 export function createCageGeometry() {
   const d = DIMENSIONS;
@@ -146,21 +146,7 @@ export function createCageGeometry() {
       -0.008,
     );
     parts.push(bridge);
-  }
 
-  const merged = mergeGeometries(parts.map((g) => g.toNonIndexed()));
-  parts.forEach((g) => g.dispose());
-  return merged;
-}
-
-/** The cage rivets on their own, one per bridge. */
-export function createCageRivetGeometry() {
-  const d = DIMENSIONS;
-  const parts = [];
-  const step = (Math.PI * 2) / d.ballCount;
-
-  for (let i = 0; i < d.ballCount; i++) {
-    const mid = i * step + Math.PI / 2 + step / 2;
     const rivet = new THREE.SphereGeometry(0.032, 14, 10, 0, Math.PI * 2, 0, Math.PI / 2);
     rivet.rotateX(Math.PI / 2);
     rivet.translate(
