@@ -561,31 +561,6 @@ export default function Runner3DScene({
     for (let i = 0; i < ARROW_COUNT; i++) arrowZ[i] = PLAYER_Z - 2.0 - i * ARROW_GAP;
     scene.add(arrows);
 
-    // Plant beyond the guard rails, so the sides are not empty dark. One
-    // InstancedMesh of simple cabinets and crates that scroll with the track.
-    const PROP_COUNT = 22;
-    const props = new THREE.InstancedMesh(
-      new THREE.BoxGeometry(1, 1, 1),
-      new THREE.MeshStandardMaterial({ color: 0x33415a, roughness: 0.7, metalness: 0.25 }),
-      PROP_COUNT,
-    );
-    props.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
-    props.frustumCulled = false;
-    const propX = new Float32Array(PROP_COUNT);
-    const propZ = new Float32Array(PROP_COUNT);
-    const propW = new Float32Array(PROP_COUNT);
-    const propH = new Float32Array(PROP_COUNT);
-    const propD = new Float32Array(PROP_COUNT);
-    for (let i = 0; i < PROP_COUNT; i++) {
-      const side = i % 2 === 0 ? -1 : 1;
-      propX[i] = side * (5.5 + Math.random() * 2.6);
-      propZ[i] = -44 + (i / PROP_COUNT) * 52 + Math.random() * 1.5;
-      propW[i] = 0.9 + Math.random() * 1.4;
-      propH[i] = 0.7 + Math.random() * 1.9;
-      propD[i] = 0.9 + Math.random() * 1.6;
-    }
-    scene.add(props);
-
     // Seed every instance matrix now. The animation loop renders a single
     // static frame while paused and returns before it scrolls anything, so
     // without this the tutorial frame would show all instances stacked at the
@@ -607,15 +582,6 @@ export default function Runner3DScene({
       arrows.setMatrixAt(i, dummy.matrix);
     }
     arrows.instanceMatrix.needsUpdate = true;
-
-    for (let i = 0; i < PROP_COUNT; i++) {
-      dummy.position.set(propX[i], propH[i] / 2, propZ[i]);
-      dummy.rotation.set(0, 0, 0);
-      dummy.scale.set(propW[i], propH[i], propD[i]);
-      dummy.updateMatrix();
-      props.setMatrixAt(i, dummy.matrix);
-    }
-    props.instanceMatrix.needsUpdate = true;
 
     // Guard Rails (Side safety walls)
     const railGeo = new THREE.BoxGeometry(0.15, 0.5, 80);
@@ -759,18 +725,6 @@ export default function Runner3DScene({
         }
         arrows.instanceMatrix.needsUpdate = true;
       }
-
-      for (let i = 0; i < PROP_COUNT; i++) {
-        let z = propZ[i] + advance;
-        if (z > 8) z -= 52;
-        propZ[i] = z;
-        dummy.position.set(propX[i], propH[i] / 2, z);
-        dummy.rotation.set(0, 0, 0);
-        dummy.scale.set(propW[i], propH[i], propD[i]);
-        dummy.updateMatrix();
-        props.setMatrixAt(i, dummy.matrix);
-      }
-      props.instanceMatrix.needsUpdate = true;
 
       // 1b. Drift the shop-floor motes down the bay
       motes.userData.update(syncSpeed * safeDelta, timestamp);
