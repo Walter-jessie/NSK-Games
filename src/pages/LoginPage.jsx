@@ -134,21 +134,21 @@ export default function LoginPage() {
 
         {/* Top Right Corner: Pure NSK Logo */}
         <div className="absolute top-2 right-4 sm:right-6 lg:right-10 flex items-center justify-end gap-2 z-30">
-          <img src="./nsk_logo.png" alt="NSK" className="h-5 sm:h-7 md:h-9 w-auto object-contain" />
+          <img src="./nsk_logo.png" alt="NSK" className="h-[clamp(22px,5.5vh,48px)] w-auto object-contain" />
         </div>
 
         {/* Content Wrapper: Perfectly centered in visible white area */}
         <div className="relative z-20 h-full flex flex-col justify-center pl-10 pr-6 py-2 overflow-y-auto">
-          {/* Centered Mobile-Friendly Form - Fixed Stable Width on 1080p & 2K */}
-          <div className="w-full max-w-[290px] mx-auto my-auto">
-            <h1 className="font-heading font-black text-xl tracking-wide text-slate-900 uppercase mb-2 text-left">
+          {/* Centered Mobile-Friendly Form - Scales with screen height on 360p, 720p, 1080p, and 2K */}
+          <div className="w-full max-w-[min(460px,76vh)] mx-auto my-auto">
+            <h1 className="font-heading font-black text-[clamp(18px,4.5vh,36px)] tracking-wide text-slate-900 uppercase mb-[1.5vh] text-left">
               LOGIN
             </h1>
 
-            <form onSubmit={handleSubmit} className="space-y-2">
+            <form onSubmit={handleSubmit} className="space-y-[1.5vh]">
               {/* Employee ID */}
               <div>
-                <label className="block font-mono text-[10px] font-bold tracking-wider text-slate-700 uppercase mb-0.5">
+                <label className="block font-mono text-[clamp(9px,2vh,13px)] font-bold tracking-wider text-slate-700 uppercase mb-0.5">
                   EMPLOYEE ID
                 </label>
                 <div className="relative">
@@ -158,7 +158,7 @@ export default function LoginPage() {
                     value={employeeId}
                     onChange={(e) => setEmployeeId(e.target.value)}
                     placeholder="Enter your Employee ID"
-                    className="w-full px-3 py-1.5 rounded-xl border-2 border-slate-300 bg-white text-slate-900 font-mono text-xs placeholder-slate-400 focus:outline-none focus:border-red-600 focus:ring-4 focus:ring-red-600/15 shadow-sm transition-all caret-red-600 accent-red-600"
+                    className="w-full px-3 py-[clamp(6px,1.4vh,12px)] rounded-xl border-2 border-slate-300 bg-white text-slate-900 font-mono text-[clamp(11px,2.3vh,16px)] placeholder-slate-400 focus:outline-none focus:border-red-600 focus:ring-4 focus:ring-red-600/15 shadow-sm transition-all caret-red-600 accent-red-600"
                     autoComplete="off"
                   />
                 </div>
@@ -166,7 +166,7 @@ export default function LoginPage() {
 
               {/* Department */}
               <div>
-                <label className="block font-mono text-[10px] font-bold tracking-wider text-slate-700 uppercase mb-0.5">
+                <label className="block font-mono text-[clamp(9px,2vh,13px)] font-bold tracking-wider text-slate-700 uppercase mb-0.5">
                   PLANT DEPARTMENT
                 </label>
                 <div className="relative">
@@ -174,7 +174,7 @@ export default function LoginPage() {
                     id="department-select"
                     value={department}
                     onChange={(e) => setDepartment(e.target.value)}
-                    className="w-full px-3 py-1.5 rounded-xl border-2 border-slate-300 bg-white text-slate-900 text-xs font-medium focus:outline-none focus:border-red-600 focus:ring-4 focus:ring-red-600/15 shadow-sm transition-all appearance-none cursor-pointer pr-8 accent-red-600"
+                    className="w-full px-3 py-[clamp(6px,1.4vh,12px)] rounded-xl border-2 border-slate-300 bg-white text-slate-900 text-[clamp(11px,2.3vh,16px)] font-medium focus:outline-none focus:border-red-600 focus:ring-4 focus:ring-red-600/15 shadow-sm transition-all appearance-none cursor-pointer pr-8 accent-red-600"
                   >
                     <option value="">Select your department</option>
                     {deptOptions.map((d) => (
@@ -202,7 +202,7 @@ export default function LoginPage() {
                 id="login-button"
                 type="submit"
                 disabled={isLoading}
-                className="w-full mt-1 py-2 px-4 rounded-xl bg-slate-900 hover:bg-red-600 active:bg-red-700 text-white font-heading font-black text-xs tracking-widest uppercase transition-all shadow-md shadow-slate-900/20 hover:shadow-red-600/25 focus:outline-none focus:ring-4 focus:ring-red-600/30 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 active:scale-[0.99]"
+                className="w-full mt-1 py-[clamp(8px,1.8vh,16px)] px-4 rounded-xl bg-slate-900 hover:bg-red-600 active:bg-red-700 text-white font-heading font-black text-[clamp(11px,2.3vh,16px)] tracking-widest uppercase transition-all shadow-md shadow-slate-900/20 hover:shadow-red-600/25 focus:outline-none focus:ring-4 focus:ring-red-600/30 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 active:scale-[0.99]"
               >
                 {isLoading ? (
                   <span className="flex items-center gap-2 font-mono text-xs">
@@ -219,9 +219,9 @@ export default function LoginPage() {
             </form>
 
             {/* Divider */}
-            <div className="flex items-center gap-2 my-1.5">
+            <div className="flex items-center gap-2 my-[1.2vh]">
               <div className="flex-1 h-px bg-slate-200" />
-              <span className="font-mono text-[9px] text-slate-400 uppercase tracking-widest">OR</span>
+              <span className="font-mono text-[clamp(8px,1.6vh,11px)] text-slate-400 uppercase tracking-widest">OR</span>
               <div className="flex-1 h-px bg-slate-200" />
             </div>
 
@@ -230,7 +230,7 @@ export default function LoginPage() {
               id="guest-mode-button"
               type="button"
               onClick={handleGuestLogin}
-              className="w-full py-1.5 px-3 rounded-xl border-2 border-slate-300 hover:border-red-600 bg-white hover:bg-red-50/60 active:bg-red-100/60 text-slate-700 hover:text-red-600 font-heading font-bold text-[11px] tracking-wider uppercase transition-all shadow-sm focus:outline-none focus:ring-4 focus:ring-red-600/20 flex items-center justify-center gap-1.5 active:scale-[0.99]"
+              className="w-full py-[clamp(6px,1.5vh,13px)] px-3 rounded-xl border-2 border-slate-300 hover:border-red-600 bg-white hover:bg-red-50/60 active:bg-red-100/60 text-slate-700 hover:text-red-600 font-heading font-bold text-[clamp(10px,2.1vh,14px)] tracking-wider uppercase transition-all shadow-sm focus:outline-none focus:ring-4 focus:ring-red-600/20 flex items-center justify-center gap-1.5 active:scale-[0.99]"
             >
               <span>👤</span>
               <span>GUEST MODE</span>
