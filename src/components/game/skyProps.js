@@ -13,11 +13,14 @@ import * as THREE from 'three';
  * field is a handful of draw calls with no lighting work at all.
  */
 
-// Clear of the rails at +/-4.5 and of anything the player has to read.
-const SIDE_NEAR = 7.5;
-const SIDE_FAR = 23;
-const Y_LOW = 2.2;
-const Y_HIGH = 15;
+// The question panel and answer lanes own the top ~42% of the screen, so the
+// only space actually visible is the two wedges either side of the track,
+// below the horizon. These bounds keep the field in those wedges: out past
+// the rails at +/-4.5, and low rather than up in the sky where the HUD is.
+const SIDE_NEAR = 6.5;
+const SIDE_FAR = 19;
+const Y_LOW = 0.35;
+const Y_HIGH = 4.6;
 const Z_START = -62;
 const Z_END = 6;
 const Z_SPAN = Z_END - Z_START;
