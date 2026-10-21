@@ -94,14 +94,14 @@
 /* --- briefing screen --- */
 .pa-tut { width: min(620px, 94vw); max-height: 94vh; overflow: auto; text-align: center; padding: clamp(10px, 2.5vh, 22px) clamp(14px, 4vw, 28px); }
 .pa-tut-title { margin: 0; font-size: clamp(22px, 6.4vh, 42px); letter-spacing: .04em; color: #fff; }
-.pa-tut-rule { width: clamp(52px, 9vw, 84px); height: 4px; margin: .5em auto 1em; border-radius: 2px; background: #38bdf8; }
-.pa-tut-chip { display: inline-flex; align-items: center; gap: .55em; margin-bottom: 1.3em; padding: .5em 1.1em; border-radius: 999px; background: #0d2234; border: 1px solid #1d5a7a; color: #7dd3fc; font-size: clamp(10px, 2.1vh, 15px); }
+.pa-tut-rule { width: clamp(52px, 9vw, 84px); height: 4px; margin: .5em auto 1em; border-radius: 2px; background: #ffc75a; }
+.pa-tut-chip { display: inline-flex; align-items: center; gap: .55em; margin-bottom: 1.3em; padding: .5em 1.1em; border-radius: 999px; background: #140f08; border: 1px solid #c4581d; color: #ffc75a; font-family: 'Segoe UI', Roboto, Arial, sans-serif; font-weight: 600; font-size: clamp(10px, 2.1vh, 15px); }
 .pa-tut-chip svg { width: 1.25em; height: 1.25em; flex: none; }
 .pa-tut-steps { list-style: none; margin: 0 0 1.5em; padding: 0; display: flex; flex-direction: column; gap: .7em; text-align: left; }
-.pa-tut-steps li { display: flex; align-items: center; gap: .85em; font-size: clamp(11px, 2.2vh, 16px); line-height: 1.3; color: #dbe3ec; }
+.pa-tut-steps li { display: flex; align-items: center; gap: .85em; font-family: 'Segoe UI', Roboto, Arial, sans-serif; font-weight: 400; font-size: clamp(11px, 2.2vh, 16px); line-height: 1.3; color: #dbe3ec; }
 .pa-tut-steps b { color: #fff; }
-.pa-tut-n { flex: none; width: 2em; height: 2em; display: grid; place-items: center; border-radius: 8px; background: #0e3246; border: 1px solid #1d5a7a; color: #38bdf8; font-size: .95em; }
-.pa-tut-play { width: 100%; display: flex; align-items: center; justify-content: center; gap: .7em; font: inherit; font-size: clamp(13px, 2.8vh, 19px); letter-spacing: .22em; padding: .85em 1em; border-radius: 12px; background: #0b1b2b; border: 2px solid #38bdf8; color: #fff; cursor: pointer; }
+.pa-tut-n { flex: none; width: 2em; height: 2em; display: grid; place-items: center; border-radius: 8px; background: #2a1a0b; border: 1px solid #c4581d; color: #ffc75a; font-size: .95em; }
+.pa-tut-play { width: 100%; display: flex; align-items: center; justify-content: center; gap: .7em; font: inherit; font-size: clamp(13px, 2.8vh, 19px); letter-spacing: .22em; padding: .85em 1em; border-radius: 12px; background: #1c1205; border: 2px solid #ffc75a; color: #fff; cursor: pointer; }
 .pa-tut-play svg { width: 1em; height: 1em; }
 .pa-tut-play:active { transform: scale(.985); }
-.pa-tut-back { margin-top: .8em; font: inherit; font-size: clamp(9px, 1.8vh, 12px); letter-spacing: .14em; padding: .5em 1.4em; border-radius: 8px; background: transparent; border: 1px solid #27354a; color: #8a97a8; cursor: pointer; }
+.pa-tut-back { margin-top: .8em; font: inherit; font-size: clamp(9px, 1.8vh, 12px); letter-spacing: .14em; padding: .5em 1.4em; border-radius: 8px; background: transparent; border: 1px solid #4a3a28; color: #9a8a74; cursor: pointer; }
