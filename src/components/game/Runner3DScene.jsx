@@ -276,6 +276,30 @@ function create3DGates() {
   return gatesAssembly;
 }
 
+/** Forward chevron painted on the floor of the player's lane. */
+let arrowTexture = null;
+function getArrowTexture() {
+  if (arrowTexture) return arrowTexture;
+  const c = document.createElement('canvas');
+  c.width = 64;
+  c.height = 64;
+  const ctx = c.getContext('2d');
+  ctx.fillStyle = '#7dd3fc';
+  ctx.beginPath();
+  ctx.moveTo(32, 8);
+  ctx.lineTo(58, 40);
+  ctx.lineTo(44, 40);
+  ctx.lineTo(44, 56);
+  ctx.lineTo(20, 56);
+  ctx.lineTo(20, 40);
+  ctx.lineTo(6, 40);
+  ctx.closePath();
+  ctx.fill();
+  arrowTexture = new THREE.CanvasTexture(c);
+  arrowTexture.colorSpace = THREE.SRGBColorSpace;
+  return arrowTexture;
+}
+
 /**
  * Shop-floor atmosphere: fine steel motes drifting down the bay with a few
  * warm grinding sparks among them.
@@ -434,11 +458,13 @@ export default function Runner3DScene({
     container.appendChild(renderer.domElement);
 
     // 4. Industrial Factory Floor & 4 Lanes
-    const floorGeo = new THREE.PlaneGeometry(12, 80, 1, 40);
+    // Flat plane: the old 40 length segments produced 80 triangles for a
+    // surface that only ever needed two.
+    const floorGeo = new THREE.PlaneGeometry(12, 80);
     const floorMat = new THREE.MeshStandardMaterial({
-      color: 0x0c101d,
-      roughness: 0.35,
-      metalness: 0.7,
+      color: 0x111726,
+      roughness: 0.4,
+      metalness: 0.5,
     });
     const floor = new THREE.Mesh(floorGeo, floorMat);
     floor.rotation.x = -Math.PI / 2;
@@ -446,7 +472,7 @@ export default function Runner3DScene({
     scene.add(floor);
     floorRef.current = floor;
 
-    // Lane Dividers (Luminous yellow/blue highway markings)
+    // Lane Dividers
     const dividerGeo = new THREE.BoxGeometry(0.04, 0.015, 80);
     const dividerMat = new THREE.MeshBasicMaterial({
       color: 0x1e3a8a,
@@ -459,26 +485,137 @@ export default function Runner3DScene({
       scene.add(divider);
     });
 
-    // Animated highway road dashes spaced at exact 3.8m intervals (38m / 10 = 3.8m)
-    const roadDashes = [];
-    const dashGeo = new THREE.BoxGeometry(0.09, 0.025, 1.6);
+    // Factory safety marking down both edges of the bay, with the dark keyline
+    // a painted floor line always carries.
+    const edgeMat = new THREE.MeshStandardMaterial({
+      color: 0xf2b705,
+      roughness: 0.65,
+      metalness: 0.1,
+      emissive: 0x6b4e00,
+      emissiveIntensity: 0.6,
+    });
+    const keylineMat = new THREE.MeshBasicMaterial({ color: 0x0b0f18 });
+    [-4.18, 4.18].forEach((ex) => {
+      const edge = new THREE.Mesh(new THREE.BoxGeometry(0.26, 0.016, 80), edgeMat);
+      edge.position.set(ex, 0.012, -25);
+      scene.add(edge);
+
+      const keyline = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.018, 80), keylineMat);
+      keyline.position.set(ex + (ex < 0 ? 0.18 : -0.18), 0.013, -25);
+      scene.add(keyline);
+    });
+
+    // Animated highway road dashes at 3.8m intervals.
+    // One InstancedMesh: this used to be 45 separate meshes, so 45 draw calls
+    // and 45 transform updates every frame.
+    const DASH_ROWS = 15;
+    const DASH_LANES = [-2.0, 0.0, 2.0];
+    const DASH_COUNT = DASH_ROWS * DASH_LANES.length;
     const dashMat = new THREE.MeshBasicMaterial({
       color: 0x38bdf8,
       transparent: true,
       opacity: 0.85,
     });
-    for (let z = -43.6; z <= 12; z += 3.8) {
-      [-2.0, 0.0, 2.0].forEach((dx) => {
-        const dash = new THREE.Mesh(dashGeo, dashMat);
-        dash.position.set(dx, 0.02, z);
-        scene.add(dash);
-        roadDashes.push(dash);
-      });
+    const dashes = new THREE.InstancedMesh(
+      new THREE.BoxGeometry(0.09, 0.025, 1.6),
+      dashMat,
+      DASH_COUNT,
+    );
+    dashes.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+    dashes.frustumCulled = false;
+    const dashX = new Float32Array(DASH_COUNT);
+    const dashZ = new Float32Array(DASH_COUNT);
+    const dummy = new THREE.Object3D();
+    let di = 0;
+    for (let row = 0; row < DASH_ROWS; row++) {
+      for (const dx of DASH_LANES) {
+        dashX[di] = dx;
+        dashZ[di] = -43.6 + row * 3.8;
+        di++;
+      }
     }
+    scene.add(dashes);
+
+    // Forward chevrons painted ahead of the player, in whichever lane the
+    // player is in. Three instances, one draw call.
+    const ARROW_COUNT = 3;
+    const ARROW_GAP = 3.2;
+    const ARROW_SPAN = ARROW_COUNT * ARROW_GAP;
+    const arrows = new THREE.InstancedMesh(
+      new THREE.PlaneGeometry(0.62, 0.62),
+      new THREE.MeshBasicMaterial({
+        map: getArrowTexture(),
+        transparent: true,
+        opacity: 0.55,
+        depthWrite: false,
+      }),
+      ARROW_COUNT,
+    );
+    arrows.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+    arrows.frustumCulled = false;
+    const arrowZ = new Float32Array(ARROW_COUNT);
+    for (let i = 0; i < ARROW_COUNT; i++) arrowZ[i] = PLAYER_Z - 2.2 - i * ARROW_GAP;
+    scene.add(arrows);
+
+    // Plant beyond the guard rails, so the sides are not empty dark. One
+    // InstancedMesh of simple cabinets and crates that scroll with the track.
+    const PROP_COUNT = 22;
+    const props = new THREE.InstancedMesh(
+      new THREE.BoxGeometry(1, 1, 1),
+      new THREE.MeshStandardMaterial({ color: 0x33415a, roughness: 0.7, metalness: 0.25 }),
+      PROP_COUNT,
+    );
+    props.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+    props.frustumCulled = false;
+    const propX = new Float32Array(PROP_COUNT);
+    const propZ = new Float32Array(PROP_COUNT);
+    const propW = new Float32Array(PROP_COUNT);
+    const propH = new Float32Array(PROP_COUNT);
+    const propD = new Float32Array(PROP_COUNT);
+    for (let i = 0; i < PROP_COUNT; i++) {
+      const side = i % 2 === 0 ? -1 : 1;
+      propX[i] = side * (5.5 + Math.random() * 2.6);
+      propZ[i] = -44 + (i / PROP_COUNT) * 52 + Math.random() * 1.5;
+      propW[i] = 0.9 + Math.random() * 1.4;
+      propH[i] = 0.7 + Math.random() * 1.9;
+      propD[i] = 0.9 + Math.random() * 1.6;
+    }
+    scene.add(props);
+
+    // Seed every instance matrix now. The animation loop renders a single
+    // static frame while paused and returns before it scrolls anything, so
+    // without this the tutorial frame would show all instances stacked at the
+    // origin.
+    for (let i = 0; i < DASH_COUNT; i++) {
+      dummy.position.set(dashX[i], 0.02, dashZ[i]);
+      dummy.rotation.set(0, 0, 0);
+      dummy.scale.set(1, 1, 1);
+      dummy.updateMatrix();
+      dashes.setMatrixAt(i, dummy.matrix);
+    }
+    dashes.instanceMatrix.needsUpdate = true;
+
+    for (let i = 0; i < ARROW_COUNT; i++) {
+      dummy.position.set(currentXRef.current, 0.022, arrowZ[i]);
+      dummy.rotation.set(-Math.PI / 2, 0, 0);
+      dummy.scale.set(1, 1, 1);
+      dummy.updateMatrix();
+      arrows.setMatrixAt(i, dummy.matrix);
+    }
+    arrows.instanceMatrix.needsUpdate = true;
+
+    for (let i = 0; i < PROP_COUNT; i++) {
+      dummy.position.set(propX[i], propH[i] / 2, propZ[i]);
+      dummy.rotation.set(0, 0, 0);
+      dummy.scale.set(propW[i], propH[i], propD[i]);
+      dummy.updateMatrix();
+      props.setMatrixAt(i, dummy.matrix);
+    }
+    props.instanceMatrix.needsUpdate = true;
 
     // Guard Rails (Side safety walls)
     const railGeo = new THREE.BoxGeometry(0.15, 0.5, 80);
-    const railMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, metalness: 0.85, roughness: 0.25 });
+    const railMat = new THREE.MeshStandardMaterial({ color: 0x27354a, metalness: 0.4, roughness: 0.5 });
     [-4.5, 4.5].forEach((rx) => {
       const rail = new THREE.Mesh(railGeo, railMat);
       rail.position.set(rx, 0.25, -25);
@@ -513,18 +650,6 @@ export default function Runner3DScene({
     playerContainer.name = 'PlayerContainer';
     playerContainer.position.set(currentXRef.current, 0, PLAYER_Z);
 
-    // Glowing ground shadow / track aura beneath runner
-    const shadowGeo = new THREE.PlaneGeometry(1.3, 1.3);
-    const shadowMat = new THREE.MeshBasicMaterial({
-      color: 0x38bdf8,
-      transparent: true,
-      opacity: 0.45,
-      blending: THREE.AdditiveBlending,
-    });
-    const shadowMesh = new THREE.Mesh(shadowGeo, shadowMat);
-    shadowMesh.rotation.x = -Math.PI / 2;
-    shadowMesh.position.y = 0.02;
-    playerContainer.add(shadowMesh);
 
     scene.add(playerContainer);
     playerRef.current = playerContainer;
@@ -600,13 +725,46 @@ export default function Runner3DScene({
       // Exact synchronized 3D speed matching portal gate velocity
       const syncSpeed = (38 / 78) * (speed * 1000);
 
-      // 1. Move road dashes at exact synchronized speed
-      roadDashes.forEach((dash) => {
-        dash.position.z += syncSpeed * safeDelta;
-        if (dash.position.z > 9.6) {
-          dash.position.z -= 53.2; // 14 intervals * 3.8m = 53.2m
-        }
-      });
+      // 1. Scroll the track. Dashes, chevrons and side plant are each a single
+      // InstancedMesh, so this writes matrices rather than touching the scene
+      // graph, and each costs one draw call however many pieces it shows.
+      const advance = syncSpeed * safeDelta;
+
+      for (let i = 0; i < DASH_COUNT; i++) {
+        let z = dashZ[i] + advance;
+        if (z > 9.6) z -= 53.2; // 14 intervals * 3.8m
+        dashZ[i] = z;
+        dummy.position.set(dashX[i], 0.02, z);
+        dummy.rotation.set(0, 0, 0);
+        dummy.scale.set(1, 1, 1);
+        dummy.updateMatrix();
+        dashes.setMatrixAt(i, dummy.matrix);
+      }
+      dashes.instanceMatrix.needsUpdate = true;
+
+      for (let i = 0; i < ARROW_COUNT; i++) {
+        let z = arrowZ[i] + advance;
+        if (z > PLAYER_Z + 0.6) z -= ARROW_SPAN;
+        arrowZ[i] = z;
+        dummy.position.set(currentXRef.current, 0.022, z);
+        dummy.rotation.set(-Math.PI / 2, 0, 0);
+        dummy.scale.set(1, 1, 1);
+        dummy.updateMatrix();
+        arrows.setMatrixAt(i, dummy.matrix);
+      }
+      arrows.instanceMatrix.needsUpdate = true;
+
+      for (let i = 0; i < PROP_COUNT; i++) {
+        let z = propZ[i] + advance;
+        if (z > 8) z -= 52;
+        propZ[i] = z;
+        dummy.position.set(propX[i], propH[i] / 2, z);
+        dummy.rotation.set(0, 0, 0);
+        dummy.scale.set(propW[i], propH[i], propD[i]);
+        dummy.updateMatrix();
+        props.setMatrixAt(i, dummy.matrix);
+      }
+      props.instanceMatrix.needsUpdate = true;
 
       // 1b. Drift the shop-floor motes down the bay
       motes.userData.update(syncSpeed * safeDelta, timestamp);
