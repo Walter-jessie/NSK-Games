@@ -62,121 +62,140 @@ const GATE_SPAWN_Z = -38;
 const GATE_PASS_Z = 0.5;
 
 /**
- * Creates high-res texture for lane letters (A, B, C, D) on 3D Gate Signs
+ * Sign face for one lane: a lit plate carrying the lane letter.
+ * Drawn wide rather than square so it reads as plant signage bolted to a
+ * gantry instead of a floating cube.
  */
-function createLetterTexture(letter, colorCss = '#38BDF8', bgCss = '#080c18') {
+function createLaneSignTexture(letter, colorCss) {
   const canvas = document.createElement('canvas');
-  canvas.width = 256;
+  canvas.width = 512;
   canvas.height = 256;
   const ctx = canvas.getContext('2d');
 
-  // Background rounded rect
-  ctx.fillStyle = bgCss;
-  ctx.fillRect(0, 0, 256, 256);
+  // Plate
+  ctx.fillStyle = '#0d1522';
+  ctx.fillRect(0, 0, 512, 256);
 
-  // Outer Neon Glow Border
-  ctx.strokeStyle = colorCss;
-  ctx.lineWidth = 14;
-  ctx.strokeRect(8, 8, 240, 240);
+  // Lit face in the lane colour, inset so the plate edge stays visible
+  ctx.fillStyle = colorCss;
+  ctx.fillRect(14, 14, 484, 228);
 
-  // Inner subtle box
-  ctx.fillStyle = `${colorCss}25`;
-  ctx.fillRect(20, 20, 216, 216);
+  // Darker reading panel behind the letter, for contrast against the colour
+  ctx.fillStyle = 'rgba(6, 11, 20, 0.92)';
+  ctx.fillRect(150, 34, 212, 188);
 
-  // Text
-  ctx.font = '900 140px "Outfit", sans-serif';
-  ctx.fillStyle = '#FFFFFF';
+  // Bolt heads at the corners
+  ctx.fillStyle = '#0d1522';
+  for (const [bx, by] of [[36, 36], [476, 36], [36, 220], [476, 220]]) {
+    ctx.beginPath();
+    ctx.arc(bx, by, 9, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  ctx.font = '900 170px "Outfit", system-ui, sans-serif';
+  ctx.fillStyle = '#ffffff';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-  ctx.shadowColor = colorCss;
-  ctx.shadowBlur = 18;
-  ctx.fillText(letter, 128, 134);
+  ctx.fillText(letter, 256, 136);
 
   const texture = new THREE.CanvasTexture(canvas);
+  texture.colorSpace = THREE.SRGBColorSpace;
+  texture.anisotropy = 4;
   texture.needsUpdate = true;
   return texture;
 }
 
 /**
- * Creates 4 3D Portal Gates (A, B, C, D) with distinct neon colors
+ * Overhead lane gantry.
+ *
+ * One beam spanning all four lanes on two end posts, the way a real plant
+ * marks bays, rather than four separate free-standing arches. Each lane gets a
+ * lit sign on the beam face and a blade hanging between it and its neighbour,
+ * so the lanes read without a translucent sheet across the track.
  */
 function create3DGates() {
   const gatesAssembly = new THREE.Group();
   gatesAssembly.name = 'GatesAssembly';
 
-  const pillarMat = new THREE.MeshStandardMaterial({
-    color: 0x1e2638,
-    metalness: 0.85,
-    roughness: 0.25,
-  });
+  const SPAN = 8.4;          // clears lanes at -3 .. 3 with a margin
+  const BEAM_Y = 2.95;
+  const POST_X = SPAN / 2;
 
-  const archMat = new THREE.MeshStandardMaterial({
-    color: 0x2d3748,
-    metalness: 0.9,
-    roughness: 0.2,
-  });
+  // Painted steel, not bare metal: this scene has no environment map, and a
+  // high-metalness material with nothing to reflect renders almost black.
+  const steel = new THREE.MeshStandardMaterial({ color: 0xb9c4d2, metalness: 0.25, roughness: 0.5 });
+  const steelDark = new THREE.MeshStandardMaterial({ color: 0x5b697c, metalness: 0.2, roughness: 0.58 });
+  const hazard = new THREE.MeshStandardMaterial({ color: 0xf2b705, metalness: 0.3, roughness: 0.6 });
 
-  const gateWidth = 1.82;
-  const gateHeight = 2.45;
-  const postRadius = 0.09;
+  // ── Main beam: a box section with a lower flange, so it reads as structure ──
+  const beam = new THREE.Mesh(new THREE.BoxGeometry(SPAN, 0.42, 0.34), steel);
+  beam.position.set(0, BEAM_Y, 0);
+  gatesAssembly.add(beam);
 
+  const flange = new THREE.Mesh(new THREE.BoxGeometry(SPAN, 0.1, 0.52), steelDark);
+  flange.position.set(0, BEAM_Y - 0.26, 0);
+  gatesAssembly.add(flange);
+
+  // ── End posts, with hazard banding at knee height ──
+  for (const side of [-1, 1]) {
+    const post = new THREE.Mesh(new THREE.BoxGeometry(0.28, BEAM_Y + 0.2, 0.28), steel);
+    post.position.set(side * POST_X, (BEAM_Y + 0.2) / 2, 0);
+    gatesAssembly.add(post);
+
+    const band = new THREE.Mesh(new THREE.BoxGeometry(0.32, 0.34, 0.32), hazard);
+    band.position.set(side * POST_X, 0.55, 0);
+    gatesAssembly.add(band);
+
+    // Gusset tying post to beam
+    const gusset = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.5, 0.2), steelDark);
+    gusset.position.set(side * (POST_X - 0.32), BEAM_Y - 0.5, 0);
+    gusset.rotation.z = side * Math.PI / 4;
+    gatesAssembly.add(gusset);
+  }
+
+  // ── Blades hanging between lanes, so the four openings read clearly ──
+  const bladeGeo = new THREE.BoxGeometry(0.07, 1.5, 0.22);
+  for (const x of [-2, 0, 2]) {
+    const blade = new THREE.Mesh(bladeGeo, steelDark);
+    blade.position.set(x, BEAM_Y - 1.06, 0);
+    gatesAssembly.add(blade);
+  }
+
+  // ── Per-lane signage and floor marking ──
   LANE_X.forEach((x, idx) => {
-    const gateGroup = new THREE.Group();
-    gateGroup.position.x = x;
     const label = LANE_LABELS[idx];
     const theme = LANE_COLORS[label];
 
-    // Left Column
-    const leftCol = new THREE.Mesh(new THREE.CylinderGeometry(postRadius, postRadius, gateHeight, 16), pillarMat);
-    leftCol.position.set(-gateWidth / 2, gateHeight / 2, 0);
-    gateGroup.add(leftCol);
-
-    // Right Column
-    const rightCol = new THREE.Mesh(new THREE.CylinderGeometry(postRadius, postRadius, gateHeight, 16), pillarMat);
-    rightCol.position.set(gateWidth / 2, gateHeight / 2, 0);
-    gateGroup.add(rightCol);
-
-    // Top Header Crossbar
-    const header = new THREE.Mesh(new THREE.BoxGeometry(gateWidth + 0.15, 0.24, 0.26), archMat);
-    header.position.set(0, gateHeight + 0.1, 0);
-    gateGroup.add(header);
-
-    // Neon Accent Lightstrip on Crossbar
-    const neonStripMat = new THREE.MeshBasicMaterial({ color: theme.hex });
-    const neonStrip = new THREE.Mesh(new THREE.BoxGeometry(gateWidth, 0.05, 0.28), neonStripMat);
-    neonStrip.position.set(0, gateHeight + 0.1, 0);
-    gateGroup.add(neonStrip);
-
-    // Floating 3D Glowing Sign Box on top
-    const letterTex = createLetterTexture(label, theme.css);
-    const signMat = new THREE.MeshBasicMaterial({
-      map: letterTex,
-      transparent: true,
+    // Lit sign on the beam face. emissiveMap keeps it readable at distance
+    // without the flat unlit look of a basic material.
+    const tex = createLaneSignTexture(label, theme.css);
+    const signMat = new THREE.MeshStandardMaterial({
+      map: tex,
+      emissive: 0xffffff,
+      emissiveMap: tex,
+      emissiveIntensity: 1.15,
+      metalness: 0.1,
+      roughness: 0.6,
     });
-    const signMesh = new THREE.Mesh(new THREE.BoxGeometry(0.76, 0.76, 0.14), [
-      pillarMat,
-      pillarMat,
-      pillarMat,
-      pillarMat,
-      signMat, // Front face with letter
-      signMat, // Back face
+    const sign = new THREE.Mesh(new THREE.BoxGeometry(1.44, 0.72, 0.1), [
+      steelDark, steelDark, steelDark, steelDark, signMat, signMat,
     ]);
-    signMesh.position.set(0, gateHeight + 0.62, 0);
-    gateGroup.add(signMesh);
+    sign.position.set(x, BEAM_Y + 0.52, 0.06);
+    gatesAssembly.add(sign);
 
-    // Translucent Energy Barrier / Portal Sheet
-    const barrierMat = new THREE.MeshBasicMaterial({
-      color: theme.hex,
-      transparent: true,
-      opacity: 0.25,
-      side: THREE.DoubleSide,
-      blending: THREE.AdditiveBlending,
-    });
-    const barrier = new THREE.Mesh(new THREE.PlaneGeometry(gateWidth - 0.1, gateHeight - 0.1), barrierMat);
-    barrier.position.set(0, gateHeight / 2, 0);
-    gateGroup.add(barrier);
+    // Short hanger from beam to sign
+    const hanger = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.2, 0.08), steelDark);
+    hanger.position.set(x, BEAM_Y + 0.22, 0.06);
+    gatesAssembly.add(hanger);
 
-    gatesAssembly.add(gateGroup);
+    // Lane colour laid on the floor, which is what the player actually aims at
+    const strip = new THREE.Mesh(
+      new THREE.PlaneGeometry(1.7, 0.46),
+      new THREE.MeshBasicMaterial({ color: theme.hex, transparent: true, opacity: 0.85 }),
+    );
+    strip.rotation.x = -Math.PI / 2;
+    strip.position.set(x, 0.03, 0);
+    gatesAssembly.add(strip);
   });
 
   return gatesAssembly;
