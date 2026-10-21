@@ -64,7 +64,7 @@ export function halo(size, color, opacity = 0.6) {
 }
 
 // Electric arcs + hot sparks crackling over an attacked machine.
-export function createSparks({ arcs = 3, sparks = 24, radius = 1.6, height = 2.2 } = {}) {
+export function createSparks({ arcs = 5, sparks = 46, radius = 1.8, height = 2.4 } = {}) {
   const group = new THREE.Group();
   group.name = 'sparks';
   const SEG = 7;
@@ -84,7 +84,7 @@ export function createSparks({ arcs = 3, sparks = 24, radius = 1.6, height = 2.2
   sGeo.setAttribute('position', new THREE.BufferAttribute(sPos, 3));
   const vel = new Float32Array(sparks * 3);
   const life = new Float32Array(sparks);
-  const sMat = new THREE.PointsMaterial({ color: '#ffb547', size: 0.14, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, toneMapped: false });
+  const sMat = new THREE.PointsMaterial({ color: '#ffd27a', size: 0.2, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, toneMapped: false });
   const points = new THREE.Points(sGeo, sMat);
   points.frustumCulled = false;
   group.add(points);
@@ -178,4 +178,63 @@ export function mergedHalos(points, size, color, opacity = 0.5) {
   }));
   p.name = 'halos';
   return p;
+}
+
+// Bright ring plus a sparkle burst, pooled. Used when a bearing lands and
+// again when it is picked up, so both moments read without new geometry.
+export function createPop(scene, { color = '#ffd27a', grains = 26 } = {}) {
+  const ring = new THREE.Mesh(
+    new THREE.RingGeometry(0.25, 0.42, 28),
+    new THREE.MeshBasicMaterial({ color, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide, toneMapped: false }),
+  );
+  ring.rotation.x = -Math.PI / 2;
+  ring.visible = false;
+  scene.add(ring);
+
+  const pos = new Float32Array(grains * 3);
+  const vel = new Float32Array(grains * 3);
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+  const pts = new THREE.Points(geo, new THREE.PointsMaterial({
+    color, size: 0.17, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, toneMapped: false,
+  }));
+  pts.frustumCulled = false;
+  pts.visible = false;
+  scene.add(pts);
+
+  let life = 0;
+  let span = 0.5;
+  return {
+    fire(x, z, { scale = 1, seconds = 0.5 } = {}) {
+      ring.position.set(x, 0.09, z);
+      ring.scale.setScalar(scale);
+      ring.visible = true;
+      for (let i = 0; i < grains; i++) {
+        pos.set([x, 0.3, z], i * 3);
+        const a = Math.random() * Math.PI * 2;
+        const sp = (1.6 + Math.random() * 3.4) * scale;
+        vel.set([Math.cos(a) * sp, 2.2 + Math.random() * 3.4, Math.sin(a) * sp], i * 3);
+      }
+      geo.attributes.position.needsUpdate = true;
+      pts.visible = true;
+      span = seconds;
+      life = seconds;
+    },
+    update(dt) {
+      if (life <= 0) return;
+      life -= dt;
+      const t = 1 - life / span;
+      ring.scale.setScalar(ring.scale.x + dt * 7);
+      ring.material.opacity = Math.max(0, 1 - t);
+      for (let i = 0; i < grains; i++) {
+        vel[i * 3 + 1] -= 11 * dt;
+        pos[i * 3] += vel[i * 3] * dt;
+        pos[i * 3 + 1] = Math.max(0.05, pos[i * 3 + 1] + vel[i * 3 + 1] * dt);
+        pos[i * 3 + 2] += vel[i * 3 + 2] * dt;
+      }
+      geo.attributes.position.needsUpdate = true;
+      pts.material.opacity = Math.max(0, 1 - t);
+      if (life <= 0) { ring.visible = false; pts.visible = false; }
+    },
+  };
 }

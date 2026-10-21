@@ -361,20 +361,25 @@ export function createArena(layout) {
 // map only on the high tier), lamp pools faked with floor decals, and a small
 // pool of red point lights handed to whichever machines are under attack.
 export function addArenaLights(scene, renderer, tier) {
-  scene.background = new THREE.Color('#090b10');
-  scene.fog = new THREE.Fog('#090b10', 38, 90);
+  // Lit like a working bay rather than a night scene: the ground used to sit
+  // at #090b10 with the fog the same colour, so everything past the player
+  // faded to black and the floor markings had nothing to read against.
+  scene.background = new THREE.Color('#171d2a');
+  scene.fog = new THREE.Fog('#171d2a', 52, 115);
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.05;
+  renderer.toneMappingExposure = 1.38;
   if (tier.envReflections) {
     const pmrem = new THREE.PMREMGenerator(renderer);
     scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
-    scene.environmentIntensity = 0.22;
+    scene.environmentIntensity = 0.55;
   }
-  scene.add(new THREE.HemisphereLight('#5d6e8c', '#1c140e', tier.envReflections ? 0.9 : 1.3));
-  const sun = new THREE.DirectionalLight('#ffd9ac', tier.envReflections ? 2.4 : 2.7);
+  // The old ground colour (#1c140e) was almost black, so nothing bounced back
+  // up into the undersides of the rigs and crates.
+  scene.add(new THREE.HemisphereLight('#9fb6d8', '#3a3126', tier.envReflections ? 1.5 : 1.9));
+  const sun = new THREE.DirectionalLight('#ffe2bd', tier.envReflections ? 3.0 : 3.3);
   sun.position.set(-14, 26, 12);
   scene.add(sun, sun.target);
-  const rim = new THREE.DirectionalLight('#6f8fd6', 0.6);
+  const rim = new THREE.DirectionalLight('#8fb0e8', 1.0);
   rim.position.set(18, 14, -20);
   scene.add(rim);
   if (tier.shadows) {

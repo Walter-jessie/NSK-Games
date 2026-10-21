@@ -329,7 +329,7 @@ export function createArenaGame(layout, { seed = Date.now(), extraColliders = []
       if (dist(state.player.x, state.player.z, pk.x, pk.z) <= R.pickupRange) {
         pk.collected = true;
         state.bearings += 1;
-        emit('bearingCollected', { pickup: pk.id, bearings: state.bearings });
+        emit('bearingCollected', { pickup: pk.id, bearings: state.bearings, x: pk.x, z: pk.z });
       }
     }
 

@@ -6,7 +6,7 @@ import { createArena, addArenaLights, blobShadow } from '../scene/arena.js';
 import { MACHINE_FX } from '../scene/machines.js';
 import { createWorker, createDrone, createBearingPickup } from '../scene/characters.js';
 import { outlineResolution } from '../scene/toon.js';
-import { radialTexture } from '../scene/fx.js';
+import { createPop, radialTexture } from '../scene/fx.js';
 import { guessTier, createFpsGuard, TIERS } from '../scene/quality.js';
 import { createArenaGame } from './arenaGameStore.js';
 
@@ -196,6 +196,9 @@ export class GameEngine {
     this.smoke = new Map();
     this.splinters = splinterBurst(scene);
     this.repairFx = repairRing(scene);
+    // Landing and collecting a bearing both had no feedback at all.
+    this.landFx = createPop(scene, { color: '#ffd27a', grains: 22 });
+    this.collectFx = createPop(scene, { color: '#46f08a', grains: 30 });
 
     this.fpsGuard = createFpsGuard(() => this.downgrade());
     this.camFocus = new THREE.Vector3();
@@ -300,7 +303,11 @@ export class GameEngine {
   }
 
   handleEvent(e) {
-    if (e.type === 'crateSmashed') {
+    if (e.type === 'bearingLanded') {
+      this.landFx.fire(e.x, e.z, { scale: 0.8, seconds: 0.45 });
+    } else if (e.type === 'bearingCollected') {
+      this.collectFx.fire(e.x, e.z, { scale: 1.15, seconds: 0.5 });
+    } else if (e.type === 'crateSmashed') {
       this.arena.crates.smash(e.index, e.nsk);
       this.splinters.fire(e.x, e.z, e.nsk);
     } else if (e.type === 'machineRepaired') {
@@ -462,6 +469,8 @@ export class GameEngine {
     for (const v of this.pickupById.values()) v.update(dt, t);
     this.splinters.update(dt);
     this.repairFx.update(dt);
+    this.landFx.update(dt);
+    this.collectFx.update(dt);
     for (const fn of this.smoke.values()) fn(dt);
 
     // camera follows with a little lead in the run direction
