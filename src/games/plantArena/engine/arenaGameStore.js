@@ -18,6 +18,10 @@ export const RULES = {
   restrikeDelay: 2,
   savedSeconds: 2.5,
   repairLockSeconds: 0.6,
+  scatterSpeed: 3.4,      // how hard a bearing is thrown clear of the crate
+  scatterMin: 1.5,        // metres it must travel before it can be picked up
+  scatterGravity: 11,
+  scatterBounce: 0.42,
   benchHalf: [2.3, 1.8],
   crateRadius: 0.62,
   points: { repair: 250, perTimerSecond: 20, perIntegrity: 10 },
@@ -41,6 +45,7 @@ function mulberry32(seed) {
 }
 
 const dist = (ax, az, bx, bz) => Math.hypot(ax - bx, az - bz);
+const clamp = (v, lo, hi) => (v < lo ? lo : v > hi ? hi : v);
 
 // Distance from a point to the edge of an axis-aligned box (0 when inside).
 function boxDistance(px, pz, cx, cz, hw, hd) {
@@ -179,7 +184,9 @@ export function createArenaGame(layout, { seed = Date.now(), extraColliders = []
     }
     let crate = null;
     for (const c of state.crates) {
-      if (!c.nsk || c.smashed) continue;
+      // Decoys offer the button too. Finding out a crate is empty by smashing
+      // it is the scavenger hunt; skipping them gave the answer away.
+      if (c.smashed) continue;
       const d = dist(p.x, p.z, c.x, c.z);
       if (d <= R.smashRange && (!crate || d < crate.d)) crate = { d, c };
     }
@@ -193,8 +200,28 @@ export function createArenaGame(layout, { seed = Date.now(), extraColliders = []
     if (a.kind === 'smash') {
       const c = state.crates.find((x) => x.id === a.crate);
       c.smashed = true;
-      state.pickups.push({ id: nextPickup++, x: c.x, z: c.z, collected: false });
-      emit('crateSmashed', { crate: c.id, index: c.index, x: c.x, z: c.z });
+
+      if (c.nsk) {
+        // Throw the bearing clear so it has to be chased down rather than
+        // appearing under the player's feet.
+        const angle = rand() * Math.PI * 2;
+        const speed = R.scatterSpeed * (0.75 + rand() * 0.5);
+        state.pickups.push({
+          id: nextPickup++,
+          x: c.x,
+          z: c.z,
+          y: 0.9,
+          vx: Math.cos(angle) * speed,
+          vz: Math.sin(angle) * speed,
+          vy: 3.1,
+          settled: false,
+          travelled: 0,
+          collected: false,
+        });
+      }
+
+      emit('crateSmashed', { crate: c.id, index: c.index, x: c.x, z: c.z, nsk: c.nsk });
+      if (!c.nsk) emit('crateEmpty', { crate: c.id, x: c.x, z: c.z });
       return true;
     }
     if (a.kind === 'repair') {
@@ -253,9 +280,50 @@ export function createArenaGame(layout, { seed = Date.now(), extraColliders = []
     state.repairLock = Math.max(0, state.repairLock - dt);
     movePlayer(dt, input);
 
-    // pickups
+    // pickups: tumble out of the crate, then sit waiting to be walked over
     for (const pk of state.pickups) {
-      if (pk.collected || state.bearings >= R.backpackSize) continue;
+      if (pk.collected) continue;
+
+      if (!pk.settled) {
+        const px = pk.x;
+        const pz = pk.z;
+        pk.x += pk.vx * dt;
+        pk.z += pk.vz * dt;
+        pk.vy -= R.scatterGravity * dt;
+        pk.y += pk.vy * dt;
+        pk.travelled += dist(px, pz, pk.x, pk.z);
+
+        // Keep it inside the arena and off the benches, or it lands unreachable.
+        pk.x = clamp(pk.x, bounds.minX, bounds.maxX);
+        pk.z = clamp(pk.z, bounds.minZ, bounds.maxZ);
+        for (const col of colliders) {
+          if (boxDistance(pk.x, pk.z, col.x, col.z, col.hw + 0.3, col.hd + 0.3) === 0) {
+            pk.vx *= -0.5;
+            pk.vz *= -0.5;
+            pk.x = px;
+            pk.z = pz;
+            break;
+          }
+        }
+
+        if (pk.y <= 0.22) {
+          pk.y = 0.22;
+          if (Math.abs(pk.vy) < 1.2 && pk.travelled >= R.scatterMin) {
+            pk.settled = true;
+            pk.vx = 0;
+            pk.vz = 0;
+            pk.vy = 0;
+            emit('bearingLanded', { pickup: pk.id, x: pk.x, z: pk.z });
+          } else {
+            pk.vy = Math.abs(pk.vy) * R.scatterBounce;
+            pk.vx *= 0.62;
+            pk.vz *= 0.62;
+          }
+        }
+        continue;
+      }
+
+      if (state.bearings >= R.backpackSize) continue;
       if (dist(state.player.x, state.player.z, pk.x, pk.z) <= R.pickupRange) {
         pk.collected = true;
         state.bearings += 1;

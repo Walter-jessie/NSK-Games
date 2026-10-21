@@ -43,6 +43,12 @@ test('smash crate, collect bearing, repair advances the wave and scores', () => 
   step(g, 0.1);
   assert.equal(g.state.action.kind, 'smash');
   g.act();
+  // The bearing is thrown clear, so it has to be chased down.
+  step(g, 2);
+  const pk = g.state.pickups[0];
+  assert.ok(pk.settled, 'bearing should have come to rest');
+  assert.equal(g.state.bearings, 0, 'not collected until the player reaches it');
+  g.state.player.x = pk.x; g.state.player.z = pk.z;
   step(g, 0.1);
   assert.equal(g.state.bearings, 1);
   const target = g.state.machines.find((m) => m.status === 'attacked');
@@ -89,9 +95,46 @@ test('backpack holds at most 5 bearings', () => {
   g.start();
   for (const c of g.state.crates.filter((x) => x.nsk).slice(0, 7)) {
     g.state.player.x = c.x + 1.2; g.state.player.z = c.z;
-    step(g, 0.1); g.act(); step(g, 0.1);
+    step(g, 0.1); g.act();
+    // Each bearing is thrown clear, so let it land and then walk onto it.
+    step(g, 2);
+    const pk = g.state.pickups.find((k) => !k.collected && k.settled);
+    if (pk) { g.state.player.x = pk.x; g.state.player.z = pk.z; step(g, 0.1); }
   }
   assert.equal(g.state.bearings, 5);
+});
+
+test('a decoy crate can be smashed and gives nothing', () => {
+  const g = createArenaGame(layout, { seed: 7 });
+  g.start();
+  step(g, 6);
+  const decoy = g.state.crates.find((c) => !c.nsk);
+  g.state.player.x = decoy.x + 1.2; g.state.player.z = decoy.z;
+  step(g, 0.1);
+  assert.equal(g.state.action.kind, 'smash');
+  const empties = [];
+  g.subscribe((e) => { if (e.type === 'crateEmpty') empties.push(e); });
+  g.act();
+  step(g, 2);
+  assert.ok(decoy.smashed);
+  assert.equal(empties.length, 1);
+  assert.equal(g.state.pickups.length, 0);
+  assert.equal(g.state.bearings, 0);
+});
+
+test('a smashed bearing lands clear of the crate', () => {
+  const g = createArenaGame(layout, { seed: 11 });
+  g.start();
+  step(g, 6);
+  const nsk = g.state.crates.find((c) => c.nsk);
+  g.state.player.x = nsk.x + 1.2; g.state.player.z = nsk.z;
+  step(g, 0.1);
+  g.act();
+  step(g, 3);
+  const pk = g.state.pickups[0];
+  assert.ok(pk.settled);
+  assert.ok(Math.hypot(pk.x - nsk.x, pk.z - nsk.z) >= 1.0, 'should not land on the crate');
+  assert.ok(pk.x >= -30 && pk.x <= 30 && pk.z >= -20 && pk.z <= 20, 'must stay inside the arena');
 });
 
 console.log(`${passed} tests passed`);
