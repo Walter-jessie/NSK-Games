@@ -276,35 +276,6 @@ function create3DGates() {
   return gatesAssembly;
 }
 
-/** Forward chevron painted on the floor of the player's lane. */
-let arrowTexture = null;
-function getArrowTexture() {
-  if (arrowTexture) return arrowTexture;
-  const c = document.createElement('canvas');
-  c.width = 96;
-  c.height = 64;
-  const ctx = c.getContext('2d');
-
-  // A stroked chevron, not a solid arrow: two thick arms meeting at a point,
-  // pointing away from the camera once the quad is laid flat.
-  ctx.strokeStyle = '#6ef09a';
-  ctx.lineWidth = 17;
-  ctx.lineCap = 'butt';
-  ctx.lineJoin = 'miter';
-  ctx.miterLimit = 4;
-  ctx.shadowColor = '#22c55e';
-  ctx.shadowBlur = 12;
-  ctx.beginPath();
-  ctx.moveTo(14, 50);
-  ctx.lineTo(48, 17);
-  ctx.lineTo(82, 50);
-  ctx.stroke();
-
-  arrowTexture = new THREE.CanvasTexture(c);
-  arrowTexture.colorSpace = THREE.SRGBColorSpace;
-  return arrowTexture;
-}
-
 /**
  * Shop-floor atmosphere: fine steel motes drifting down the bay with a few
  * warm grinding sparks among them.
@@ -541,35 +512,6 @@ export default function Runner3DScene({
     }
     scene.add(dashes);
 
-    // Forward chevrons painted ahead of the player, in whichever lane the
-    // player is in. Three instances, one draw call.
-    const ARROW_COUNT = 3;
-    const ARROW_GAP = 1.05;
-    const arrows = new THREE.InstancedMesh(
-      new THREE.PlaneGeometry(0.92, 0.62),
-      new THREE.MeshBasicMaterial({
-        map: getArrowTexture(),
-        color: 0x5bf08a,
-        transparent: true,
-        opacity: 0.9,
-        depthWrite: false,
-        blending: THREE.AdditiveBlending,
-      }),
-      ARROW_COUNT,
-    );
-    arrows.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
-    arrows.frustumCulled = false;
-    const arrowZ = new Float32Array(ARROW_COUNT);
-    let arrowLaneX = currentXRef.current;
-    for (let i = 0; i < ARROW_COUNT; i++) arrowZ[i] = PLAYER_Z - 1.7 - i * ARROW_GAP;
-
-    // Per-instance colour, so one chevron can brighten at a time without
-    // needing a material each. setColorAt allocates the attribute.
-    const ARROW_BASE = new THREE.Color(0x5bf08a);
-    const arrowColor = new THREE.Color();
-    for (let i = 0; i < ARROW_COUNT; i++) arrows.setColorAt(i, ARROW_BASE);
-    scene.add(arrows);
-
     // Seed every instance matrix now. The animation loop renders a single
     // static frame while paused and returns before it scrolls anything, so
     // without this the tutorial frame would show all instances stacked at the
@@ -582,15 +524,6 @@ export default function Runner3DScene({
       dashes.setMatrixAt(i, dummy.matrix);
     }
     dashes.instanceMatrix.needsUpdate = true;
-
-    for (let i = 0; i < ARROW_COUNT; i++) {
-      dummy.position.set(currentXRef.current, 0.022, arrowZ[i]);
-      dummy.rotation.set(-Math.PI / 2, 0, 0);
-      dummy.scale.set(1, 1, 1);
-      dummy.updateMatrix();
-      arrows.setMatrixAt(i, dummy.matrix);
-    }
-    arrows.instanceMatrix.needsUpdate = true;
 
     // Guard Rails (Side safety walls)
     const railGeo = new THREE.BoxGeometry(0.15, 0.5, 80);
@@ -720,34 +653,6 @@ export default function Runner3DScene({
         dashes.setMatrixAt(i, dummy.matrix);
       }
       dashes.instanceMatrix.needsUpdate = true;
-
-      // A pulse running outward through the chevrons, nearest first. Three
-      // colour writes a frame; the geometry never moves.
-      const pulse = (timestamp * 0.0022) % 1;
-      for (let i = 0; i < ARROW_COUNT; i++) {
-        const phase = (pulse - i * 0.26 + 1) % 1;
-        const peak = Math.max(0, 1 - Math.abs(phase - 0.35) * 3.4);
-        arrowColor.copy(ARROW_BASE).multiplyScalar(0.4 + peak * 0.95);
-        arrows.setColorAt(i, arrowColor);
-      }
-      if (arrows.instanceColor) arrows.instanceColor.needsUpdate = true;
-
-      // Chevrons hold station ahead of the runner and only follow the lane
-      // sideways, so this writes nothing while the player stays put.
-      if (currentXRef.current !== arrowLaneX) {
-        arrowLaneX = currentXRef.current;
-        for (let i = 0; i < ARROW_COUNT; i++) {
-          dummy.position.set(arrowLaneX, 0.022, arrowZ[i]);
-          dummy.rotation.set(-Math.PI / 2, 0, 0);
-          dummy.scale.set(1, 1, 1);
-          dummy.updateMatrix();
-          arrows.setMatrixAt(i, dummy.matrix);
-        }
-        arrows.instanceMatrix.needsUpdate = true;
-      }
-
-      // 1b. Drift the shop-floor motes down the bay
-      motes.userData.update(syncSpeed * safeDelta, timestamp);
 
       // 2. Position portal gates in the exact same render frame (eliminates 1-frame React delay)
       if (gatesRef.current) {
