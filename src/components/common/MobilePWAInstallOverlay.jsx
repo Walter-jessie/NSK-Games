@@ -2,13 +2,10 @@ import React, { useState, useEffect } from 'react';
 
 /**
  * Mobile PWA Install Page / Overlay
- * Minimalist design:
- * - NSK Logo
- * - Game Icon
- * - Game Title ("NSK GAMES")
- * - INSTALL APP button
+ * Ultra-minimalist:
+ * - App Icon only (no corner logo, no "NSK Games" text)
+ * - INSTALL button
  * - CONTINUE IN BROWSER button
- * No unnecessary texts, instructions, or fluff.
  */
 export default function MobilePWAInstallOverlay({ forced = false }) {
   const [deferredPrompt, setDeferredPrompt] = useState(null);
@@ -103,15 +100,6 @@ export default function MobilePWAInstallOverlay({ forced = false }) {
 
   return (
     <div className="fixed inset-0 z-[1000000] bg-black flex flex-col items-center justify-center p-6 select-none font-body text-white animate-fade-in">
-      {/* NSK Logo in Corner */}
-      <div className="absolute top-5 left-5 sm:top-6 sm:left-6 z-20">
-        <img
-          src="./nsk_logo.png"
-          alt="NSK"
-          className="h-6 sm:h-7 w-auto object-contain"
-        />
-      </div>
-
       {installedSuccess ? (
         /* Minimal post-install notification */
         <div className="flex flex-col items-center justify-center text-center max-w-xs px-6 py-8 rounded-2xl bg-neutral-950 border border-emerald-500/40 shadow-2xl animate-fade-in">
@@ -122,7 +110,7 @@ export default function MobilePWAInstallOverlay({ forced = false }) {
             APP INSTALLED
           </h2>
           <p className="text-xs text-slate-300 mb-5">
-            Check your phone&apos;s home screen to open <strong className="text-white">NSK Games</strong>.
+            Check your phone&apos;s home screen to open.
           </p>
           <button
             type="button"
@@ -133,21 +121,16 @@ export default function MobilePWAInstallOverlay({ forced = false }) {
           </button>
         </div>
       ) : (
-        /* Minimal Clean View: Icon, Title & 2 Buttons */
+        /* Minimal Clean View: Icon Only & 2 Buttons */
         <div className="flex flex-col items-center justify-center text-center max-w-xs w-full animate-fade-in">
-          {/* Game Icon */}
-          <div className="mb-4">
+          {/* App Icon Only */}
+          <div className="mb-8">
             <img
               src="./icon.png"
-              alt="NSK Games"
-              className="w-24 h-24 rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.9),0_0_25px_rgba(230,0,18,0.25)] border border-white/10 object-contain p-1 bg-white/5"
+              alt="App Icon"
+              className="w-28 h-28 rounded-3xl shadow-[0_12px_36px_rgba(0,0,0,0.9),0_0_25px_rgba(230,0,18,0.25)] border border-white/10 object-contain p-1 bg-white/5"
             />
           </div>
-
-          {/* Game Name */}
-          <h1 className="text-2xl font-heading font-black tracking-wider uppercase text-white mb-8">
-            NSK <span className="text-[#E60012]">GAMES</span>
-          </h1>
 
           {/* Action Buttons */}
           <div className="w-full flex flex-col gap-3">
