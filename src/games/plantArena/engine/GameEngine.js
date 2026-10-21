@@ -12,6 +12,10 @@ import { createArenaGame } from './arenaGameStore.js';
 
 const STATUS_TO_SCENE = { ok: 'ok', incoming: 'ok', attacked: 'attacked', failed: 'failed', saved: 'saved' };
 
+const ZOOM_IN = 0.6;    // closest the camera comes
+const ZOOM_OUT = 1;     // the original framing
+const clampZoom = (v) => (v < ZOOM_IN ? ZOOM_IN : v > ZOOM_OUT ? ZOOM_OUT : v);
+
 function splinterBurst(scene) {
   // Pooled debris burst for smashed crates (one Points object, reused).
   // Per-vertex colour lets one cloud throw pale wood chips for an empty crate
@@ -179,6 +183,11 @@ export class GameEngine {
     this.scene = scene;
     this.lights = addArenaLights(scene, renderer, this.tier);
     this.camera = new THREE.PerspectiveCamera(38, 16 / 9, 0.5, 140);
+    // 1 is the old fixed framing, now the zoomed-out limit. The game opens
+    // closer in, where the player can read the crates around them.
+    this.zoom = ZOOM_IN;
+    this.pinchFrom = null;
+    this.pinchZoom = 1;
 
     this.arena = createArena(layout);
     scene.add(this.arena.group);
@@ -210,6 +219,41 @@ export class GameEngine {
     this.loop = this.loop.bind(this);
     this.onKey = this.onKey.bind(this);
     this.onVisibility = this.onVisibility.bind(this);
+    // Pinch to zoom. Both fingers must land on the canvas itself: the joystick
+    // and action button are their own targets, so driving with one thumb and
+    // pressing with the other never reads as a pinch.
+    const pinchDistance = (t) => Math.hypot(t[0].clientX - t[1].clientX, t[0].clientY - t[1].clientY);
+    this.onTouch = (e) => {
+      if (e.touches.length !== 2) {
+        this.pinchFrom = null;
+        return;
+      }
+      const t = [e.touches[0], e.touches[1]];
+      if (t[0].target !== this.canvas || t[1].target !== this.canvas) {
+        this.pinchFrom = null;
+        return;
+      }
+      const d = pinchDistance(t);
+      if (this.pinchFrom === null) {
+        this.pinchFrom = d;
+        this.pinchZoom = this.zoom;
+        return;
+      }
+      // Fingers apart means a larger distance, which should pull the camera in.
+      this.setZoom(this.pinchZoom * (this.pinchFrom / Math.max(1, d)));
+      e.preventDefault();
+    };
+    this.onTouchEnd = () => { this.pinchFrom = null; };
+    this.onWheel = (e) => {
+      this.setZoom(this.zoom + (e.deltaY > 0 ? 0.08 : -0.08));
+      e.preventDefault();
+    };
+    canvas.addEventListener('touchstart', this.onTouch, { passive: false });
+    canvas.addEventListener('touchmove', this.onTouch, { passive: false });
+    canvas.addEventListener('touchend', this.onTouchEnd);
+    canvas.addEventListener('touchcancel', this.onTouchEnd);
+    canvas.addEventListener('wheel', this.onWheel, { passive: false });
+
     window.addEventListener('resize', this.resize);
     window.addEventListener('keydown', this.onKey);
     window.addEventListener('keyup', this.onKey);
@@ -233,6 +277,11 @@ export class GameEngine {
     this.disposed = true;
     this.running = false;
     cancelAnimationFrame(this.raf);
+    this.canvas.removeEventListener('touchstart', this.onTouch);
+    this.canvas.removeEventListener('touchmove', this.onTouch);
+    this.canvas.removeEventListener('touchend', this.onTouchEnd);
+    this.canvas.removeEventListener('touchcancel', this.onTouchEnd);
+    this.canvas.removeEventListener('wheel', this.onWheel);
     window.removeEventListener('resize', this.resize);
     window.removeEventListener('keydown', this.onKey);
     window.removeEventListener('keyup', this.onKey);
@@ -328,10 +377,15 @@ export class GameEngine {
 
   placeCamera() {
     const f = this.camFocus;
-    this.camera.position.set(f.x, 23, f.z + 17.5);
-    this.camLook.set(f.x, 0, f.z - 1.2);
+    const z = this.zoom;
+    this.camera.position.set(f.x, 23 * z, f.z + 17.5 * z);
+    this.camLook.set(f.x, 0, f.z - 1.2 * z);
     this.camera.lookAt(this.camLook);
     this.lights.follow(f);
+  }
+
+  setZoom(v) {
+    this.zoom = clampZoom(v);
   }
 
   syncDrones() {
