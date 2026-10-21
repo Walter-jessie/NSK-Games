@@ -106,6 +106,42 @@ function createLaneSignTexture(letter, colorCss) {
 }
 
 /**
+ * Portal membrane for a gate opening. Light gathers at the floor and along
+ * both edges and thins out through the middle, so the opening glows without
+ * fogging the track the player is trying to read through it.
+ * Built once and tinted per lane by the material colour.
+ */
+let portalTexture = null;
+function getPortalTexture() {
+  if (portalTexture) return portalTexture;
+  const canvas = document.createElement('canvas');
+  canvas.width = 128;
+  canvas.height = 256;
+  const ctx = canvas.getContext('2d');
+
+  const vertical = ctx.createLinearGradient(0, 256, 0, 0);
+  vertical.addColorStop(0, 'rgba(255,255,255,0.95)');
+  vertical.addColorStop(0.35, 'rgba(255,255,255,0.18)');
+  vertical.addColorStop(1, 'rgba(255,255,255,0.08)');
+  ctx.fillStyle = vertical;
+  ctx.fillRect(0, 0, 128, 256);
+
+  // Keep the centre clear: the player reads the track through this.
+  ctx.globalCompositeOperation = 'destination-in';
+  const horizontal = ctx.createLinearGradient(0, 0, 128, 0);
+  horizontal.addColorStop(0, 'rgba(255,255,255,1)');
+  horizontal.addColorStop(0.5, 'rgba(255,255,255,0.1)');
+  horizontal.addColorStop(1, 'rgba(255,255,255,1)');
+  ctx.fillStyle = horizontal;
+  ctx.fillRect(0, 0, 128, 256);
+
+  portalTexture = new THREE.CanvasTexture(canvas);
+  portalTexture.colorSpace = THREE.SRGBColorSpace;
+  portalTexture.needsUpdate = true;
+  return portalTexture;
+}
+
+/**
  * Overhead lane gantry.
  *
  * One beam spanning all four lanes on two end posts, the way a real plant
@@ -153,12 +189,19 @@ function create3DGates() {
     gatesAssembly.add(gusset);
   }
 
-  // ── Blades hanging between lanes, so the four openings read clearly ──
-  const bladeGeo = new THREE.BoxGeometry(0.07, 1.5, 0.22);
+  // ── Inner pillars, floor to beam, dividing the four openings ──
+  const PILLAR_H = BEAM_Y - 0.31; // stops under the beam flange
+  const pillarGeo = new THREE.BoxGeometry(0.16, PILLAR_H, 0.24);
+  const pillarBandGeo = new THREE.BoxGeometry(0.2, 0.26, 0.28);
   for (const x of [-2, 0, 2]) {
-    const blade = new THREE.Mesh(bladeGeo, steelDark);
-    blade.position.set(x, BEAM_Y - 1.06, 0);
-    gatesAssembly.add(blade);
+    const pillar = new THREE.Mesh(pillarGeo, steelDark);
+    pillar.position.set(x, PILLAR_H / 2, 0);
+    gatesAssembly.add(pillar);
+
+    // Same hazard banding as the end posts, so the row reads as one structure
+    const band = new THREE.Mesh(pillarBandGeo, hazard);
+    band.position.set(x, 0.55, 0);
+    gatesAssembly.add(band);
   }
 
   // ── Per-lane signage and floor marking ──
@@ -196,6 +239,38 @@ function create3DGates() {
     strip.rotation.x = -Math.PI / 2;
     strip.position.set(x, 0.03, 0);
     gatesAssembly.add(strip);
+
+    // ── Portal: membrane across the opening, plus a lit lintel and jambs ──
+    const openW = 1.84;
+    const openH = BEAM_Y - 0.33;
+
+    const membrane = new THREE.Mesh(
+      new THREE.PlaneGeometry(openW, openH),
+      new THREE.MeshBasicMaterial({
+        map: getPortalTexture(),
+        color: theme.hex,
+        transparent: true,
+        opacity: 0.45,
+        depthWrite: false,
+        side: THREE.DoubleSide,
+        blending: THREE.AdditiveBlending,
+      }),
+    );
+    membrane.position.set(x, openH / 2, 0);
+    membrane.renderOrder = 2;
+    gatesAssembly.add(membrane);
+
+    const glow = new THREE.MeshBasicMaterial({ color: theme.hex });
+
+    const lintel = new THREE.Mesh(new THREE.BoxGeometry(openW, 0.07, 0.1), glow);
+    lintel.position.set(x, openH, 0.13);
+    gatesAssembly.add(lintel);
+
+    for (const side of [-1, 1]) {
+      const jamb = new THREE.Mesh(new THREE.BoxGeometry(0.05, openH, 0.1), glow);
+      jamb.position.set(x + side * (openW / 2), openH / 2, 0.13);
+      gatesAssembly.add(jamb);
+    }
   });
 
   return gatesAssembly;
