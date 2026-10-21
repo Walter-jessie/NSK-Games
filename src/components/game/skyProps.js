@@ -21,8 +21,10 @@ const SIDE_NEAR = 6.5;
 const SIDE_FAR = 19;
 const Y_LOW = 0.35;
 const Y_HIGH = 4.6;
-const Z_START = -62;
-const Z_END = 6;
+// Near enough to sit in the side wedges rather than converging on the
+// horizon, which is where the HUD begins.
+const Z_START = -42;
+const Z_END = 9;
 const Z_SPAN = Z_END - Z_START;
 
 const HOLO = '#6fd6ff';
@@ -63,14 +65,17 @@ function notationTexture(text) {
 
 function scatter(rand) {
   const side = rand() < 0.5 ? -1 : 1;
+  // Bias towards the near end. Spread evenly, most of the field bunches at the
+  // horizon, which is exactly where the question panel starts.
+  const near = Math.pow(rand(), 0.55);
   return {
     x: side * (SIDE_NEAR + rand() * (SIDE_FAR - SIDE_NEAR)),
     y: Y_LOW + rand() * (Y_HIGH - Y_LOW),
-    z: Z_START + rand() * Z_SPAN,
+    z: Z_START + near * Z_SPAN,
   };
 }
 
-export function createSkyProps({ count = 7, seed = 1 } = {}) {
+export function createSkyProps({ count = 10, seed = 1 } = {}) {
   let s = seed;
   const rand = () => {
     s = (s * 1664525 + 1013904223) % 4294967296;
