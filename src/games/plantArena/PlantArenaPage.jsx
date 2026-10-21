@@ -128,25 +128,29 @@ export default function PlantArenaPage({ employeeId = 'NSK-GUEST', onSubmitScore
 
       {phase === 'ready' && (
         <div className="pa-overlay">
-          <div className="pa-card">
-            <div className="pa-kicker">NSK GAME 2</div>
-            <h1>PLANT ARENA REPAIR</h1>
-            <p className="pa-lead">Rogue drones are sabotaging the 10 NSK test machines. Keep the plant running for 90 seconds.</p>
+          <div className="pa-tut">
+            <h1 className="pa-tut-title">PLANT ARENA</h1>
+            <div className="pa-tut-rule" />
 
-            <div className="pa-controls">LEFT THUMB MOVES &middot; RIGHT THUMB ACTS</div>
+            <div className="pa-tut-chip">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" strokeWidth="2" /><circle cx="12" cy="12" r="3" fill="currentColor" /></svg>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" strokeWidth="2" /><path d="M8 12h8M12 8v8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" /></svg>
+              <span>Left Thumb Moves &amp; Right Thumb Acts</span>
+            </div>
 
-            <ol className="pa-steps">
-              <li><span className="pa-step-n">1</span><span>Smash crates to find bearings. Only the ones stamped <b>NSK</b> hold any.</span></li>
-              <li><span className="pa-step-n">2</span><span>The bearing is thrown clear. <b>Chase it down</b> to pick it up, up to 5 at a time.</span></li>
-              <li><span className="pa-step-n">3</span><span>Repair the <b>red machines</b> before their timers run out.</span></li>
-              <li><span className="pa-step-n">4</span><span><b>8 repairs wins.</b> 3 machines lost and the plant shuts down.</span></li>
+            <ol className="pa-tut-steps">
+              <li><span className="pa-tut-n">1</span><span>Smash crates to find <b>bearings</b></span></li>
+              <li><span className="pa-tut-n">2</span><span>Only crates stamped <b>NSK</b> hold one</span></li>
+              <li><span className="pa-tut-n">3</span><span>The bearing is <b>thrown clear</b> &mdash; chase it down</span></li>
+              <li><span className="pa-tut-n">4</span><span>Repair <b>red machines</b> before their timers end</span></li>
+              <li><span className="pa-tut-n">5</span><span><b>8 repairs wins</b>, 3 machines lost shuts the plant</span></li>
             </ol>
 
-            <div className="pa-row">
-              <button type="button" className="pa-btn pa-btn-go" onClick={start}>PLAY</button>
-              {onExit && <button type="button" className="pa-btn" onClick={onExit}>BACK</button>}
-            </div>
-            <div className="pa-small">Keyboard: WASD to move, Space to act</div>
+            <button type="button" className="pa-tut-play" onClick={start}>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4l13 8-13 8z" fill="currentColor" /></svg>
+              <span>PLAY</span>
+            </button>
+            {onExit && <button type="button" className="pa-tut-back" onClick={onExit}>BACK</button>}
           </div>
         </div>
       )}

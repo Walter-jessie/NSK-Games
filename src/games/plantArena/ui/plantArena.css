@@ -87,10 +87,21 @@
 @keyframes pa-turn { 0%, 30% { transform: rotate(0); } 60%, 100% { transform: rotate(90deg); } }
 
 /* --- briefing card: control chip and numbered steps --- */
-.pa-controls { display: inline-block; margin: .5em 0 .9em; padding: .35em 1em; background: #11141a; border: 1px solid #c4581d; border-radius: 999px; font-size: clamp(9px, 1.9vh, 13px); letter-spacing: .08em; color: #ffc75a; }
-.pa-steps { list-style: none; margin: 0 0 1.1em; padding: 0; display: flex; flex-direction: column; gap: .6em; text-align: left; }
-.pa-steps li { display: flex; align-items: flex-start; gap: .7em; font-size: clamp(10px, 2.1vh, 15px); line-height: 1.35; }
-.pa-step-n { flex: none; width: 1.9em; height: 1.9em; display: grid; place-items: center; background: linear-gradient(#2a3140, #171b23); border: 1px solid #3a404c; border-radius: 6px; color: #ffc75a; font-size: .95em; }
 .pa-rotate-icon { width: clamp(38px, 9vh, 64px); height: auto; margin: 0 auto .6em; display: block; color: #ffc75a; }
 .pa-mute { letter-spacing: .06em; font-size: clamp(8px, 1.5vh, 11px); padding: 4px 9px; }
 .pa-hint { position: absolute; top: 17%; left: 50%; transform: translateX(-50%); background: #11141ae0; border: 1px solid #ffc75a; color: #ffc75a; border-radius: 8px; padding: .35em 1em; font-size: clamp(10px, 2.2vh, 16px); letter-spacing: .06em; white-space: nowrap; animation: pa-blink 1.1s infinite alternate; }
+
+/* --- briefing screen --- */
+.pa-tut { width: min(620px, 94vw); max-height: 94vh; overflow: auto; text-align: center; padding: clamp(10px, 2.5vh, 22px) clamp(14px, 4vw, 28px); }
+.pa-tut-title { margin: 0; font-size: clamp(22px, 6.4vh, 42px); letter-spacing: .04em; color: #fff; }
+.pa-tut-rule { width: clamp(52px, 9vw, 84px); height: 4px; margin: .5em auto 1em; border-radius: 2px; background: #38bdf8; }
+.pa-tut-chip { display: inline-flex; align-items: center; gap: .55em; margin-bottom: 1.3em; padding: .5em 1.1em; border-radius: 999px; background: #0d2234; border: 1px solid #1d5a7a; color: #7dd3fc; font-size: clamp(10px, 2.1vh, 15px); }
+.pa-tut-chip svg { width: 1.25em; height: 1.25em; flex: none; }
+.pa-tut-steps { list-style: none; margin: 0 0 1.5em; padding: 0; display: flex; flex-direction: column; gap: .7em; text-align: left; }
+.pa-tut-steps li { display: flex; align-items: center; gap: .85em; font-size: clamp(11px, 2.2vh, 16px); line-height: 1.3; color: #dbe3ec; }
+.pa-tut-steps b { color: #fff; }
+.pa-tut-n { flex: none; width: 2em; height: 2em; display: grid; place-items: center; border-radius: 8px; background: #0e3246; border: 1px solid #1d5a7a; color: #38bdf8; font-size: .95em; }
+.pa-tut-play { width: 100%; display: flex; align-items: center; justify-content: center; gap: .7em; font: inherit; font-size: clamp(13px, 2.8vh, 19px); letter-spacing: .22em; padding: .85em 1em; border-radius: 12px; background: #0b1b2b; border: 2px solid #38bdf8; color: #fff; cursor: pointer; }
+.pa-tut-play svg { width: 1em; height: 1em; }
+.pa-tut-play:active { transform: scale(.985); }
+.pa-tut-back { margin-top: .8em; font: inherit; font-size: clamp(9px, 1.8vh, 12px); letter-spacing: .14em; padding: .5em 1.4em; border-radius: 8px; background: transparent; border: 1px solid #27354a; color: #8a97a8; cursor: pointer; }
