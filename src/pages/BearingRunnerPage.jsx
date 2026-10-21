@@ -432,14 +432,14 @@ export default function BearingRunnerPage() {
           {currentQ && (
             <div key={`q-${qIdx}`} className="flex items-center gap-2.5 max-w-[min(94vw,160vh)] mx-auto w-full flex-shrink-0 game-question-enter">
               {/* Parts Counter Badge (Cyber Cyan/Blue Gradient - Fluid Height Scale) */}
-              <div className="px-3.5 py-1.5 rounded-2xl bg-gradient-to-br from-cyan-600 via-blue-600 to-indigo-800 border-2 border-cyan-300 text-white whitespace-nowrap shrink-0 shadow-[0_0_20px_rgba(6,182,212,0.5)] flex items-center justify-center gap-1.5 h-[clamp(46px,11vh,96px)]">
-                <span className="text-cyan-200 font-black uppercase text-[clamp(9px,1.9vh,15px)] tracking-widest">PARTS</span>
-                <span className="font-heading font-black text-[clamp(14px,2.9vh,26px)] text-white">{collectedParts.length}/10</span>
+              <div className="px-3.5 py-1.5 rounded-2xl bg-gradient-to-br from-cyan-600 via-blue-600 to-indigo-800 border-2 border-cyan-300 text-white whitespace-nowrap shrink-0 shadow-[0_0_20px_rgba(6,182,212,0.5)] flex items-center justify-center gap-2 h-[clamp(52px,12.5vh,115px)]">
+                <span className="text-cyan-200 font-black uppercase text-[clamp(10px,2.2vh,18px)] tracking-widest">PARTS</span>
+                <span className="font-heading font-black text-[clamp(15px,3.2vh,30px)] text-white">{collectedParts.length}/10</span>
               </div>
 
-              {/* High-Contrast White Question Panel with Bold Cyber Cyan Border - Enlarged & Normal Formatting */}
-              <div className="flex-1 bg-white border-[3px] border-cyan-500 rounded-2xl px-5 py-2 shadow-[0_0_25px_rgba(6,182,212,0.35)] text-center flex items-center justify-center h-[clamp(48px,11.5vh,100px)]">
-                <p className="text-[clamp(12px,2.7vh,25px)] font-heading font-black text-slate-900 leading-snug tracking-normal line-clamp-2">
+              {/* High-Contrast White Question Panel with Bold Cyber Cyan Border - Big Bold Legible Question */}
+              <div className="flex-1 bg-white border-[3px] border-cyan-500 rounded-2xl px-6 py-2 shadow-[0_0_25px_rgba(6,182,212,0.35)] text-center flex items-center justify-center h-[clamp(52px,12.5vh,115px)]">
+                <p className="text-[clamp(14px,3.4vh,30px)] font-heading font-black text-slate-900 leading-snug tracking-normal line-clamp-2">
                   {currentQ.question}
                 </p>
               </div>

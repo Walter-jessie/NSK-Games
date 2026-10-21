@@ -29,37 +29,42 @@ function createDynamicBearing(partsCount = 10) {
   const bearingGroup = new THREE.Group();
   bearingGroup.name = 'BearingAssembly';
 
+  // 1. Static Inner Group: Inner ring, cap plate, rim, and NSK logo (stays static, does NOT rotate)
+  const staticInnerGroup = new THREE.Group();
+  staticInnerGroup.name = 'StaticInnerAssembly';
+  bearingGroup.add(staticInnerGroup);
+
+  // 2. Rotating Outer Group: Balls, outer ring, retainer cage, and aura (rotates with RPM)
+  const rotatingOuterGroup = new THREE.Group();
+  rotatingOuterGroup.name = 'RotatingOuterAssembly';
+  bearingGroup.add(rotatingOuterGroup);
+
+  bearingGroup.userData.staticInnerGroup = staticInnerGroup;
+  bearingGroup.userData.rotatingOuterGroup = rotatingOuterGroup;
+
   const d = DIMENSIONS;
-  // The reference model is built at its own scale; the camera here expects an
-  // outer radius near 3.3, so the finished assembly is scaled up as a whole.
   const SCALE = 2.0;
 
-  // ── Materials, matching the NSK reference model ──
+  // ── Materials: Lighter, brighter metallic tones to eliminate dark shadowing ──
   const ringSteel = new THREE.MeshPhysicalMaterial({
-    color: 0xcfd5dd, metalness: 1, roughness: 0.22, envMapIntensity: 1.25,
+    color: 0xdde4ed, metalness: 0.96, roughness: 0.16, envMapIntensity: 1.35,
   });
   const innerSteel = new THREE.MeshPhysicalMaterial({
-    color: 0xc3c9d2, metalness: 1, roughness: 0.2, envMapIntensity: 1.25,
+    color: 0xd4dbe5, metalness: 0.96, roughness: 0.14, envMapIntensity: 1.35,
   });
   const ballChrome = new THREE.MeshPhysicalMaterial({
-    color: 0xeef1f5, metalness: 1, roughness: 0.09, envMapIntensity: 1.5,
+    color: 0xf6f8fc, metalness: 0.98, roughness: 0.05, envMapIntensity: 1.6,
   });
   const cageSteel = new THREE.MeshPhysicalMaterial({
-    color: 0x8f959e, metalness: 1, roughness: 0.38, envMapIntensity: 1,
+    color: 0xa8b0bd, metalness: 0.92, roughness: 0.28, envMapIntensity: 1.15,
   });
 
-  // Only the first four parts are physical: the bearing is complete once the
-  // cage goes on. Slots 5-10 are shop-floor steps and fittings that score but
-  // add no geometry, so nothing below reads past partsCount >= 4.
-  // A part that has not been collected is simply not built; there is no
-  // placeholder standing in for it.
-
-  // ── Slot 1: Inner Casing, with the NSK hub cap closing the bore ──
+  // ── Slot 1: Inner Casing + Hub Cap + NSK Logo (STATIC - never rotates) ──
   if (partsCount >= 1) {
     const innerRing = new THREE.Mesh(createInnerRingGeometry(), innerSteel);
     innerRing.castShadow = true;
     innerRing.receiveShadow = true;
-    bearingGroup.add(innerRing);
+    staticInnerGroup.add(innerRing);
 
     const capR = d.innerBoreR * 1.02;
     const capT = 0.06;
@@ -67,13 +72,13 @@ function createDynamicBearing(partsCount = 10) {
     const capPlate = new THREE.Mesh(new THREE.CylinderGeometry(capR, capR, capT, 72), innerSteel);
     capPlate.rotation.x = Math.PI / 2;
     capPlate.castShadow = true;
-    bearingGroup.add(capPlate);
+    staticInnerGroup.add(capPlate);
 
     const rim = new THREE.Mesh(new THREE.TorusGeometry(capR * 0.985, 0.016, 10, 64), cageSteel);
     for (const side of [1, -1]) {
       const r = rim.clone();
       r.position.z = (side * capT) / 2;
-      bearingGroup.add(r);
+      staticInnerGroup.add(r);
     }
 
     // toneMapped:false holds exact NSK red; ACES otherwise pulls it to orange.
@@ -86,37 +91,37 @@ function createDynamicBearing(partsCount = 10) {
       const logo = new THREE.Mesh(logoGeo, logoMat);
       logo.position.z = side * (capT / 2 + 0.005);
       if (side === -1) logo.rotation.y = Math.PI; // readable from behind too
-      bearingGroup.add(logo);
+      staticInnerGroup.add(logo);
     }
   }
 
-  // ── Slot 2: Bearing Balls ──
+  // ── Slot 2: Bearing Balls (ROTATING) ──
   if (partsCount >= 2) {
     const ballGeo = new THREE.SphereGeometry(d.ballR, 24, 18);
     for (const [x, y, z] of ballPositions()) {
       const ball = new THREE.Mesh(ballGeo, ballChrome);
       ball.position.set(x, y, z);
       ball.castShadow = true;
-      bearingGroup.add(ball);
+      rotatingOuterGroup.add(ball);
     }
   }
 
-  // ── Slot 3: Outer Casing ──
+  // ── Slot 3: Outer Casing (ROTATING) ──
   if (partsCount >= 3) {
     const outerRing = new THREE.Mesh(createOuterRingGeometry(), ringSteel);
     outerRing.castShadow = true;
     outerRing.receiveShadow = true;
-    bearingGroup.add(outerRing);
+    rotatingOuterGroup.add(outerRing);
   }
 
-  // ── Slot 4: Retainer Cage (collars, bridges and their rivets) ──
+  // ── Slot 4: Retainer Cage (ROTATING) ──
   if (partsCount >= 4) {
     const cage = new THREE.Mesh(createCageGeometry(), cageSteel);
     cage.castShadow = true;
-    bearingGroup.add(cage);
+    rotatingOuterGroup.add(cage);
   }
 
-  // ── Golden Master Precision Ring Aura (Installed if partsCount === 10) ──
+  // ── Golden Master Precision Ring Aura (ROTATING) ──
   if (partsCount === 10) {
     const aura = new THREE.Mesh(
       new THREE.RingGeometry(d.outerR + 0.08, d.outerR + 0.16, 64),
@@ -124,7 +129,7 @@ function createDynamicBearing(partsCount = 10) {
         color: 0x10b981, transparent: true, opacity: 0.45, side: THREE.DoubleSide,
       }),
     );
-    bearingGroup.add(aura);
+    rotatingOuterGroup.add(aura);
   }
 
   bearingGroup.scale.setScalar(SCALE);
@@ -167,32 +172,60 @@ export default function BearingModelViewer({
        precision: 'mediump',
     });
     renderer.setSize(width, height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2.0));
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.35;
     container.appendChild(renderer.domElement);
 
-    // 4. Studio Environment for metal reflections
+    // 4. Studio Environment for metal reflections (Lifting black areas for brilliant reflections)
     const pmremGenerator = new THREE.PMREMGenerator(renderer);
     pmremGenerator.compileEquirectangularShader();
     const roomEnv = new RoomEnvironment(renderer);
+
+    // Brighten the room's dark walls, floor, and boxes to eliminate black reflection spots
+    roomEnv.traverse((child) => {
+      if (child.isMesh && child.material) {
+        if (child.material.color) {
+          child.material.color.setHex(0xd6deea); // Soft bright studio gray-white
+        }
+        child.material.roughness = 0.3;
+      }
+    });
+
+    // Add ambient fill light to roomEnv so unlit angles receive soft bounce light
+    const envAmbient = new THREE.AmbientLight(0xffffff, 6.0);
+    roomEnv.add(envAmbient);
+
+    // Add bright softbox light panels in roomEnv top, bottom, and sides
+    const envTop = new THREE.DirectionalLight(0xffffff, 8.0);
+    envTop.position.set(0, 15, 0);
+    roomEnv.add(envTop);
+
+    const envBottom = new THREE.DirectionalLight(0xe8f0fe, 5.0);
+    envBottom.position.set(0, -10, 0);
+    roomEnv.add(envBottom);
+
+    const envSide = new THREE.DirectionalLight(0xffffff, 4.0);
+    envSide.position.set(10, 0, 10);
+    roomEnv.add(envSide);
+
     scene.environment = pmremGenerator.fromScene(roomEnv).texture;
 
     // 5. Lighting tuned for CAD technical white backdrop
-    const mainKeyLight = new THREE.DirectionalLight(0xffffff, 2.6);
+    const mainKeyLight = new THREE.DirectionalLight(0xffffff, 2.8);
     mainKeyLight.position.set(6, 9, 7);
     mainKeyLight.castShadow = true;
     scene.add(mainKeyLight);
 
-    const blueRimLight = new THREE.DirectionalLight(0x0284c7, 1.5);
-    blueRimLight.position.set(-6, -2, -4);
-    scene.add(blueRimLight);
+    const fillLight = new THREE.DirectionalLight(0xffffff, 1.8);
+    fillLight.position.set(-6, -4, 4);
+    scene.add(fillLight);
 
-    const redRimLight = new THREE.DirectionalLight(0xe11d48, 1.2);
-    redRimLight.position.set(5, -4, -3);
-    scene.add(redRimLight);
+    const topFill = new THREE.DirectionalLight(0xffffff, 1.4);
+    topFill.position.set(0, 8, -4);
+    scene.add(topFill);
 
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.85);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
     scene.add(ambientLight);
 
     // Soft Contact Shadow under bearing
@@ -257,7 +290,11 @@ export default function BearingModelViewer({
         stutter = Math.max(0.08, stutter);
       }
 
-      bearing.rotation.z += baseSpeed * safeDelta * 60 * stutter;
+      // ── Outer Ring, Balls, and Retainer Cage spin with RPM ──
+      // ── Inner Casing and NSK Hub Cap remain completely static ──
+      if (bearing.userData.rotatingOuterGroup) {
+        bearing.userData.rotatingOuterGroup.rotation.z += baseSpeed * safeDelta * 60 * stutter;
+      }
 
       // Mild mechanical runout / wobble on X & Y axes
       // Perfect assembly (10/10) = 0 wobble. Sub-optimal = mild realistic wobble (max ~0.04 rad)
