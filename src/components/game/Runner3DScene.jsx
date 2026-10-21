@@ -583,6 +583,16 @@ export default function Runner3DScene({
             if (child.material) {
               child.material.roughness = 0.35;
               child.material.metalness = 0.25;
+
+              // Apply custom uniform texture (with NSK branding on back)
+              if (child.material.name === 'Ch12_body') {
+                const texLoader = new THREE.TextureLoader();
+                const customTex = texLoader.load(`${import.meta.env.BASE_URL}images/player_shirt_texture.png`);
+                customTex.flipY = false;
+                customTex.colorSpace = THREE.SRGBColorSpace;
+                child.material.map = customTex;
+                child.material.needsUpdate = true;
+              }
             }
           }
         });
