@@ -227,8 +227,15 @@ export default function BearingRunnerPage() {
       } else {
         soundEffects.playCorrect();
       }
-      // Collect bearing part (showcase prominently for 1.6s before incrementing bag)
-      const partIdx = qIdxRef.current % BEARING_PARTS.length;
+      // Collect bearing part (showcase prominently for 1.6s before incrementing bag).
+      // Parts are awarded by how many answers are right, not by which question
+      // we are on, so the first correct answer always gives the outer ring and
+      // the assembly on the results page builds in the same order.
+      // recordAnswer has already run, so this count includes the current answer.
+      // collectedParts is not used here: its push is deferred by 1.6s and would
+      // still be stale on fast answers.
+      const correctSoFar = useGameStore.getState().results.filter((r) => r.isCorrect).length;
+      const partIdx = Math.min(correctSoFar - 1, BEARING_PARTS.length - 1);
       const part = BEARING_PARTS[partIdx];
       setFlyingPart({ ...part, key: Date.now() });
       setTimeout(() => {
