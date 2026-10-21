@@ -1,0 +1,907 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===== NSK Industrial Design System ===== */
+
+@layer base {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html, body, #root {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    background-color: #0c0d11;
+    color: #F1F5F9;
+    font-family: 'Inter', sans-serif;
+  }
+
+  body {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  ::selection {
+    background: rgba(230, 0, 18, 0.3);
+    color: #ffffff;
+  }
+
+  ::-webkit-scrollbar {
+    width: 4px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #16181e;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #E60012;
+    border-radius: 2px;
+  }
+}
+
+/* ===== Reusable Component Styles ===== */
+
+@layer components {
+  /* --- Glass Card --- */
+  .glass-card {
+    @apply bg-nsk-surface/80 backdrop-blur-md border border-white/10 rounded-2xl;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+
+  /* --- Gradient Buttons --- */
+  .btn-primary {
+    @apply px-6 py-3 rounded-xl font-heading font-semibold text-white transition-all duration-300 active:scale-95;
+    background: linear-gradient(135deg, #3B82F6, #1E3A5F);
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+  }
+  .btn-primary:hover {
+    box-shadow: 0 6px 25px rgba(59, 130, 246, 0.5);
+    transform: translateY(-1px);
+  }
+
+  .btn-accent {
+    @apply px-6 py-3 rounded-xl font-heading font-semibold text-nsk-bg transition-all duration-300 active:scale-95;
+    background: linear-gradient(135deg, #F59E0B, #D97706);
+    box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+  }
+  .btn-accent:hover {
+    box-shadow: 0 6px 25px rgba(245, 158, 11, 0.5);
+    transform: translateY(-1px);
+  }
+
+  .btn-ghost {
+    @apply px-6 py-3 rounded-xl font-heading font-semibold text-nsk-text-secondary border border-white/10 
+           transition-all duration-300 hover:bg-white/5 hover:text-white active:scale-95;
+  }
+
+  /* --- Input Fields --- */
+  .input-field {
+    @apply w-full px-4 py-3 bg-nsk-bg/80 border border-white/10 rounded-xl text-nsk-text-primary 
+           font-body placeholder-nsk-text-secondary/50 outline-none transition-all duration-300;
+  }
+  .input-field:focus {
+    @apply border-nsk-primary-light;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+  }
+
+  /* --- Game Card (Hub) --- */
+  .game-card {
+    @apply glass-card p-5 cursor-pointer transition-all duration-300 active:scale-[0.97];
+    position: relative;
+    overflow: hidden;
+  }
+  .game-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.05) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+  .game-card:hover::before {
+    opacity: 1;
+  }
+
+  /* --- Leaderboard Row --- */
+  .lb-row {
+    @apply flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200;
+  }
+  .lb-row:nth-child(odd) {
+    @apply bg-white/[0.02];
+  }
+  .lb-row:hover {
+    @apply bg-white/[0.05];
+  }
+  .lb-row-self {
+    @apply bg-nsk-primary-light/10 border border-nsk-primary-light/20;
+  }
+}
+
+/* ===== Game-Specific Styles ===== */
+
+/* Factory floor scrolling background */
+.factory-floor {
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 48px,
+      rgba(59, 130, 246, 0.06) 48px,
+      rgba(59, 130, 246, 0.06) 50px
+    ),
+    linear-gradient(180deg, #0d1220 0%, #0A0E1A 100%);
+  animation: scrollFloor 0.5s linear infinite;
+}
+
+/* Lane dividers */
+.lane-divider {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(59, 130, 246, 0.3) 0px,
+    rgba(59, 130, 246, 0.3) 12px,
+    transparent 12px,
+    transparent 24px
+  );
+}
+
+/* Answer Locker */
+.locker {
+  position: absolute;
+  width: calc(25% - 16px);
+  aspect-ratio: 1;
+  max-height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  will-change: transform;
+  transition: box-shadow 0.2s;
+  background: linear-gradient(145deg, #2a3040, #1a1f2e);
+  border: 2px solid rgba(59, 130, 246, 0.4);
+  box-shadow: 0 0 15px rgba(59, 130, 246, 0.15);
+}
+.locker-text {
+  font-size: 0.65rem;
+  font-weight: 500;
+  font-family: 'Inter', sans-serif;
+  text-align: center;
+  line-height: 1.2;
+  padding: 2px 4px;
+  color: #94A3B8;
+  max-height: 2.4em;
+  overflow: hidden;
+}
+
+/* Player character */
+.player-character {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #3b82f6, #1e3a5f);
+  border: 3px solid #60a5fa;
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.5), 0 0 40px rgba(59, 130, 246, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  transition: left 0.18s ease-out;
+  will-change: left;
+  position: absolute;
+}
+
+/* Touch control buttons */
+.touch-btn {
+  @apply flex items-center justify-center font-heading font-bold text-lg select-none;
+  background: rgba(59, 130, 246, 0.1);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  border-radius: 16px;
+  backdrop-filter: blur(4px);
+  transition: all 0.1s;
+  -webkit-user-select: none;
+  user-select: none;
+  touch-action: manipulation;
+}
+.touch-btn:active {
+  background: rgba(59, 130, 246, 0.3);
+  transform: scale(0.95);
+}
+
+/* Bearing SVG animation */
+.bearing-spin {
+  animation: spin var(--spin-duration, 8s) linear infinite;
+  filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.4));
+}
+
+/* Score popup */
+.score-popup {
+  position: absolute;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  font-size: 1.5rem;
+  pointer-events: none;
+  animation: scoreFloat 1s ease-out forwards;
+}
+
+@keyframes scoreFloat {
+  0% { opacity: 1; transform: translateY(0) scale(1); }
+  100% { opacity: 0; transform: translateY(-60px) scale(1.3); }
+}
+
+/* Countdown overlay */
+.countdown-number {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  font-size: 6rem;
+  animation: countdownPulse 0.8s ease-out;
+  text-shadow: 0 0 40px rgba(59, 130, 246, 0.6);
+}
+
+@keyframes countdownPulse {
+  0% { transform: scale(2); opacity: 0; }
+  50% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(0.8); opacity: 0; }
+}
+
+/* Feedback flash */
+.flash-correct {
+  animation: flashGreen 0.5s ease-out;
+}
+.flash-wrong {
+  animation: flashRed 0.5s ease-out;
+}
+
+@keyframes flashGreen {
+  0% { box-shadow: inset 0 0 100px rgba(16, 185, 129, 0.4); }
+  100% { box-shadow: inset 0 0 0px transparent; }
+}
+@keyframes flashRed {
+  0% { box-shadow: inset 0 0 100px rgba(239, 68, 68, 0.4); }
+  100% { box-shadow: inset 0 0 0px transparent; }
+}
+
+/* Background gear pattern */
+.gear-bg {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: 
+    radial-gradient(circle at 15% 25%, rgba(255, 255, 255, 0.015) 0%, transparent 50%),
+    radial-gradient(circle at 85% 75%, rgba(230, 0, 18, 0.015) 0%, transparent 50%);
+}
+
+/* Page transitions */
+.page-enter {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Diagonal Split Layout (Locked to 0.129 slope - EXACTLY parallel to Game Panels at all screen sizes) */
+.detroit-diagonal-container {
+  width: 60%;
+  clip-path: polygon(12.9vh 0, 100% 0, 100% 100%, 0% 100%);
+}
+
+@media (max-width: 1024px) and (orientation: landscape) {
+  .detroit-diagonal-container {
+    width: 66%;
+    clip-path: polygon(12.9vh 0, 100% 0, 100% 100%, 0% 100%);
+  }
+}
+
+@media (max-height: 520px) and (orientation: landscape) {
+  .detroit-diagonal-container {
+    width: 68%;
+    clip-path: polygon(12.9vh 0, 100% 0, 100% 100%, 0% 100%);
+  }
+}
+
+@media (orientation: portrait) and (max-width: 640px) {
+  .detroit-diagonal-container {
+    width: 100%;
+    height: 65%;
+    top: auto;
+    bottom: 0;
+    clip-path: polygon(0 6%, 100% 0, 100% 100%, 0% 100%);
+  }
+  .nsk-diagonal-line {
+    display: none;
+  }
+}
+
+/* Fluid Slanted Game Panels in Hub Page: Perfectly scale to mobile height so they never overflow */
+.hub-game-panel {
+  width: min(320px, 30vw, 38vh);
+  height: min(390px, 45vh);
+}
+@media (min-height: 640px) {
+  .hub-game-panel {
+    width: clamp(250px, 22vw, 350px);
+    height: clamp(320px, 46vh, 440px);
+  }
+}
+
+/* Connecting dashed line between game panels */
+.hub-panel-connector {
+  width: min(130px, 14vw, 17vh);
+  margin-left: calc(-1 * min(40px, 4.5vw, 5.5vh));
+  margin-right: calc(-1 * min(40px, 4.5vw, 5.5vh));
+}
+@media (min-height: 640px) {
+  .hub-panel-connector {
+    width: clamp(90px, 10vw, 150px);
+    margin-left: calc(-1 * clamp(25px, 3vw, 45px));
+    margin-right: calc(-1 * clamp(25px, 3vw, 45px));
+  }
+}
+
+/* Hero NSK Bearing Image (Centered to Left Visible Region) */
+.hero-nsk-bearing-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 68% 48%;
+  filter: brightness(0.96) contrast(1.05);
+}
+
+@media (max-width: 640px) and (orientation: portrait) {
+  .hero-nsk-bearing-img {
+    object-position: 60% 40%;
+  }
+}
+
+/* Hub Page Hero Image (Engineer with Glowing NSK Bearing - Centered to Left Region) */
+.hub-engineer-hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 66% 35%;
+  filter: brightness(0.96) contrast(1.05);
+}
+
+@media (max-width: 640px) and (orientation: portrait) {
+  .hub-engineer-hero-img {
+    object-position: 60% 25%;
+  }
+}
+
+/* ===== Mild Slow Technical Animations (CAD Facets & Crosshairs) ===== */
+@keyframes facetBreatheSlow1 {
+  0%, 100% {
+    opacity: 0.35;
+    transform: translateY(0px) scale(1);
+  }
+  50% {
+    opacity: 0.62;
+    transform: translateY(-2px) scale(1.02);
+  }
+}
+
+@keyframes facetBreatheSlow2 {
+  0%, 100% {
+    opacity: 0.3;
+    transform: translateY(0px) scale(1);
+  }
+  50% {
+    opacity: 0.55;
+    transform: translateY(2px) scale(1.015);
+  }
+}
+
+@keyframes facetBreatheSlow3 {
+  0%, 100% {
+    opacity: 0.45;
+    transform: translateY(0px);
+  }
+  50% {
+    opacity: 0.75;
+    transform: translateY(-1.5px);
+  }
+}
+
+@keyframes crosshairRotateFloat1 {
+  0% {
+    transform: rotate(0deg) translateY(0px);
+    opacity: 0.45;
+  }
+  50% {
+    transform: rotate(90deg) translateY(-2.5px);
+    opacity: 0.85;
+  }
+  100% {
+    transform: rotate(180deg) translateY(0px);
+    opacity: 0.45;
+  }
+}
+
+@keyframes crosshairRotateFloat2 {
+  0% {
+    transform: rotate(0deg) translateY(0px);
+    opacity: 0.4;
+  }
+  50% {
+    transform: rotate(-90deg) translateY(2px);
+    opacity: 0.8;
+  }
+  100% {
+    transform: rotate(-180deg) translateY(0px);
+    opacity: 0.4;
+  }
+}
+
+@keyframes guideDashSlow {
+  0%, 100% {
+    opacity: 0.3;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    opacity: 0.6;
+    stroke-dashoffset: 6;
+  }
+}
+
+@keyframes cadBreatheUltraSlow {
+  0%, 100% {
+    opacity: 0.22;
+  }
+  50% {
+    opacity: 0.32;
+  }
+}
+
+.anim-facet-slow-1 {
+  animation: facetBreatheSlow1 14s ease-in-out infinite;
+  transform-origin: 80% 80%;
+  will-change: transform, opacity;
+}
+
+.anim-facet-slow-2 {
+  animation: facetBreatheSlow2 16s ease-in-out infinite 2.5s;
+  transform-origin: 90% 85%;
+  will-change: transform, opacity;
+}
+
+.anim-facet-slow-3 {
+  animation: facetBreatheSlow3 12s ease-in-out infinite 5s;
+  transform-origin: 60% 80%;
+  will-change: transform, opacity;
+}
+
+.anim-facet-slow-4 {
+  animation: facetBreatheSlow1 18s ease-in-out infinite 1s;
+  transform-origin: 85% 15%;
+  will-change: transform, opacity;
+}
+
+.anim-crosshair-1 {
+  animation: crosshairRotateFloat1 22s ease-in-out infinite;
+  transform-box: fill-box;
+  will-change: transform, opacity;
+}
+
+.anim-crosshair-2 {
+  animation: crosshairRotateFloat2 26s ease-in-out infinite 3.5s;
+  transform-box: fill-box;
+  will-change: transform, opacity;
+}
+
+.anim-guide-dash {
+  animation: guideDashSlow 15s ease-in-out infinite;
+  will-change: stroke-dashoffset, opacity;
+}
+
+.anim-cad-watermark {
+  animation: cadBreatheUltraSlow 18s ease-in-out infinite;
+  will-change: opacity;
+}
+
+/* ═══════════════════════════════════════════════════════
+   GAME-FEEL STYLES: Speed lines, urgency, feedback, etc.
+   ═══════════════════════════════════════════════════════ */
+
+/* Animated game background with scrolling grid */
+.game-speed-bg {
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 48px,
+      rgba(230, 0, 18, 0.04) 48px,
+      rgba(230, 0, 18, 0.04) 50px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 48px,
+      rgba(255, 255, 255, 0.015) 48px,
+      rgba(255, 255, 255, 0.015) 50px
+    ),
+    linear-gradient(180deg, #050810 0%, #0a0e1a 50%, #050810 100%);
+  animation: scrollFloor 0.5s linear infinite;
+}
+
+/* Speed lines (vertical streaks flying downward) */
+.speed-line {
+  position: absolute;
+  top: -20%;
+  width: 1px;
+  height: 15%;
+  background: linear-gradient(to bottom, transparent, rgba(230, 0, 18, 0.25), transparent);
+  animation: speedLineFall 0.7s linear infinite;
+  will-change: transform;
+}
+
+@keyframes speedLineFall {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(800%);
+    opacity: 0;
+  }
+}
+
+/* Urgency vignette (edges glow red) */
+.urgency-vignette {
+  animation: urgencyPulse 0.5s ease-in-out infinite alternate;
+}
+
+@keyframes urgencyPulse {
+  0% { opacity: 0.7; }
+  100% { opacity: 1; }
+}
+
+/* Urgency timer bar pulse */
+.game-urgency-pulse {
+  animation: barPulse 0.4s ease-in-out infinite alternate;
+}
+
+@keyframes barPulse {
+  0% { filter: brightness(1); }
+  100% { filter: brightness(1.4); }
+}
+
+/* Dramatic feedback flashes */
+.game-flash-correct {
+  animation: gameFlashGreen 0.6s ease-out;
+}
+.game-flash-wrong {
+  animation: gameFlashRed 0.6s ease-out;
+}
+
+@keyframes gameFlashGreen {
+  0% {
+    background: rgba(16, 185, 129, 0.3);
+    box-shadow: inset 0 0 150px rgba(16, 185, 129, 0.4);
+  }
+  100% {
+    background: transparent;
+    box-shadow: inset 0 0 0px transparent;
+  }
+}
+
+@keyframes gameFlashRed {
+  0% {
+    background: rgba(239, 68, 68, 0.3);
+    box-shadow: inset 0 0 150px rgba(239, 68, 68, 0.4);
+  }
+  100% {
+    background: transparent;
+    box-shadow: inset 0 0 0px transparent;
+  }
+}
+
+/* Feedback emoji burst (✓ or ✗) */
+.game-feedback-burst {
+  font-size: 5rem;
+  font-weight: 900;
+  animation: feedbackBurst 0.8s ease-out forwards;
+  filter: drop-shadow(0 0 30px currentColor);
+}
+
+@keyframes feedbackBurst {
+  0% {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+  30% {
+    transform: scale(1.5);
+    opacity: 1;
+  }
+  60% {
+    transform: scale(1.2);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+/* Score display bump animation */
+.game-score-bump {
+  animation: scoreBump 0.3s ease-out;
+}
+
+@keyframes scoreBump {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+/* Score popup (bigger, gradient) */
+.game-score-popup {
+  position: absolute;
+  pointer-events: none;
+  animation: gameScoreFloat 1.2s ease-out forwards;
+}
+
+@keyframes gameScoreFloat {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.5);
+  }
+  20% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.2);
+  }
+  50% {
+    opacity: 1;
+    transform: translate(-50%, calc(-50% - 20px)) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, calc(-50% - 80px)) scale(1.3);
+  }
+}
+
+/* Streak badge bounce */
+.game-streak-badge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 10px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.25), rgba(239, 68, 68, 0.2));
+  border: 1px solid rgba(245, 158, 11, 0.5);
+  animation: streakBounce 0.5s ease-out;
+  box-shadow: 0 0 15px rgba(245, 158, 11, 0.3);
+}
+
+@keyframes streakBounce {
+  0% { transform: scale(0.5) rotate(-10deg); opacity: 0; }
+  50% { transform: scale(1.2) rotate(5deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+/* Progress dot pulse */
+.game-dot-pulse {
+  animation: dotPulse 0.8s ease-in-out infinite;
+}
+
+@keyframes dotPulse {
+  0%, 100% { transform: scale(1); opacity: 0.6; }
+  50% { transform: scale(1.4); opacity: 1; }
+}
+
+/* Question animated entry */
+.game-question-enter {
+  animation: questionSlideIn 0.35s ease-out;
+}
+
+@keyframes questionSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Options animated entry */
+.game-options-enter {
+  animation: optionsPopIn 0.4s ease-out;
+}
+
+@keyframes optionsPopIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.92) translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Option shimmer effect (on selected) */
+.game-option-shimmer {
+  background: linear-gradient(
+    105deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.12) 45%,
+    rgba(255, 255, 255, 0.15) 50%,
+    rgba(255, 255, 255, 0.12) 55%,
+    transparent 70%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Game controller button */
+.game-ctrl-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, rgba(30, 35, 50, 0.9), rgba(15, 18, 30, 0.95));
+  border: 2px solid rgba(255, 255, 255, 0.12);
+  color: #e2e8f0;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transition: all 0.1s;
+  user-select: none;
+  touch-action: manipulation;
+  -webkit-user-select: none;
+}
+
+.game-ctrl-btn:active {
+  background: linear-gradient(180deg, rgba(230, 0, 18, 0.35), rgba(230, 0, 18, 0.2));
+  border-color: rgba(230, 0, 18, 0.5);
+  transform: scale(0.93);
+  box-shadow: 0 0 20px rgba(230, 0, 18, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* Countdown pulsing rings */
+.game-ring-pulse {
+  animation: ringExpand 1.5s ease-out infinite;
+}
+
+@keyframes ringExpand {
+  0% {
+    transform: scale(0.8);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.4);
+    opacity: 0;
+  }
+}
+
+/* Bearing part flies from center to inventory bag (top-right) */
+.part-fly-to-bag {
+  animation: flyToBag 1.6s cubic-bezier(0.2, 0.8, 0.25, 1) forwards;
+}
+
+@keyframes flyToBag {
+  0% {
+    transform: translate(-50%, -50%) scale(0.6);
+    opacity: 0;
+  }
+  15% {
+    transform: translate(-50%, -55%) scale(1.15);
+    opacity: 1;
+  }
+  25% {
+    transform: translate(-50%, -50%) scale(1.0);
+    opacity: 1;
+  }
+  /* Showcases the collected part clearly in center for over 55% of the duration */
+  58% {
+    transform: translate(-50%, -50%) scale(1.0);
+    opacity: 1;
+  }
+  78% {
+    transform: translate(calc(20vw - 50%), calc(-22vh)) scale(0.85);
+    opacity: 0.95;
+  }
+  100% {
+    transform: translate(calc(44vw - 50%), calc(-44vh)) scale(0.25);
+    opacity: 0;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   AAA GAME-STYLE FULLSCREEN RECOVERY
+   When the phone system notification bar causes a fullscreen exit,
+   we show a brief overlay and auto-re-enter on the next touch.
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* Fullscreen recovery overlay - slides down from top like system notification bar */
+.fs-recovery-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 99999;
+  pointer-events: auto;
+  transform: translateY(-100%);
+  animation: fsRecoverySlideDown 0.35s cubic-bezier(0.34, 1.4, 0.64, 1) forwards;
+}
+
+.fs-recovery-overlay.fs-recovery--retracting {
+  animation: fsRecoverySlideUp 0.3s cubic-bezier(0.6, 0, 0.4, 1) forwards;
+}
+
+@keyframes fsRecoverySlideDown {
+  from { transform: translateY(-100%); }
+  to   { transform: translateY(0%); }
+}
+
+@keyframes fsRecoverySlideUp {
+  from { transform: translateY(0%); opacity: 1; }
+  to   { transform: translateY(-100%); opacity: 0; }
+}
+
+/* Pulsing "tap" indicator */
+@keyframes fsRecoveryPulse {
+  0%, 100% { opacity: 0.7; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.05); }
+}
+
+.fs-recovery-pulse {
+  animation: fsRecoveryPulse 1.5s ease-in-out infinite;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   MOBILE PERFORMANCE & PWA STANDALONE OPTIMIZATIONS
+   ═══════════════════════════════════════════════════════════════════ */
+@media (max-width: 1024px) {
+  /* Prevent rubber-band scroll and accidental pinch gestures */
+  html, body {
+    overscroll-behavior: none;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-x pan-y;
+  }
+
+  /* Instant tap responsiveness without 300ms click delay */
+  button, a, input, select {
+    touch-action: manipulation;
+  }
+
+  /* GPU layer promotion for smooth 60fps rendering */
+  canvas, .glass-card {
+    transform: translateZ(0);
+    will-change: transform;
+    backface-visibility: hidden;
+  }
+}
+
+/* Safe Area Inset Support for Notch & Dynamic Island in Landscape */
+@supports (padding: max(0px)) {
+  body {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+}
+
+

@@ -1,0 +1,718 @@
+{
+  "department_id": "pte_sales",
+  "department_name": "PTE Sales",
+  "version": "2.0",
+  "total_questions": 50,
+  "categories": [
+    "auto_products",
+    "oem_process",
+    "delivery",
+    "customer",
+    "pricing",
+    "market",
+    "product_knowledge",
+    "nsk_india"
+  ],
+  "questions": [
+    {
+      "id": "PTE-001",
+      "category": "auto_products",
+      "difficulty": "easy",
+      "question": "A car wheel rotates on which product?",
+      "options": {
+        "A": "Linear guide",
+        "B": "Hub unit bearing",
+        "C": "Pillow block",
+        "D": "Ball screw"
+      },
+      "correct": "B",
+      "explanation": "Hub unit bearings combine bearing, flange and often a sensor to support each wheel."
+    },
+    {
+      "id": "PTE-002",
+      "category": "auto_products",
+      "difficulty": "easy",
+      "question": "Car AC compressor clutch uses which bearing?",
+      "options": {
+        "A": "Magnetic clutch brg",
+        "B": "Needle cage",
+        "C": "Spherical roller",
+        "D": "Thrust washer"
+      },
+      "correct": "A",
+      "explanation": "Magnetic clutch bearings support the AC compressor pulley; NSK Chennai makes them."
+    },
+    {
+      "id": "PTE-003",
+      "category": "auto_products",
+      "difficulty": "easy",
+      "question": "Gearbox shafts are supported by?",
+      "options": {
+        "A": "Plain washers",
+        "B": "Linear guides",
+        "C": "Hub units",
+        "D": "Transmission brgs"
+      },
+      "correct": "D",
+      "explanation": "Transmission bearings (ball, tapered and needle) carry gear loads inside the gearbox."
+    },
+    {
+      "id": "PTE-004",
+      "category": "auto_products",
+      "difficulty": "medium",
+      "question": "Differential pinion usually uses which type?",
+      "options": {
+        "A": "Deep groove",
+        "B": "Needle",
+        "C": "Thrust ball",
+        "D": "Tapered roller"
+      },
+      "correct": "D",
+      "explanation": "Tapered roller bearings take heavy combined radial and axial gear loads."
+    },
+    {
+      "id": "PTE-005",
+      "category": "auto_products",
+      "difficulty": "medium",
+      "question": "Engine belt idler pulleys use which bearing?",
+      "options": {
+        "A": "Thrust roller",
+        "B": "Plain bush",
+        "C": "Ball bearing",
+        "D": "Spherical roller"
+      },
+      "correct": "C",
+      "explanation": "Sealed single or double-row ball bearings run idler and tensioner pulleys."
+    },
+    {
+      "id": "PTE-006",
+      "category": "auto_products",
+      "difficulty": "medium",
+      "question": "EPS in cars stands for?",
+      "options": {
+        "A": "Electric Power Steer",
+        "B": "Extra Pressure Seal",
+        "C": "Engine Power System",
+        "D": "Easy Park Sensor"
+      },
+      "correct": "A",
+      "explanation": "Electric Power Steering uses a motor instead of hydraulics, improving fuel economy."
+    },
+    {
+      "id": "PTE-007",
+      "category": "auto_products",
+      "difficulty": "hard",
+      "question": "ABS sensor at the hub unit reads what?",
+      "options": {
+        "A": "Tyre pressure",
+        "B": "Fuel level",
+        "C": "Wheel speed",
+        "D": "Oil level"
+      },
+      "correct": "C",
+      "explanation": "A magnetic encoder in the hub seal lets the ABS sensor read wheel speed."
+    },
+    {
+      "id": "PTE-008",
+      "category": "auto_products",
+      "difficulty": "hard",
+      "question": "Low-friction hub seals help the vehicle with?",
+      "options": {
+        "A": "More noise",
+        "B": "Fuel/range saving",
+        "C": "Faster rust",
+        "D": "Heavier wheels"
+      },
+      "correct": "B",
+      "explanation": "Lower seal drag cuts energy loss, improving fuel economy or EV driving range."
+    },
+    {
+      "id": "PTE-009",
+      "category": "auto_products",
+      "difficulty": "medium",
+      "question": "Needle bearings are chosen when space is?",
+      "options": {
+        "A": "Underwater",
+        "B": "Tight radially",
+        "C": "Unlimited",
+        "D": "Very large"
+      },
+      "correct": "B",
+      "explanation": "Needle rollers carry high radial load in a very small cross-section."
+    },
+    {
+      "id": "PTE-010",
+      "category": "auto_products",
+      "difficulty": "hard",
+      "question": "EV e-axle bearings must resist what?",
+      "options": {
+        "A": "Snow load",
+        "B": "Diesel fuel",
+        "C": "Electric current",
+        "D": "Sea water"
+      },
+      "correct": "C",
+      "explanation": "Inverter currents can pass through e-axle bearings, so insulated designs are used."
+    },
+    {
+      "id": "PTE-011",
+      "category": "oem_process",
+      "difficulty": "easy",
+      "question": "An RFQ from a car maker asks for?",
+      "options": {
+        "A": "Payment",
+        "B": "Delivery",
+        "C": "Price quote",
+        "D": "Order cancel"
+      },
+      "correct": "C",
+      "explanation": "A Request for Quotation invites NSK to quote price, capacity and timing for a new part."
+    },
+    {
+      "id": "PTE-012",
+      "category": "oem_process",
+      "difficulty": "easy",
+      "question": "SOP in auto projects means?",
+      "options": {
+        "A": "Start Of Production",
+        "B": "Sales Of Parts",
+        "C": "Stop Of Plant",
+        "D": "Safety Order Plan"
+      },
+      "correct": "A",
+      "explanation": "SOP is the date mass production for the vehicle programme begins."
+    },
+    {
+      "id": "PTE-013",
+      "category": "oem_process",
+      "difficulty": "medium",
+      "question": "A nomination letter from an OEM means?",
+      "options": {
+        "A": "Order cancelled",
+        "B": "Audit failed",
+        "C": "Price frozen",
+        "D": "Business awarded"
+      },
+      "correct": "D",
+      "explanation": "A nomination letter confirms NSK has won the part for a vehicle programme."
+    },
+    {
+      "id": "PTE-014",
+      "category": "oem_process",
+      "difficulty": "medium",
+      "question": "PPAP approval is needed before?",
+      "options": {
+        "A": "Price talks",
+        "B": "Quotation",
+        "C": "Mass supply",
+        "D": "Sample design"
+      },
+      "correct": "C",
+      "explanation": "PPAP proves the part and process meet all OEM requirements before serial supply."
+    },
+    {
+      "id": "PTE-015",
+      "category": "oem_process",
+      "difficulty": "medium",
+      "question": "Quality standard required by auto OEMs?",
+      "options": {
+        "A": "IATF 16949",
+        "B": "ISO 50001",
+        "C": "HACCP",
+        "D": "ISO 22000"
+      },
+      "correct": "A",
+      "explanation": "IATF 16949 is the automotive quality management standard required by most OEMs."
+    },
+    {
+      "id": "PTE-016",
+      "category": "oem_process",
+      "difficulty": "hard",
+      "question": "Yearly price cut in long contracts is called?",
+      "options": {
+        "A": "Advance",
+        "B": "Penalty",
+        "C": "Price-down",
+        "D": "Price-up"
+      },
+      "correct": "C",
+      "explanation": "OEMs often ask for yearly price-downs in long-term deals, offset by VA/VE savings."
+    },
+    {
+      "id": "PTE-017",
+      "category": "oem_process",
+      "difficulty": "medium",
+      "question": "VA/VE aims to do what?",
+      "options": {
+        "A": "Cut cost, keep value",
+        "B": "Raise price",
+        "C": "Add features only",
+        "D": "Delay SOP"
+      },
+      "correct": "A",
+      "explanation": "Value Analysis/Value Engineering removes cost while keeping function and quality."
+    },
+    {
+      "id": "PTE-018",
+      "category": "oem_process",
+      "difficulty": "hard",
+      "question": "A Tier-1 supplier sells directly to?",
+      "options": {
+        "A": "Steel mill",
+        "B": "Vehicle maker",
+        "C": "Scrap buyer",
+        "D": "Dealer only"
+      },
+      "correct": "B",
+      "explanation": "Tier-1 suppliers supply the OEM directly; Tier-2 suppliers supply the Tier-1s."
+    },
+    {
+      "id": "PTE-019",
+      "category": "oem_process",
+      "difficulty": "medium",
+      "question": "Standard customer complaint report?",
+      "options": {
+        "A": "Delivery note",
+        "B": "8D report",
+        "C": "Pay slip",
+        "D": "Gate pass"
+      },
+      "correct": "B",
+      "explanation": "An 8D gives containment, root cause, permanent fix and prevention in eight disciplines."
+    },
+    {
+      "id": "PTE-020",
+      "category": "oem_process",
+      "difficulty": "hard",
+      "question": "Supplier quality at OEMs is measured in?",
+      "options": {
+        "A": "KPH",
+        "B": "PPM",
+        "C": "RPM",
+        "D": "GSM"
+      },
+      "correct": "B",
+      "explanation": "PPM (defective parts per million) is the key OEM quality metric for suppliers."
+    },
+    {
+      "id": "PTE-021",
+      "category": "delivery",
+      "difficulty": "easy",
+      "question": "OTIF stands for?",
+      "options": {
+        "A": "Only Top Items First",
+        "B": "Out Today In Future",
+        "C": "On-Time In-Full",
+        "D": "Order To Invoice"
+      },
+      "correct": "C",
+      "explanation": "OTIF measures orders delivered on the promised date in the full quantity."
+    },
+    {
+      "id": "PTE-022",
+      "category": "delivery",
+      "difficulty": "medium",
+      "question": "An OEM line stop caused by late parts brings?",
+      "options": {
+        "A": "Bonus",
+        "B": "Penalty claims",
+        "C": "Free supply",
+        "D": "Discount to NSK"
+      },
+      "correct": "B",
+      "explanation": "Line stoppages are very costly, so OEMs charge suppliers for delays they cause."
+    },
+    {
+      "id": "PTE-023",
+      "category": "delivery",
+      "difficulty": "medium",
+      "question": "EDI with OEMs is used for?",
+      "options": {
+        "A": "Schedules & orders",
+        "B": "Recipes",
+        "C": "Music",
+        "D": "Salaries"
+      },
+      "correct": "A",
+      "explanation": "Electronic Data Interchange sends delivery schedules and ship notices system-to-system."
+    },
+    {
+      "id": "PTE-024",
+      "category": "delivery",
+      "difficulty": "hard",
+      "question": "ASN in OEM supply stands for?",
+      "options": {
+        "A": "Advance Ship Notice",
+        "B": "Annual Sales Note",
+        "C": "After Sales Need",
+        "D": "Auto Sales Number"
+      },
+      "correct": "A",
+      "explanation": "An ASN tells the customer what was shipped and when, before the truck arrives."
+    },
+    {
+      "id": "PTE-025",
+      "category": "delivery",
+      "difficulty": "medium",
+      "question": "Fixed near-term part of an OEM schedule is?",
+      "options": {
+        "A": "Wish list",
+        "B": "Open window",
+        "C": "Blank week",
+        "D": "Frozen window"
+      },
+      "correct": "D",
+      "explanation": "Within the frozen window quantities are fixed so supply can be planned reliably."
+    },
+    {
+      "id": "PTE-026",
+      "category": "customer",
+      "difficulty": "easy",
+      "question": "Main job of a key account manager?",
+      "options": {
+        "A": "Grow the customer",
+        "B": "Grind rings",
+        "C": "Repair machines",
+        "D": "Pack boxes"
+      },
+      "correct": "A",
+      "explanation": "KAMs own the relationship, forecasts, pricing and growth with a major customer."
+    },
+    {
+      "id": "PTE-027",
+      "category": "customer",
+      "difficulty": "easy",
+      "question": "Best first reply to a customer complaint?",
+      "options": {
+        "A": "Blame driver",
+        "B": "Argue",
+        "C": "Ignore it",
+        "D": "Acknowledge fast"
+      },
+      "correct": "D",
+      "explanation": "Fast acknowledgement and containment build trust while the root cause is found."
+    },
+    {
+      "id": "PTE-028",
+      "category": "customer",
+      "difficulty": "medium",
+      "question": "A warranty claim means the part failed?",
+      "options": {
+        "A": "At NSK stores",
+        "B": "Before shipping",
+        "C": "In the field",
+        "D": "In the R&D lab"
+      },
+      "correct": "C",
+      "explanation": "Warranty claims arise when parts fail in customers' vehicles during the warranty period."
+    },
+    {
+      "id": "PTE-029",
+      "category": "customer",
+      "difficulty": "medium",
+      "question": "OEM supplier scorecards rate mainly?",
+      "options": {
+        "A": "Quality & delivery",
+        "B": "Canteen",
+        "C": "Uniform",
+        "D": "Office size"
+      },
+      "correct": "A",
+      "explanation": "OEM scorecards track PPM, delivery, response time and cost to grade suppliers."
+    },
+    {
+      "id": "PTE-030",
+      "category": "customer",
+      "difficulty": "hard",
+      "question": "Containment action in an 8D aims to?",
+      "options": {
+        "A": "Protect customer",
+        "B": "Raise invoice",
+        "C": "Close report",
+        "D": "Find root cause"
+      },
+      "correct": "A",
+      "explanation": "Containment (D3) quickly isolates suspect stock so no more bad parts reach the customer."
+    },
+    {
+      "id": "PTE-031",
+      "category": "pricing",
+      "difficulty": "medium",
+      "question": "Steel price swings are shared through?",
+      "options": {
+        "A": "Discount only",
+        "B": "RM indexation",
+        "C": "Fixed forever",
+        "D": "Free supply"
+      },
+      "correct": "B",
+      "explanation": "Raw-material index clauses adjust part prices in line with published steel indices."
+    },
+    {
+      "id": "PTE-032",
+      "category": "pricing",
+      "difficulty": "medium",
+      "question": "Selling price minus variable cost is?",
+      "options": {
+        "A": "Turnover",
+        "B": "Capex",
+        "C": "Tax",
+        "D": "Contribution"
+      },
+      "correct": "D",
+      "explanation": "Contribution margin shows how much each sale covers fixed costs and profit."
+    },
+    {
+      "id": "PTE-033",
+      "category": "pricing",
+      "difficulty": "hard",
+      "question": "A cost breakdown sheet shows the OEM?",
+      "options": {
+        "A": "Salary list",
+        "B": "Price structure",
+        "C": "Org chart",
+        "D": "Tool drawing"
+      },
+      "correct": "B",
+      "explanation": "Cost breakdowns split material, process, overhead and margin for price discussions."
+    },
+    {
+      "id": "PTE-034",
+      "category": "pricing",
+      "difficulty": "medium",
+      "question": "DSO measures what?",
+      "options": {
+        "A": "Delivery days",
+        "B": "Days to collect",
+        "C": "Stock days",
+        "D": "Sales offices"
+      },
+      "correct": "B",
+      "explanation": "Days Sales Outstanding shows how long customers take to pay invoices."
+    },
+    {
+      "id": "PTE-035",
+      "category": "pricing",
+      "difficulty": "hard",
+      "question": "One-time tooling cost is often recovered by?",
+      "options": {
+        "A": "Bonus",
+        "B": "Penalty",
+        "C": "Amortisation",
+        "D": "Freight"
+      },
+      "correct": "C",
+      "explanation": "Tooling may be paid separately or amortised into the part price over agreed volumes."
+    },
+    {
+      "id": "PTE-036",
+      "category": "market",
+      "difficulty": "easy",
+      "question": "India's largest car maker by volume?",
+      "options": {
+        "A": "Ferrari",
+        "B": "Maruti Suzuki",
+        "C": "Volvo",
+        "D": "Tesla"
+      },
+      "correct": "B",
+      "explanation": "Maruti Suzuki has long held the largest share of India's passenger car market."
+    },
+    {
+      "id": "PTE-037",
+      "category": "market",
+      "difficulty": "medium",
+      "question": "Chennai's auto hub nickname is?",
+      "options": {
+        "A": "Silicon Valley",
+        "B": "Pink City",
+        "C": "Detroit of Asia",
+        "D": "Manchester"
+      },
+      "correct": "C",
+      "explanation": "Chennai hosts many vehicle and component plants, earning the 'Detroit of Asia' name."
+    },
+    {
+      "id": "PTE-038",
+      "category": "market",
+      "difficulty": "medium",
+      "question": "Aftermarket means sales of?",
+      "options": {
+        "A": "Raw steel",
+        "B": "Replacement parts",
+        "C": "Exports only",
+        "D": "New vehicles"
+      },
+      "correct": "B",
+      "explanation": "Aftermarket parts replace worn components in vehicles already on the road."
+    },
+    {
+      "id": "PTE-039",
+      "category": "market",
+      "difficulty": "hard",
+      "question": "Typical car model production life?",
+      "options": {
+        "A": "5–7 years",
+        "B": "1 week",
+        "C": "30 years",
+        "D": "1 month"
+      },
+      "correct": "A",
+      "explanation": "Nominated parts usually supply for the model life, often around five to seven years."
+    },
+    {
+      "id": "PTE-040",
+      "category": "market",
+      "difficulty": "medium",
+      "question": "Two-wheelers use bearings in wheels and?",
+      "options": {
+        "A": "Mirrors",
+        "B": "Seat cover",
+        "C": "Engine & gearbox",
+        "D": "Horn button"
+      },
+      "correct": "C",
+      "explanation": "Bikes use bearings in wheels, steering, crankshaft and transmission."
+    },
+    {
+      "id": "PTE-041",
+      "category": "product_knowledge",
+      "difficulty": "easy",
+      "question": "NSK suffix 'DDU' means?",
+      "options": {
+        "A": "Two rubber seals",
+        "B": "Open bearing",
+        "C": "Ceramic balls",
+        "D": "Two metal shields"
+      },
+      "correct": "A",
+      "explanation": "DDU is NSK's code for contact rubber seals on both sides."
+    },
+    {
+      "id": "PTE-042",
+      "category": "product_knowledge",
+      "difficulty": "medium",
+      "question": "Sealed bearings normally need relubrication?",
+      "options": {
+        "A": "Water filled",
+        "B": "Yes, weekly",
+        "C": "Yes, daily",
+        "D": "No, greased for life"
+      },
+      "correct": "D",
+      "explanation": "Sealed bearings come pre-greased and normally need no relubrication."
+    },
+    {
+      "id": "PTE-043",
+      "category": "product_knowledge",
+      "difficulty": "medium",
+      "question": "False brinelling often happens during?",
+      "options": {
+        "A": "Normal running",
+        "B": "Heat treatment",
+        "C": "Painting",
+        "D": "Transport vibration"
+      },
+      "correct": "D",
+      "explanation": "Small vibrations without rotation, as in shipping, wear marks at rolling contacts."
+    },
+    {
+      "id": "PTE-044",
+      "category": "product_knowledge",
+      "difficulty": "hard",
+      "question": "Why do OEMs want lighter bearings?",
+      "options": {
+        "A": "Higher cost",
+        "B": "Shorter life",
+        "C": "More noise",
+        "D": "Fuel efficiency"
+      },
+      "correct": "D",
+      "explanation": "Lower weight cuts vehicle energy use and emissions."
+    },
+    {
+      "id": "PTE-045",
+      "category": "product_knowledge",
+      "difficulty": "medium",
+      "question": "A ball screw converts rotation into?",
+      "options": {
+        "A": "Sound",
+        "B": "Light",
+        "C": "Heat",
+        "D": "Linear motion"
+      },
+      "correct": "D",
+      "explanation": "Ball screws turn rotary motor motion into precise straight-line movement, as in EPS."
+    },
+    {
+      "id": "PTE-046",
+      "category": "nsk_india",
+      "difficulty": "easy",
+      "question": "NSK's first India venture (1997) made?",
+      "options": {
+        "A": "Tyres",
+        "B": "Steering products",
+        "C": "Paint",
+        "D": "Glass"
+      },
+      "correct": "B",
+      "explanation": "NSK began in Chennai in 1997 via Rane Nastech, making steering columns and joints."
+    },
+    {
+      "id": "PTE-047",
+      "category": "nsk_india",
+      "difficulty": "medium",
+      "question": "NSK Chennai bearing plant opened in?",
+      "options": {
+        "A": "2018",
+        "B": "1995",
+        "C": "2022",
+        "D": "2008"
+      },
+      "correct": "D",
+      "explanation": "The NSK-ABC bearing plant near Chennai held its opening ceremony in February 2008."
+    },
+    {
+      "id": "PTE-048",
+      "category": "nsk_india",
+      "difficulty": "medium",
+      "question": "NSK Chennai plant is located in?",
+      "options": {
+        "A": "Noida SEZ",
+        "B": "GIDC Surat",
+        "C": "SIPCOT park",
+        "D": "MIDC Pune"
+      },
+      "correct": "C",
+      "explanation": "The plant is in a SIPCOT industrial park in Kancheepuram district near Chennai."
+    },
+    {
+      "id": "PTE-049",
+      "category": "nsk_india",
+      "difficulty": "hard",
+      "question": "Rane NSK's Gujarat plant makes what?",
+      "options": {
+        "A": "Steel balls",
+        "B": "Hub units",
+        "C": "Seals",
+        "D": "EPS systems"
+      },
+      "correct": "D",
+      "explanation": "Rane NSK Steering Systems opened a Gujarat plant at Changodar in 2018 to make EPS."
+    },
+    {
+      "id": "PTE-050",
+      "category": "nsk_india",
+      "difficulty": "hard",
+      "question": "NSK's global headquarters is in?",
+      "options": {
+        "A": "Tokyo",
+        "B": "Seoul",
+        "C": "Osaka",
+        "D": "Nagoya"
+      },
+      "correct": "A",
+      "explanation": "NSK Ltd. is headquartered in Tokyo, Japan."
+    }
+  ]
+}

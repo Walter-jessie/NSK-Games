@@ -1,0 +1,716 @@
+{
+  "department_id": "it",
+  "department_name": "IT",
+  "version": "2.0",
+  "total_questions": 50,
+  "categories": [
+    "security",
+    "erp",
+    "mes_iot",
+    "infra",
+    "data",
+    "support"
+  ],
+  "questions": [
+    {
+      "id": "IT-001",
+      "category": "security",
+      "difficulty": "easy",
+      "question": "What is phishing?",
+      "options": {
+        "A": "Fishing hobby",
+        "B": "Fake email scam",
+        "C": "Network cable",
+        "D": "Printer error"
+      },
+      "correct": "B",
+      "explanation": "Phishing emails pretend to be trusted senders to steal passwords or install malware."
+    },
+    {
+      "id": "IT-002",
+      "category": "security",
+      "difficulty": "easy",
+      "question": "Got a suspicious email. What should you do?",
+      "options": {
+        "A": "Click the link",
+        "B": "Reply with password",
+        "C": "Forward to all",
+        "D": "Report to IT"
+      },
+      "correct": "D",
+      "explanation": "Report it with the phishing button or to IT; never click links or open attachments."
+    },
+    {
+      "id": "IT-003",
+      "category": "security",
+      "difficulty": "easy",
+      "question": "MFA adds what to your password?",
+      "options": {
+        "A": "A longer name",
+        "B": "A second check",
+        "C": "A bigger screen",
+        "D": "A new email"
+      },
+      "correct": "B",
+      "explanation": "Multi-Factor Authentication adds a code or app approval, blocking most stolen-password logins."
+    },
+    {
+      "id": "IT-004",
+      "category": "security",
+      "difficulty": "easy",
+      "question": "A strong password should be?",
+      "options": {
+        "A": "Birth date",
+        "B": "123456",
+        "C": "Your name",
+        "D": "Long & unique"
+      },
+      "correct": "D",
+      "explanation": "Long passphrases unique to each account are hard to guess or crack."
+    },
+    {
+      "id": "IT-005",
+      "category": "security",
+      "difficulty": "easy",
+      "question": "Found a USB drive in the parking lot?",
+      "options": {
+        "A": "Take it home",
+        "B": "Sell it",
+        "C": "Give it to IT",
+        "D": "Plug it in"
+      },
+      "correct": "C",
+      "explanation": "Unknown USB drives may carry malware; hand them to IT without plugging them in."
+    },
+    {
+      "id": "IT-006",
+      "category": "security",
+      "difficulty": "medium",
+      "question": "What does ransomware do to files?",
+      "options": {
+        "A": "Speeds them up",
+        "B": "Backs them up",
+        "C": "Prints them",
+        "D": "Locks for ransom"
+      },
+      "correct": "D",
+      "explanation": "Ransomware encrypts data and demands payment; backups and patching are the defence."
+    },
+    {
+      "id": "IT-007",
+      "category": "security",
+      "difficulty": "medium",
+      "question": "Shortcut to lock a Windows PC?",
+      "options": {
+        "A": "Win + L",
+        "B": "Ctrl + C",
+        "C": "Ctrl + P",
+        "D": "Alt + F4"
+      },
+      "correct": "A",
+      "explanation": "Windows + L locks the PC instantly, protecting data when you step away."
+    },
+    {
+      "id": "IT-008",
+      "category": "security",
+      "difficulty": "medium",
+      "question": "Letting someone follow you through a secure door?",
+      "options": {
+        "A": "Normal",
+        "B": "Good manners",
+        "C": "Teamwork",
+        "D": "Security breach"
+      },
+      "correct": "D",
+      "explanation": "Tailgating bypasses access control; everyone must badge in themselves."
+    },
+    {
+      "id": "IT-009",
+      "category": "security",
+      "difficulty": "medium",
+      "question": "Sharing your login with a colleague is?",
+      "options": {
+        "A": "Not allowed",
+        "B": "Fine if friend",
+        "C": "Required",
+        "D": "Fine on shift"
+      },
+      "correct": "A",
+      "explanation": "Accounts are personal; every action under your ID is traced to you."
+    },
+    {
+      "id": "IT-010",
+      "category": "security",
+      "difficulty": "hard",
+      "question": "India's national cyber incident agency?",
+      "options": {
+        "A": "RBI",
+        "B": "ISRO",
+        "C": "CERT-In",
+        "D": "SEBI"
+      },
+      "correct": "C",
+      "explanation": "CERT-In is India's national agency for responding to cyber security incidents."
+    },
+    {
+      "id": "IT-011",
+      "category": "security",
+      "difficulty": "hard",
+      "question": "CERT-In incident reporting deadline?",
+      "options": {
+        "A": "1 month",
+        "B": "6 days",
+        "C": "No limit",
+        "D": "6 hours"
+      },
+      "correct": "D",
+      "explanation": "CERT-In's 2022 directions require reporting specified cyber incidents within 6 hours."
+    },
+    {
+      "id": "IT-012",
+      "category": "security",
+      "difficulty": "hard",
+      "question": "Information security management ISO?",
+      "options": {
+        "A": "ISO 45001",
+        "B": "ISO 9001",
+        "C": "ISO 27001",
+        "D": "ISO 14001"
+      },
+      "correct": "C",
+      "explanation": "ISO 27001 defines requirements for an Information Security Management System."
+    },
+    {
+      "id": "IT-013",
+      "category": "security",
+      "difficulty": "hard",
+      "question": "Auto industry info-security assessment?",
+      "options": {
+        "A": "IATF",
+        "B": "HACCP",
+        "C": "LEED",
+        "D": "TISAX"
+      },
+      "correct": "D",
+      "explanation": "TISAX is the automotive industry's information security assessment for suppliers."
+    },
+    {
+      "id": "IT-014",
+      "category": "security",
+      "difficulty": "medium",
+      "question": "Social engineering attacks mainly target?",
+      "options": {
+        "A": "People",
+        "B": "Printers",
+        "C": "Cables",
+        "D": "Servers only"
+      },
+      "correct": "A",
+      "explanation": "Attackers trick people into giving access, so awareness is the first line of defence."
+    },
+    {
+      "id": "IT-015",
+      "category": "security",
+      "difficulty": "medium",
+      "question": "Working on public Wi-Fi needs a?",
+      "options": {
+        "A": "Nothing",
+        "B": "Bluetooth",
+        "C": "VPN",
+        "D": "Louder speaker"
+      },
+      "correct": "C",
+      "explanation": "A VPN encrypts traffic so data cannot be read on untrusted networks."
+    },
+    {
+      "id": "IT-016",
+      "category": "erp",
+      "difficulty": "easy",
+      "question": "In ERP, what does 'R' stand for?",
+      "options": {
+        "A": "Repair",
+        "B": "Revenue",
+        "C": "Resource",
+        "D": "Report"
+      },
+      "correct": "C",
+      "explanation": "Enterprise Resource Planning links finance, purchasing, production and sales in one system."
+    },
+    {
+      "id": "IT-017",
+      "category": "erp",
+      "difficulty": "medium",
+      "question": "SAP module for purchasing and stores?",
+      "options": {
+        "A": "MM",
+        "B": "SD",
+        "C": "HR",
+        "D": "FI"
+      },
+      "correct": "A",
+      "explanation": "Materials Management handles purchase orders, goods receipt and inventory."
+    },
+    {
+      "id": "IT-018",
+      "category": "erp",
+      "difficulty": "medium",
+      "question": "SAP module for sales orders and billing?",
+      "options": {
+        "A": "QM",
+        "B": "SD",
+        "C": "MM",
+        "D": "PP"
+      },
+      "correct": "B",
+      "explanation": "Sales & Distribution covers sales orders, deliveries and invoices."
+    },
+    {
+      "id": "IT-019",
+      "category": "erp",
+      "difficulty": "medium",
+      "question": "SAP module for production orders?",
+      "options": {
+        "A": "PP",
+        "B": "FI",
+        "C": "HCM",
+        "D": "SD"
+      },
+      "correct": "A",
+      "explanation": "Production Planning manages BOMs, routings, MRP and production orders."
+    },
+    {
+      "id": "IT-020",
+      "category": "erp",
+      "difficulty": "medium",
+      "question": "SAP module for financial accounting?",
+      "options": {
+        "A": "PP",
+        "B": "FI",
+        "C": "PM",
+        "D": "MM"
+      },
+      "correct": "B",
+      "explanation": "Financial Accounting records ledgers, payables, receivables and statements."
+    },
+    {
+      "id": "IT-021",
+      "category": "erp",
+      "difficulty": "hard",
+      "question": "SAP PM module handles what?",
+      "options": {
+        "A": "Pricing",
+        "B": "Payroll",
+        "C": "Packing",
+        "D": "Plant maintenance"
+      },
+      "correct": "D",
+      "explanation": "Plant Maintenance manages breakdown and preventive work orders for machines."
+    },
+    {
+      "id": "IT-022",
+      "category": "erp",
+      "difficulty": "hard",
+      "question": "Example of a master data error?",
+      "options": {
+        "A": "Broken chair",
+        "B": "Late lunch",
+        "C": "Slow Wi-Fi",
+        "D": "Wrong unit"
+      },
+      "correct": "D",
+      "explanation": "A wrong unit or price in material master data causes errors in every later transaction."
+    },
+    {
+      "id": "IT-023",
+      "category": "erp",
+      "difficulty": "medium",
+      "question": "BOM stands for?",
+      "options": {
+        "A": "Box of Media",
+        "B": "Batch of Metal",
+        "C": "Bill of Materials",
+        "D": "Book of Machines"
+      },
+      "correct": "C",
+      "explanation": "A BOM lists all parts and quantities needed to make one finished item."
+    },
+    {
+      "id": "IT-024",
+      "category": "mes_iot",
+      "difficulty": "medium",
+      "question": "MES connects ERP to the?",
+      "options": {
+        "A": "Bank",
+        "B": "Customers",
+        "C": "Canteen",
+        "D": "Shop floor"
+      },
+      "correct": "D",
+      "explanation": "A Manufacturing Execution System tracks real-time production, quality and traceability."
+    },
+    {
+      "id": "IT-025",
+      "category": "mes_iot",
+      "difficulty": "medium",
+      "question": "Controller that runs factory machines?",
+      "options": {
+        "A": "ERP",
+        "B": "PLC",
+        "C": "CRM",
+        "D": "VPN"
+      },
+      "correct": "B",
+      "explanation": "A Programmable Logic Controller runs machine sequences, sensors and actuators on the line."
+    },
+    {
+      "id": "IT-026",
+      "category": "mes_iot",
+      "difficulty": "hard",
+      "question": "Secure standard linking machines to MES?",
+      "options": {
+        "A": "SMTP",
+        "B": "FTP",
+        "C": "OPC UA",
+        "D": "POP3"
+      },
+      "correct": "C",
+      "explanation": "OPC UA is a secure, vendor-neutral standard for industrial machine data exchange."
+    },
+    {
+      "id": "IT-027",
+      "category": "mes_iot",
+      "difficulty": "hard",
+      "question": "OT (vs IT) mainly controls what?",
+      "options": {
+        "A": "Machines",
+        "B": "Emails",
+        "C": "Website",
+        "D": "Payroll"
+      },
+      "correct": "A",
+      "explanation": "Operational Technology runs physical processes and needs separate security zones from IT."
+    },
+    {
+      "id": "IT-028",
+      "category": "mes_iot",
+      "difficulty": "medium",
+      "question": "Barcodes on part boxes help with?",
+      "options": {
+        "A": "Cooling",
+        "B": "Colour match",
+        "C": "Weight loss",
+        "D": "Traceability"
+      },
+      "correct": "D",
+      "explanation": "Scanning labels links each lot to its process, materials and inspection records."
+    },
+    {
+      "id": "IT-029",
+      "category": "mes_iot",
+      "difficulty": "medium",
+      "question": "IIoT sensors on machines help to?",
+      "options": {
+        "A": "Raise noise",
+        "B": "Predict failures",
+        "C": "Paint parts",
+        "D": "Cut wages"
+      },
+      "correct": "B",
+      "explanation": "Connected sensors stream vibration and temperature data to spot problems early."
+    },
+    {
+      "id": "IT-030",
+      "category": "mes_iot",
+      "difficulty": "hard",
+      "question": "The HMI screen on a machine is used to?",
+      "options": {
+        "A": "Operate machine",
+        "B": "Book travel",
+        "C": "Send email",
+        "D": "Pay salary"
+      },
+      "correct": "A",
+      "explanation": "The Human-Machine Interface lets operators view status and control equipment."
+    },
+    {
+      "id": "IT-031",
+      "category": "infra",
+      "difficulty": "easy",
+      "question": "What protects PCs during power cuts?",
+      "options": {
+        "A": "Mouse",
+        "B": "Speaker",
+        "C": "UPS",
+        "D": "Fan"
+      },
+      "correct": "C",
+      "explanation": "An Uninterruptible Power Supply gives battery backup for safe shutdown."
+    },
+    {
+      "id": "IT-032",
+      "category": "infra",
+      "difficulty": "easy",
+      "question": "Before installing software at work?",
+      "options": {
+        "A": "Get IT approval",
+        "B": "Ask a friend",
+        "C": "Just install",
+        "D": "Use a crack"
+      },
+      "correct": "A",
+      "explanation": "Unapproved software can carry malware or break licence terms."
+    },
+    {
+      "id": "IT-033",
+      "category": "infra",
+      "difficulty": "medium",
+      "question": "3-2-1 backup rule: offsite copies?",
+      "options": {
+        "A": "2",
+        "B": "1",
+        "C": "0",
+        "D": "3"
+      },
+      "correct": "B",
+      "explanation": "Keep 3 copies on 2 media types with 1 copy offsite or offline for recovery."
+    },
+    {
+      "id": "IT-034",
+      "category": "infra",
+      "difficulty": "medium",
+      "question": "A firewall's job is to?",
+      "options": {
+        "A": "Print files",
+        "B": "Cool servers",
+        "C": "Store mail",
+        "D": "Filter traffic"
+      },
+      "correct": "D",
+      "explanation": "Firewalls allow or block network traffic based on security rules."
+    },
+    {
+      "id": "IT-035",
+      "category": "infra",
+      "difficulty": "medium",
+      "question": "Software patches mainly fix what?",
+      "options": {
+        "A": "Screen size",
+        "B": "Fonts",
+        "C": "Security holes",
+        "D": "Keyboard"
+      },
+      "correct": "C",
+      "explanation": "Patches close vulnerabilities that attackers exploit, so install them promptly."
+    },
+    {
+      "id": "IT-036",
+      "category": "infra",
+      "difficulty": "hard",
+      "question": "RTO in disaster recovery means?",
+      "options": {
+        "A": "Max downtime",
+        "B": "Router type",
+        "C": "Repair cost",
+        "D": "Data size"
+      },
+      "correct": "A",
+      "explanation": "Recovery Time Objective is how fast systems must be restored after an outage."
+    },
+    {
+      "id": "IT-037",
+      "category": "infra",
+      "difficulty": "hard",
+      "question": "RPO in disaster recovery means?",
+      "options": {
+        "A": "Users",
+        "B": "Max data loss",
+        "C": "Printers",
+        "D": "Downtime cost"
+      },
+      "correct": "B",
+      "explanation": "Recovery Point Objective is how much recent data (in time) the business can afford to lose."
+    },
+    {
+      "id": "IT-038",
+      "category": "infra",
+      "difficulty": "medium",
+      "question": "Example of cloud SaaS?",
+      "options": {
+        "A": "Keyboard",
+        "B": "Microsoft 365",
+        "C": "Router",
+        "D": "Hard disk"
+      },
+      "correct": "B",
+      "explanation": "Software as a Service runs in the cloud and is used through a browser or app."
+    },
+    {
+      "id": "IT-039",
+      "category": "infra",
+      "difficulty": "hard",
+      "question": "RAID 1 means what?",
+      "options": {
+        "A": "No disks",
+        "B": "Disk mirroring",
+        "C": "Tape backup",
+        "D": "Striping only"
+      },
+      "correct": "B",
+      "explanation": "RAID 1 writes the same data to two disks, so one can fail without data loss."
+    },
+    {
+      "id": "IT-040",
+      "category": "infra",
+      "difficulty": "medium",
+      "question": "DNS converts what?",
+      "options": {
+        "A": "Names to IP",
+        "B": "Text to voice",
+        "C": "IP to MAC",
+        "D": "Mail to PDF"
+      },
+      "correct": "A",
+      "explanation": "The Domain Name System translates names like nsk.com into IP addresses."
+    },
+    {
+      "id": "IT-041",
+      "category": "data",
+      "difficulty": "easy",
+      "question": "A clean desk policy means?",
+      "options": {
+        "A": "No food",
+        "B": "No papers left out",
+        "C": "Empty drawers",
+        "D": "Wipe desk daily"
+      },
+      "correct": "B",
+      "explanation": "Lock away documents and devices so confidential information isn't exposed."
+    },
+    {
+      "id": "IT-042",
+      "category": "data",
+      "difficulty": "medium",
+      "question": "India's personal data law of 2023?",
+      "options": {
+        "A": "GDPR",
+        "B": "CCPA",
+        "C": "HIPAA",
+        "D": "DPDP Act"
+      },
+      "correct": "D",
+      "explanation": "The Digital Personal Data Protection Act 2023 governs personal data in India."
+    },
+    {
+      "id": "IT-043",
+      "category": "data",
+      "difficulty": "medium",
+      "question": "Send confidential drawings to vendors via?",
+      "options": {
+        "A": "Secure portal",
+        "B": "Personal Gmail",
+        "C": "WhatsApp",
+        "D": "Pen drive post"
+      },
+      "correct": "A",
+      "explanation": "Approved, encrypted file sharing with access control protects design IP."
+    },
+    {
+      "id": "IT-044",
+      "category": "data",
+      "difficulty": "medium",
+      "question": "Who owns data on company laptops?",
+      "options": {
+        "A": "Nobody",
+        "B": "The employee",
+        "C": "The company",
+        "D": "IT vendor"
+      },
+      "correct": "C",
+      "explanation": "Company devices and data belong to the company and follow IT policy."
+    },
+    {
+      "id": "IT-045",
+      "category": "data",
+      "difficulty": "hard",
+      "question": "Usual label for engineering drawings?",
+      "options": {
+        "A": "Public",
+        "B": "Personal",
+        "C": "Confidential",
+        "D": "Free"
+      },
+      "correct": "C",
+      "explanation": "Engineering drawings are intellectual property and usually classified confidential."
+    },
+    {
+      "id": "IT-046",
+      "category": "data",
+      "difficulty": "hard",
+      "question": "Emailing data to the wrong person is?",
+      "options": {
+        "A": "Data incident",
+        "B": "Just a typo",
+        "C": "Fine",
+        "D": "Ignorable"
+      },
+      "correct": "A",
+      "explanation": "Misdirected emails with sensitive data must be reported to IT/security quickly."
+    },
+    {
+      "id": "IT-047",
+      "category": "support",
+      "difficulty": "easy",
+      "question": "Best way to log an IT issue?",
+      "options": {
+        "A": "Shout",
+        "B": "Raise a ticket",
+        "C": "Wait silently",
+        "D": "Restart server"
+      },
+      "correct": "B",
+      "explanation": "Tickets record the issue, priority and fix, so nothing gets lost."
+    },
+    {
+      "id": "IT-048",
+      "category": "support",
+      "difficulty": "easy",
+      "question": "First step when your PC freezes?",
+      "options": {
+        "A": "Restart it",
+        "B": "Call vendor",
+        "C": "Unplug router",
+        "D": "Hit monitor"
+      },
+      "correct": "A",
+      "explanation": "A simple restart fixes many issues; raise a ticket if the problem repeats."
+    },
+    {
+      "id": "IT-049",
+      "category": "support",
+      "difficulty": "medium",
+      "question": "Keyboard shortcut to copy?",
+      "options": {
+        "A": "Ctrl + X",
+        "B": "Ctrl + Z",
+        "C": "Ctrl + C",
+        "D": "Ctrl + V"
+      },
+      "correct": "C",
+      "explanation": "Ctrl+C copies, Ctrl+V pastes, Ctrl+X cuts and Ctrl+Z undoes."
+    },
+    {
+      "id": "IT-050",
+      "category": "support",
+      "difficulty": "medium",
+      "question": "'Shadow IT' means using?",
+      "options": {
+        "A": "Night shift IT",
+        "B": "Unapproved apps",
+        "C": "Dark mode",
+        "D": "Backup server"
+      },
+      "correct": "B",
+      "explanation": "Tools not approved by IT create hidden security and data risks."
+    }
+  ]
+}

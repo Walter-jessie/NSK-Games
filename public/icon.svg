@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#141E33" />
+      <stop offset="100%" stop-color="#0A0E1A" />
+    </radialGradient>
+    <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#60A5FA" />
+      <stop offset="100%" stop-color="#1E3A5F" />
+    </linearGradient>
+    <radialGradient id="ballGrad" cx="35%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#F1F5F9" />
+      <stop offset="60%" stop-color="#94A3B8" />
+      <stop offset="100%" stop-color="#334155" />
+    </radialGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="512" height="512" rx="108" fill="url(#bg)" />
+
+  <!-- Outer Ring -->
+  <circle cx="256" cy="256" r="210" fill="none" stroke="url(#ringGrad)" stroke-width="28" />
+  <circle cx="256" cy="256" r="195" fill="none" stroke="#60A5FA" stroke-width="2" opacity="0.4" />
+
+  <!-- Ball Race Track -->
+  <circle cx="256" cy="256" r="148" fill="none" stroke="#1A2234" stroke-width="64" />
+
+  <!-- Rolling Element Balls (8 balls) -->
+  <g id="balls">
+    <!-- 0 deg -->
+    <circle cx="404" cy="256" r="26" fill="url(#ballGrad)" />
+    <!-- 45 deg -->
+    <circle cx="360.6" cy="360.6" r="26" fill="url(#ballGrad)" />
+    <!-- 90 deg -->
+    <circle cx="256" cy="404" r="26" fill="url(#ballGrad)" />
+    <!-- 135 deg -->
+    <circle cx="151.4" cy="360.6" r="26" fill="url(#ballGrad)" />
+    <!-- 180 deg -->
+    <circle cx="108" cy="256" r="26" fill="url(#ballGrad)" />
+    <!-- 225 deg -->
+    <circle cx="151.4" cy="151.4" r="26" fill="url(#ballGrad)" />
+    <!-- 270 deg -->
+    <circle cx="256" cy="108" r="26" fill="url(#ballGrad)" />
+    <!-- 315 deg -->
+    <circle cx="360.6" cy="151.4" r="26" fill="url(#ballGrad)" />
+  </g>
+
+  <!-- Inner Ring -->
+  <circle cx="256" cy="256" r="102" fill="none" stroke="url(#ringGrad)" stroke-width="22" />
+  <circle cx="256" cy="256" r="90" fill="#0A0E1A" />
+
+  <!-- Center Shaft Bore -->
+  <circle cx="256" cy="256" r="48" fill="#141E33" stroke="#60A5FA" stroke-width="4" />
+  <!-- Shaft Keyway Slot -->
+  <rect x="246" y="200" width="20" height="40" rx="4" fill="#0A0E1A" />
+
+  <!-- NSK Brand Text -->
+  <text x="256" y="266" text-anchor="middle" font-family="'Outfit', sans-serif" font-weight="900" font-size="28" fill="#F1F5F9" letter-spacing="3">NSK</text>
+</svg>

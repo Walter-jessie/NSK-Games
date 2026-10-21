@@ -1,0 +1,711 @@
+{
+  "department_id": "general",
+  "department_name": "NSK All Plant General",
+  "version": "2.0",
+  "total_questions": 50,
+  "categories": [
+    "general"
+  ],
+  "questions": [
+    {
+      "id": "MFG-001",
+      "category": "production",
+      "difficulty": "easy",
+      "question": "NSK Chennai plant mainly makes bearings for which sector?",
+      "options": {
+        "A": "Aerospace",
+        "B": "Automotive",
+        "C": "Textile",
+        "D": "Marine"
+      },
+      "correct": "B",
+      "explanation": "The Chennai plant was set up to make automotive bearings such as hub units, transmission and magnetic clutch bearings."
+    },
+    {
+      "id": "MFG-002",
+      "category": "production",
+      "difficulty": "easy",
+      "question": "What is the first step of the 5S system?",
+      "options": {
+        "A": "Standardize",
+        "B": "Shine (Seiso)",
+        "C": "Sustain",
+        "D": "Sort (Seiri)"
+      },
+      "correct": "D",
+      "explanation": "Seiri means sorting: remove everything not needed at the workplace before arranging what remains."
+    },
+    {
+      "id": "MFG-003",
+      "category": "production",
+      "difficulty": "easy",
+      "question": "Which Japanese word means continuous improvement?",
+      "options": {
+        "A": "Kanban",
+        "B": "Kaizen",
+        "C": "Muda",
+        "D": "Andon"
+      },
+      "correct": "B",
+      "explanation": "Kaizen means small, daily improvements made by everyone, from operator to plant head."
+    },
+    {
+      "id": "MFG-004",
+      "category": "production",
+      "difficulty": "easy",
+      "question": "Pulling the Andon cord signals what?",
+      "options": {
+        "A": "Line problem",
+        "B": "Fire drill",
+        "C": "Shift change",
+        "D": "Lunch break"
+      },
+      "correct": "A",
+      "explanation": "An Andon alerts the leader to a quality or machine problem so it is fixed at once, not passed on."
+    },
+    {
+      "id": "MFG-005",
+      "category": "production",
+      "difficulty": "easy",
+      "question": "Bearing rings become hard in which process?",
+      "options": {
+        "A": "Washing",
+        "B": "Packing",
+        "C": "Heat treatment",
+        "D": "Greasing"
+      },
+      "correct": "C",
+      "explanation": "Hardening and tempering give rings high hardness (about 58–64 HRC) needed for long rolling fatigue life."
+    },
+    {
+      "id": "MFG-006",
+      "category": "production",
+      "difficulty": "medium",
+      "question": "Which grinding finishes ring OD without centres?",
+      "options": {
+        "A": "Surface grinding",
+        "B": "Centreless grinding",
+        "C": "Thread grinding",
+        "D": "Gear grinding"
+      },
+      "correct": "B",
+      "explanation": "Centreless grinding supports the ring on a blade and regulating wheel, giving fast, accurate outer diameters."
+    },
+    {
+      "id": "MFG-007",
+      "category": "production",
+      "difficulty": "medium",
+      "question": "Superfinishing of raceways mainly improves what?",
+      "options": {
+        "A": "Surface finish",
+        "B": "Ring weight",
+        "C": "Box size",
+        "D": "Cage colour"
+      },
+      "correct": "A",
+      "explanation": "Superfinishing removes fine grinding marks on raceways, lowering noise and helping form an oil film."
+    },
+    {
+      "id": "MFG-008",
+      "category": "production",
+      "difficulty": "medium",
+      "question": "Why are rings washed before assembly?",
+      "options": {
+        "A": "Cool rings",
+        "B": "Add colour",
+        "C": "Remove dirt",
+        "D": "Mark size"
+      },
+      "correct": "C",
+      "explanation": "Even tiny grinding particles left on rings cause noise and early failure, so rings are cleaned first."
+    },
+    {
+      "id": "MFG-009",
+      "category": "production",
+      "difficulty": "hard",
+      "question": "Gen-3 hub unit inner ring is clamped by what?",
+      "options": {
+        "A": "Glue",
+        "B": "Welding",
+        "C": "Orbital forming",
+        "D": "Circlip only"
+      },
+      "correct": "C",
+      "explanation": "Gen-3 hubs commonly use orbital (roll) forming of the hub end to clamp the inner ring and hold preload."
+    },
+    {
+      "id": "MFG-010",
+      "category": "production",
+      "difficulty": "hard",
+      "question": "Hub flange raceway is usually hardened by?",
+      "options": {
+        "A": "Induction hardening",
+        "B": "Paint curing",
+        "C": "Air cooling",
+        "D": "Flame painting"
+      },
+      "correct": "A",
+      "explanation": "Medium-carbon hub flanges are induction hardened only at the raceway, keeping a tough core."
+    },
+    {
+      "id": "MFG-011",
+      "category": "prod_engineering",
+      "difficulty": "easy",
+      "question": "Poka-Yoke means what?",
+      "options": {
+        "A": "Cost cutting",
+        "B": "Speed-up",
+        "C": "Overtime",
+        "D": "Mistake-proofing"
+      },
+      "correct": "D",
+      "explanation": "Poka-Yoke devices stop wrong parts or wrong steps, so defects cannot be made or passed on."
+    },
+    {
+      "id": "MFG-012",
+      "category": "prod_engineering",
+      "difficulty": "medium",
+      "question": "SMED is a method to reduce what?",
+      "options": {
+        "A": "Lunch time",
+        "B": "Salary",
+        "C": "Steel cost",
+        "D": "Changeover time"
+      },
+      "correct": "D",
+      "explanation": "Single-Minute Exchange of Die moves setup steps outside machine stop time to cut changeover time."
+    },
+    {
+      "id": "MFG-013",
+      "category": "prod_engineering",
+      "difficulty": "medium",
+      "question": "Minimum Cpk for a capable process?",
+      "options": {
+        "A": "0.1",
+        "B": "1.33",
+        "C": "0.5",
+        "D": "0.8"
+      },
+      "correct": "B",
+      "explanation": "Automotive customers usually expect Cpk of at least 1.33, meaning the process stays well inside tolerance."
+    },
+    {
+      "id": "MFG-014",
+      "category": "prod_engineering",
+      "difficulty": "medium",
+      "question": "X-bar R chart belongs to which tool?",
+      "options": {
+        "A": "CRM",
+        "B": "ERP",
+        "C": "SPC",
+        "D": "CAD"
+      },
+      "correct": "C",
+      "explanation": "Statistical Process Control charts show when a process drifts so action is taken before defects occur."
+    },
+    {
+      "id": "MFG-015",
+      "category": "prod_engineering",
+      "difficulty": "hard",
+      "question": "In PFMEA, RPN equals what?",
+      "options": {
+        "A": "O − D",
+        "B": "S × O × D",
+        "C": "S ÷ D",
+        "D": "S + O + D"
+      },
+      "correct": "B",
+      "explanation": "Risk Priority Number multiplies Severity, Occurrence and Detection; newer AIAG-VDA FMEA uses Action Priority."
+    },
+    {
+      "id": "MFG-016",
+      "category": "prod_engineering",
+      "difficulty": "medium",
+      "question": "4M change covers Man, Machine, Material and?",
+      "options": {
+        "A": "Money",
+        "B": "Market",
+        "C": "Method",
+        "D": "Media"
+      },
+      "correct": "C",
+      "explanation": "Any change in Man, Machine, Material or Method must be planned, approved and verified before production."
+    },
+    {
+      "id": "MFG-017",
+      "category": "prod_engineering",
+      "difficulty": "easy",
+      "question": "The fishbone diagram is also called?",
+      "options": {
+        "A": "Ishikawa diagram",
+        "B": "Pareto chart",
+        "C": "Gantt chart",
+        "D": "Flow chart"
+      },
+      "correct": "A",
+      "explanation": "The Ishikawa (cause-and-effect) diagram groups possible causes of a problem by category."
+    },
+    {
+      "id": "MFG-018",
+      "category": "prod_engineering",
+      "difficulty": "medium",
+      "question": "Pareto rule: 80% of problems come from?",
+      "options": {
+        "A": "50% of causes",
+        "B": "All causes",
+        "C": "20% of causes",
+        "D": "1% of causes"
+      },
+      "correct": "C",
+      "explanation": "Pareto analysis ranks causes so the team fixes the vital few that create most defects."
+    },
+    {
+      "id": "MFG-019",
+      "category": "prod_engineering",
+      "difficulty": "hard",
+      "question": "Gauge R&R study checks what?",
+      "options": {
+        "A": "Machine speed",
+        "B": "Operator salary",
+        "C": "Steel grade",
+        "D": "Measurement error"
+      },
+      "correct": "D",
+      "explanation": "Gauge Repeatability & Reproducibility shows how much variation comes from the gauge and inspectors."
+    },
+    {
+      "id": "MFG-020",
+      "category": "prod_engineering",
+      "difficulty": "medium",
+      "question": "Why-Why analysis asks 'why' how many times?",
+      "options": {
+        "A": "Five",
+        "B": "Two",
+        "C": "Ten",
+        "D": "One"
+      },
+      "correct": "A",
+      "explanation": "Asking 'why' about five times digs past symptoms to the true root cause."
+    },
+    {
+      "id": "MFG-021",
+      "category": "maintenance",
+      "difficulty": "easy",
+      "question": "LOTO must be applied before what?",
+      "options": {
+        "A": "Machine repair",
+        "B": "Tea break",
+        "C": "Audit",
+        "D": "Shift meeting"
+      },
+      "correct": "A",
+      "explanation": "Lockout-Tagout isolates energy so the machine cannot start while someone works on it."
+    },
+    {
+      "id": "MFG-022",
+      "category": "maintenance",
+      "difficulty": "easy",
+      "question": "TPM aims for zero what?",
+      "options": {
+        "A": "Breakdowns",
+        "B": "Holidays",
+        "C": "Machines",
+        "D": "Workers"
+      },
+      "correct": "A",
+      "explanation": "Total Productive Maintenance targets zero breakdowns, zero defects and zero accidents."
+    },
+    {
+      "id": "MFG-023",
+      "category": "maintenance",
+      "difficulty": "easy",
+      "question": "Jishu Hozen is maintenance done by whom?",
+      "options": {
+        "A": "Auditors",
+        "B": "Vendors",
+        "C": "Operators",
+        "D": "Customers"
+      },
+      "correct": "C",
+      "explanation": "Autonomous maintenance means operators clean, inspect, lubricate and tighten their own machines daily."
+    },
+    {
+      "id": "MFG-024",
+      "category": "maintenance",
+      "difficulty": "medium",
+      "question": "CLIT stands for Clean, Lubricate, Inspect and?",
+      "options": {
+        "A": "Track",
+        "B": "Tighten",
+        "C": "Train",
+        "D": "Test"
+      },
+      "correct": "B",
+      "explanation": "CLIT is the daily autonomous maintenance routine that stops small issues becoming breakdowns."
+    },
+    {
+      "id": "MFG-025",
+      "category": "maintenance",
+      "difficulty": "medium",
+      "question": "MTBF measures what?",
+      "options": {
+        "A": "Repair cost",
+        "B": "Spare parts",
+        "C": "Time between failures",
+        "D": "Oil level"
+      },
+      "correct": "C",
+      "explanation": "Mean Time Between Failures shows reliability; a higher MTBF means fewer breakdowns."
+    },
+    {
+      "id": "MFG-026",
+      "category": "maintenance",
+      "difficulty": "medium",
+      "question": "MTTR measures what?",
+      "options": {
+        "A": "Running speed",
+        "B": "Average repair time",
+        "C": "Energy use",
+        "D": "Scrap rate"
+      },
+      "correct": "B",
+      "explanation": "Mean Time To Repair shows how fast the team restores a machine after a breakdown."
+    },
+    {
+      "id": "MFG-027",
+      "category": "maintenance",
+      "difficulty": "medium",
+      "question": "Thermal imaging cameras detect what?",
+      "options": {
+        "A": "Weight",
+        "B": "Hot spots",
+        "C": "Noise",
+        "D": "Colour"
+      },
+      "correct": "B",
+      "explanation": "Infrared thermography shows abnormal heat in motors, panels and bearings before they fail."
+    },
+    {
+      "id": "MFG-028",
+      "category": "maintenance",
+      "difficulty": "hard",
+      "question": "Vibration analysis is which maintenance type?",
+      "options": {
+        "A": "Breakdown",
+        "B": "Cosmetic",
+        "C": "Corrective",
+        "D": "Predictive"
+      },
+      "correct": "D",
+      "explanation": "Predictive maintenance uses condition data like vibration to repair just before failure."
+    },
+    {
+      "id": "MFG-029",
+      "category": "maintenance",
+      "difficulty": "medium",
+      "question": "Dressing a grinding wheel restores what?",
+      "options": {
+        "A": "Wheel colour",
+        "B": "Coolant level",
+        "C": "Motor power",
+        "D": "Wheel sharpness"
+      },
+      "correct": "D",
+      "explanation": "Dressing removes dull grains and loading, restoring cutting action and the wheel profile."
+    },
+    {
+      "id": "MFG-030",
+      "category": "maintenance",
+      "difficulty": "hard",
+      "question": "Grinding spindle bearings fail early mostly due to?",
+      "options": {
+        "A": "Lighting",
+        "B": "Contamination",
+        "C": "Painting",
+        "D": "Labels"
+      },
+      "correct": "B",
+      "explanation": "Dirt, coolant entry and poor lubrication cause most early spindle bearing failures."
+    },
+    {
+      "id": "MFG-031",
+      "category": "maintenance",
+      "difficulty": "easy",
+      "question": "Which extinguisher suits electrical panel fires?",
+      "options": {
+        "A": "Water",
+        "B": "CO2",
+        "C": "Sand bucket",
+        "D": "Foam"
+      },
+      "correct": "B",
+      "explanation": "CO2 does not conduct electricity and leaves no residue, so it is used on electrical fires."
+    },
+    {
+      "id": "MFG-032",
+      "category": "planning",
+      "difficulty": "easy",
+      "question": "A Kanban card is a signal to?",
+      "options": {
+        "A": "Pay vendors",
+        "B": "Produce parts",
+        "C": "Stop work",
+        "D": "Hire staff"
+      },
+      "correct": "B",
+      "explanation": "Kanban cards trigger production or movement only when the next process pulls parts."
+    },
+    {
+      "id": "MFG-033",
+      "category": "planning",
+      "difficulty": "easy",
+      "question": "JIT stands for?",
+      "options": {
+        "A": "Job In Training",
+        "B": "Just In Time",
+        "C": "Jig In Tool",
+        "D": "Join In Team"
+      },
+      "correct": "B",
+      "explanation": "Just In Time makes and moves only what is needed, when needed, in the amount needed."
+    },
+    {
+      "id": "MFG-034",
+      "category": "planning",
+      "difficulty": "medium",
+      "question": "Takt time = available time ÷ what?",
+      "options": {
+        "A": "Customer demand",
+        "B": "Shifts",
+        "C": "Workers",
+        "D": "Machines"
+      },
+      "correct": "A",
+      "explanation": "Takt time sets the production pace to match customer demand."
+    },
+    {
+      "id": "MFG-035",
+      "category": "planning",
+      "difficulty": "medium",
+      "question": "OEE = Availability × Performance × ?",
+      "options": {
+        "A": "Quantity",
+        "B": "Cost",
+        "C": "Speed",
+        "D": "Quality"
+      },
+      "correct": "D",
+      "explanation": "OEE combines uptime, speed and good-part rate into one measure of equipment effectiveness."
+    },
+    {
+      "id": "MFG-036",
+      "category": "planning",
+      "difficulty": "medium",
+      "question": "Heijunka in production means what?",
+      "options": {
+        "A": "Levelled output",
+        "B": "Night shift",
+        "C": "Big batches",
+        "D": "Fast output"
+      },
+      "correct": "A",
+      "explanation": "Heijunka levels volume and product mix over time to avoid peaks and idle time."
+    },
+    {
+      "id": "MFG-037",
+      "category": "planning",
+      "difficulty": "hard",
+      "question": "MRP calculates material needs from BOM and?",
+      "options": {
+        "A": "Salary sheet",
+        "B": "Gate pass",
+        "C": "Sales calls",
+        "D": "Production plan"
+      },
+      "correct": "D",
+      "explanation": "MRP explodes the master schedule through the BOM, netting stock to plan material orders."
+    },
+    {
+      "id": "MFG-038",
+      "category": "planning",
+      "difficulty": "medium",
+      "question": "WIP stands for?",
+      "options": {
+        "A": "Work In Progress",
+        "B": "Weekly Input",
+        "C": "Waste In Plant",
+        "D": "Work In Plan"
+      },
+      "correct": "A",
+      "explanation": "WIP is partly finished stock between processes; high WIP hides problems and blocks cash."
+    },
+    {
+      "id": "MFG-039",
+      "category": "planning",
+      "difficulty": "hard",
+      "question": "The bottleneck process decides what?",
+      "options": {
+        "A": "Line output",
+        "B": "Canteen menu",
+        "C": "Bonus",
+        "D": "Paint colour"
+      },
+      "correct": "A",
+      "explanation": "The slowest step limits total line output, so improvement starts at the bottleneck."
+    },
+    {
+      "id": "MFG-040",
+      "category": "planning",
+      "difficulty": "easy",
+      "question": "Muda means what?",
+      "options": {
+        "A": "Safety",
+        "B": "Speed",
+        "C": "Waste",
+        "D": "Profit"
+      },
+      "correct": "C",
+      "explanation": "Muda is any activity that adds cost but no value for the customer."
+    },
+    {
+      "id": "MFG-041",
+      "category": "procurement",
+      "difficulty": "easy",
+      "question": "PO stands for?",
+      "options": {
+        "A": "Plant Output",
+        "B": "Price Offer",
+        "C": "Post Office",
+        "D": "Purchase Order"
+      },
+      "correct": "D",
+      "explanation": "A Purchase Order is the legal document to a supplier listing item, quantity, price and delivery."
+    },
+    {
+      "id": "MFG-042",
+      "category": "procurement",
+      "difficulty": "easy",
+      "question": "A GRN is made when?",
+      "options": {
+        "A": "Quote arrives",
+        "B": "Invoice is paid",
+        "C": "Order is placed",
+        "D": "Goods arrive"
+      },
+      "correct": "D",
+      "explanation": "A Goods Receipt Note records material received at stores against the purchase order."
+    },
+    {
+      "id": "MFG-043",
+      "category": "procurement",
+      "difficulty": "medium",
+      "question": "Three-way match checks PO, GRN and?",
+      "options": {
+        "A": "Catalogue",
+        "B": "Gate pass",
+        "C": "Invoice",
+        "D": "Quote"
+      },
+      "correct": "C",
+      "explanation": "Payment is released only when the PO, received quantity and invoice all agree."
+    },
+    {
+      "id": "MFG-044",
+      "category": "procurement",
+      "difficulty": "medium",
+      "question": "Standard bearing ring steel grade is?",
+      "options": {
+        "A": "Aluminium",
+        "B": "Mild steel",
+        "C": "SUJ2 (100Cr6)",
+        "D": "Brass"
+      },
+      "correct": "C",
+      "explanation": "SUJ2/100Cr6 high-carbon chromium steel is the standard bearing steel for rings and balls."
+    },
+    {
+      "id": "MFG-045",
+      "category": "procurement",
+      "difficulty": "medium",
+      "question": "RFQ stands for?",
+      "options": {
+        "A": "Return For Qty",
+        "B": "Ready For QC",
+        "C": "Request For Quote",
+        "D": "Rate For Quality"
+      },
+      "correct": "C",
+      "explanation": "A Request For Quotation asks suppliers for price and terms so buyers can compare offers fairly."
+    },
+    {
+      "id": "MFG-046",
+      "category": "procurement",
+      "difficulty": "hard",
+      "question": "Supplier PPAP must be approved before?",
+      "options": {
+        "A": "Payment",
+        "B": "Mass production",
+        "C": "Tender",
+        "D": "Plant visit"
+      },
+      "correct": "B",
+      "explanation": "Production Part Approval Process proves a supplier's part and process meet all requirements."
+    },
+    {
+      "id": "MFG-047",
+      "category": "procurement",
+      "difficulty": "medium",
+      "question": "Why buy one part from two suppliers?",
+      "options": {
+        "A": "Raise price",
+        "B": "Add paperwork",
+        "C": "More meetings",
+        "D": "Lower supply risk"
+      },
+      "correct": "D",
+      "explanation": "Dual sourcing protects supply if one vendor faces fire, strike or quality problems."
+    },
+    {
+      "id": "MFG-048",
+      "category": "procurement",
+      "difficulty": "hard",
+      "question": "Supplier rating tracks Quality, Delivery and?",
+      "options": {
+        "A": "Cost",
+        "B": "Colour",
+        "C": "Size",
+        "D": "Logo"
+      },
+      "correct": "A",
+      "explanation": "QCD ratings help buyers reward good suppliers and develop weak ones."
+    },
+    {
+      "id": "MFG-049",
+      "category": "safety",
+      "difficulty": "easy",
+      "question": "Near rotating machines, never wear what?",
+      "options": {
+        "A": "Loose clothing",
+        "B": "Goggles",
+        "C": "Ear plugs",
+        "D": "Safety shoes"
+      },
+      "correct": "A",
+      "explanation": "Loose clothes, jewellery and long hair can get caught in rotating spindles and shafts."
+    },
+    {
+      "id": "MFG-050",
+      "category": "safety",
+      "difficulty": "hard",
+      "question": "Heat treatment quench oil tanks risk what?",
+      "options": {
+        "A": "Flooding",
+        "B": "Frostbite",
+        "C": "Radiation",
+        "D": "Fire"
+      },
+      "correct": "D",
+      "explanation": "Hot quench oil can ignite; heat treatment areas need fire controls and trained operators."
+    }
+  ]
+}

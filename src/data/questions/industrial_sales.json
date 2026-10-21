@@ -1,0 +1,717 @@
+{
+  "department_id": "industrial_sales",
+  "department_name": "Industrial Sales",
+  "version": "2.0",
+  "total_questions": 50,
+  "categories": [
+    "products",
+    "sectors",
+    "channel",
+    "service",
+    "value_selling",
+    "sales_process",
+    "nsk_global"
+  ],
+  "questions": [
+    {
+      "id": "IND-001",
+      "category": "products",
+      "difficulty": "easy",
+      "question": "Bearing + housing for conveyors is called?",
+      "options": {
+        "A": "Ball screw",
+        "B": "Clutch",
+        "C": "Hub unit",
+        "D": "Pillow block"
+      },
+      "correct": "D",
+      "explanation": "Pillow block units combine a bearing and housing for easy bolting onto frames and conveyors."
+    },
+    {
+      "id": "IND-002",
+      "category": "products",
+      "difficulty": "easy",
+      "question": "Which bearing self-aligns for shaft bending?",
+      "options": {
+        "A": "Spherical roller",
+        "B": "Needle roller",
+        "C": "Thrust ball",
+        "D": "Cylindrical"
+      },
+      "correct": "A",
+      "explanation": "Spherical roller bearings have a spherical outer raceway, allowing shaft misalignment."
+    },
+    {
+      "id": "IND-003",
+      "category": "products",
+      "difficulty": "easy",
+      "question": "Linear guides are used for what?",
+      "options": {
+        "A": "Cooling",
+        "B": "Straight motion",
+        "C": "Sealing",
+        "D": "Wheel rotation"
+      },
+      "correct": "B",
+      "explanation": "Linear guides give accurate, low-friction straight movement in machine tools and robots."
+    },
+    {
+      "id": "IND-004",
+      "category": "products",
+      "difficulty": "medium",
+      "question": "Bearing suffix 'K' means?",
+      "options": {
+        "A": "Ceramic ball",
+        "B": "Large clearance",
+        "C": "Two seals",
+        "D": "Tapered bore"
+      },
+      "correct": "D",
+      "explanation": "K means a 1:12 tapered bore, mounted with an adapter or withdrawal sleeve."
+    },
+    {
+      "id": "IND-005",
+      "category": "products",
+      "difficulty": "medium",
+      "question": "Tapered bore bearings mount on shafts with?",
+      "options": {
+        "A": "Glue",
+        "B": "Weld",
+        "C": "Rivet",
+        "D": "Adapter sleeve"
+      },
+      "correct": "D",
+      "explanation": "An adapter sleeve with lock nut fixes a tapered bore bearing on a plain shaft."
+    },
+    {
+      "id": "IND-006",
+      "category": "products",
+      "difficulty": "medium",
+      "question": "Machine tool spindles need which bearings?",
+      "options": {
+        "A": "Pillow block",
+        "B": "Agricultural",
+        "C": "Super precision",
+        "D": "Plain bush"
+      },
+      "correct": "C",
+      "explanation": "Super precision angular contact bearings give spindles high speed and accuracy."
+    },
+    {
+      "id": "IND-007",
+      "category": "products",
+      "difficulty": "hard",
+      "question": "Machined brass cages suit which duty?",
+      "options": {
+        "A": "Light toys",
+        "B": "Low load",
+        "C": "Heavy vibration",
+        "D": "Food only"
+      },
+      "correct": "C",
+      "explanation": "Machined brass cages are strong and resist the shock loads in screens and crushers."
+    },
+    {
+      "id": "IND-008",
+      "category": "products",
+      "difficulty": "hard",
+      "question": "Cylindrical roller type 'NU' allows what?",
+      "options": {
+        "A": "No radial load",
+        "B": "Heavy thrust",
+        "C": "Misalignment",
+        "D": "Axial float"
+      },
+      "correct": "D",
+      "explanation": "NU types have no ribs on the inner ring, so the shaft can move axially."
+    },
+    {
+      "id": "IND-009",
+      "category": "products",
+      "difficulty": "medium",
+      "question": "Which bearing suits very heavy radial load?",
+      "options": {
+        "A": "Thrust ball",
+        "B": "Cylindrical roller",
+        "C": "Miniature ball",
+        "D": "Instrument ball"
+      },
+      "correct": "B",
+      "explanation": "Line contact of cylindrical rollers gives high radial load capacity."
+    },
+    {
+      "id": "IND-010",
+      "category": "products",
+      "difficulty": "hard",
+      "question": "Wind turbine main shafts often use?",
+      "options": {
+        "A": "Miniature ball",
+        "B": "Spherical roller",
+        "C": "Plain nylon",
+        "D": "Needle"
+      },
+      "correct": "B",
+      "explanation": "Large spherical or tapered roller bearings carry heavy main-shaft loads and misalignment."
+    },
+    {
+      "id": "IND-011",
+      "category": "products",
+      "difficulty": "hard",
+      "question": "Which seal type has the lowest friction?",
+      "options": {
+        "A": "Contact rubber",
+        "B": "Felt seal",
+        "C": "Non-contact",
+        "D": "Double lip"
+      },
+      "correct": "C",
+      "explanation": "Non-contact seals and shields don't rub the inner ring, so friction is lowest."
+    },
+    {
+      "id": "IND-012",
+      "category": "products",
+      "difficulty": "medium",
+      "question": "Bearings in food plants often need?",
+      "options": {
+        "A": "Stainless steel",
+        "B": "Open design",
+        "C": "Paper cages",
+        "D": "Brass balls"
+      },
+      "correct": "A",
+      "explanation": "Food plants need corrosion-resistant stainless or coated bearings with food-grade grease."
+    },
+    {
+      "id": "IND-013",
+      "category": "sectors",
+      "difficulty": "easy",
+      "question": "Kiln and crusher bearings are needed by?",
+      "options": {
+        "A": "Hotels",
+        "B": "Cement plants",
+        "C": "Schools",
+        "D": "Banks"
+      },
+      "correct": "B",
+      "explanation": "Cement plants run kilns, crushers, mills and fans with heavy-duty bearings."
+    },
+    {
+      "id": "IND-014",
+      "category": "sectors",
+      "difficulty": "easy",
+      "question": "Rolling mills and casters are found in?",
+      "options": {
+        "A": "Steel plants",
+        "B": "Textile mills",
+        "C": "Hospitals",
+        "D": "IT parks"
+      },
+      "correct": "A",
+      "explanation": "Steel plants use large roller bearings in continuous casters and rolling mills."
+    },
+    {
+      "id": "IND-015",
+      "category": "sectors",
+      "difficulty": "medium",
+      "question": "Sugar mill bearing demand peaks before?",
+      "options": {
+        "A": "Diwali only",
+        "B": "Crushing season",
+        "C": "Monsoon break",
+        "D": "Summer holiday"
+      },
+      "correct": "B",
+      "explanation": "Mills run hard during cane crushing, so maintenance buys bearings before it starts."
+    },
+    {
+      "id": "IND-016",
+      "category": "sectors",
+      "difficulty": "medium",
+      "question": "Railway axle boxes commonly use?",
+      "options": {
+        "A": "Tapered roller",
+        "B": "Plain nylon",
+        "C": "Needle",
+        "D": "Miniature ball"
+      },
+      "correct": "A",
+      "explanation": "Railway axles use tapered (often cartridge) or cylindrical roller bearings."
+    },
+    {
+      "id": "IND-017",
+      "category": "sectors",
+      "difficulty": "medium",
+      "question": "Textile spindles need bearings that are?",
+      "options": {
+        "A": "Very heavy",
+        "B": "Large bore",
+        "C": "Fast & quiet",
+        "D": "Open"
+      },
+      "correct": "C",
+      "explanation": "Textile machines run many spindles at speed, needing quiet, low-friction bearings."
+    },
+    {
+      "id": "IND-018",
+      "category": "sectors",
+      "difficulty": "hard",
+      "question": "Paper machine dryer bearings face what?",
+      "options": {
+        "A": "Snow",
+        "B": "High heat",
+        "C": "Vacuum",
+        "D": "Sea water"
+      },
+      "correct": "B",
+      "explanation": "Steam-heated dryer cylinders run hot, so bearings need heat-stable steel and oil."
+    },
+    {
+      "id": "IND-019",
+      "category": "sectors",
+      "difficulty": "medium",
+      "question": "Electric motors and pumps mostly use?",
+      "options": {
+        "A": "Spherical roller",
+        "B": "Needle cage",
+        "C": "Thrust roller",
+        "D": "Deep groove ball"
+      },
+      "correct": "D",
+      "explanation": "Deep groove ball bearings are the standard choice in electric motors and pumps."
+    },
+    {
+      "id": "IND-020",
+      "category": "sectors",
+      "difficulty": "hard",
+      "question": "Mining vibrating screens need bearings with?",
+      "options": {
+        "A": "No grease",
+        "B": "Tiny balls",
+        "C": "Plastic cages",
+        "D": "Strong cages"
+      },
+      "correct": "D",
+      "explanation": "Screens shake at high g-forces, so bearings with robust cages are used."
+    },
+    {
+      "id": "IND-021",
+      "category": "channel",
+      "difficulty": "easy",
+      "question": "Industrial distributors mainly sell to?",
+      "options": {
+        "A": "Steel mills only",
+        "B": "MRO users",
+        "C": "Car makers only",
+        "D": "Banks"
+      },
+      "correct": "B",
+      "explanation": "Authorised distributors serve maintenance, repair and operations (MRO) buyers locally."
+    },
+    {
+      "id": "IND-022",
+      "category": "channel",
+      "difficulty": "easy",
+      "question": "Fake bearings are risky because they?",
+      "options": {
+        "A": "Last longer",
+        "B": "Fail early",
+        "C": "Cost more",
+        "D": "Run cooler"
+      },
+      "correct": "B",
+      "explanation": "Counterfeits use poor steel and heat treatment, causing early failure and safety risks."
+    },
+    {
+      "id": "IND-023",
+      "category": "channel",
+      "difficulty": "medium",
+      "question": "The NSK Verify app checks if a bearing is?",
+      "options": {
+        "A": "Hot",
+        "B": "Balanced",
+        "C": "Greased",
+        "D": "Genuine"
+      },
+      "correct": "D",
+      "explanation": "Scanning the code on the box with NSK Verify helps confirm a genuine NSK product."
+    },
+    {
+      "id": "IND-024",
+      "category": "channel",
+      "difficulty": "medium",
+      "question": "Genuine NSK bearings should be bought from?",
+      "options": {
+        "A": "Street shops",
+        "B": "Authorised dealers",
+        "C": "Random websites",
+        "D": "Scrap yards"
+      },
+      "correct": "B",
+      "explanation": "Authorised distributors source directly from NSK, avoiding counterfeit risk."
+    },
+    {
+      "id": "IND-025",
+      "category": "channel",
+      "difficulty": "hard",
+      "question": "Channel stuffing means what?",
+      "options": {
+        "A": "Faster billing",
+        "B": "New dealer",
+        "C": "Extra discount",
+        "D": "Pushing extra stock"
+      },
+      "correct": "D",
+      "explanation": "Pushing more stock than dealers can sell inflates sales briefly but hurts later."
+    },
+    {
+      "id": "IND-026",
+      "category": "channel",
+      "difficulty": "medium",
+      "question": "'Sell-out' means sales made by?",
+      "options": {
+        "A": "Distributor to user",
+        "B": "Bank to NSK",
+        "C": "NSK to distributor",
+        "D": "Plant to stores"
+      },
+      "correct": "A",
+      "explanation": "Sell-out tracks real end-user demand, unlike sell-in from NSK to the distributor."
+    },
+    {
+      "id": "IND-027",
+      "category": "channel",
+      "difficulty": "hard",
+      "question": "Distributor stock health is shown by?",
+      "options": {
+        "A": "Shop size",
+        "B": "Logo size",
+        "C": "Inventory turns",
+        "D": "Staff count"
+      },
+      "correct": "C",
+      "explanation": "Higher inventory turns mean stock is moving and the dealer's cash is not stuck."
+    },
+    {
+      "id": "IND-028",
+      "category": "service",
+      "difficulty": "easy",
+      "question": "Best tool to mount small bearings?",
+      "options": {
+        "A": "Induction heater",
+        "B": "Gas torch",
+        "C": "Hammer",
+        "D": "Chisel"
+      },
+      "correct": "A",
+      "explanation": "Induction heaters expand the inner ring evenly; hammers and flames damage bearings."
+    },
+    {
+      "id": "IND-029",
+      "category": "service",
+      "difficulty": "easy",
+      "question": "Never heat a bearing above about?",
+      "options": {
+        "A": "120 °C",
+        "B": "300 °C",
+        "C": "1000 °C",
+        "D": "500 °C"
+      },
+      "correct": "A",
+      "explanation": "Heating above about 120 °C can change the hardness and dimensions of bearing steel."
+    },
+    {
+      "id": "IND-030",
+      "category": "service",
+      "difficulty": "medium",
+      "question": "Main cause of early bearing failure?",
+      "options": {
+        "A": "Correct fit",
+        "B": "Correct load",
+        "C": "Clean grease",
+        "D": "Poor lubrication"
+      },
+      "correct": "D",
+      "explanation": "Poor or contaminated lubrication causes a large share of early bearing failures."
+    },
+    {
+      "id": "IND-031",
+      "category": "service",
+      "difficulty": "medium",
+      "question": "Root cause failure analysis helps users?",
+      "options": {
+        "A": "Skip grease",
+        "B": "Delay orders",
+        "C": "Stop repeat failure",
+        "D": "Buy more"
+      },
+      "correct": "C",
+      "explanation": "RCFA finds why bearings fail so the fix prevents costly repeat breakdowns."
+    },
+    {
+      "id": "IND-032",
+      "category": "service",
+      "difficulty": "medium",
+      "question": "Common bearing condition monitoring tool?",
+      "options": {
+        "A": "Ruler",
+        "B": "Stapler",
+        "C": "Calculator",
+        "D": "Vibration meter"
+      },
+      "correct": "D",
+      "explanation": "Vibration and temperature trends warn of damage long before breakdown."
+    },
+    {
+      "id": "IND-033",
+      "category": "service",
+      "difficulty": "hard",
+      "question": "Shaft alignment is best done with?",
+      "options": {
+        "A": "Laser alignment",
+        "B": "Measuring tape",
+        "C": "Chalk",
+        "D": "Eye estimate"
+      },
+      "correct": "A",
+      "explanation": "Laser tools align shafts precisely, cutting bearing loads and vibration."
+    },
+    {
+      "id": "IND-034",
+      "category": "service",
+      "difficulty": "medium",
+      "question": "Too much grease in a bearing causes?",
+      "options": {
+        "A": "Longer life",
+        "B": "Less power use",
+        "C": "Overheating",
+        "D": "Lower noise"
+      },
+      "correct": "C",
+      "explanation": "Excess grease churns, raising temperature and damaging seals."
+    },
+    {
+      "id": "IND-035",
+      "category": "service",
+      "difficulty": "hard",
+      "question": "Preferred tool to remove a bearing?",
+      "options": {
+        "A": "Puller",
+        "B": "Hammer",
+        "C": "Gas torch",
+        "D": "Chisel"
+      },
+      "correct": "A",
+      "explanation": "Pullers apply force evenly to remove bearings without damaging the shaft."
+    },
+    {
+      "id": "IND-036",
+      "category": "value_selling",
+      "difficulty": "medium",
+      "question": "Premium bearing value is shown by lower?",
+      "options": {
+        "A": "Box weight",
+        "B": "Logo size",
+        "C": "Total cost",
+        "D": "Steel colour"
+      },
+      "correct": "C",
+      "explanation": "Lower Total Cost of Ownership from longer life and less downtime justifies a premium."
+    },
+    {
+      "id": "IND-037",
+      "category": "value_selling",
+      "difficulty": "hard",
+      "question": "Downtime cost vs bearing price is often?",
+      "options": {
+        "A": "Many times higher",
+        "B": "Zero",
+        "C": "Half",
+        "D": "Equal"
+      },
+      "correct": "A",
+      "explanation": "One unplanned stop can cost far more than the bearing, so reliability sells."
+    },
+    {
+      "id": "IND-038",
+      "category": "value_selling",
+      "difficulty": "medium",
+      "question": "Sealed bearings save users money by?",
+      "options": {
+        "A": "More grease",
+        "B": "More stops",
+        "C": "Less relubrication",
+        "D": "Extra labour"
+      },
+      "correct": "C",
+      "explanation": "Sealed, greased-for-life units cut maintenance labour and contamination failures."
+    },
+    {
+      "id": "IND-039",
+      "category": "value_selling",
+      "difficulty": "medium",
+      "question": "Energy-saving bearings reduce what?",
+      "options": {
+        "A": "Speed",
+        "B": "Load rating",
+        "C": "Friction losses",
+        "D": "Size"
+      },
+      "correct": "C",
+      "explanation": "Lower friction means less power consumed by motors, fans and pumps."
+    },
+    {
+      "id": "IND-040",
+      "category": "value_selling",
+      "difficulty": "hard",
+      "question": "Life cycle cost = price + energy + ?",
+      "options": {
+        "A": "Maintenance",
+        "B": "Box",
+        "C": "Logo",
+        "D": "Paint"
+      },
+      "correct": "A",
+      "explanation": "Life cycle cost adds purchase, installation, energy, maintenance and downtime costs."
+    },
+    {
+      "id": "IND-041",
+      "category": "sales_process",
+      "difficulty": "easy",
+      "question": "First step before quoting an industrial user?",
+      "options": {
+        "A": "Give discount",
+        "B": "Understand need",
+        "C": "Send invoice",
+        "D": "Close deal"
+      },
+      "correct": "B",
+      "explanation": "Learning the application, load, speed and pain points leads to the right solution."
+    },
+    {
+      "id": "IND-042",
+      "category": "sales_process",
+      "difficulty": "easy",
+      "question": "CRM software stores what?",
+      "options": {
+        "A": "Steel stock",
+        "B": "Grinding data",
+        "C": "Customer data",
+        "D": "Payroll"
+      },
+      "correct": "C",
+      "explanation": "CRM tracks customers, visits, opportunities and follow-ups for the sales team."
+    },
+    {
+      "id": "IND-043",
+      "category": "sales_process",
+      "difficulty": "medium",
+      "question": "Sales funnel stage right after a new lead?",
+      "options": {
+        "A": "Invoice",
+        "B": "Close",
+        "C": "Deliver",
+        "D": "Qualify"
+      },
+      "correct": "D",
+      "explanation": "Leads are qualified for need, budget and timing before proposals are made."
+    },
+    {
+      "id": "IND-044",
+      "category": "sales_process",
+      "difficulty": "medium",
+      "question": "Actual sales ÷ target × 100 gives?",
+      "options": {
+        "A": "Achievement %",
+        "B": "Margin",
+        "C": "Stock",
+        "D": "Gross weight"
+      },
+      "correct": "A",
+      "explanation": "Achievement % shows how much of the sales target was met in the period."
+    },
+    {
+      "id": "IND-045",
+      "category": "sales_process",
+      "difficulty": "hard",
+      "question": "Bearing 'interchange' means finding the?",
+      "options": {
+        "A": "Cheaper box",
+        "B": "Lower grade",
+        "C": "New supplier",
+        "D": "Equivalent number"
+      },
+      "correct": "D",
+      "explanation": "Interchange guides convert other brands' part numbers to the matching NSK bearing."
+    },
+    {
+      "id": "IND-046",
+      "category": "sales_process",
+      "difficulty": "medium",
+      "question": "A dealer credit limit controls what?",
+      "options": {
+        "A": "Staff size",
+        "B": "Unpaid exposure",
+        "C": "Shop timing",
+        "D": "Delivery van"
+      },
+      "correct": "B",
+      "explanation": "Credit limits cap how much a dealer may owe, controlling bad-debt risk."
+    },
+    {
+      "id": "IND-047",
+      "category": "sales_process",
+      "difficulty": "hard",
+      "question": "Bad debt risk rises when DSO is?",
+      "options": {
+        "A": "High",
+        "B": "Stable",
+        "C": "Zero",
+        "D": "Low"
+      },
+      "correct": "A",
+      "explanation": "Long payment delays raise the chance of non-payment and lock up cash."
+    },
+    {
+      "id": "IND-048",
+      "category": "nsk_global",
+      "difficulty": "easy",
+      "question": "NSK was founded in which year?",
+      "options": {
+        "A": "1950",
+        "B": "1985",
+        "C": "1916",
+        "D": "2001"
+      },
+      "correct": "C",
+      "explanation": "NSK Ltd. was established in 1916 in Japan."
+    },
+    {
+      "id": "IND-049",
+      "category": "nsk_global",
+      "difficulty": "medium",
+      "question": "NSK's technology slogan is Motion &?",
+      "options": {
+        "A": "Light",
+        "B": "Control",
+        "C": "Power",
+        "D": "Speed"
+      },
+      "correct": "B",
+      "explanation": "NSK aims to benefit society through its 'Motion & Control' technologies."
+    },
+    {
+      "id": "IND-050",
+      "category": "nsk_global",
+      "difficulty": "hard",
+      "question": "Ball screws and linear guides are NSK's?",
+      "options": {
+        "A": "Auto parts",
+        "B": "Precision products",
+        "C": "Steel",
+        "D": "Chemicals"
+      },
+      "correct": "B",
+      "explanation": "NSK's precision machinery line includes ball screws, linear guides and actuators."
+    }
+  ]
+}

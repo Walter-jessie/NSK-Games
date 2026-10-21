@@ -1,0 +1,718 @@
+{
+  "department_id": "corporate_planning",
+  "department_name": "Corporate Planning, Budgeting & Process",
+  "version": "2.0",
+  "total_questions": 50,
+  "categories": [
+    "budgeting",
+    "investment",
+    "kpi",
+    "strategy",
+    "process",
+    "cost",
+    "esg",
+    "nsk"
+  ],
+  "questions": [
+    {
+      "id": "CP-001",
+      "category": "budgeting",
+      "difficulty": "easy",
+      "question": "Indian company budgets cover?",
+      "options": {
+        "A": "Oct–Sept",
+        "B": "Jan–Dec",
+        "C": "April–March",
+        "D": "June–May"
+      },
+      "correct": "C",
+      "explanation": "Budgets follow the Indian financial year from April to March."
+    },
+    {
+      "id": "CP-002",
+      "category": "budgeting",
+      "difficulty": "easy",
+      "question": "Capex means spending on?",
+      "options": {
+        "A": "Salaries",
+        "B": "Electricity",
+        "C": "Long-term assets",
+        "D": "Tea"
+      },
+      "correct": "C",
+      "explanation": "Capital expenditure buys machines, buildings and tools used for many years."
+    },
+    {
+      "id": "CP-003",
+      "category": "budgeting",
+      "difficulty": "easy",
+      "question": "Which is an Opex item?",
+      "options": {
+        "A": "Electricity bill",
+        "B": "New machine",
+        "C": "Land",
+        "D": "New building"
+      },
+      "correct": "A",
+      "explanation": "Operating expenses are day-to-day costs like power, wages and consumables."
+    },
+    {
+      "id": "CP-004",
+      "category": "budgeting",
+      "difficulty": "medium",
+      "question": "A favourable cost variance means?",
+      "options": {
+        "A": "Spent more",
+        "B": "No budget",
+        "C": "Late report",
+        "D": "Spent less"
+      },
+      "correct": "D",
+      "explanation": "Actual cost below budget gives a favourable variance."
+    },
+    {
+      "id": "CP-005",
+      "category": "budgeting",
+      "difficulty": "medium",
+      "question": "Zero-based budgeting starts from?",
+      "options": {
+        "A": "Average",
+        "B": "Sales",
+        "C": "Zero",
+        "D": "Last year"
+      },
+      "correct": "C",
+      "explanation": "Every cost must be justified fresh rather than adding to last year's budget."
+    },
+    {
+      "id": "CP-006",
+      "category": "budgeting",
+      "difficulty": "medium",
+      "question": "A rolling forecast is updated?",
+      "options": {
+        "A": "Regularly",
+        "B": "Every 5 years",
+        "C": "Never",
+        "D": "Year end only"
+      },
+      "correct": "A",
+      "explanation": "Rolling forecasts add a new period as each one ends, keeping plans current."
+    },
+    {
+      "id": "CP-007",
+      "category": "budgeting",
+      "difficulty": "hard",
+      "question": "A budget FX rate is used to?",
+      "options": {
+        "A": "Fix currency plan",
+        "B": "Set daily prices",
+        "C": "Pay staff",
+        "D": "Buy shares"
+      },
+      "correct": "A",
+      "explanation": "A fixed budget exchange rate converts yen or dollar items so variances are clear."
+    },
+    {
+      "id": "CP-008",
+      "category": "budgeting",
+      "difficulty": "medium",
+      "question": "Which is a fixed cost?",
+      "options": {
+        "A": "Raw steel",
+        "B": "Factory rent",
+        "C": "Grinding wheels",
+        "D": "Packing"
+      },
+      "correct": "B",
+      "explanation": "Fixed costs like rent stay the same regardless of output."
+    },
+    {
+      "id": "CP-009",
+      "category": "budgeting",
+      "difficulty": "medium",
+      "question": "Which is a variable cost?",
+      "options": {
+        "A": "Factory rent",
+        "B": "Insurance",
+        "C": "Manager salary",
+        "D": "Raw material"
+      },
+      "correct": "D",
+      "explanation": "Variable costs rise and fall with production volume."
+    },
+    {
+      "id": "CP-010",
+      "category": "budgeting",
+      "difficulty": "hard",
+      "question": "Depreciation spreads asset cost over?",
+      "options": {
+        "A": "One month",
+        "B": "Useful life",
+        "C": "Forever",
+        "D": "One shift"
+      },
+      "correct": "B",
+      "explanation": "Depreciation charges a machine's cost across the years it is used."
+    },
+    {
+      "id": "CP-011",
+      "category": "investment",
+      "difficulty": "medium",
+      "question": "Payback period tells you?",
+      "options": {
+        "A": "Time to recover",
+        "B": "Profit share",
+        "C": "Tax rate",
+        "D": "Machine size"
+      },
+      "correct": "A",
+      "explanation": "Payback is how long cash savings take to repay the investment."
+    },
+    {
+      "id": "CP-012",
+      "category": "investment",
+      "difficulty": "hard",
+      "question": "A positive NPV means the project?",
+      "options": {
+        "A": "Has no cash",
+        "B": "Breaks even",
+        "C": "Adds value",
+        "D": "Loses money"
+      },
+      "correct": "C",
+      "explanation": "A positive Net Present Value means returns exceed the cost of capital."
+    },
+    {
+      "id": "CP-013",
+      "category": "investment",
+      "difficulty": "hard",
+      "question": "IRR is the rate where NPV equals?",
+      "options": {
+        "A": "Zero",
+        "B": "Profit",
+        "C": "100",
+        "D": "One"
+      },
+      "correct": "A",
+      "explanation": "Internal Rate of Return is the discount rate that makes NPV zero; compare it to the hurdle rate."
+    },
+    {
+      "id": "CP-014",
+      "category": "investment",
+      "difficulty": "medium",
+      "question": "ROI = Gain ÷ ?",
+      "options": {
+        "A": "Investment",
+        "B": "Sales",
+        "C": "Staff",
+        "D": "Time"
+      },
+      "correct": "A",
+      "explanation": "Return on Investment compares the gain to the money invested."
+    },
+    {
+      "id": "CP-015",
+      "category": "investment",
+      "difficulty": "hard",
+      "question": "WACC is the weighted average cost of?",
+      "options": {
+        "A": "Wages",
+        "B": "Freight",
+        "C": "Steel",
+        "D": "Capital"
+      },
+      "correct": "D",
+      "explanation": "WACC blends the costs of debt and equity and is used to discount cash flows."
+    },
+    {
+      "id": "CP-016",
+      "category": "investment",
+      "difficulty": "hard",
+      "question": "A make-or-buy decision compares?",
+      "options": {
+        "A": "Two banks",
+        "B": "Two shifts",
+        "C": "In-house vs outsource",
+        "D": "Two customers"
+      },
+      "correct": "C",
+      "explanation": "Make-or-buy weighs in-house cost, capacity and skill against buying from suppliers."
+    },
+    {
+      "id": "CP-017",
+      "category": "kpi",
+      "difficulty": "easy",
+      "question": "OEE measures what?",
+      "options": {
+        "A": "Machine effectiveness",
+        "B": "Energy bill",
+        "C": "Export orders",
+        "D": "Employee count"
+      },
+      "correct": "A",
+      "explanation": "OEE = Availability × Performance × Quality."
+    },
+    {
+      "id": "CP-018",
+      "category": "kpi",
+      "difficulty": "medium",
+      "question": "World-class OEE is about?",
+      "options": {
+        "A": "85%",
+        "B": "30%",
+        "C": "50%",
+        "D": "100%"
+      },
+      "correct": "A",
+      "explanation": "An OEE around 85% is widely seen as world-class for discrete manufacturing."
+    },
+    {
+      "id": "CP-019",
+      "category": "kpi",
+      "difficulty": "medium",
+      "question": "In EBITDA, the 'D' stands for?",
+      "options": {
+        "A": "Debt",
+        "B": "Dividend",
+        "C": "Depreciation",
+        "D": "Discount"
+      },
+      "correct": "C",
+      "explanation": "EBITDA = Earnings Before Interest, Tax, Depreciation and Amortisation."
+    },
+    {
+      "id": "CP-020",
+      "category": "kpi",
+      "difficulty": "medium",
+      "question": "The break-even point is where?",
+      "options": {
+        "A": "Costs are zero",
+        "B": "Profit is zero",
+        "C": "Sales are zero",
+        "D": "Tax is highest"
+      },
+      "correct": "B",
+      "explanation": "At break-even, revenue exactly covers fixed and variable costs."
+    },
+    {
+      "id": "CP-021",
+      "category": "kpi",
+      "difficulty": "hard",
+      "question": "Break-even units = Fixed cost ÷ ?",
+      "options": {
+        "A": "Unit contribution",
+        "B": "Unit price",
+        "C": "Total sales",
+        "D": "Tax"
+      },
+      "correct": "A",
+      "explanation": "Divide fixed costs by contribution per unit to find break-even volume."
+    },
+    {
+      "id": "CP-022",
+      "category": "kpi",
+      "difficulty": "medium",
+      "question": "COPQ stands for?",
+      "options": {
+        "A": "Cost of power",
+        "B": "Cost of poor quality",
+        "C": "Count of parts",
+        "D": "Cost of parking"
+      },
+      "correct": "B",
+      "explanation": "COPQ sums scrap, rework, sorting and warranty costs caused by defects."
+    },
+    {
+      "id": "CP-023",
+      "category": "kpi",
+      "difficulty": "hard",
+      "question": "ROCE = EBIT ÷ ?",
+      "options": {
+        "A": "Sales",
+        "B": "Capital employed",
+        "C": "Staff",
+        "D": "Stock"
+      },
+      "correct": "B",
+      "explanation": "Return on Capital Employed shows profit generated from long-term capital used."
+    },
+    {
+      "id": "CP-024",
+      "category": "kpi",
+      "difficulty": "medium",
+      "question": "A balanced scorecard has how many views?",
+      "options": {
+        "A": "2",
+        "B": "6",
+        "C": "10",
+        "D": "4"
+      },
+      "correct": "D",
+      "explanation": "Financial, Customer, Internal Process, and Learning & Growth perspectives."
+    },
+    {
+      "id": "CP-025",
+      "category": "strategy",
+      "difficulty": "easy",
+      "question": "In SWOT, 'O' stands for?",
+      "options": {
+        "A": "Output",
+        "B": "Operations",
+        "C": "Orders",
+        "D": "Opportunities"
+      },
+      "correct": "D",
+      "explanation": "SWOT = Strengths, Weaknesses, Opportunities, Threats."
+    },
+    {
+      "id": "CP-026",
+      "category": "strategy",
+      "difficulty": "medium",
+      "question": "PESTLE has Economic and which other 'E'?",
+      "options": {
+        "A": "Electrical",
+        "B": "Energy",
+        "C": "Export",
+        "D": "Environmental"
+      },
+      "correct": "D",
+      "explanation": "PESTLE: Political, Economic, Social, Technological, Legal, Environmental."
+    },
+    {
+      "id": "CP-027",
+      "category": "strategy",
+      "difficulty": "hard",
+      "question": "Porter's model has how many forces?",
+      "options": {
+        "A": "3",
+        "B": "5",
+        "C": "4",
+        "D": "7"
+      },
+      "correct": "B",
+      "explanation": "Five forces: rivalry, new entrants, substitutes, buyer power and supplier power."
+    },
+    {
+      "id": "CP-028",
+      "category": "strategy",
+      "difficulty": "medium",
+      "question": "Benchmarking compares you with?",
+      "options": {
+        "A": "Old reports",
+        "B": "Own guesses",
+        "C": "Best performers",
+        "D": "Random firms"
+      },
+      "correct": "C",
+      "explanation": "Benchmarking learns from best-in-class practices to set stretch targets."
+    },
+    {
+      "id": "CP-029",
+      "category": "strategy",
+      "difficulty": "medium",
+      "question": "A mid-term business plan usually covers?",
+      "options": {
+        "A": "1 week",
+        "B": "20 years",
+        "C": "3–5 years",
+        "D": "1 month"
+      },
+      "correct": "C",
+      "explanation": "Mid-term plans set strategy, investments and targets over roughly three to five years."
+    },
+    {
+      "id": "CP-030",
+      "category": "strategy",
+      "difficulty": "hard",
+      "question": "Hoshin Kanri means?",
+      "options": {
+        "A": "A tax",
+        "B": "A tool",
+        "C": "A grade",
+        "D": "Policy deployment"
+      },
+      "correct": "D",
+      "explanation": "Hoshin Kanri cascades company goals into aligned department and team targets."
+    },
+    {
+      "id": "CP-031",
+      "category": "strategy",
+      "difficulty": "hard",
+      "question": "'Catchball' in Hoshin Kanri means?",
+      "options": {
+        "A": "Sports day",
+        "B": "Recruitment",
+        "C": "Two-way goal talks",
+        "D": "Ball inspection"
+      },
+      "correct": "C",
+      "explanation": "Goals pass up and down for feedback until teams agree and commit."
+    },
+    {
+      "id": "CP-032",
+      "category": "strategy",
+      "difficulty": "easy",
+      "question": "NSK Vision 2026 key message?",
+      "options": {
+        "A": "Future in Motion",
+        "B": "Speed Above All",
+        "C": "Cheapest Wins",
+        "D": "Profit First"
+      },
+      "correct": "A",
+      "explanation": "NSK Vision 2026 carries the message 'Setting the Future in Motion'."
+    },
+    {
+      "id": "CP-033",
+      "category": "process",
+      "difficulty": "easy",
+      "question": "PDCA stands for Plan, Do, Check and?",
+      "options": {
+        "A": "Audit",
+        "B": "Act",
+        "C": "Assign",
+        "D": "Ask"
+      },
+      "correct": "B",
+      "explanation": "The PDCA cycle drives continuous improvement and standardisation."
+    },
+    {
+      "id": "CP-034",
+      "category": "process",
+      "difficulty": "medium",
+      "question": "A written step-by-step work method is?",
+      "options": {
+        "A": "SOP",
+        "B": "GRN",
+        "C": "PO",
+        "D": "BOM"
+      },
+      "correct": "A",
+      "explanation": "A Standard Operating Procedure ensures everyone does a task the same, correct way."
+    },
+    {
+      "id": "CP-035",
+      "category": "process",
+      "difficulty": "medium",
+      "question": "A process map shows what?",
+      "options": {
+        "A": "Salary",
+        "B": "Steps & flow",
+        "C": "Machine weight",
+        "D": "Profit"
+      },
+      "correct": "B",
+      "explanation": "Process maps show each step, owner and handoff to find waste and delays."
+    },
+    {
+      "id": "CP-036",
+      "category": "process",
+      "difficulty": "medium",
+      "question": "Standard work defines the?",
+      "options": {
+        "A": "Salary",
+        "B": "Best current method",
+        "C": "Holiday list",
+        "D": "Uniform colour"
+      },
+      "correct": "B",
+      "explanation": "Standard work fixes sequence, time and stock so results are stable and improvable."
+    },
+    {
+      "id": "CP-037",
+      "category": "process",
+      "difficulty": "hard",
+      "question": "Value stream mapping separates value-add and?",
+      "options": {
+        "A": "Non-value-add",
+        "B": "Profit",
+        "C": "Tax",
+        "D": "Revenue"
+      },
+      "correct": "A",
+      "explanation": "VSM maps material and information flow, highlighting waiting and other waste."
+    },
+    {
+      "id": "CP-038",
+      "category": "process",
+      "difficulty": "hard",
+      "question": "Lean's 3 M's: Muda, Mura and?",
+      "options": {
+        "A": "Mira",
+        "B": "Mudo",
+        "C": "Mako",
+        "D": "Muri"
+      },
+      "correct": "D",
+      "explanation": "Muda = waste, Mura = unevenness, Muri = overburden."
+    },
+    {
+      "id": "CP-039",
+      "category": "process",
+      "difficulty": "medium",
+      "question": "In a RACI chart, 'A' means?",
+      "options": {
+        "A": "Auditor",
+        "B": "Absent",
+        "C": "Assistant",
+        "D": "Accountable"
+      },
+      "correct": "D",
+      "explanation": "RACI: Responsible, Accountable, Consulted, Informed."
+    },
+    {
+      "id": "CP-040",
+      "category": "cost",
+      "difficulty": "easy",
+      "question": "Reducing scrap improves what?",
+      "options": {
+        "A": "Scrap sales",
+        "B": "Waste",
+        "C": "Profit",
+        "D": "Overtime"
+      },
+      "correct": "C",
+      "explanation": "Less scrap means less wasted material and labour, raising margin."
+    },
+    {
+      "id": "CP-041",
+      "category": "cost",
+      "difficulty": "medium",
+      "question": "To save energy, idle machines should be?",
+      "options": {
+        "A": "Left running",
+        "B": "Switched off",
+        "C": "Sold",
+        "D": "Repainted"
+      },
+      "correct": "B",
+      "explanation": "Turning off idle equipment and fixing air leaks cuts power cost and emissions."
+    },
+    {
+      "id": "CP-042",
+      "category": "cost",
+      "difficulty": "medium",
+      "question": "Compressed air leaks mainly waste?",
+      "options": {
+        "A": "Electricity",
+        "B": "Water",
+        "C": "Steel",
+        "D": "Grease"
+      },
+      "correct": "A",
+      "explanation": "Compressors use a lot of power, and leaks waste a large share of it."
+    },
+    {
+      "id": "CP-043",
+      "category": "cost",
+      "difficulty": "medium",
+      "question": "Seven wastes include overproduction and?",
+      "options": {
+        "A": "Safety",
+        "B": "Waiting",
+        "C": "Quality",
+        "D": "Training"
+      },
+      "correct": "B",
+      "explanation": "Seven wastes: overproduction, waiting, transport, over-processing, inventory, motion, defects."
+    },
+    {
+      "id": "CP-044",
+      "category": "cost",
+      "difficulty": "hard",
+      "question": "Learning curve: unit cost falls as?",
+      "options": {
+        "A": "Staff leave",
+        "B": "Tax rises",
+        "C": "Prices rise",
+        "D": "Volume grows"
+      },
+      "correct": "D",
+      "explanation": "With experience, time and cost per unit fall as cumulative output rises."
+    },
+    {
+      "id": "CP-045",
+      "category": "esg",
+      "difficulty": "easy",
+      "question": "Rooftop solar helps reduce?",
+      "options": {
+        "A": "Headcount",
+        "B": "Quality",
+        "C": "CO2 emissions",
+        "D": "Sales"
+      },
+      "correct": "C",
+      "explanation": "Solar power replaces grid electricity, cutting the plant's carbon footprint."
+    },
+    {
+      "id": "CP-046",
+      "category": "esg",
+      "difficulty": "medium",
+      "question": "Scope 2 emissions come from?",
+      "options": {
+        "A": "Suppliers",
+        "B": "Bought electricity",
+        "C": "Business travel",
+        "D": "Company vehicles"
+      },
+      "correct": "B",
+      "explanation": "Scope 2 covers indirect emissions from purchased electricity, steam or heat."
+    },
+    {
+      "id": "CP-047",
+      "category": "esg",
+      "difficulty": "medium",
+      "question": "Scope 1 emissions come from?",
+      "options": {
+        "A": "Bought power",
+        "B": "Customers",
+        "C": "Suppliers",
+        "D": "Own fuel burning"
+      },
+      "correct": "D",
+      "explanation": "Scope 1 covers direct emissions from fuel burned on site or in owned vehicles."
+    },
+    {
+      "id": "CP-048",
+      "category": "esg",
+      "difficulty": "hard",
+      "question": "Scope 3 includes emissions from?",
+      "options": {
+        "A": "Own boilers",
+        "B": "Own gensets",
+        "C": "Own furnaces",
+        "D": "Supply chain"
+      },
+      "correct": "D",
+      "explanation": "Scope 3 covers value-chain emissions such as purchased materials and logistics."
+    },
+    {
+      "id": "CP-049",
+      "category": "esg",
+      "difficulty": "hard",
+      "question": "'Carbon neutral' means net emissions are?",
+      "options": {
+        "A": "Doubled",
+        "B": "Unchanged",
+        "C": "Zero",
+        "D": "Halved"
+      },
+      "correct": "C",
+      "explanation": "Emissions are cut and the rest offset or removed so the net balance is zero."
+    },
+    {
+      "id": "CP-050",
+      "category": "nsk",
+      "difficulty": "medium",
+      "question": "NSK Ltd.'s fiscal year ends in?",
+      "options": {
+        "A": "September",
+        "B": "March",
+        "C": "December",
+        "D": "June"
+      },
+      "correct": "B",
+      "explanation": "NSK Ltd. follows an April–March fiscal year, like Indian companies."
+    }
+  ]
+}

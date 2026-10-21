@@ -1,0 +1,720 @@
+{
+  "department_id": "itc",
+  "department_name": "Indian Technical Centre",
+  "version": "2.0",
+  "total_questions": 50,
+  "categories": [
+    "basics",
+    "design",
+    "materials",
+    "tribology",
+    "testing",
+    "failure",
+    "cae_cad",
+    "apqp",
+    "ev",
+    "precision"
+  ],
+  "questions": [
+    {
+      "id": "ITC-001",
+      "category": "basics",
+      "difficulty": "easy",
+      "question": "Which company made Japan's first ball bearing?",
+      "options": {
+        "A": "SKF",
+        "B": "Timken",
+        "C": "FAG",
+        "D": "NSK"
+      },
+      "correct": "D",
+      "explanation": "NSK, founded in 1916, was Japan's first bearing maker and produced the country's first ball bearings."
+    },
+    {
+      "id": "ITC-002",
+      "category": "basics",
+      "difficulty": "easy",
+      "question": "Bearing '6205': what is the bore size?",
+      "options": {
+        "A": "25 mm",
+        "B": "5 mm",
+        "C": "20 mm",
+        "D": "52 mm"
+      },
+      "correct": "A",
+      "explanation": "For bore codes 04 and above, multiply by 5: 05 × 5 = 25 mm."
+    },
+    {
+      "id": "ITC-003",
+      "category": "basics",
+      "difficulty": "easy",
+      "question": "Suffix 'ZZ' on a bearing means?",
+      "options": {
+        "A": "Ceramic balls",
+        "B": "Two metal shields",
+        "C": "Two rubber seals",
+        "D": "Extra clearance"
+      },
+      "correct": "B",
+      "explanation": "ZZ shows metal shields on both sides; DDU means contact rubber seals on both sides."
+    },
+    {
+      "id": "ITC-004",
+      "category": "basics",
+      "difficulty": "easy",
+      "question": "Which bearing type carries mainly axial load?",
+      "options": {
+        "A": "Needle bearing",
+        "B": "Thrust bearing",
+        "C": "Deep groove",
+        "D": "Cylindrical"
+      },
+      "correct": "B",
+      "explanation": "Thrust bearings are designed for loads acting along the shaft axis."
+    },
+    {
+      "id": "ITC-005",
+      "category": "basics",
+      "difficulty": "medium",
+      "question": "Bore code '00' means a bore of?",
+      "options": {
+        "A": "5 mm",
+        "B": "10 mm",
+        "C": "12 mm",
+        "D": "0 mm"
+      },
+      "correct": "B",
+      "explanation": "Special codes: 00 = 10 mm, 01 = 12 mm, 02 = 15 mm, 03 = 17 mm."
+    },
+    {
+      "id": "ITC-006",
+      "category": "basics",
+      "difficulty": "medium",
+      "question": "Bore code '03' means a bore of?",
+      "options": {
+        "A": "12 mm",
+        "B": "17 mm",
+        "C": "15 mm",
+        "D": "3 mm"
+      },
+      "correct": "B",
+      "explanation": "Codes 00–03 are fixed at 10, 12, 15 and 17 mm; from 04 onward multiply by 5."
+    },
+    {
+      "id": "ITC-007",
+      "category": "basics",
+      "difficulty": "medium",
+      "question": "Which part keeps balls evenly spaced?",
+      "options": {
+        "A": "Shield",
+        "B": "Snap ring",
+        "C": "Cage",
+        "D": "Seal"
+      },
+      "correct": "C",
+      "explanation": "The cage (retainer) separates and guides rolling elements so they do not rub together."
+    },
+    {
+      "id": "ITC-008",
+      "category": "design",
+      "difficulty": "medium",
+      "question": "C3 internal clearance versus Normal is?",
+      "options": {
+        "A": "Zero",
+        "B": "Smaller",
+        "C": "Same",
+        "D": "Larger"
+      },
+      "correct": "D",
+      "explanation": "Order is C2 < CN < C3 < C4; C3 suits tight fits or high running temperature."
+    },
+    {
+      "id": "ITC-009",
+      "category": "design",
+      "difficulty": "hard",
+      "question": "Ball bearing life: L10 = (C/P) to power?",
+      "options": {
+        "A": "1",
+        "B": "10/3",
+        "C": "2",
+        "D": "3"
+      },
+      "correct": "D",
+      "explanation": "For ball bearings the life exponent is 3; for roller bearings it is 10/3."
+    },
+    {
+      "id": "ITC-010",
+      "category": "design",
+      "difficulty": "hard",
+      "question": "Roller bearing life exponent is?",
+      "options": {
+        "A": "10/3",
+        "B": "2",
+        "C": "1.5",
+        "D": "3"
+      },
+      "correct": "A",
+      "explanation": "Line contact of rollers gives a life exponent of 10/3 in the ISO 281 life equation."
+    },
+    {
+      "id": "ITC-011",
+      "category": "design",
+      "difficulty": "medium",
+      "question": "L10 life means what % of bearings survive?",
+      "options": {
+        "A": "50%",
+        "B": "90%",
+        "C": "10%",
+        "D": "100%"
+      },
+      "correct": "B",
+      "explanation": "L10 is the life that 90% of identical bearings reach or exceed before fatigue flaking."
+    },
+    {
+      "id": "ITC-012",
+      "category": "design",
+      "difficulty": "medium",
+      "question": "Basic dynamic load rating symbol?",
+      "options": {
+        "A": "P",
+        "B": "L",
+        "C": "C0",
+        "D": "C"
+      },
+      "correct": "D",
+      "explanation": "C is the load giving a basic life of one million revolutions; C0 is the static rating."
+    },
+    {
+      "id": "ITC-013",
+      "category": "design",
+      "difficulty": "hard",
+      "question": "Halving load on a ball bearing raises life by?",
+      "options": {
+        "A": "2 times",
+        "B": "8 times",
+        "C": "3 times",
+        "D": "4 times"
+      },
+      "correct": "B",
+      "explanation": "Life varies with (C/P)³, so halving the load gives 2³ = 8 times the life."
+    },
+    {
+      "id": "ITC-014",
+      "category": "design",
+      "difficulty": "medium",
+      "question": "Angular contact pair 'DB' means?",
+      "options": {
+        "A": "Back-to-back",
+        "B": "Face-to-face",
+        "C": "Single",
+        "D": "Tandem"
+      },
+      "correct": "A",
+      "explanation": "DB (back-to-back) gives high moment rigidity; DF is face-to-face and DT is tandem."
+    },
+    {
+      "id": "ITC-015",
+      "category": "design",
+      "difficulty": "hard",
+      "question": "Which arrangement allows shaft thermal growth?",
+      "options": {
+        "A": "No bearing",
+        "B": "Fixed-free",
+        "C": "Both glued",
+        "D": "Both fixed"
+      },
+      "correct": "B",
+      "explanation": "A floating bearing at one end lets the shaft expand without heavy axial load."
+    },
+    {
+      "id": "ITC-016",
+      "category": "design",
+      "difficulty": "medium",
+      "question": "Preload in a bearing increases what?",
+      "options": {
+        "A": "Weight",
+        "B": "Clearance",
+        "C": "Noise only",
+        "D": "Rigidity"
+      },
+      "correct": "D",
+      "explanation": "Preload removes internal clearance, raising stiffness and running accuracy."
+    },
+    {
+      "id": "ITC-017",
+      "category": "design",
+      "difficulty": "medium",
+      "question": "Ring rotating against load needs which fit?",
+      "options": {
+        "A": "No fit",
+        "B": "Interference fit",
+        "C": "Loose fit",
+        "D": "Glued fit"
+      },
+      "correct": "B",
+      "explanation": "The ring rotating relative to the load needs an interference fit to prevent creep."
+    },
+    {
+      "id": "ITC-018",
+      "category": "materials",
+      "difficulty": "easy",
+      "question": "Standard bearing steel is?",
+      "options": {
+        "A": "Mild steel",
+        "B": "Cast iron",
+        "C": "Stainless 304",
+        "D": "High-carbon chrome"
+      },
+      "correct": "D",
+      "explanation": "High-carbon chromium steel (SUJ2/100Cr6) gives the hardness needed for rolling fatigue."
+    },
+    {
+      "id": "ITC-019",
+      "category": "materials",
+      "difficulty": "medium",
+      "question": "Typical hardness of bearing rings?",
+      "options": {
+        "A": "58–64 HRC",
+        "B": "20–30 HRC",
+        "C": "10 HRC",
+        "D": "80 HRC"
+      },
+      "correct": "A",
+      "explanation": "Through-hardened bearing steel is tempered to around 58–64 HRC for fatigue and wear resistance."
+    },
+    {
+      "id": "ITC-020",
+      "category": "materials",
+      "difficulty": "hard",
+      "question": "Ceramic bearing balls are made of?",
+      "options": {
+        "A": "Glass",
+        "B": "Porcelain",
+        "C": "Alumina foam",
+        "D": "Silicon nitride"
+      },
+      "correct": "D",
+      "explanation": "Silicon nitride (Si3N4) balls are light, very hard and electrically insulating."
+    },
+    {
+      "id": "ITC-021",
+      "category": "materials",
+      "difficulty": "hard",
+      "question": "Ceramic balls in EV motors prevent what?",
+      "options": {
+        "A": "Cage wear",
+        "B": "Electrical pitting",
+        "C": "Seal wear",
+        "D": "Rusting"
+      },
+      "correct": "B",
+      "explanation": "Insulating balls block stray current that causes fluting and pitting on raceways."
+    },
+    {
+      "id": "ITC-022",
+      "category": "materials",
+      "difficulty": "medium",
+      "question": "Vacuum-degassed bearing steel reduces?",
+      "options": {
+        "A": "Hardness",
+        "B": "Weight",
+        "C": "Inclusions",
+        "D": "Cost"
+      },
+      "correct": "C",
+      "explanation": "Fewer oxide inclusions mean fewer crack starting points and longer fatigue life."
+    },
+    {
+      "id": "ITC-023",
+      "category": "materials",
+      "difficulty": "hard",
+      "question": "Main microstructure after hardening?",
+      "options": {
+        "A": "Austenite only",
+        "B": "Pearlite",
+        "C": "Ferrite",
+        "D": "Tempered martensite"
+      },
+      "correct": "D",
+      "explanation": "Quench and temper gives tempered martensite with fine carbides: hard and dimensionally stable."
+    },
+    {
+      "id": "ITC-024",
+      "category": "tribology",
+      "difficulty": "easy",
+      "question": "What does grease mainly do in a bearing?",
+      "options": {
+        "A": "Add weight",
+        "B": "Add colour",
+        "C": "Hold the cage",
+        "D": "Reduce friction"
+      },
+      "correct": "D",
+      "explanation": "Lubricant separates rolling surfaces, cutting friction, wear and heat, and protects against rust."
+    },
+    {
+      "id": "ITC-025",
+      "category": "tribology",
+      "difficulty": "medium",
+      "question": "Grease stiffness is graded by?",
+      "options": {
+        "A": "NLGI number",
+        "B": "SAE grade",
+        "C": "API grade",
+        "D": "ISO VG"
+      },
+      "correct": "A",
+      "explanation": "NLGI grades grease consistency; NLGI 2 is the most common grade for bearings."
+    },
+    {
+      "id": "ITC-026",
+      "category": "tribology",
+      "difficulty": "medium",
+      "question": "Oil viscosity grade system is called?",
+      "options": {
+        "A": "ISO VG",
+        "B": "HRC",
+        "C": "ABEC",
+        "D": "NLGI"
+      },
+      "correct": "A",
+      "explanation": "ISO VG gives kinematic viscosity at 40 °C, for example ISO VG 68."
+    },
+    {
+      "id": "ITC-027",
+      "category": "tribology",
+      "difficulty": "hard",
+      "question": "EHL in bearing lubrication stands for?",
+      "options": {
+        "A": "Edge hard layer",
+        "B": "Electric heat loss",
+        "C": "Elasto-hydrodynamic",
+        "D": "Extra heavy load"
+      },
+      "correct": "C",
+      "explanation": "Elasto-hydrodynamic lubrication forms a thin oil film under very high contact pressure."
+    },
+    {
+      "id": "ITC-028",
+      "category": "tribology",
+      "difficulty": "hard",
+      "question": "Typical grease fill inside a bearing?",
+      "options": {
+        "A": "100%",
+        "B": "About 30%",
+        "C": "5%",
+        "D": "90%"
+      },
+      "correct": "B",
+      "explanation": "Around one-third fill avoids churning heat; overfilling raises temperature and torque."
+    },
+    {
+      "id": "ITC-029",
+      "category": "testing",
+      "difficulty": "easy",
+      "question": "Which test checks rust resistance?",
+      "options": {
+        "A": "Salt spray test",
+        "B": "Torque test",
+        "C": "Drop test",
+        "D": "Noise test"
+      },
+      "correct": "A",
+      "explanation": "Salt spray (fog) testing exposes parts to saline mist to judge corrosion protection."
+    },
+    {
+      "id": "ITC-030",
+      "category": "testing",
+      "difficulty": "medium",
+      "question": "The Anderon meter measures bearing?",
+      "options": {
+        "A": "Vibration",
+        "B": "Colour",
+        "C": "Hardness",
+        "D": "Weight"
+      },
+      "correct": "A",
+      "explanation": "The Anderon meter measures vibration in low, medium and high bands to detect waviness and defects."
+    },
+    {
+      "id": "ITC-031",
+      "category": "testing",
+      "difficulty": "medium",
+      "question": "Surface roughness is commonly shown as?",
+      "options": {
+        "A": "Rx",
+        "B": "Ra",
+        "C": "Rc",
+        "D": "Rpm"
+      },
+      "correct": "B",
+      "explanation": "Ra is the average roughness height of a surface, in micrometres."
+    },
+    {
+      "id": "ITC-032",
+      "category": "testing",
+      "difficulty": "medium",
+      "question": "A CMM is used to check what?",
+      "options": {
+        "A": "Dimensions",
+        "B": "Noise",
+        "C": "Grease",
+        "D": "Paint"
+      },
+      "correct": "A",
+      "explanation": "A Coordinate Measuring Machine probes parts to measure size, form and position."
+    },
+    {
+      "id": "ITC-033",
+      "category": "testing",
+      "difficulty": "hard",
+      "question": "Which test finds surface cracks magnetically?",
+      "options": {
+        "A": "Tensile",
+        "B": "Drop test",
+        "C": "Salt spray",
+        "D": "Magnetic particle"
+      },
+      "correct": "D",
+      "explanation": "Magnetic particle inspection shows surface and near-surface cracks in steel parts."
+    },
+    {
+      "id": "ITC-034",
+      "category": "testing",
+      "difficulty": "medium",
+      "question": "Raceway roundness is checked with a?",
+      "options": {
+        "A": "Roundness tester",
+        "B": "Weighing scale",
+        "C": "Ruler",
+        "D": "Thermometer"
+      },
+      "correct": "A",
+      "explanation": "A roundness tester rotates the part against a probe to measure form error in microns."
+    },
+    {
+      "id": "ITC-035",
+      "category": "testing",
+      "difficulty": "hard",
+      "question": "Bearing endurance testing confirms what?",
+      "options": {
+        "A": "Box strength",
+        "B": "Label print",
+        "C": "Paint shade",
+        "D": "Fatigue life"
+      },
+      "correct": "D",
+      "explanation": "Life test rigs run bearings under load until flaking to confirm rated life."
+    },
+    {
+      "id": "ITC-036",
+      "category": "failure",
+      "difficulty": "easy",
+      "question": "Flaking on a raceway is a sign of?",
+      "options": {
+        "A": "Good grease",
+        "B": "New bearing",
+        "C": "Rolling fatigue",
+        "D": "Correct fit"
+      },
+      "correct": "C",
+      "explanation": "Flaking is scaly peeling of the surface caused by rolling contact fatigue."
+    },
+    {
+      "id": "ITC-037",
+      "category": "failure",
+      "difficulty": "medium",
+      "question": "Dents at ball spacing on a raceway mean?",
+      "options": {
+        "A": "Creep",
+        "B": "Rusting",
+        "C": "Brinelling",
+        "D": "Normal wear"
+      },
+      "correct": "C",
+      "explanation": "Brinelling comes from shock or wrong mounting force pushed through the rolling elements."
+    },
+    {
+      "id": "ITC-038",
+      "category": "failure",
+      "difficulty": "hard",
+      "question": "Fluting (washboard marks) is caused by?",
+      "options": {
+        "A": "Cold weather",
+        "B": "Low speed",
+        "C": "Electric current",
+        "D": "Over-greasing"
+      },
+      "correct": "C",
+      "explanation": "Electric current passing through the bearing creates regular grooves called fluting."
+    },
+    {
+      "id": "ITC-039",
+      "category": "failure",
+      "difficulty": "hard",
+      "question": "Fretting at the bore fit is caused by?",
+      "options": {
+        "A": "Paint",
+        "B": "Micro-movement",
+        "C": "High hardness",
+        "D": "Too much grease"
+      },
+      "correct": "B",
+      "explanation": "Tiny relative movement between ring and shaft wears and oxidises the fit surface."
+    },
+    {
+      "id": "ITC-040",
+      "category": "failure",
+      "difficulty": "medium",
+      "question": "Outer ring creep is usually due to?",
+      "options": {
+        "A": "Ceramic balls",
+        "B": "New grease",
+        "C": "Loose fit",
+        "D": "Tight fit"
+      },
+      "correct": "C",
+      "explanation": "Too little interference lets the ring slowly turn on its seat, wearing the fit."
+    },
+    {
+      "id": "ITC-041",
+      "category": "cae_cad",
+      "difficulty": "medium",
+      "question": "FEA is used to predict what?",
+      "options": {
+        "A": "Stress",
+        "B": "Salary",
+        "C": "Sales",
+        "D": "Stock"
+      },
+      "correct": "A",
+      "explanation": "Finite Element Analysis simulates stress and deformation before prototypes are made."
+    },
+    {
+      "id": "ITC-042",
+      "category": "cae_cad",
+      "difficulty": "easy",
+      "question": "CAD stands for?",
+      "options": {
+        "A": "Central Audit Desk",
+        "B": "Cost And Delivery",
+        "C": "Computer Aided Design",
+        "D": "Check And Dispatch"
+      },
+      "correct": "C",
+      "explanation": "CAD software creates 2D drawings and 3D models of bearings and parts."
+    },
+    {
+      "id": "ITC-043",
+      "category": "cae_cad",
+      "difficulty": "hard",
+      "question": "GD&T on drawings controls what?",
+      "options": {
+        "A": "Packing",
+        "B": "Price",
+        "C": "Logistics",
+        "D": "Form & position"
+      },
+      "correct": "D",
+      "explanation": "Geometric Dimensioning and Tolerancing defines allowed form, orientation and location."
+    },
+    {
+      "id": "ITC-044",
+      "category": "apqp",
+      "difficulty": "medium",
+      "question": "DFMEA analyses risks in what?",
+      "options": {
+        "A": "Payroll",
+        "B": "Product design",
+        "C": "Shipping",
+        "D": "Canteen"
+      },
+      "correct": "B",
+      "explanation": "Design FMEA finds possible failure modes of the product design and their causes."
+    },
+    {
+      "id": "ITC-045",
+      "category": "apqp",
+      "difficulty": "medium",
+      "question": "How many phases does APQP have?",
+      "options": {
+        "A": "Ten",
+        "B": "Two",
+        "C": "Five",
+        "D": "Three"
+      },
+      "correct": "C",
+      "explanation": "APQP: planning, product design, process design, validation, and feedback/corrective action."
+    },
+    {
+      "id": "ITC-046",
+      "category": "apqp",
+      "difficulty": "hard",
+      "question": "DVP&R: Design Verification Plan &?",
+      "options": {
+        "A": "Review",
+        "B": "Return",
+        "C": "Report",
+        "D": "Repair"
+      },
+      "correct": "C",
+      "explanation": "The DVP&R lists tests needed to prove a design and records their results."
+    },
+    {
+      "id": "ITC-047",
+      "category": "ev",
+      "difficulty": "medium",
+      "question": "EV motor bearings mostly need what?",
+      "options": {
+        "A": "No grease",
+        "B": "Open cage",
+        "C": "High speed",
+        "D": "Heavy weight"
+      },
+      "correct": "C",
+      "explanation": "E-motors spin very fast, so bearings need low friction, high-speed cages and insulation."
+    },
+    {
+      "id": "ITC-048",
+      "category": "ev",
+      "difficulty": "hard",
+      "question": "Gen-3 hub unit integrates what?",
+      "options": {
+        "A": "Both flanges",
+        "B": "Grease nipple",
+        "C": "No seals",
+        "D": "Plastic rings"
+      },
+      "correct": "A",
+      "explanation": "Gen-3 hub units integrate the wheel and body flanges, cutting weight and assembly time."
+    },
+    {
+      "id": "ITC-049",
+      "category": "precision",
+      "difficulty": "medium",
+      "question": "Most precise ISO bearing tolerance class?",
+      "options": {
+        "A": "Class 6X",
+        "B": "Class 6",
+        "C": "Class 2",
+        "D": "Class 0"
+      },
+      "correct": "C",
+      "explanation": "ISO classes tighten from Normal (0) through 6, 5 and 4 to class 2, the most precise."
+    },
+    {
+      "id": "ITC-050",
+      "category": "precision",
+      "difficulty": "hard",
+      "question": "The 'dmn' value rates bearing?",
+      "options": {
+        "A": "Speed capability",
+        "B": "Load",
+        "C": "Clearance",
+        "D": "Hardness"
+      },
+      "correct": "A",
+      "explanation": "dmn = pitch diameter (mm) × speed (rpm), a common index of bearing speed capability."
+    }
+  ]
+}

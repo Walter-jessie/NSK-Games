@@ -1,0 +1,716 @@
+{
+  "department_id": "supply_chain",
+  "department_name": "Supply Chain, Business Control & Logistics",
+  "version": "2.0",
+  "total_questions": 50,
+  "categories": [
+    "inventory",
+    "warehouse",
+    "logistics",
+    "customs",
+    "planning",
+    "business_control"
+  ],
+  "questions": [
+    {
+      "id": "SCM-001",
+      "category": "inventory",
+      "difficulty": "easy",
+      "question": "FIFO stands for?",
+      "options": {
+        "A": "Final Item First",
+        "B": "Fill In Full Order",
+        "C": "Fast In, Fast Out",
+        "D": "First In, First Out"
+      },
+      "correct": "D",
+      "explanation": "Oldest stock ships first, preventing ageing of grease and packaging."
+    },
+    {
+      "id": "SCM-002",
+      "category": "inventory",
+      "difficulty": "easy",
+      "question": "Cycle counting means?",
+      "options": {
+        "A": "Counting stock often",
+        "B": "Counting bikes",
+        "C": "Counting staff",
+        "D": "Yearly count only"
+      },
+      "correct": "A",
+      "explanation": "Small portions of stock are counted regularly to keep records accurate."
+    },
+    {
+      "id": "SCM-003",
+      "category": "inventory",
+      "difficulty": "medium",
+      "question": "In ABC analysis, 'A' items are?",
+      "options": {
+        "A": "Low value",
+        "B": "Free samples",
+        "C": "Obsolete",
+        "D": "High value"
+      },
+      "correct": "D",
+      "explanation": "A items are few but make up most of the value, so they get the tightest control."
+    },
+    {
+      "id": "SCM-004",
+      "category": "inventory",
+      "difficulty": "medium",
+      "question": "Safety stock protects against?",
+      "options": {
+        "A": "Price rise",
+        "B": "Theft",
+        "C": "Demand swings",
+        "D": "Fire"
+      },
+      "correct": "C",
+      "explanation": "Buffer stock covers forecast errors and supplier delays to keep service high."
+    },
+    {
+      "id": "SCM-005",
+      "category": "inventory",
+      "difficulty": "medium",
+      "question": "Dead stock is stock that?",
+      "options": {
+        "A": "Doesn't move",
+        "B": "Sells fast",
+        "C": "Is in transit",
+        "D": "Is damaged"
+      },
+      "correct": "A",
+      "explanation": "Non-moving stock ties up cash and space and may need disposal."
+    },
+    {
+      "id": "SCM-006",
+      "category": "inventory",
+      "difficulty": "hard",
+      "question": "EOQ balances ordering cost and?",
+      "options": {
+        "A": "Salary",
+        "B": "Tax",
+        "C": "Holding cost",
+        "D": "Freight only"
+      },
+      "correct": "C",
+      "explanation": "Economic Order Quantity minimises total ordering plus carrying cost."
+    },
+    {
+      "id": "SCM-007",
+      "category": "inventory",
+      "difficulty": "hard",
+      "question": "Reorder point = lead-time demand + ?",
+      "options": {
+        "A": "Safety stock",
+        "B": "Tax",
+        "C": "EOQ",
+        "D": "Price"
+      },
+      "correct": "A",
+      "explanation": "Reorder when stock falls to expected lead-time usage plus safety stock."
+    },
+    {
+      "id": "SCM-008",
+      "category": "inventory",
+      "difficulty": "medium",
+      "question": "In VMI, who manages the stock?",
+      "options": {
+        "A": "Bank",
+        "B": "Auditor",
+        "C": "Customer only",
+        "D": "Supplier"
+      },
+      "correct": "D",
+      "explanation": "In Vendor Managed Inventory the supplier monitors and refills the customer's stock."
+    },
+    {
+      "id": "SCM-009",
+      "category": "warehouse",
+      "difficulty": "easy",
+      "question": "WMS stands for?",
+      "options": {
+        "A": "Work Material Sheet",
+        "B": "Weekly Mail Service",
+        "C": "Warehouse Mgmt System",
+        "D": "Wide Machine Scan"
+      },
+      "correct": "C",
+      "explanation": "A Warehouse Management System tracks bins, picking, packing and stock in real time."
+    },
+    {
+      "id": "SCM-010",
+      "category": "warehouse",
+      "difficulty": "easy",
+      "question": "How should bearings be stored?",
+      "options": {
+        "A": "On wet floor",
+        "B": "Dry, in boxes",
+        "C": "Unpacked",
+        "D": "Outdoors"
+      },
+      "correct": "B",
+      "explanation": "Keep bearings in original packs, off the floor, in a dry and clean area."
+    },
+    {
+      "id": "SCM-011",
+      "category": "warehouse",
+      "difficulty": "medium",
+      "question": "Cross-docking means goods are?",
+      "options": {
+        "A": "Scrapped",
+        "B": "Moved, not stored",
+        "C": "Stored long",
+        "D": "Returned"
+      },
+      "correct": "B",
+      "explanation": "Incoming goods go straight to outbound trucks with little or no storage time."
+    },
+    {
+      "id": "SCM-012",
+      "category": "warehouse",
+      "difficulty": "medium",
+      "question": "Fixed bin locations help to?",
+      "options": {
+        "A": "Paint racks",
+        "B": "Count staff",
+        "C": "Weigh trucks",
+        "D": "Find stock fast"
+      },
+      "correct": "D",
+      "explanation": "Each item has an address so pickers find it quickly and accurately."
+    },
+    {
+      "id": "SCM-013",
+      "category": "warehouse",
+      "difficulty": "medium",
+      "question": "FEFO ships which stock first?",
+      "options": {
+        "A": "Earliest expiry",
+        "B": "Cheapest",
+        "C": "Heaviest",
+        "D": "Newest"
+      },
+      "correct": "A",
+      "explanation": "First-Expiry-First-Out ships items with shelf-life limits, like greases, first."
+    },
+    {
+      "id": "SCM-014",
+      "category": "warehouse",
+      "difficulty": "hard",
+      "question": "Stacking cartons too high causes?",
+      "options": {
+        "A": "Faster picking",
+        "B": "Crushed boxes",
+        "C": "Better FIFO",
+        "D": "Less dust"
+      },
+      "correct": "B",
+      "explanation": "Overstacking crushes lower cartons and can damage bearings or topple stacks."
+    },
+    {
+      "id": "SCM-015",
+      "category": "logistics",
+      "difficulty": "easy",
+      "question": "A milk run means one truck?",
+      "options": {
+        "A": "Runs empty",
+        "B": "Collects from many",
+        "C": "Carries milk",
+        "D": "Runs yearly"
+      },
+      "correct": "B",
+      "explanation": "A milk run picks up from several nearby suppliers on a fixed route and schedule."
+    },
+    {
+      "id": "SCM-016",
+      "category": "logistics",
+      "difficulty": "easy",
+      "question": "Major seaport serving Chennai plants?",
+      "options": {
+        "A": "Mumbai Port",
+        "B": "Haldia Port",
+        "C": "Chennai Port",
+        "D": "Kandla Port"
+      },
+      "correct": "C",
+      "explanation": "Chennai Port and nearby Kamarajar (Ennore) Port handle most of the region's containers."
+    },
+    {
+      "id": "SCM-017",
+      "category": "logistics",
+      "difficulty": "medium",
+      "question": "One TEU equals one?",
+      "options": {
+        "A": "Pallet",
+        "B": "20-ft container",
+        "C": "Ship crew",
+        "D": "Truck"
+      },
+      "correct": "B",
+      "explanation": "One TEU is one twenty-foot container; a 40-ft container is two TEU."
+    },
+    {
+      "id": "SCM-018",
+      "category": "logistics",
+      "difficulty": "medium",
+      "question": "An LCL shipment means?",
+      "options": {
+        "A": "Air cargo",
+        "B": "Full container",
+        "C": "Shared container",
+        "D": "Courier"
+      },
+      "correct": "C",
+      "explanation": "Less than Container Load cargo shares a container with other shippers."
+    },
+    {
+      "id": "SCM-019",
+      "category": "logistics",
+      "difficulty": "medium",
+      "question": "E-way bill is needed for goods above?",
+      "options": {
+        "A": "₹500",
+        "B": "₹50,000",
+        "C": "₹5 lakh",
+        "D": "₹5,000"
+      },
+      "correct": "B",
+      "explanation": "GST rules require an e-way bill for moving goods worth over ₹50,000."
+    },
+    {
+      "id": "SCM-020",
+      "category": "logistics",
+      "difficulty": "medium",
+      "question": "VCI paper in bearing packs prevents?",
+      "options": {
+        "A": "Rust",
+        "B": "Breakage",
+        "C": "Theft",
+        "D": "Fire"
+      },
+      "correct": "A",
+      "explanation": "Volatile Corrosion Inhibitor paper releases vapour that protects steel from rust."
+    },
+    {
+      "id": "SCM-021",
+      "category": "logistics",
+      "difficulty": "hard",
+      "question": "Wooden export pallets need which mark?",
+      "options": {
+        "A": "ISO 9001",
+        "B": "FSSAI",
+        "C": "BIS",
+        "D": "ISPM-15"
+      },
+      "correct": "D",
+      "explanation": "ISPM-15 requires heat treatment or fumigation of wood packaging to stop pests."
+    },
+    {
+      "id": "SCM-022",
+      "category": "logistics",
+      "difficulty": "hard",
+      "question": "Container kept at port too long incurs?",
+      "options": {
+        "A": "Bonus",
+        "B": "Discount",
+        "C": "Refund",
+        "D": "Demurrage"
+      },
+      "correct": "D",
+      "explanation": "Demurrage is charged for containers kept in port beyond the free time."
+    },
+    {
+      "id": "SCM-023",
+      "category": "logistics",
+      "difficulty": "medium",
+      "question": "An air waybill is used for?",
+      "options": {
+        "A": "Air cargo",
+        "B": "Rail cargo",
+        "C": "Sea cargo",
+        "D": "Payroll"
+      },
+      "correct": "A",
+      "explanation": "The air waybill is the transport contract and receipt for air freight."
+    },
+    {
+      "id": "SCM-024",
+      "category": "logistics",
+      "difficulty": "medium",
+      "question": "A bill of lading is issued for?",
+      "options": {
+        "A": "Canteen",
+        "B": "Payroll",
+        "C": "Road toll",
+        "D": "Sea shipment"
+      },
+      "correct": "D",
+      "explanation": "A bill of lading is the carrier's receipt and title document for sea cargo."
+    },
+    {
+      "id": "SCM-025",
+      "category": "logistics",
+      "difficulty": "hard",
+      "question": "3PL stands for?",
+      "options": {
+        "A": "Plant layout",
+        "B": "Third-party logistics",
+        "C": "Post-loading list",
+        "D": "Three pallet load"
+      },
+      "correct": "B",
+      "explanation": "A 3PL provider handles warehousing or transport for a company."
+    },
+    {
+      "id": "SCM-026",
+      "category": "logistics",
+      "difficulty": "easy",
+      "question": "POD in delivery stands for?",
+      "options": {
+        "A": "Pack On Dock",
+        "B": "Proof Of Delivery",
+        "C": "Plant Order Date",
+        "D": "Price On Demand"
+      },
+      "correct": "B",
+      "explanation": "Proof of Delivery is the customer's signed acknowledgement of receipt."
+    },
+    {
+      "id": "SCM-027",
+      "category": "logistics",
+      "difficulty": "medium",
+      "question": "Reverse logistics handles what?",
+      "options": {
+        "A": "Payroll",
+        "B": "Training",
+        "C": "Returns",
+        "D": "New orders"
+      },
+      "correct": "C",
+      "explanation": "Reverse logistics manages returned, rejected or recyclable goods coming back."
+    },
+    {
+      "id": "SCM-028",
+      "category": "customs",
+      "difficulty": "hard",
+      "question": "HSN heading for ball & roller bearings?",
+      "options": {
+        "A": "7208",
+        "B": "8708",
+        "C": "3926",
+        "D": "8482"
+      },
+      "correct": "D",
+      "explanation": "HSN heading 8482 covers ball and roller bearings for GST and customs."
+    },
+    {
+      "id": "SCM-029",
+      "category": "customs",
+      "difficulty": "medium",
+      "question": "Import customs document in India?",
+      "options": {
+        "A": "Bill of Entry",
+        "B": "Gate Pass",
+        "C": "Pay slip",
+        "D": "Shipping Bill"
+      },
+      "correct": "A",
+      "explanation": "The Bill of Entry is filed with customs to clear imported goods."
+    },
+    {
+      "id": "SCM-030",
+      "category": "customs",
+      "difficulty": "medium",
+      "question": "Export customs document in India?",
+      "options": {
+        "A": "Purchase Order",
+        "B": "Bill of Entry",
+        "C": "Delivery Note",
+        "D": "Shipping Bill"
+      },
+      "correct": "D",
+      "explanation": "The Shipping Bill is filed with customs for export clearance."
+    },
+    {
+      "id": "SCM-031",
+      "category": "customs",
+      "difficulty": "medium",
+      "question": "Incoterm with the least seller duty?",
+      "options": {
+        "A": "CIF",
+        "B": "DDP",
+        "C": "EXW",
+        "D": "DAP"
+      },
+      "correct": "C",
+      "explanation": "Under Ex Works the buyer collects from the seller and bears nearly all cost and risk."
+    },
+    {
+      "id": "SCM-032",
+      "category": "customs",
+      "difficulty": "medium",
+      "question": "Incoterm with the most seller duty?",
+      "options": {
+        "A": "EXW",
+        "B": "FOB",
+        "C": "DDP",
+        "D": "FCA"
+      },
+      "correct": "C",
+      "explanation": "Delivered Duty Paid makes the seller pay transport, duties and taxes to destination."
+    },
+    {
+      "id": "SCM-033",
+      "category": "customs",
+      "difficulty": "hard",
+      "question": "Incoterms edition currently in use?",
+      "options": {
+        "A": "Incoterms 2000",
+        "B": "Incoterms 1990",
+        "C": "Incoterms 2010",
+        "D": "Incoterms 2020"
+      },
+      "correct": "D",
+      "explanation": "Incoterms 2020 is in force, with 11 rules including DPU, which replaced DAT."
+    },
+    {
+      "id": "SCM-034",
+      "category": "customs",
+      "difficulty": "hard",
+      "question": "Under FOB, risk passes when goods are?",
+      "options": {
+        "A": "On board ship",
+        "B": "At factory gate",
+        "C": "In customs bond",
+        "D": "At buyer store"
+      },
+      "correct": "A",
+      "explanation": "Under FOB, risk moves to the buyer once goods are loaded on board the vessel."
+    },
+    {
+      "id": "SCM-035",
+      "category": "customs",
+      "difficulty": "medium",
+      "question": "A licensed customs broker is called?",
+      "options": {
+        "A": "CNC",
+        "B": "CRM",
+        "C": "CHA",
+        "D": "CFO"
+      },
+      "correct": "C",
+      "explanation": "Customs House Agents (customs brokers) file documents and clear cargo for traders."
+    },
+    {
+      "id": "SCM-036",
+      "category": "planning",
+      "difficulty": "easy",
+      "question": "S&OP balances demand with?",
+      "options": {
+        "A": "Supply",
+        "B": "Salary",
+        "C": "Sales tax",
+        "D": "Safety"
+      },
+      "correct": "A",
+      "explanation": "Sales & Operations Planning aligns forecasts with capacity, stock and purchasing."
+    },
+    {
+      "id": "SCM-037",
+      "category": "planning",
+      "difficulty": "medium",
+      "question": "Forecast error is often measured by?",
+      "options": {
+        "A": "PPM",
+        "B": "OEE",
+        "C": "Cpk",
+        "D": "MAPE"
+      },
+      "correct": "D",
+      "explanation": "Mean Absolute Percentage Error shows how far forecasts were from actual demand."
+    },
+    {
+      "id": "SCM-038",
+      "category": "planning",
+      "difficulty": "medium",
+      "question": "Lead time is the time from order to?",
+      "options": {
+        "A": "Payment",
+        "B": "Receipt",
+        "C": "Invoice",
+        "D": "Quote"
+      },
+      "correct": "B",
+      "explanation": "Lead time is how long it takes to receive goods after ordering them."
+    },
+    {
+      "id": "SCM-039",
+      "category": "planning",
+      "difficulty": "hard",
+      "question": "Bullwhip effect: demand swings do what?",
+      "options": {
+        "A": "Grow upstream",
+        "B": "Disappear",
+        "C": "Shrink upstream",
+        "D": "Stay the same"
+      },
+      "correct": "A",
+      "explanation": "Small changes at customers amplify into big swings for suppliers further upstream."
+    },
+    {
+      "id": "SCM-040",
+      "category": "business_control",
+      "difficulty": "easy",
+      "question": "Budget vs actual difference is called?",
+      "options": {
+        "A": "Variance",
+        "B": "Tax",
+        "C": "Margin",
+        "D": "Revenue"
+      },
+      "correct": "A",
+      "explanation": "Variance analysis explains why actual results differ from the budget."
+    },
+    {
+      "id": "SCM-041",
+      "category": "business_control",
+      "difficulty": "easy",
+      "question": "India's financial year runs?",
+      "options": {
+        "A": "Oct to Sept",
+        "B": "Jan to Dec",
+        "C": "April to March",
+        "D": "July to June"
+      },
+      "correct": "C",
+      "explanation": "Indian companies follow an April–March financial year."
+    },
+    {
+      "id": "SCM-042",
+      "category": "business_control",
+      "difficulty": "medium",
+      "question": "DSI shows the days needed to?",
+      "options": {
+        "A": "Pay suppliers",
+        "B": "Sell inventory",
+        "C": "Collect cash",
+        "D": "Ship goods"
+      },
+      "correct": "B",
+      "explanation": "Days Sales of Inventory shows how long stock sits before being sold."
+    },
+    {
+      "id": "SCM-043",
+      "category": "business_control",
+      "difficulty": "medium",
+      "question": "Cash cycle = DSI + DSO − ?",
+      "options": {
+        "A": "EBIT",
+        "B": "DPO",
+        "C": "ROI",
+        "D": "OEE"
+      },
+      "correct": "B",
+      "explanation": "The cash conversion cycle adds stock and receivable days, minus payable days."
+    },
+    {
+      "id": "SCM-044",
+      "category": "business_control",
+      "difficulty": "medium",
+      "question": "Inventory turns = COGS ÷ ?",
+      "options": {
+        "A": "Avg inventory",
+        "B": "Profit",
+        "C": "Assets",
+        "D": "Sales staff"
+      },
+      "correct": "A",
+      "explanation": "Higher turns mean stock moves faster and less cash is tied up."
+    },
+    {
+      "id": "SCM-045",
+      "category": "business_control",
+      "difficulty": "medium",
+      "question": "Standard vs actual cost gap is a?",
+      "options": {
+        "A": "Cost variance",
+        "B": "Profit",
+        "C": "Revenue",
+        "D": "Sale"
+      },
+      "correct": "A",
+      "explanation": "Cost variances show where material, labour or overhead overshot standard."
+    },
+    {
+      "id": "SCM-046",
+      "category": "business_control",
+      "difficulty": "hard",
+      "question": "NSK is listed in Japan, so units follow?",
+      "options": {
+        "A": "FDA",
+        "B": "J-SOX",
+        "C": "GDPR",
+        "D": "HIPAA"
+      },
+      "correct": "B",
+      "explanation": "Japan's J-SOX rules require internal control reporting across a listed group."
+    },
+    {
+      "id": "SCM-047",
+      "category": "business_control",
+      "difficulty": "hard",
+      "question": "Segregation of duties prevents what?",
+      "options": {
+        "A": "Training",
+        "B": "Fraud & errors",
+        "C": "Teamwork",
+        "D": "Overtime"
+      },
+      "correct": "B",
+      "explanation": "Splitting order, receipt and payment duties stops one person controlling a whole process."
+    },
+    {
+      "id": "SCM-048",
+      "category": "business_control",
+      "difficulty": "medium",
+      "question": "Example of a cost centre in a plant?",
+      "options": {
+        "A": "Supplier",
+        "B": "Customer",
+        "C": "Maintenance dept",
+        "D": "Bank"
+      },
+      "correct": "C",
+      "explanation": "Cost centres collect costs of departments like maintenance for control and allocation."
+    },
+    {
+      "id": "SCM-049",
+      "category": "business_control",
+      "difficulty": "hard",
+      "question": "Transfer pricing rules apply to deals with?",
+      "options": {
+        "A": "Customers only",
+        "B": "Banks",
+        "C": "Group companies",
+        "D": "Employees"
+      },
+      "correct": "C",
+      "explanation": "Cross-border deals between group companies must be priced at arm's length."
+    },
+    {
+      "id": "SCM-050",
+      "category": "business_control",
+      "difficulty": "medium",
+      "question": "Writing off obsolete stock reduces?",
+      "options": {
+        "A": "Headcount",
+        "B": "Cash in bank",
+        "C": "Sales",
+        "D": "Profit"
+      },
+      "correct": "D",
+      "explanation": "Writing off non-moving stock is an expense that reduces profit for the period."
+    }
+  ]
+}

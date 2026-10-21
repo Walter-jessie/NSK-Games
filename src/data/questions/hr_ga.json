@@ -1,0 +1,718 @@
+{
+  "department_id": "hr_ga",
+  "department_name": "HR & GA",
+  "version": "2.0",
+  "total_questions": 50,
+  "categories": [
+    "5s_safety",
+    "welfare",
+    "training",
+    "performance",
+    "culture",
+    "industrial_relations",
+    "general_affairs",
+    "hr_process"
+  ],
+  "questions": [
+    {
+      "id": "HR-001",
+      "category": "5s_safety",
+      "difficulty": "easy",
+      "question": "In 5S, 'Seiso' means?",
+      "options": {
+        "A": "Shine",
+        "B": "Set in order",
+        "C": "Sustain",
+        "D": "Sort"
+      },
+      "correct": "A",
+      "explanation": "Seiso is cleaning the workplace and checking equipment while cleaning."
+    },
+    {
+      "id": "HR-002",
+      "category": "5s_safety",
+      "difficulty": "easy",
+      "question": "Gemba means?",
+      "options": {
+        "A": "Parking lot",
+        "B": "Canteen",
+        "C": "Boardroom",
+        "D": "Actual workplace"
+      },
+      "correct": "D",
+      "explanation": "Gemba is where value is created: the shop floor."
+    },
+    {
+      "id": "HR-003",
+      "category": "5s_safety",
+      "difficulty": "easy",
+      "question": "What should you do with a near-miss?",
+      "options": {
+        "A": "Report it",
+        "B": "Laugh it off",
+        "C": "Ignore it",
+        "D": "Hide it"
+      },
+      "correct": "A",
+      "explanation": "Reporting near-misses fixes hazards before someone gets hurt."
+    },
+    {
+      "id": "HR-004",
+      "category": "5s_safety",
+      "difficulty": "easy",
+      "question": "When the fire alarm rings, go to the?",
+      "options": {
+        "A": "Locker room",
+        "B": "Canteen",
+        "C": "Assembly point",
+        "D": "Your car"
+      },
+      "correct": "C",
+      "explanation": "Evacuate calmly by marked routes to the assembly point for headcount."
+    },
+    {
+      "id": "HR-005",
+      "category": "5s_safety",
+      "difficulty": "easy",
+      "question": "Extinguisher method 'PASS' starts with?",
+      "options": {
+        "A": "Press hose",
+        "B": "Pour water",
+        "C": "Push button",
+        "D": "Pull the pin"
+      },
+      "correct": "D",
+      "explanation": "PASS = Pull pin, Aim at base, Squeeze handle, Sweep side to side."
+    },
+    {
+      "id": "HR-006",
+      "category": "5s_safety",
+      "difficulty": "medium",
+      "question": "Oil or petrol fire is which class?",
+      "options": {
+        "A": "Class A",
+        "B": "Class B",
+        "C": "Class C",
+        "D": "Class D"
+      },
+      "correct": "B",
+      "explanation": "Class B fires involve flammable liquids; use foam, CO2 or dry powder."
+    },
+    {
+      "id": "HR-007",
+      "category": "5s_safety",
+      "difficulty": "medium",
+      "question": "Wood or paper fire is which class?",
+      "options": {
+        "A": "Class B",
+        "B": "Class C",
+        "C": "Class D",
+        "D": "Class A"
+      },
+      "correct": "D",
+      "explanation": "Class A fires involve ordinary solids; water and ABC powder work well."
+    },
+    {
+      "id": "HR-008",
+      "category": "5s_safety",
+      "difficulty": "medium",
+      "question": "Safety pyramid: many near-misses lead to?",
+      "options": {
+        "A": "Bonuses",
+        "B": "Promotions",
+        "C": "Holidays",
+        "D": "Serious injury"
+      },
+      "correct": "D",
+      "explanation": "Many near-misses come before each serious accident, so fixing small ones prevents big ones."
+    },
+    {
+      "id": "HR-009",
+      "category": "5s_safety",
+      "difficulty": "hard",
+      "question": "ISO standard for occupational safety?",
+      "options": {
+        "A": "ISO 27001",
+        "B": "ISO 50001",
+        "C": "ISO 45001",
+        "D": "ISO 9001"
+      },
+      "correct": "C",
+      "explanation": "ISO 45001 sets requirements for occupational health and safety management."
+    },
+    {
+      "id": "HR-010",
+      "category": "5s_safety",
+      "difficulty": "medium",
+      "question": "ISO standard for environment management?",
+      "options": {
+        "A": "ISO 45001",
+        "B": "ISO 22000",
+        "C": "ISO 31000",
+        "D": "ISO 14001"
+      },
+      "correct": "D",
+      "explanation": "ISO 14001 covers environmental management systems."
+    },
+    {
+      "id": "HR-011",
+      "category": "welfare",
+      "difficulty": "easy",
+      "question": "EPF is a scheme for?",
+      "options": {
+        "A": "Retirement savings",
+        "B": "Travel",
+        "C": "Housing loan",
+        "D": "Medical bills"
+      },
+      "correct": "A",
+      "explanation": "The Employees' Provident Fund builds retirement savings from employee and employer shares."
+    },
+    {
+      "id": "HR-012",
+      "category": "welfare",
+      "difficulty": "medium",
+      "question": "Employee's EPF contribution rate?",
+      "options": {
+        "A": "8.33%",
+        "B": "12%",
+        "C": "5%",
+        "D": "20%"
+      },
+      "correct": "B",
+      "explanation": "Employees contribute 12% of basic wages plus DA to EPF."
+    },
+    {
+      "id": "HR-013",
+      "category": "welfare",
+      "difficulty": "hard",
+      "question": "Employer share diverted to pension (EPS)?",
+      "options": {
+        "A": "1%",
+        "B": "8.33%",
+        "C": "12%",
+        "D": "3.67%"
+      },
+      "correct": "B",
+      "explanation": "Of the employer's 12%, 8.33% (on capped wages) goes to EPS and the balance to EPF."
+    },
+    {
+      "id": "HR-014",
+      "category": "welfare",
+      "difficulty": "medium",
+      "question": "UAN is used for?",
+      "options": {
+        "A": "Bank loan",
+        "B": "PF account",
+        "C": "Passport",
+        "D": "GST"
+      },
+      "correct": "B",
+      "explanation": "The Universal Account Number links all PF accounts of an employee across jobs."
+    },
+    {
+      "id": "HR-015",
+      "category": "welfare",
+      "difficulty": "medium",
+      "question": "ESI mainly gives workers?",
+      "options": {
+        "A": "Free travel",
+        "B": "Medical benefits",
+        "C": "Shares",
+        "D": "Housing"
+      },
+      "correct": "B",
+      "explanation": "ESI provides medical care and cash benefits for sickness, maternity and injury."
+    },
+    {
+      "id": "HR-016",
+      "category": "welfare",
+      "difficulty": "hard",
+      "question": "ESI covers employees earning up to?",
+      "options": {
+        "A": "₹21,000/month",
+        "B": "₹10,000/month",
+        "C": "₹50,000/month",
+        "D": "No limit"
+      },
+      "correct": "A",
+      "explanation": "Employees earning up to ₹21,000 a month (₹25,000 for disabled) are covered."
+    },
+    {
+      "id": "HR-017",
+      "category": "welfare",
+      "difficulty": "hard",
+      "question": "Statutory minimum bonus rate?",
+      "options": {
+        "A": "20%",
+        "B": "5%",
+        "C": "12%",
+        "D": "8.33%"
+      },
+      "correct": "D",
+      "explanation": "Bonus rules set a minimum of 8.33% and a maximum of 20% of eligible wages."
+    },
+    {
+      "id": "HR-018",
+      "category": "welfare",
+      "difficulty": "medium",
+      "question": "Gratuity uses how many days' pay a year?",
+      "options": {
+        "A": "7 days",
+        "B": "15 days",
+        "C": "30 days",
+        "D": "1 day"
+      },
+      "correct": "B",
+      "explanation": "Gratuity = last wages × 15/26 × completed years of service."
+    },
+    {
+      "id": "HR-019",
+      "category": "training",
+      "difficulty": "easy",
+      "question": "OJT stands for?",
+      "options": {
+        "A": "Online Job Test",
+        "B": "On-the-Job Training",
+        "C": "Over-Joint Task",
+        "D": "Office Job Time"
+      },
+      "correct": "B",
+      "explanation": "OJT teaches skills at the actual workstation under a trainer."
+    },
+    {
+      "id": "HR-020",
+      "category": "training",
+      "difficulty": "easy",
+      "question": "A skill matrix shows what?",
+      "options": {
+        "A": "Salary",
+        "B": "Leave",
+        "C": "Shift timing",
+        "D": "Who can do what"
+      },
+      "correct": "D",
+      "explanation": "A skill matrix maps each person's skill levels so teams can plan training and cover."
+    },
+    {
+      "id": "HR-021",
+      "category": "training",
+      "difficulty": "medium",
+      "question": "Multi-skilled operators help when?",
+      "options": {
+        "A": "Someone is absent",
+        "B": "Power fails",
+        "C": "Salary rises",
+        "D": "Lunch is late"
+      },
+      "correct": "A",
+      "explanation": "Cross-trained operators keep lines running when a colleague is absent."
+    },
+    {
+      "id": "HR-022",
+      "category": "training",
+      "difficulty": "medium",
+      "question": "A training Dojo is used for?",
+      "options": {
+        "A": "Karate",
+        "B": "Holidays",
+        "C": "Safe practice",
+        "D": "Sales"
+      },
+      "correct": "C",
+      "explanation": "A Dojo is a practice area where new staff learn skills before working on live lines."
+    },
+    {
+      "id": "HR-023",
+      "category": "training",
+      "difficulty": "hard",
+      "question": "Kirkpatrick level 3 measures?",
+      "options": {
+        "A": "Reaction",
+        "B": "Learning",
+        "C": "Results",
+        "D": "Behaviour change"
+      },
+      "correct": "D",
+      "explanation": "Level 1 Reaction, 2 Learning, 3 Behaviour on the job, 4 business Results."
+    },
+    {
+      "id": "HR-024",
+      "category": "training",
+      "difficulty": "medium",
+      "question": "Induction training is for?",
+      "options": {
+        "A": "Retirees",
+        "B": "Customers",
+        "C": "Vendors",
+        "D": "New joiners"
+      },
+      "correct": "D",
+      "explanation": "Induction introduces new employees to the company, rules, safety and culture."
+    },
+    {
+      "id": "HR-025",
+      "category": "performance",
+      "difficulty": "easy",
+      "question": "In SMART goals, 'M' means?",
+      "options": {
+        "A": "Measurable",
+        "B": "Monthly",
+        "C": "Mandatory",
+        "D": "Manual"
+      },
+      "correct": "A",
+      "explanation": "SMART = Specific, Measurable, Achievable, Relevant, Time-bound."
+    },
+    {
+      "id": "HR-026",
+      "category": "performance",
+      "difficulty": "medium",
+      "question": "In KPI, 'P' stands for?",
+      "options": {
+        "A": "People",
+        "B": "Profit",
+        "C": "Performance",
+        "D": "Production"
+      },
+      "correct": "C",
+      "explanation": "Key Performance Indicators measure progress toward important goals."
+    },
+    {
+      "id": "HR-027",
+      "category": "performance",
+      "difficulty": "medium",
+      "question": "MBO means management by?",
+      "options": {
+        "A": "Orders",
+        "B": "Objectives",
+        "C": "Overtime",
+        "D": "Opinions"
+      },
+      "correct": "B",
+      "explanation": "Management by Objectives aligns individual goals with company targets."
+    },
+    {
+      "id": "HR-028",
+      "category": "performance",
+      "difficulty": "hard",
+      "question": "360° feedback comes from?",
+      "options": {
+        "A": "Boss only",
+        "B": "Customer only",
+        "C": "All around",
+        "D": "HR only"
+      },
+      "correct": "C",
+      "explanation": "360° feedback gathers views from manager, peers, team members and sometimes customers."
+    },
+    {
+      "id": "HR-029",
+      "category": "performance",
+      "difficulty": "medium",
+      "question": "Attrition rate measures?",
+      "options": {
+        "A": "Overtime",
+        "B": "Training hours",
+        "C": "Staff leaving",
+        "D": "Hiring cost"
+      },
+      "correct": "C",
+      "explanation": "Attrition is the percentage of employees who leave in a period."
+    },
+    {
+      "id": "HR-030",
+      "category": "culture",
+      "difficulty": "easy",
+      "question": "Hou-Ren-Sou: Report, Contact and?",
+      "options": {
+        "A": "Correct",
+        "B": "Consult",
+        "C": "Complain",
+        "D": "Celebrate"
+      },
+      "correct": "B",
+      "explanation": "Japanese teams value timely reporting, informing and consulting with seniors."
+    },
+    {
+      "id": "HR-031",
+      "category": "culture",
+      "difficulty": "medium",
+      "question": "Genchi Genbutsu means?",
+      "options": {
+        "A": "Go and see",
+        "B": "Ask the boss",
+        "C": "Read reports",
+        "D": "Work faster"
+      },
+      "correct": "A",
+      "explanation": "Go to the actual place and see the actual thing before deciding."
+    },
+    {
+      "id": "HR-032",
+      "category": "culture",
+      "difficulty": "medium",
+      "question": "Suggestion schemes mainly generate?",
+      "options": {
+        "A": "Gossip",
+        "B": "Absence",
+        "C": "Kaizen ideas",
+        "D": "Complaints"
+      },
+      "correct": "C",
+      "explanation": "Employee suggestions are a key source of small improvement ideas."
+    },
+    {
+      "id": "HR-033",
+      "category": "culture",
+      "difficulty": "hard",
+      "question": "NSK core values: Safety, Quality, Compliance &?",
+      "options": {
+        "A": "Speed",
+        "B": "Environment",
+        "C": "Luck",
+        "D": "Profit"
+      },
+      "correct": "B",
+      "explanation": "NSK names safety, quality, compliance and environment as its core values."
+    },
+    {
+      "id": "HR-034",
+      "category": "industrial_relations",
+      "difficulty": "medium",
+      "question": "Standing orders apply from how many workers?",
+      "options": {
+        "A": "1000",
+        "B": "10",
+        "C": "300",
+        "D": "50"
+      },
+      "correct": "C",
+      "explanation": "Under the Industrial Relations Code, standing orders apply to units with 300+ workers."
+    },
+    {
+      "id": "HR-035",
+      "category": "industrial_relations",
+      "difficulty": "hard",
+      "question": "Strike notice under the IR Code?",
+      "options": {
+        "A": "None",
+        "B": "1 day",
+        "C": "14 days",
+        "D": "60 days"
+      },
+      "correct": "C",
+      "explanation": "Workers must give 14 days' notice before a strike under the IR Code."
+    },
+    {
+      "id": "HR-036",
+      "category": "industrial_relations",
+      "difficulty": "medium",
+      "question": "A grievance committee resolves?",
+      "options": {
+        "A": "Worker complaints",
+        "B": "IT issues",
+        "C": "Sales targets",
+        "D": "Machine faults"
+      },
+      "correct": "A",
+      "explanation": "The Grievance Redressal Committee handles individual worker disputes."
+    },
+    {
+      "id": "HR-037",
+      "category": "industrial_relations",
+      "difficulty": "hard",
+      "question": "Appointment letters under Labour Codes?",
+      "options": {
+        "A": "Managers only",
+        "B": "Optional",
+        "C": "Mandatory for all",
+        "D": "Contract only"
+      },
+      "correct": "C",
+      "explanation": "Employers must now issue appointment letters to every worker."
+    },
+    {
+      "id": "HR-038",
+      "category": "general_affairs",
+      "difficulty": "easy",
+      "question": "The GA department handles?",
+      "options": {
+        "A": "Sales",
+        "B": "Design",
+        "C": "Facilities & admin",
+        "D": "Grinding"
+      },
+      "correct": "C",
+      "explanation": "General Affairs runs facilities, transport, canteen, security and admin services."
+    },
+    {
+      "id": "HR-039",
+      "category": "general_affairs",
+      "difficulty": "easy",
+      "question": "Visitors entering the plant must?",
+      "options": {
+        "A": "Register for pass",
+        "B": "Bring food",
+        "C": "Skip safety talk",
+        "D": "Walk in freely"
+      },
+      "correct": "A",
+      "explanation": "Registering visitors controls access and ensures a safety briefing and PPE."
+    },
+    {
+      "id": "HR-040",
+      "category": "general_affairs",
+      "difficulty": "medium",
+      "question": "Rainwater harvesting for TN buildings is?",
+      "options": {
+        "A": "Taxed",
+        "B": "Mandatory",
+        "C": "Banned",
+        "D": "Optional"
+      },
+      "correct": "B",
+      "explanation": "Tamil Nadu made rainwater harvesting compulsory for buildings."
+    },
+    {
+      "id": "HR-041",
+      "category": "general_affairs",
+      "difficulty": "medium",
+      "question": "Licence needed for the factory canteen?",
+      "options": {
+        "A": "FSSAI",
+        "B": "BIS",
+        "C": "TNPCB",
+        "D": "RTO"
+      },
+      "correct": "A",
+      "explanation": "Canteens need FSSAI registration or licence and must follow hygiene rules."
+    },
+    {
+      "id": "HR-042",
+      "category": "general_affairs",
+      "difficulty": "medium",
+      "question": "Oily rags should go to which waste?",
+      "options": {
+        "A": "Paper bin",
+        "B": "Food waste",
+        "C": "Hazardous waste",
+        "D": "Garden"
+      },
+      "correct": "C",
+      "explanation": "Oil-soaked cloths are hazardous waste and go to authorised handlers."
+    },
+    {
+      "id": "HR-043",
+      "category": "general_affairs",
+      "difficulty": "medium",
+      "question": "An STP in the plant treats?",
+      "options": {
+        "A": "Oil only",
+        "B": "Sewage water",
+        "C": "Steel",
+        "D": "Paint"
+      },
+      "correct": "B",
+      "explanation": "A Sewage Treatment Plant treats domestic waste water for reuse in gardens or flushing."
+    },
+    {
+      "id": "HR-044",
+      "category": "general_affairs",
+      "difficulty": "hard",
+      "question": "Used oil can only be given to?",
+      "options": {
+        "A": "Scrap shop",
+        "B": "Drain",
+        "C": "Neighbour",
+        "D": "Authorised recycler"
+      },
+      "correct": "D",
+      "explanation": "Used oil is hazardous waste and may go only to authorised recyclers."
+    },
+    {
+      "id": "HR-045",
+      "category": "general_affairs",
+      "difficulty": "medium",
+      "question": "Company bus drivers must have?",
+      "options": {
+        "A": "Fast speed",
+        "B": "Valid licence",
+        "C": "Music",
+        "D": "No checks"
+      },
+      "correct": "B",
+      "explanation": "GA verifies licences, vehicle fitness and seatbelts for staff transport safety."
+    },
+    {
+      "id": "HR-046",
+      "category": "general_affairs",
+      "difficulty": "hard",
+      "question": "A cyclone emergency plan covers?",
+      "options": {
+        "A": "Holidays",
+        "B": "Overtime",
+        "C": "Sales push",
+        "D": "Shutdown & safety"
+      },
+      "correct": "D",
+      "explanation": "Cyclone plans cover safe shutdown, staff transport, power backup and communication."
+    },
+    {
+      "id": "HR-047",
+      "category": "general_affairs",
+      "difficulty": "easy",
+      "question": "A first aid box should be?",
+      "options": {
+        "A": "Stocked & reachable",
+        "B": "Empty",
+        "C": "Locked away",
+        "D": "At home"
+      },
+      "correct": "A",
+      "explanation": "First aid kits must be stocked, checked and easy for trained first-aiders to reach."
+    },
+    {
+      "id": "HR-048",
+      "category": "hr_process",
+      "difficulty": "easy",
+      "question": "A payslip shows?",
+      "options": {
+        "A": "Earnings & deductions",
+        "B": "Leave plan",
+        "C": "Shift roster",
+        "D": "Sales"
+      },
+      "correct": "A",
+      "explanation": "Payslips list gross pay, deductions like PF and tax, and net pay."
+    },
+    {
+      "id": "HR-049",
+      "category": "hr_process",
+      "difficulty": "medium",
+      "question": "An exit interview happens when?",
+      "options": {
+        "A": "Employee leaves",
+        "B": "Promotion",
+        "C": "Birthday",
+        "D": "Joining"
+      },
+      "correct": "A",
+      "explanation": "Exit interviews capture reasons for leaving to improve retention."
+    },
+    {
+      "id": "HR-050",
+      "category": "hr_process",
+      "difficulty": "hard",
+      "question": "Final wages after exit are due within?",
+      "options": {
+        "A": "6 months",
+        "B": "1 year",
+        "C": "60 days",
+        "D": "2 working days"
+      },
+      "correct": "D",
+      "explanation": "Under the Labour Codes, wages are paid within two working days of exit."
+    }
+  ]
+}

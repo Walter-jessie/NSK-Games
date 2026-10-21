@@ -1,0 +1,594 @@
+{
+  "arena": {
+    "width": 60.0,
+    "depth": 40.0,
+    "playerSpawn": {
+      "x": 0.0,
+      "z": 0.0
+    },
+    "floorColor": 593956,
+    "wallColor": 1981066
+  },
+  "machines": [
+    {
+      "id": "APP_01",
+      "name": "Electric Vehicle (EV) Powertrain Dyno",
+      "type": "ev_powertrain",
+      "x": -18.0,
+      "z": -12.0,
+      "width": 5.5,
+      "depth": 3.8,
+      "color": "#38bdf8",
+      "repairRadius": 3.8,
+      "desc": "High-Speed EV Motor & Differential (Silent Low-Friction)"
+    },
+    {
+      "id": "APP_02",
+      "name": "Automated Guided Vehicle (AGV) Steer-Drive Hub",
+      "type": "agv_drive",
+      "x": 0.0,
+      "z": -12.0,
+      "width": 5.2,
+      "depth": 3.8,
+      "color": "#38bdf8",
+      "repairRadius": 3.8,
+      "desc": "Warehouse Robotics High-Load Steering Swivel Bearings"
+    },
+    {
+      "id": "APP_03",
+      "name": "Articulated Industrial Robot Arm Cell",
+      "type": "robot_arm",
+      "x": 18.0,
+      "z": -12.0,
+      "width": 5.5,
+      "depth": 3.8,
+      "color": "#f59e0b",
+      "repairRadius": 3.8,
+      "desc": "Zero-Backlash Robot Joint Harmonic Bearings"
+    },
+    {
+      "id": "APP_04",
+      "name": "Precision CNC Machining Spindle Bench",
+      "type": "cnc_spindle",
+      "x": -13.0,
+      "z": -4.5,
+      "width": 5.2,
+      "depth": 3.6,
+      "color": "#a855f7",
+      "repairRadius": 3.8,
+      "desc": "Sub-Micron High-Rigidity Machine Tool Spindle"
+    },
+    {
+      "id": "APP_05",
+      "name": "Wind Turbine Planetary Gearbox Rig",
+      "type": "wind_gearbox",
+      "x": 13.0,
+      "z": -4.5,
+      "width": 5.2,
+      "depth": 3.6,
+      "color": "#10b981",
+      "repairRadius": 3.8,
+      "desc": "Heavy-Duty Spherical Roller Bearings for Green Energy"
+    },
+    {
+      "id": "APP_06",
+      "name": "Bullet Train Wheelset & Axle Bogie",
+      "type": "train_bogie",
+      "x": -13.0,
+      "z": 4.5,
+      "width": 5.5,
+      "depth": 3.6,
+      "color": "#6366f1",
+      "repairRadius": 3.8,
+      "desc": "Shinkansen 350+ km/h Tapered Axle Journal Bearings"
+    },
+    {
+      "id": "APP_07",
+      "name": "Medical Ultra-High-Speed Micro-Spindle",
+      "type": "medical_spindle",
+      "x": 13.0,
+      "z": 4.5,
+      "width": 5.2,
+      "depth": 3.6,
+      "color": "#14b8a6",
+      "repairRadius": 3.8,
+      "desc": "Dental & Surgical 400,000 RPM Miniature Ceramic Bearings"
+    },
+    {
+      "id": "APP_08",
+      "name": "Drone & Air-Taxi Propulsor Bench",
+      "type": "aero_propulsor",
+      "x": -18.0,
+      "z": 12.0,
+      "width": 5.5,
+      "depth": 3.8,
+      "color": "#ec4899",
+      "repairRadius": 3.8,
+      "desc": "High-RPM Lightweight Ceramic Hybrid Motor Bearings"
+    },
+    {
+      "id": "APP_09",
+      "name": "Aerospace Jet Engine APU Turbine",
+      "type": "jet_apu",
+      "x": 0.0,
+      "z": 12.0,
+      "width": 5.2,
+      "depth": 3.8,
+      "color": "#ef4444",
+      "repairRadius": 3.8,
+      "desc": "High-Temperature Titanium/Ceramic Jet Engine Bearings"
+    },
+    {
+      "id": "APP_10",
+      "name": "HVAC Centrifugal Climate Compressor",
+      "type": "hvac_compressor",
+      "x": 18.0,
+      "z": 12.0,
+      "width": 5.5,
+      "depth": 3.8,
+      "color": "#06b6d4",
+      "repairRadius": 3.8,
+      "desc": "Whisper-Quiet Industrial Chiller & Heat Pump Bearings"
+    }
+  ],
+  "boxSummary": {
+    "totalBoxes": 38,
+    "decoyCount": 26,
+    "nskLootCount": 12,
+    "bearingPerBox": 1
+  },
+  "enemyWaves": [
+    {
+      "wave": 1,
+      "name": "Phase 1: Scout Probe",
+      "drones": 1,
+      "targets": 1,
+      "countdownSec": 20,
+      "desc": "1 lone scout drone attacks 1 machine. Time to search & learn the loop."
+    },
+    {
+      "wave": 2,
+      "name": "Phase 2: Dual Strike",
+      "drones": 2,
+      "targets": 2,
+      "countdownSec": 18,
+      "desc": "Immediately after Wave 1 is fixed, 2 drones attack 2 machines simultaneously!"
+    },
+    {
+      "wave": 3,
+      "name": "Phase 3: Triple Pressure",
+      "drones": 3,
+      "targets": 3,
+      "countdownSec": 16,
+      "desc": "Once 1 machine is fixed in Wave 2, threat spikes: 3 drones strike 3 machines."
+    },
+    {
+      "wave": 4,
+      "name": "Final Phase: All-Out Swarm",
+      "drones": 5,
+      "targets": 4,
+      "countdownSec": 14,
+      "desc": "OVERDRIVE! All remaining drones swarm, attacking 4-5 machines simultaneously!"
+    }
+  ],
+  "crates": [
+    {
+      "id": "BX_01",
+      "type": "decoy",
+      "hasNskLogo": false,
+      "isInteractive": false,
+      "bearingDrop": 0,
+      "x": -25.5,
+      "z": -17.0,
+      "region": "NW Logistics",
+      "interactionRadius": 0.0
+    },
+    {
+      "id": "BX_02",
+      "type": "decoy",
+      "hasNskLogo": false,
+      "isInteractive": false,
+      "bearingDrop": 0,
+      "x": -23.5,
+      "z": -17.0,
+      "region": "NW Logistics",
+      "interactionRadius": 0.0
+    },
+    {
+      "id": "BX_03",
+      "type": "decoy",
+      "hasNskLogo": false,
+      "isInteractive": false,
+      "bearingDrop": 0,
+      "x": -25.5,
+      "z": -15.0,
+      "region": "NW Logistics",
+      "interactionRadius": 0.0
+    },
+    {
+      "id": "BX_04",
+      "type": "nsk_loot",
+      "hasNskLogo": true,
+      "isInteractive": true,
+      "bearingDrop": 1,
+      "x": -23.5,
+      "z": -15.0,
+      "region": "NW Logistics",
+      "interactionRadius": 2.2
+    },
+    {
+      "id": "BX_05",
+      "type": "decoy",
+      "hasNskLogo": false,
+      "isInteractive": false,
+      "bearingDrop": 0,
+      "x": 23.5,
+      "z": -17.0,
+      "region": "NE Assembly",
+      "interactionRadius": 0.0
+    },
+    {
+      "id": "BX_06",
+      "type": "decoy",
+      "hasNskLogo": false,
+      "isInteractive": false,
+      "bearingDrop": 0,
+      "x": 25.5,
+      "z": -17.0,
+      "region": "NE Assembly",
+      "interactionRadius": 0.0
+    },
+    {
+      "id": "BX_07",
+      "type": "decoy",
+      "hasNskLogo": false,
+      "isInteractive": false,
+      "bearingDrop": 0,
+      "x": 25.5,
+      "z": -15.0,
+      "region": "NE Assembly",
+      "interactionRadius": 0.0
+    },
+    {
+      "id": "BX_08",
+      "type": "nsk_loot",
+      "hasNskLogo": true,
+      "isInteractive": true,
+      "bearingDrop": 1,
+      "x": 23.5,
+      "z": -15.0,
+      "region": "NE Assembly",
+      "interactionRadius": 2.2
+    },
+    {
+      "id": "BX_09",
+      "type": "decoy",
+      "hasNskLogo": false,
+      "isInteractive": false,
+      "bearingDrop": 0,
+      "x": -25.5,
+      "z": 17.0,
+      "region": "SW Storage",
+      "interactionRadius": 0.0
+    },
+    {
+      "id": "BX_10",
+      "type": "decoy",
+      "hasNskLogo": false,
+      "isInteractive": false,
+      "bearingDrop": 0,
+      "x": -23.5,
+      "z": 17.0,
+      "region": "SW Storage",
+      "interactionRadius": 0.0
+    },
+    {
+      "id": "BX_11",
+      "type": "decoy",
+      "hasNskLogo": false,
+      "isInteractive": false,
+      "bearingDrop": 0,
+      "x": -25.5,
+      "z": 15.0,
+      "region": "SW Storage",
+      "interactionRadius": 0.0
+    },
+    {
+      "id": "BX_12",
+      "type": "nsk_loot",
+      "hasNskLogo": true,
+      "isInteractive": true,
+      "bearingDrop": 1,
+      "x": -23.5,
+      "z": 15.0,
+      "region": "SW Storage",
+      "interactionRadius": 2.2
+    },
+    {
+      "id": "BX_13",
+      "type": "decoy",
+      "hasNskLogo": false,
+      "isInteractive": false,
+      "bearingDrop": 0,
+      "x": 23.5,
+      "z": 17.0,
+      "region": "SE QC",
+      "interactionRadius": 0.0
+    },
+    {
+      "id": "BX_14",
+      "type": "decoy",
+      "hasNskLogo": false,
+      "isInteractive": false,
+      "bearingDrop": 0,
+      "x": 25.5,
+      "z": 17.0,
+      "region": "SE QC",
+      "interactionRadius": 0.0
+    },
+    {
+      "id": "BX_15",
+      "type": "decoy",
+      "hasNskLogo": false,
+      "isInteractive": false,
+      "bearingDrop": 0,
+      "x": 25.5,
+      "z": 15.0,
+      "region": "SE QC",
+      "interactionRadius": 0.0
+    },
+    {
+      "id": "BX_16",
+      "type": "nsk_loot",
+      "hasNskLogo": true,
+      "isInteractive": true,
+      "bearingDrop": 1,
+      "x": 23.5,
+      "z": 15.0,
+      "region": "SE QC",
+      "interactionRadius": 2.2
+    },
+    {
+      "id": "BX_17",
+      "type": "decoy",
+      "hasNskLogo": false,
+      "isInteractive": false,
+      "bearingDrop": 0,
+      "x": -10.0,
+      "z": -16.5,
+      "region": "North Corridor",
+      "interactionRadius": 0.0
+    },
+    {
+      "id": "BX_18",
+      "type": "nsk_loot",
+      "hasNskLogo": true,
+      "isInteractive": true,
+      "bearingDrop": 1,
+      "x": 0.0,
+      "z": -16.5,
+      "region": "North Gate",
+      "interactionRadius": 2.2
+    },
+    {
+      "id": "BX_19",
+      "type": "decoy",
+      "hasNskLogo": false,
+      "isInteractive": false,
+      "bearingDrop": 0,
+      "x": -4.0,
+      "z": -16.0,
+      "region": "North Corridor",
+      "interactionRadius": 0.0
+    },
+    {
+      "id": "BX_20",
+      "type": "decoy",
+      "hasNskLogo": false,
+      "isInteractive": false,
+      "bearingDrop": 0,
+      "x": 10.0,
+      "z": -16.5,
+      "region": "North Corridor",
+      "interactionRadius": 0.0
+    },
+    {
+      "id": "BX_21",
+      "type": "decoy",
+      "hasNskLogo": false,
+      "isInteractive": false,
+      "bearingDrop": 0,
+      "x": -10.0,
+      "z": 16.5,
+      "region": "South Corridor",
+      "interactionRadius": 0.0
+    },
+    {
+      "id": "BX_22",
+      "type": "nsk_loot",
+      "hasNskLogo": true,
+      "isInteractive": true,
+      "bearingDrop": 1,
+      "x": 0.0,
+      "z": 16.5,
+      "region": "South Gate",
+      "interactionRadius": 2.2
+    },
+    {
+      "id": "BX_23",
+      "type": "decoy",
+      "hasNskLogo": false,
+      "isInteractive": false,
+      "bearingDrop": 0,
+      "x": 4.0,
+      "z": 16.0,
+      "region": "South Corridor",
+      "interactionRadius": 0.0
+    },
+    {
+      "id": "BX_24",
+      "type": "decoy",
+      "hasNskLogo": false,
+      "isInteractive": false,
+      "bearingDrop": 0,
+      "x": 10.0,
+      "z": 16.5,
+      "region": "South Corridor",
+      "interactionRadius": 0.0
+    },
+    {
+      "id": "BX_25",
+      "type": "decoy",
+      "hasNskLogo": false,
+      "isInteractive": false,
+      "bearingDrop": 0,
+      "x": -27.0,
+      "z": -6.5,
+      "region": "West Wall",
+      "interactionRadius": 0.0
+    },
+    {
+      "id": "BX_26",
+      "type": "nsk_loot",
+      "hasNskLogo": true,
+      "isInteractive": true,
+      "bearingDrop": 1,
+      "x": -27.0,
+      "z": -0.0,
+      "region": "West Exit",
+      "interactionRadius": 2.2
+    },
+    {
+      "id": "BX_27",
+      "type": "decoy",
+      "hasNskLogo": false,
+      "isInteractive": false,
+      "bearingDrop": 0,
+      "x": -27.0,
+      "z": 6.5,
+      "region": "West Wall",
+      "interactionRadius": 0.0
+    },
+    {
+      "id": "BX_28",
+      "type": "decoy",
+      "hasNskLogo": false,
+      "isInteractive": false,
+      "bearingDrop": 0,
+      "x": 27.0,
+      "z": -6.5,
+      "region": "East Wall",
+      "interactionRadius": 0.0
+    },
+    {
+      "id": "BX_29",
+      "type": "nsk_loot",
+      "hasNskLogo": true,
+      "isInteractive": true,
+      "bearingDrop": 1,
+      "x": 27.0,
+      "z": -0.0,
+      "region": "East Dock",
+      "interactionRadius": 2.2
+    },
+    {
+      "id": "BX_30",
+      "type": "decoy",
+      "hasNskLogo": false,
+      "isInteractive": false,
+      "bearingDrop": 0,
+      "x": 27.0,
+      "z": 6.5,
+      "region": "East Wall",
+      "interactionRadius": 0.0
+    },
+    {
+      "id": "BX_31",
+      "type": "decoy",
+      "hasNskLogo": false,
+      "isInteractive": false,
+      "bearingDrop": 0,
+      "x": -6.0,
+      "z": -8.0,
+      "region": "NW Inter-Aisle",
+      "interactionRadius": 0.0
+    },
+    {
+      "id": "BX_32",
+      "type": "nsk_loot",
+      "hasNskLogo": true,
+      "isInteractive": true,
+      "bearingDrop": 1,
+      "x": -6.0,
+      "z": -4.5,
+      "region": "Mid-West Crossing",
+      "interactionRadius": 2.2
+    },
+    {
+      "id": "BX_33",
+      "type": "decoy",
+      "hasNskLogo": false,
+      "isInteractive": false,
+      "bearingDrop": 0,
+      "x": 6.0,
+      "z": -8.0,
+      "region": "NE Inter-Aisle",
+      "interactionRadius": 0.0
+    },
+    {
+      "id": "BX_34",
+      "type": "nsk_loot",
+      "hasNskLogo": true,
+      "isInteractive": true,
+      "bearingDrop": 1,
+      "x": 6.0,
+      "z": -4.5,
+      "region": "Mid-East Crossing",
+      "interactionRadius": 2.2
+    },
+    {
+      "id": "BX_35",
+      "type": "nsk_loot",
+      "hasNskLogo": true,
+      "isInteractive": true,
+      "bearingDrop": 1,
+      "x": -6.0,
+      "z": 4.5,
+      "region": "Mid-SW Crossing",
+      "interactionRadius": 2.2
+    },
+    {
+      "id": "BX_36",
+      "type": "decoy",
+      "hasNskLogo": false,
+      "isInteractive": false,
+      "bearingDrop": 0,
+      "x": 6.0,
+      "z": 8.0,
+      "region": "SE Inter-Aisle",
+      "interactionRadius": 0.0
+    },
+    {
+      "id": "BX_37",
+      "type": "decoy",
+      "hasNskLogo": false,
+      "isInteractive": false,
+      "bearingDrop": 0,
+      "x": -6.0,
+      "z": 8.0,
+      "region": "SW Inter-Aisle",
+      "interactionRadius": 0.0
+    },
+    {
+      "id": "BX_38",
+      "type": "nsk_loot",
+      "hasNskLogo": true,
+      "isInteractive": true,
+      "bearingDrop": 1,
+      "x": 6.0,
+      "z": 4.5,
+      "region": "Mid-SE Crossing",
+      "interactionRadius": 2.2
+    }
+  ]
+}
