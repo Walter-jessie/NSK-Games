@@ -45,18 +45,18 @@ function createDynamicBearing(partsCount = 10) {
   const d = DIMENSIONS;
   const SCALE = 2.0;
 
-  // ── Materials: Lighter, brighter metallic tones to eliminate dark shadowing ──
+  // ── Materials, matching the NSK reference model ──
   const ringSteel = new THREE.MeshPhysicalMaterial({
-    color: 0xdde4ed, metalness: 0.96, roughness: 0.16, envMapIntensity: 1.35,
+    color: 0xcfd5dd, metalness: 1, roughness: 0.22, envMapIntensity: 1.25,
   });
   const innerSteel = new THREE.MeshPhysicalMaterial({
-    color: 0xd4dbe5, metalness: 0.96, roughness: 0.14, envMapIntensity: 1.35,
+    color: 0xc3c9d2, metalness: 1, roughness: 0.2, envMapIntensity: 1.25,
   });
   const ballChrome = new THREE.MeshPhysicalMaterial({
-    color: 0xf6f8fc, metalness: 0.98, roughness: 0.05, envMapIntensity: 1.6,
+    color: 0xeef1f5, metalness: 1, roughness: 0.09, envMapIntensity: 1.5,
   });
   const cageSteel = new THREE.MeshPhysicalMaterial({
-    color: 0xa8b0bd, metalness: 0.92, roughness: 0.28, envMapIntensity: 1.15,
+    color: 0x8f959e, metalness: 1, roughness: 0.38, envMapIntensity: 1,
   });
 
   // ── Slot 1: Inner Casing + Hub Cap + NSK Logo (STATIC - never rotates) ──
@@ -177,55 +177,27 @@ export default function BearingModelViewer({
     renderer.toneMappingExposure = 1.35;
     container.appendChild(renderer.domElement);
 
-    // 4. Studio Environment for metal reflections (Lifting black areas for brilliant reflections)
+    // 4. Studio Environment for metal reflections
     const pmremGenerator = new THREE.PMREMGenerator(renderer);
     pmremGenerator.compileEquirectangularShader();
     const roomEnv = new RoomEnvironment(renderer);
-
-    // Brighten the room's dark walls, floor, and boxes to eliminate black reflection spots
-    roomEnv.traverse((child) => {
-      if (child.isMesh && child.material) {
-        if (child.material.color) {
-          child.material.color.setHex(0xd6deea); // Soft bright studio gray-white
-        }
-        child.material.roughness = 0.3;
-      }
-    });
-
-    // Add ambient fill light to roomEnv so unlit angles receive soft bounce light
-    const envAmbient = new THREE.AmbientLight(0xffffff, 6.0);
-    roomEnv.add(envAmbient);
-
-    // Add bright softbox light panels in roomEnv top, bottom, and sides
-    const envTop = new THREE.DirectionalLight(0xffffff, 8.0);
-    envTop.position.set(0, 15, 0);
-    roomEnv.add(envTop);
-
-    const envBottom = new THREE.DirectionalLight(0xe8f0fe, 5.0);
-    envBottom.position.set(0, -10, 0);
-    roomEnv.add(envBottom);
-
-    const envSide = new THREE.DirectionalLight(0xffffff, 4.0);
-    envSide.position.set(10, 0, 10);
-    roomEnv.add(envSide);
-
     scene.environment = pmremGenerator.fromScene(roomEnv).texture;
 
     // 5. Lighting tuned for CAD technical white backdrop
-    const mainKeyLight = new THREE.DirectionalLight(0xffffff, 2.8);
+    const mainKeyLight = new THREE.DirectionalLight(0xffffff, 2.6);
     mainKeyLight.position.set(6, 9, 7);
     mainKeyLight.castShadow = true;
     scene.add(mainKeyLight);
 
-    const fillLight = new THREE.DirectionalLight(0xffffff, 1.8);
-    fillLight.position.set(-6, -4, 4);
-    scene.add(fillLight);
+    const blueRimLight = new THREE.DirectionalLight(0x0284c7, 1.5);
+    blueRimLight.position.set(-6, -2, -4);
+    scene.add(blueRimLight);
 
-    const topFill = new THREE.DirectionalLight(0xffffff, 1.4);
-    topFill.position.set(0, 8, -4);
-    scene.add(topFill);
+    const redRimLight = new THREE.DirectionalLight(0xe11d48, 1.2);
+    redRimLight.position.set(5, -4, -3);
+    scene.add(redRimLight);
 
-    const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.85);
     scene.add(ambientLight);
 
     // Soft Contact Shadow under bearing
