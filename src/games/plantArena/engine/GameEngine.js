@@ -20,7 +20,7 @@ function splinterBurst(scene) {
   // Pooled debris burst for smashed crates (one Points object, reused).
   // Per-vertex colour lets one cloud throw pale wood chips for an empty crate
   // and chips plus hot sparks for one that held a bearing.
-  const N = 110;
+  const N = 150;
   const geo = new THREE.BufferGeometry();
   const pos = new Float32Array(N * 3);
   const col = new Float32Array(N * 3);
@@ -77,7 +77,7 @@ function splinterBurst(scene) {
         col.set(c, i * 3);
       }
       geo.attributes.color.needsUpdate = true;
-      life = 1.25;
+      life = 1.45;
       pts.visible = true;
 
       flash.position.set(x, 0.06, z);
@@ -206,8 +206,8 @@ export class GameEngine {
     this.splinters = splinterBurst(scene);
     this.repairFx = repairRing(scene);
     // Landing and collecting a bearing both had no feedback at all.
-    this.landFx = createPop(scene, { color: '#ffd27a', grains: 22 });
-    this.collectFx = createPop(scene, { color: '#46f08a', grains: 30 });
+    this.landFx = createPop(scene, { color: '#ffd27a', grains: 34 });
+    this.collectFx = createPop(scene, { color: '#46f08a', grains: 44 });
 
     this.fpsGuard = createFpsGuard(() => this.downgrade());
     this.camFocus = new THREE.Vector3();
@@ -353,9 +353,9 @@ export class GameEngine {
 
   handleEvent(e) {
     if (e.type === 'bearingLanded') {
-      this.landFx.fire(e.x, e.z, { scale: 0.8, seconds: 0.45 });
+      this.landFx.fire(e.x, e.z, { scale: 1.1, seconds: 0.6 });
     } else if (e.type === 'bearingCollected') {
-      this.collectFx.fire(e.x, e.z, { scale: 1.15, seconds: 0.5 });
+      this.collectFx.fire(e.x, e.z, { scale: 1.5, seconds: 0.6 });
     } else if (e.type === 'crateSmashed') {
       this.arena.crates.smash(e.index, e.nsk);
       this.splinters.fire(e.x, e.z, e.nsk);
@@ -426,14 +426,18 @@ export class GameEngine {
       if (!v && !pk.collected) {
         v = this.pickupPool.pop() ?? (() => { const b = createBearingPickup(); this.scene.add(b.group); return b; })();
         v.group.visible = true;
-        v.group.position.set(pk.x, 0.9, pk.z);
         this.pickupById.set(pk.id, v);
       }
       if (v && pk.collected) {
         v.group.visible = false;
         this.pickupPool.push(v);
         this.pickupById.delete(pk.id);
+        continue;
       }
+      // Follow the pickup every frame. This used to be set once on creation,
+      // so a thrown bearing stayed drawn at the crate while the point you
+      // actually had to walk onto drifted away from it.
+      if (v) v.group.position.set(pk.x, pk.y ?? 0.9, pk.z);
     }
   }
 

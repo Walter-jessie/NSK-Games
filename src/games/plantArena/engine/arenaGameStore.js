@@ -11,7 +11,7 @@ export const RULES = {
   backpackSize: 5,
   smashRange: 2.2, // metres from crate centre
   repairRange: 1.5, // metres from the machine's bench edge
-  pickupRange: 1.3,
+  pickupRange: 1.75,
   playerSpeed: 7,
   playerRadius: 0.4,
   droneSpeed: 11,
@@ -22,6 +22,8 @@ export const RULES = {
   scatterMin: 1.5,        // metres it must travel before it can be picked up
   scatterGravity: 11,
   scatterBounce: 0.42,
+  scatterMaxSeconds: 1.5,  // hard stop: a bearing always settles and is pickable
+  scatterRest: 0.42,       // height it sits at once it stops
   benchHalf: [2.3, 1.8],
   crateRadius: 0.62,
   points: { repair: 250, perTimerSecond: 20, perIntegrity: 10 },
@@ -212,12 +214,13 @@ export function createArenaGame(layout, { seed = Date.now(), extraColliders = []
           id: nextPickup++,
           x: c.x,
           z: c.z,
-          y: 0.9,
+          y: 1.0,
           vx: Math.cos(angle) * speed,
           vz: Math.sin(angle) * speed,
           vy: 3.1,
           settled: false,
           travelled: 0,
+          age: 0,
           collected: false,
         });
       }
@@ -287,6 +290,7 @@ export function createArenaGame(layout, { seed = Date.now(), extraColliders = []
       if (pk.collected) continue;
 
       if (!pk.settled) {
+        pk.age += dt;
         const px = pk.x;
         const pz = pk.z;
         pk.x += pk.vx * dt;
@@ -308,9 +312,13 @@ export function createArenaGame(layout, { seed = Date.now(), extraColliders = []
           }
         }
 
-        if (pk.y <= 0.22) {
-          pk.y = 0.22;
-          if (Math.abs(pk.vy) < 1.2 && pk.travelled >= R.scatterMin) {
+        // Settle on a low bounce, and in any case once the throw has had its
+        // time. Requiring a minimum travel here could trap a bearing bouncing
+        // forever in place, leaving it permanently uncollectable.
+        const spent = pk.age >= R.scatterMaxSeconds;
+        if (pk.y <= R.scatterRest || spent) {
+          pk.y = R.scatterRest;
+          if (spent || Math.abs(pk.vy) < 1.2) {
             pk.settled = true;
             pk.vx = 0;
             pk.vz = 0;

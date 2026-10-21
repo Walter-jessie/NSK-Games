@@ -137,4 +137,23 @@ test('a smashed bearing lands clear of the crate', () => {
   assert.ok(pk.x >= -30 && pk.x <= 30 && pk.z >= -20 && pk.z <= 20, 'must stay inside the arena');
 });
 
+test('every thrown bearing settles and becomes collectable', () => {
+  // A bearing that never settles can never be picked up, which strands the
+  // run. Check it across seeds and crates, not just one lucky throw.
+  for (const seed of [2, 5, 13, 21, 34]) {
+    const g = createArenaGame(layout, { seed });
+    g.start();
+    step(g, 6);
+    for (const c of g.state.crates.filter((x) => x.nsk).slice(0, 4)) {
+      g.state.player.x = c.x + 1.2; g.state.player.z = c.z;
+      step(g, 0.1); g.act();
+    }
+    step(g, 2.5);
+    for (const pk of g.state.pickups) {
+      assert.ok(pk.settled, `seed ${seed}: pickup ${pk.id} never settled`);
+      assert.ok(pk.x >= -30 && pk.x <= 30 && pk.z >= -20 && pk.z <= 20, 'inside the arena');
+    }
+  }
+});
+
 console.log(`${passed} tests passed`);
