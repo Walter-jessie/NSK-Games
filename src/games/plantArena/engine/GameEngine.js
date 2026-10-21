@@ -13,39 +13,95 @@ import { createArenaGame } from './arenaGameStore.js';
 const STATUS_TO_SCENE = { ok: 'ok', incoming: 'ok', attacked: 'attacked', failed: 'failed', saved: 'saved' };
 
 function splinterBurst(scene) {
-  // Pooled wood-chip burst for smashed crates (one Points object, reused).
-  const N = 40;
+  // Pooled debris burst for smashed crates (one Points object, reused).
+  // Per-vertex colour lets one cloud throw pale wood chips for an empty crate
+  // and chips plus hot sparks for one that held a bearing.
+  const N = 110;
   const geo = new THREE.BufferGeometry();
   const pos = new Float32Array(N * 3);
+  const col = new Float32Array(N * 3);
   const vel = new Float32Array(N * 3);
+  const spin = new Float32Array(N);
   geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-  const mat = new THREE.PointsMaterial({ color: '#c9832e', size: 0.22, transparent: true, depthWrite: false });
+  geo.setAttribute('color', new THREE.BufferAttribute(col, 3));
+  const mat = new THREE.PointsMaterial({
+    size: 0.26,
+    vertexColors: true,
+    transparent: true,
+    depthWrite: false,
+    blending: THREE.AdditiveBlending,
+    toneMapped: false,
+  });
   const pts = new THREE.Points(geo, mat);
   pts.frustumCulled = false;
   pts.visible = false;
   scene.add(pts);
+
+  // Flash at the moment of impact, brighter for a crate that pays out.
+  const flash = new THREE.Mesh(
+    new THREE.PlaneGeometry(3.4, 3.4),
+    new THREE.MeshBasicMaterial({
+      map: radialTexture(),
+      transparent: true,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+      toneMapped: false,
+    }),
+  );
+  flash.rotation.x = -Math.PI / 2;
+  flash.position.y = 0.06;
+  flash.visible = false;
+  scene.add(flash);
+
   let life = 0;
+  let flashLife = 0;
+  const WOOD = [0.79, 0.51, 0.18];
+  const PALE = [0.62, 0.55, 0.44];
+  const SPARK = [1.0, 0.72, 0.26];
+
   return {
-    fire(x, z) {
+    fire(x, z, nsk = true) {
       for (let i = 0; i < N; i++) {
-        pos.set([x, 0.6, z], i * 3);
-        const a = Math.random() * Math.PI * 2, s = 2 + Math.random() * 4;
-        vel.set([Math.cos(a) * s, 3 + Math.random() * 4, Math.sin(a) * s], i * 3);
+        pos.set([x + (Math.random() - 0.5) * 0.3, 0.55 + Math.random() * 0.5, z + (Math.random() - 0.5) * 0.3], i * 3);
+        const a = Math.random() * Math.PI * 2;
+        const s = 2.4 + Math.random() * 6.2;
+        vel.set([Math.cos(a) * s, 3.4 + Math.random() * 6, Math.sin(a) * s], i * 3);
+        spin[i] = 0.6 + Math.random() * 0.8;
+
+        // A third of the debris is spark-coloured when the crate held a bearing.
+        const c = nsk && i % 3 === 0 ? SPARK : nsk ? WOOD : PALE;
+        col.set(c, i * 3);
       }
-      life = 0.9;
+      geo.attributes.color.needsUpdate = true;
+      life = 1.25;
       pts.visible = true;
+
+      flash.position.set(x, 0.06, z);
+      flash.material.color.setRGB(...(nsk ? [1, 0.78, 0.36] : [0.7, 0.66, 0.6]));
+      flash.scale.setScalar(nsk ? 1 : 0.6);
+      flashLife = nsk ? 0.3 : 0.18;
+      flash.visible = true;
     },
     update(dt) {
+      if (flashLife > 0) {
+        flashLife -= dt;
+        flash.material.opacity = Math.max(0, flashLife * 3);
+        flash.scale.multiplyScalar(1 + dt * 5);
+        if (flashLife <= 0) flash.visible = false;
+      }
       if (life <= 0) return;
       life -= dt;
       for (let i = 0; i < N; i++) {
-        vel[i * 3 + 1] -= 14 * dt;
+        vel[i * 3 + 1] -= 15 * dt;
         pos[i * 3] += vel[i * 3] * dt;
         pos[i * 3 + 1] = Math.max(0.05, pos[i * 3 + 1] + vel[i * 3 + 1] * dt);
         pos[i * 3 + 2] += vel[i * 3 + 2] * dt;
+        // Drag, so chips settle instead of sliding away forever.
+        vel[i * 3] *= 1 - 1.6 * dt * spin[i];
+        vel[i * 3 + 2] *= 1 - 1.6 * dt * spin[i];
       }
       geo.attributes.position.needsUpdate = true;
-      mat.opacity = Math.min(1, life * 2);
+      mat.opacity = Math.min(1, life * 1.6);
       if (life <= 0) pts.visible = false;
     },
   };
@@ -245,8 +301,8 @@ export class GameEngine {
 
   handleEvent(e) {
     if (e.type === 'crateSmashed') {
-      this.arena.crates.smash(e.index);
-      this.splinters.fire(e.x, e.z);
+      this.arena.crates.smash(e.index, e.nsk);
+      this.splinters.fire(e.x, e.z, e.nsk);
     } else if (e.type === 'machineRepaired') {
       const m = this.arena.machines.get(e.machine);
       this.repairFx.fire(m.group.position.x, m.group.position.z);

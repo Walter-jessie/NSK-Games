@@ -231,13 +231,16 @@ export function createCrateField(decoyPositions, nskPositions) {
   const nsk = make(nskPositions, true);
   return {
     group,
-    // Hide a smashed NSK crate by collapsing its instance.
-    smash(index) {
+    // Hide a smashed crate by collapsing its instance. Decoys and NSK crates
+    // are separate instanced meshes with their own indices, so the caller has
+    // to say which field the index belongs to.
+    smash(index, isNsk = true) {
+      const field = isNsk ? nsk : decoys;
       const zero = new THREE.Matrix4().makeScale(0, 0, 0);
-      nsk.mesh.setMatrixAt(index, zero);
-      nsk.ink.setMatrixAt(index, zero);
-      nsk.mesh.instanceMatrix.needsUpdate = true;
-      nsk.ink.instanceMatrix.needsUpdate = true;
+      field.mesh.setMatrixAt(index, zero);
+      field.ink.setMatrixAt(index, zero);
+      field.mesh.instanceMatrix.needsUpdate = true;
+      field.ink.instanceMatrix.needsUpdate = true;
     },
     decoys,
     nsk,
