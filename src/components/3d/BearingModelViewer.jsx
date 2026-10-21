@@ -268,12 +268,12 @@ export default function BearingModelViewer({
         bearing.userData.rotatingOuterGroup.rotation.z += baseSpeed * safeDelta * 60 * stutter;
       }
 
-      // Mild mechanical runout / wobble on X & Y axes
-      // Perfect assembly (10/10) = 0 wobble. Sub-optimal = mild realistic wobble (max ~0.04 rad)
-      const wobbleAmp = (1.0 - quality) * 0.038;
-      const wobbleFreq = 3.5 + (1.0 - quality) * 2.0;
-      bearing.rotation.x = defaultTiltX + Math.sin(timestamp * 0.003 * wobbleFreq) * wobbleAmp;
-      bearing.rotation.y = defaultTiltY + Math.cos(timestamp * 0.0025 * wobbleFreq * 1.2) * wobbleAmp;
+      // Subtle mechanical runout / wobble on X & Y axes (reduced to ~30% of original)
+      // Perfect assembly (10/10) = 0 wobble. Sub-optimal = very gentle runout (max ~0.012 rad)
+      const wobbleAmp = (1.0 - quality) * 0.012;
+      const wobbleFreq = 2.2 + (1.0 - quality) * 1.2;
+      bearing.rotation.x = defaultTiltX + Math.sin(timestamp * 0.002 * wobbleFreq) * wobbleAmp;
+      bearing.rotation.y = defaultTiltY + Math.cos(timestamp * 0.0018 * wobbleFreq * 1.2) * wobbleAmp;
 
       controls.update();
       renderer.render(scene, camera);
