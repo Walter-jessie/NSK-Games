@@ -112,7 +112,7 @@ function scatter(rand) {
   };
 }
 
-export function createSkyProps({ count = 10, seed = 1 } = {}) {
+export function createSkyProps({ count = 5, seed = 1 } = {}) {
   let s = seed;
   const rand = () => {
     s = (s * 1664525 + 1013904223) % 4294967296;
@@ -128,11 +128,11 @@ export function createSkyProps({ count = 10, seed = 1 } = {}) {
     new THREE.MeshBasicMaterial({ color, wireframe: true, transparent: true, opacity, depthWrite: false, toneMapped: false });
 
   const shapes = [
-    { geo: new THREE.TorusGeometry(1.15, 0.34, 5, 14), mat: line(HOLO, 0.3), spin: 0.26 },        // bearing ring
-    { geo: new THREE.IcosahedronGeometry(0.72, 0), mat: line(HOLO, 0.34), spin: 0.5 },            // rolling element
-    { geo: new THREE.CylinderGeometry(1.0, 1.0, 0.26, 12, 1), mat: line(HOLO_WARM, 0.28), spin: 0.3 }, // cog
-    { geo: new THREE.TorusGeometry(0.9, 0.16, 4, 10), mat: line(HOLO_WARM, 0.24), spin: 0.42 },       // snap ring
-    { geo: new THREE.BoxGeometry(1.5, 0.42, 0.42), mat: line(HOLO, 0.22), spin: 0.3 },            // gauge block
+    { geo: new THREE.TorusGeometry(1.15, 0.34, 5, 14), mat: line(HOLO, 0.16), spin: 0.26 },        // bearing ring
+    { geo: new THREE.IcosahedronGeometry(0.72, 0), mat: line(HOLO, 0.18), spin: 0.5 },            // rolling element
+    { geo: new THREE.CylinderGeometry(1.0, 1.0, 0.26, 12, 1), mat: line(HOLO_WARM, 0.15), spin: 0.3 }, // cog
+    { geo: new THREE.TorusGeometry(0.9, 0.16, 4, 10), mat: line(HOLO_WARM, 0.13), spin: 0.42 },       // snap ring
+    { geo: new THREE.BoxGeometry(1.5, 0.42, 0.42), mat: line(HOLO, 0.12), spin: 0.3 },            // gauge block
   ];
 
   const dummy = new THREE.Object3D();
@@ -162,12 +162,12 @@ export function createSkyProps({ count = 10, seed = 1 } = {}) {
   // reads differently without a texture atlas.
   const panelGeo = new THREE.PlaneGeometry(5.4, 1.35);
   const panels = [];
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < 3; i++) {
     const text = NOTATION[Math.floor(rand() * NOTATION.length)];
     const mat = new THREE.MeshBasicMaterial({
       map: notationTexture(text),
       transparent: true,
-      opacity: 0.44,
+      opacity: 0.26,
       depthWrite: false,
       toneMapped: false,
     });
@@ -182,11 +182,11 @@ export function createSkyProps({ count = 10, seed = 1 } = {}) {
   // RPM dials, square rather than the wide notation panels.
   const dialGeo = new THREE.PlaneGeometry(1.7, 1.7);
   const dialTex = rpmTexture();
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < 2; i++) {
     const mat = new THREE.MeshBasicMaterial({
       map: dialTex,
       transparent: true,
-      opacity: 0.3,
+      opacity: 0.17,
       depthWrite: false,
       toneMapped: false,
     });
