@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useLayoutEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { clone as cloneSkeleton } from 'three/examples/jsm/utils/SkeletonUtils.js';
@@ -49,6 +49,8 @@ if (typeof window !== 'undefined') {
 
 const LANE_X = [-3.0, -1.0, 1.0, 3.0]; // X coordinates for lanes A, B, C, D
 const LANE_LABELS = ['A', 'B', 'C', 'D'];
+// Lane-change easing rate, per second. Higher arrives sooner.
+const LANE_EASE = 26;
 export const LANE_COLORS = {
   A: { hex: 0x06b6d4, css: '#06b6d4', name: 'Cyan' },
   B: { hex: 0x3b82f6, css: '#3b82f6', name: 'Electric Blue' },
@@ -207,7 +209,9 @@ export default function Runner3DScene({
   }, [isPaused]);
 
   // Keep target lane in sync
-  useEffect(() => {
+  // Layout effect, not effect: the target must be in place before the browser
+  // paints, otherwise every lane change costs a frame before the runner moves.
+  useLayoutEffect(() => {
     targetXRef.current = LANE_X[playerLane] ?? 0;
   }, [playerLane]);
 
@@ -221,7 +225,7 @@ export default function Runner3DScene({
 
     // 1. Scene
     const scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0x0a0e1a, 0.032);
+    scene.fog = new THREE.FogExp2(0x223449, 0.016);
 
     // 2. 2.5D Highway Camera (Behind & slightly above runner)
     const camera = new THREE.PerspectiveCamera(52, width / height, 0.1, 100);
@@ -236,9 +240,9 @@ export default function Runner3DScene({
       precision: 'mediump',
     });
     renderer.setSize(width, height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2.0));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.35;
+    renderer.toneMappingExposure = 1.55;
     container.appendChild(renderer.domElement);
 
     // 4. Industrial Factory Floor & 4 Lanes
@@ -294,20 +298,22 @@ export default function Runner3DScene({
     });
 
     // 5. Lighting
-    const dirLight = new THREE.DirectionalLight(0xffffff, 2.6);
+    const dirLight = new THREE.DirectionalLight(0xffffff, 3.4);
     dirLight.position.set(4, 12, 6);
     scene.add(dirLight);
 
-    const blueGlow = new THREE.PointLight(0x38bdf8, 2.2, 16);
-    blueGlow.position.set(0, 3.5, -4);
-    scene.add(blueGlow);
+    // Sky/ground fill. This replaces a static blue point light: point lights
+    // shade per pixel across the whole track, a hemisphere light is near free,
+    // and it lifts the floor and rails far more evenly.
+    const skyFill = new THREE.HemisphereLight(0xcfe4ff, 0x33414f, 1.9);
+    scene.add(skyFill);
 
     // Dynamic Player Spotlight (follows player X)
     const playerSpot = new THREE.PointLight(0x93c5fd, 3.0, 8.0);
     playerSpot.position.set(0, 3.0, PLAYER_Z + 1.2);
     scene.add(playerSpot);
 
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.85);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1.35);
     scene.add(ambientLight);
 
     // 6. 3D Player Character Container
@@ -421,20 +427,20 @@ export default function Runner3DScene({
         mixerRef.current.update(safeDelta * speedScale);
       }
 
-      // Smooth horizontal lane transition (LERP) using safeDelta
+      // Horizontal lane transition. Frame-rate independent exponential easing:
+      // the old fixed per-frame fraction eased differently at 30 and 60 fps.
+      // The snap threshold is wide enough that the runner arrives cleanly
+      // instead of creeping the last millimetre into the lane.
       const diffX = targetXRef.current - currentXRef.current;
-      if (Math.abs(diffX) < 0.001) {
+      if (Math.abs(diffX) < 0.01) {
         currentXRef.current = targetXRef.current;
       } else {
-        currentXRef.current += diffX * Math.min(18 * safeDelta, 1);
+        currentXRef.current += diffX * (1 - Math.exp(-LANE_EASE * safeDelta));
       }
 
       if (playerRef.current) {
         playerRef.current.position.x = currentXRef.current;
         playerSpot.position.x = currentXRef.current;
-
-        // Lean/tilt into lane shifts
-        playerRef.current.rotation.z = -diffX * 0.14;
       }
 
       // Render
