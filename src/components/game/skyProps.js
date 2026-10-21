@@ -30,18 +30,19 @@ const Z_SPAN = Z_END - Z_START;
 const HOLO = '#6fd6ff';
 const HOLO_WARM = '#ffc06a';
 
-/** Engineering notation an NSK trainee would actually recognise. */
+/** Maths and engineering notation an NSK trainee would recognise. */
 const NOTATION = [
-  'L₁₀ = (C/P)³',
-  'SUJ2 · 100Cr6',
-  'Ra 0.20 µm',
-  'ISO 492 · P5',
-  'n = 12 000 min⁻¹',
+  'π',
+  '2πr',
+  'πr²',
+  'ω = 2πn / 60',
+  'τ = F · r',
   'σ = F / A',
+  'L₁₀ = (C/P)³',
   'Ø 40 H7',
-  'μ = 0.0015',
+  'Ra 0.20 µm',
+  'SUJ2 · 100Cr6',
   'NSK 6208ZZ',
-  'T = 34 N·m',
 ];
 
 function notationTexture(text) {
@@ -58,6 +59,42 @@ function notationTexture(text) {
   // Rule under the text, the way a callout on a drawing is underlined.
   ctx.fillStyle = '#4ea8d8';
   ctx.fillRect(96, 108, 320, 3);
+  const tex = new THREE.CanvasTexture(c);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  return tex;
+}
+
+/** Dial with a sweep arrow and an RPM label. */
+function rpmTexture() {
+  const c = document.createElement('canvas');
+  c.width = 256;
+  c.height = 256;
+  const ctx = c.getContext('2d');
+  ctx.strokeStyle = '#8fdcff';
+  ctx.lineWidth = 9;
+  ctx.lineCap = 'round';
+  // open dial
+  ctx.beginPath();
+  ctx.arc(128, 120, 78, Math.PI * 0.78, Math.PI * 0.22);
+  ctx.stroke();
+  // sweep arrowhead at the open end
+  ctx.fillStyle = '#8fdcff';
+  ctx.beginPath();
+  ctx.moveTo(196, 86);
+  ctx.lineTo(214, 118);
+  ctx.lineTo(178, 116);
+  ctx.closePath();
+  ctx.fill();
+  // needle
+  ctx.beginPath();
+  ctx.moveTo(128, 120);
+  ctx.lineTo(176, 76);
+  ctx.stroke();
+  ctx.font = '700 46px "Outfit", "Segoe UI", system-ui, sans-serif';
+  ctx.fillStyle = '#bfe9ff';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText('RPM', 128, 206);
   const tex = new THREE.CanvasTexture(c);
   tex.colorSpace = THREE.SRGBColorSpace;
   return tex;
@@ -93,7 +130,8 @@ export function createSkyProps({ count = 10, seed = 1 } = {}) {
   const shapes = [
     { geo: new THREE.TorusGeometry(1.15, 0.34, 5, 14), mat: line(HOLO, 0.3), spin: 0.26 },        // bearing ring
     { geo: new THREE.IcosahedronGeometry(0.72, 0), mat: line(HOLO, 0.34), spin: 0.5 },            // rolling element
-    { geo: new THREE.CylinderGeometry(0.95, 0.95, 0.22, 10), mat: line(HOLO_WARM, 0.22), spin: 0.34 }, // shim / washer
+    { geo: new THREE.CylinderGeometry(1.0, 1.0, 0.26, 12, 1), mat: line(HOLO_WARM, 0.28), spin: 0.3 }, // cog
+    { geo: new THREE.TorusGeometry(0.9, 0.16, 4, 10), mat: line(HOLO_WARM, 0.24), spin: 0.42 },       // snap ring
     { geo: new THREE.BoxGeometry(1.5, 0.42, 0.42), mat: line(HOLO, 0.22), spin: 0.3 },            // gauge block
   ];
 
@@ -129,11 +167,30 @@ export function createSkyProps({ count = 10, seed = 1 } = {}) {
     const mat = new THREE.MeshBasicMaterial({
       map: notationTexture(text),
       transparent: true,
-      opacity: 0.36,
+      opacity: 0.44,
       depthWrite: false,
       toneMapped: false,
     });
     const mesh = new THREE.Mesh(panelGeo, mat);
+    const p = scatter(rand);
+    mesh.position.set(p.x, p.y, p.z);
+    mesh.frustumCulled = false;
+    panels.push({ mesh, drift: 0.2 + rand() * 0.22 });
+    group.add(mesh);
+  }
+
+  // RPM dials, square rather than the wide notation panels.
+  const dialGeo = new THREE.PlaneGeometry(1.7, 1.7);
+  const dialTex = rpmTexture();
+  for (let i = 0; i < 3; i++) {
+    const mat = new THREE.MeshBasicMaterial({
+      map: dialTex,
+      transparent: true,
+      opacity: 0.3,
+      depthWrite: false,
+      toneMapped: false,
+    });
+    const mesh = new THREE.Mesh(dialGeo, mat);
     const p = scatter(rand);
     mesh.position.set(p.x, p.y, p.z);
     mesh.frustumCulled = false;
