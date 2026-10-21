@@ -574,7 +574,7 @@ export default function Runner3DScene({
         runner.name = 'MixamoRunner';
         // Face forward along track toward portal gates (-Z)
         runner.rotation.y = Math.PI;
-        runner.scale.set(1.0, 1.0, 1.0);
+        runner.scale.set(1.15, 1.15, 1.15);
 
         runner.traverse((child) => {
           if (child.isMesh) {
