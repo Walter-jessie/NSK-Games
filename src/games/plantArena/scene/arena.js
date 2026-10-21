@@ -183,23 +183,74 @@ export function createArena(layout) {
 
   // Floor markings: roaming highways, lane arrows and machine bays.
   const decals = new PartBuilder('floorMarkings');
+  // Three heights, so the layers stack instead of fighting for the same pixels:
+  // road markings, then the machine bay plate over them, then the bay outline.
   const flat = (w, d, color, x, z) => decals.box(w, 0.01, d, color, { p: [x, 0.012, z] });
-  flat(W - 2, 4.2, '#2c3037', 0, 0); // central east-west highway
-  flat(4.2, D - 2, '#2c3037', 0, 0); // north-south spine
-  for (let x = -27; x <= 27; x += 3) if (Math.abs(x) > 3) flat(1.4, 0.18, '#8f8668', x, 0);
-  for (let z = -17; z <= 17; z += 3) if (Math.abs(z) > 3) flat(0.18, 1.4, '#8f8668', 0, z);
+  const bayPlate = (w, d, color, x, z) => decals.box(w, 0.01, d, color, { p: [x, 0.018, z] });
+  const bayLine = (w, d, color, x, z) => decals.box(w, 0.01, d, color, { p: [x, 0.024, z] });
+
+  // A bay is the footprint a machine owns. Road paint stops here.
+  // Sized just over the bench itself (2.3 x 1.8 half-extents) rather than the
+  // old oversized outline, which pushed into the central highway.
+  const BAY_HW = 2.8;
+  const BAY_HD = 2.1;
+  const bays = layout.machines.map((m) => toWorld(m.pos));
+  const inBay = (x, z, pad = 0) =>
+    bays.some((b) => Math.abs(x - b.x) <= BAY_HW + pad && Math.abs(z - b.z) <= BAY_HD + pad);
+
+  // Carriageways, drawn as runs that break at every bay they would cross.
+  const runs = (from, to, blocked) => {
+    const out = [];
+    const STEP = 0.5;
+    let start = null;
+    for (let v = from; v <= to + 1e-6; v += STEP) {
+      if (blocked(v)) {
+        if (start !== null && v - STEP - start > 1.2) out.push([start, v - STEP]);
+        start = null;
+      } else if (start === null) {
+        start = v;
+      }
+    }
+    if (start !== null && to - start > 1.2) out.push([start, to]);
+    return out;
+  };
+
+  const band = (lo, hi, thickness, color, axis, offset) => {
+    const len = hi - lo;
+    const mid = (lo + hi) / 2;
+    if (axis === 'x') flat(len, thickness, color, mid, offset);
+    else flat(thickness, len, color, offset, mid);
+  };
+
+  // East-west highway and its edge lines, broken around the bays.
+  for (const [lo, hi] of runs(-(W / 2 - 1), W / 2 - 1, (x) => inBay(x, 0, 0.2))) {
+    band(lo, hi, 4.2, '#2c3037', 'x', 0);
+    for (const s of [-1, 1]) band(lo, hi, 0.2, '#b8861c', 'x', s * 2.2);
+  }
+  // North-south spine and its edge lines. This is the one that used to run
+  // straight through the machines standing at x = 0.
+  for (const [lo, hi] of runs(-(D / 2 - 1), D / 2 - 1, (z) => inBay(0, z, 0.2))) {
+    band(lo, hi, 4.2, '#2c3037', 'z', 0);
+    for (const s of [-1, 1]) band(lo, hi, 0.2, '#b8861c', 'z', s * 2.2);
+  }
+
+  // Centre dashes, skipped wherever a bay owns the floor.
+  for (let x = -27; x <= 27; x += 3) if (Math.abs(x) > 3 && !inBay(x, 0, 0.4)) flat(1.4, 0.18, '#8f8668', x, 0);
+  for (let z = -17; z <= 17; z += 3) if (Math.abs(z) > 3 && !inBay(0, z, 0.4)) flat(0.18, 1.4, '#8f8668', 0, z);
+
+  // Perimeter lines hug the walls, clear of everything.
   for (const s of [-1, 1]) {
-    flat(W - 2, 0.2, '#b8861c', 0, s * 2.2);
-    flat(0.2, D - 2, '#b8861c', s * 2.2, 0);
     flat(W - 2, 0.25, '#b8861c', 0, s * (D / 2 - 1.2));
     flat(0.25, D - 2, '#b8861c', s * (W / 2 - 1.2), 0);
   }
-  for (const m of layout.machines) {
-    const p = toWorld(m.pos);
-    flat(5.6, 0.2, '#d06a22', p.x, p.z - 2.3);
-    flat(5.6, 0.2, '#d06a22', p.x, p.z + 2.6);
-    flat(0.2, 4.9, '#d06a22', p.x - 2.8, p.z + 0.15);
-    flat(0.2, 4.9, '#d06a22', p.x + 2.8, p.z + 0.15);
+
+  for (const b of bays) {
+    // Solid plate first, so no road paint shows through under a machine.
+    bayPlate(BAY_HW * 2, BAY_HD * 2, '#1b1f26', b.x, b.z);
+    bayLine(BAY_HW * 2, 0.2, '#d06a22', b.x, b.z - BAY_HD);
+    bayLine(BAY_HW * 2, 0.2, '#d06a22', b.x, b.z + BAY_HD);
+    bayLine(0.2, BAY_HD * 2, '#d06a22', b.x - BAY_HW, b.z);
+    bayLine(0.2, BAY_HD * 2, '#d06a22', b.x + BAY_HW, b.z);
   }
   group.add(decals.build({ outline: 0 }));
   group.add(spawnPad());
