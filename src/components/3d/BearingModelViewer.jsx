@@ -48,22 +48,19 @@ function createDynamicBearing(partsCount = 10) {
     color: 0x8f959e, metalness: 1, roughness: 0.38, envMapIntensity: 1,
   });
 
-  // Uninstalled parts read as dull, unfinished metal.
-  const damagedSteel = new THREE.MeshStandardMaterial({
-    color: 0x475569, metalness: 0.6, roughness: 0.7, wireframe: partsCount === 0,
-  });
-
   // Only the first four parts are physical: the bearing is complete once the
   // cage goes on. Slots 5-10 are shop-floor steps and fittings that score but
   // add no geometry, so nothing below reads past partsCount >= 4.
+  // A part that has not been collected is simply not built; there is no
+  // placeholder standing in for it.
 
   // ── Slot 1: Inner Casing, with the NSK hub cap closing the bore ──
-  const innerRing = new THREE.Mesh(createInnerRingGeometry(), partsCount >= 1 ? innerSteel : damagedSteel);
-  innerRing.castShadow = true;
-  innerRing.receiveShadow = true;
-  bearingGroup.add(innerRing);
-
   if (partsCount >= 1) {
+    const innerRing = new THREE.Mesh(createInnerRingGeometry(), innerSteel);
+    innerRing.castShadow = true;
+    innerRing.receiveShadow = true;
+    bearingGroup.add(innerRing);
+
     const capR = d.innerBoreR * 1.02;
     const capT = 0.06;
 
@@ -105,10 +102,12 @@ function createDynamicBearing(partsCount = 10) {
   }
 
   // ── Slot 3: Outer Casing ──
-  const outerRing = new THREE.Mesh(createOuterRingGeometry(), partsCount >= 3 ? ringSteel : damagedSteel);
-  outerRing.castShadow = true;
-  outerRing.receiveShadow = true;
-  bearingGroup.add(outerRing);
+  if (partsCount >= 3) {
+    const outerRing = new THREE.Mesh(createOuterRingGeometry(), ringSteel);
+    outerRing.castShadow = true;
+    outerRing.receiveShadow = true;
+    bearingGroup.add(outerRing);
+  }
 
   // ── Slot 4: Retainer Cage (collars, bridges and their rivets) ──
   if (partsCount >= 4) {
