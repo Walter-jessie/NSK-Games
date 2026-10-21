@@ -91,7 +91,6 @@ export function createArenaGame(layout, { seed = Date.now(), extraColliders = []
       ...layout.decoyCrates.map((p, i) => ({ id: `decoy${i}`, index: i, nsk: false, ...toWorld(p), smashed: false })),
     ],
     pickups: [],
-    hintCrate: null,   // first crate to point at, cleared on the first smash
     drones: [],
   };
   let nextDrone = 1;
@@ -203,7 +202,6 @@ export function createArenaGame(layout, { seed = Date.now(), extraColliders = []
     if (a.kind === 'smash') {
       const c = state.crates.find((x) => x.id === a.crate);
       c.smashed = true;
-      state.hintCrate = null;   // the player has the idea now
 
       if (c.nsk) {
         // Throw the bearing clear so it has to be chased down rather than
@@ -405,14 +403,6 @@ export function createArenaGame(layout, { seed = Date.now(), extraColliders = []
     start() {
       if (state.phase !== 'ready') return;
       state.phase = 'playing';
-      // Point the player at the nearest paying crate for their first smash.
-      let near = null;
-      for (const c of state.crates) {
-        if (!c.nsk) continue;
-        const d = dist(state.player.x, state.player.z, c.x, c.z);
-        if (!near || d < near.d) near = { d, c };
-      }
-      state.hintCrate = near ? near.c.id : null;
       emit('waveStarted', { wave: 0, name: wave().name, final: false });
     },
     update,
@@ -432,9 +422,6 @@ export function createArenaGame(layout, { seed = Date.now(), extraColliders = []
         bearings: state.bearings,
         backpackSize: R.backpackSize,
         action: state.action,
-        hint: state.hintCrate
-          ? (() => { const c = state.crates.find((x) => x.id === state.hintCrate); return c && { x: c.x, z: c.z }; })()
-          : null,
         score: state.score,
         result: state.result,
         failures: state.failures,

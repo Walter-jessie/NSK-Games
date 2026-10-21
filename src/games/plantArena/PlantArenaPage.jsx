@@ -29,6 +29,7 @@ export default function PlantArenaPage({ employeeId = 'NSK-GUEST', onSubmitScore
   const [banner, setBanner] = useState(null);
   const [toast, setToast] = useState(null);
   const [muted, setMuted] = useState(audio.muted);
+  const [opening, setOpening] = useState(false);
   const submitted = useRef(false);
 
   // Create a fresh engine per run.
@@ -73,6 +74,10 @@ export default function PlantArenaPage({ employeeId = 'NSK-GUEST', onSubmitScore
 
   useEffect(() => { if (banner) { const t = setTimeout(() => setBanner(null), 2200); return () => clearTimeout(t); } return undefined; }, [banner]);
   useEffect(() => { if (toast) { const t = setTimeout(() => setToast(null), 1600); return () => clearTimeout(t); } return undefined; }, [toast]);
+  // Opening call to action: shown for three seconds as the run starts,
+  // then out of the way. It used to sit there until the first crate was
+  // smashed, which left it on screen during play.
+  useEffect(() => { if (!opening) return undefined; const t = setTimeout(() => setOpening(false), 3000); return () => clearTimeout(t); }, [opening]);
 
   // Report the score once when a run ends.
   useEffect(() => {
@@ -94,6 +99,7 @@ export default function PlantArenaPage({ employeeId = 'NSK-GUEST', onSubmitScore
   useEffect(() => { if (autoplay && engine) engine.start(); }, [autoplay, engine]);
 
   const start = useCallback(() => {
+    setOpening(true);
     audio.unlock();
     const el = document.documentElement;
     if (matchMedia('(pointer: coarse)').matches && el.requestFullscreen && !document.fullscreenElement) {
@@ -118,7 +124,7 @@ export default function PlantArenaPage({ employeeId = 'NSK-GUEST', onSubmitScore
           <button type="button" className="pa-mute" onClick={() => { audio.setMuted(!muted); setMuted(!muted); }}>
             {muted ? 'SOUND OFF' : 'SOUND ON'}
           </button>
-          {snap.hint && <div className="pa-hint">SMASH THE WOODEN CRATE</div>}
+          {opening && <div className="pa-hint"><span>SMASH THE WOODEN CRATE</span></div>}
           {banner && <div className="pa-banner">{banner}</div>}
           {toast && <div className="pa-toast">{toast}</div>}
           <VirtualJoystick onChange={joy} />
