@@ -418,9 +418,9 @@ export default function BearingRunnerPage() {
         }`} />
       )}
 
-      {/* Feedback Banner (Positioned above 3D track, NEVER covers runner) */}
+      {/* Feedback Banner (Positioned directly below enlarged Q&A HUD, never covers runner) */}
       {feedbackType && (
-        <div className="absolute top-[35.5vh] left-1/2 -translate-x-1/2 z-40 pointer-events-none flex items-center justify-center animate-bounce">
+        <div className="absolute top-[42vh] sm:top-[44vh] left-1/2 -translate-x-1/2 z-40 pointer-events-none flex items-center justify-center animate-bounce">
           <div className={`px-4 sm:px-6 py-1 sm:py-1.5 rounded-full font-heading font-black text-xs sm:text-sm md:text-base tracking-widest shadow-2xl border-2 flex items-center gap-2 backdrop-blur-md ${
             feedbackType === 'correct'
               ? 'bg-emerald-950/90 text-emerald-300 border-emerald-400 shadow-emerald-500/50'
@@ -431,30 +431,30 @@ export default function BearingRunnerPage() {
         </div>
       )}
 
-      {/* ═══ TOP GAME HUD & Q&A (Question at Top, Options below with Words) ═══ */}
+      {/* ═══ TOP GAME HUD & Q&A (High-Contrast White & NSK Red Question + Expanded Answers) ═══ */}
       {(phase === 'playing' || phase === 'feedback') && (
-        <div className="absolute top-0 left-0 right-0 z-30 pointer-events-auto h-[35vh] flex flex-col justify-start gap-1 sm:gap-2 px-2 sm:px-6 md:px-12 lg:px-16 pt-1 sm:pt-1.5 pb-1 bg-gradient-to-b from-[#050810]/98 via-[#050810]/90 to-transparent">
-          {/* Question Row at Very Top with integrated Parts Counter (No 'X' button) */}
+        <div className="absolute top-0 left-0 right-0 z-30 pointer-events-auto h-[38vh] sm:h-[40vh] md:h-[42vh] flex flex-col justify-start gap-1.5 sm:gap-2.5 px-2 sm:px-6 md:px-12 lg:px-16 pt-1 sm:pt-2 pb-2 bg-gradient-to-b from-[#050810]/98 via-[#050810]/90 to-transparent">
+          {/* Question Row at Very Top with integrated Parts Counter */}
           {currentQ && (
-            <div key={`q-${qIdx}`} className="flex items-center gap-1.5 sm:gap-2 max-w-5xl mx-auto w-full flex-shrink-0 game-question-enter">
-              {/* Parts Counter Badge */}
-              <div className="px-2 sm:px-2.5 py-1 rounded-lg bg-red-600/30 border border-red-500/50 text-[10px] sm:text-xs font-heading font-black text-white whitespace-nowrap shrink-0 shadow-sm flex items-center gap-1">
-                <span className="text-red-400 font-bold uppercase text-[9px] sm:text-[10px]">PARTS</span>
-                <span>{collectedParts.length}/10</span>
+            <div key={`q-${qIdx}`} className="flex items-center gap-1.5 sm:gap-2.5 max-w-5xl mx-auto w-full flex-shrink-0 game-question-enter">
+              {/* Parts Counter Badge (NSK Theme) */}
+              <div className="px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl bg-gradient-to-br from-[#E60012] to-[#b3000d] border border-red-400 text-white whitespace-nowrap shrink-0 shadow-md flex items-center gap-1 sm:gap-1.5 min-h-[46px] sm:min-h-[58px]">
+                <span className="text-white/80 font-bold uppercase text-[9px] sm:text-[10px] tracking-wider">PARTS</span>
+                <span className="font-heading font-black text-xs sm:text-base text-white">{collectedParts.length}/10</span>
               </div>
 
-              {/* Question Panel */}
-              <div className="flex-1 bg-slate-900/90 border border-white/20 backdrop-blur-md rounded-xl sm:rounded-2xl px-3 sm:px-5 py-1 sm:py-1.5 shadow-lg text-center">
-                <p className="text-xs sm:text-sm md:text-base font-heading font-black text-white leading-tight drop-shadow-md tracking-wide line-clamp-2">
+              {/* High-Contrast White Question Panel with NSK Red Border */}
+              <div className="flex-1 bg-white border-2 sm:border-[3px] border-[#E60012] rounded-xl sm:rounded-2xl px-3 sm:px-6 py-2 sm:py-3 shadow-[0_4px_25px_rgba(230,0,18,0.25),0_4px_12px_rgba(0,0,0,0.5)] text-center flex items-center justify-center min-h-[46px] sm:min-h-[58px]">
+                <p className="text-xs sm:text-base md:text-lg lg:text-xl font-heading font-black text-slate-900 leading-tight tracking-wide uppercase line-clamp-2 drop-shadow-sm">
                   {currentQ.question}
                 </p>
               </div>
             </div>
           )}
 
-          {/* Options: Badge & Words displayed prominently side-by-side */}
+          {/* Options: Prominent, Expanded Answer Cards covering more screen area */}
           {currentQ && (
-            <div key={`o-${qIdx}`} className="flex-1 grid grid-cols-4 gap-1.5 sm:gap-2.5 md:gap-3 game-options-enter max-w-5xl mx-auto w-full items-stretch min-h-[46px] max-h-[64px]">
+            <div key={`o-${qIdx}`} className="flex-1 grid grid-cols-4 gap-1.5 sm:gap-2.5 md:gap-3.5 game-options-enter max-w-5xl mx-auto w-full items-stretch min-h-[52px] sm:min-h-[66px] md:min-h-[76px]">
               {LANE_LABELS.map((label, idx) => {
                 const isSelected = playerLane === idx;
                 const isCorrectAnswer = currentQ.correct === label;
@@ -462,31 +462,31 @@ export default function BearingRunnerPage() {
                   <button
                     key={label}
                     onClick={() => jumpToLane(idx)}
-                    className={`relative py-1 px-1.5 sm:px-2.5 rounded-xl sm:rounded-2xl border transition-all duration-150 select-none flex items-center justify-center gap-1.5 sm:gap-2 h-full min-h-[42px] ${
+                    className={`relative py-1.5 sm:py-2 px-2 sm:px-3 rounded-xl sm:rounded-2xl border-2 transition-all duration-150 select-none flex items-center justify-center gap-1.5 sm:gap-2.5 h-full min-h-[48px] sm:min-h-[60px] ${
                       isSelected
-                        ? 'bg-gradient-to-b from-[#E60012] via-[#d60010] to-[#b3000d] border-white text-white shadow-[0_0_20px_rgba(230,0,18,0.7)] ring-2 ring-white/60 scale-[1.02]'
-                        : 'bg-slate-900/90 border-white/20 hover:border-white/40 hover:bg-slate-800/95 backdrop-blur-md text-slate-200'
+                        ? 'bg-gradient-to-r from-[#E60012] via-[#ff1a2e] to-[#cc0010] border-white text-white shadow-[0_0_25px_rgba(230,0,18,0.85)] ring-2 ring-red-400 scale-[1.02]'
+                        : 'bg-slate-900/95 border-slate-700/80 hover:border-white/50 hover:bg-slate-800/95 backdrop-blur-md text-slate-100 shadow-md'
                     }`}
                   >
                     {/* [TESTING HELPER] Dot on correct answer */}
                     {isCorrectAnswer && (
                       <span
                         title="[Testing Mode] Correct Answer"
-                        className="absolute top-1 right-1 w-2 h-2 rounded-full bg-emerald-400 border border-emerald-200 shadow-sm shadow-emerald-400 animate-pulse pointer-events-none z-20"
+                        className="absolute top-1 right-1 w-2.5 h-2.5 rounded-full bg-emerald-400 border border-emerald-200 shadow-sm shadow-emerald-400 animate-pulse pointer-events-none z-20"
                       />
                     )}
                     {isSelected && <div className="absolute inset-0 game-option-shimmer pointer-events-none rounded-xl sm:rounded-2xl" />}
                     
                     {/* Letter Badge (A, B, C, D) */}
-                    <span className={`relative z-10 inline-flex w-5 h-5 sm:w-6 sm:h-6 rounded-md items-center justify-center text-[10px] sm:text-xs font-heading font-black shrink-0 shadow-sm ${
-                      isSelected ? 'bg-white text-[#E60012]' : 'bg-white/10 text-slate-300 border border-white/15'
+                    <span className={`relative z-10 inline-flex w-5 h-5 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-lg items-center justify-center text-xs sm:text-sm md:text-base font-heading font-black shrink-0 shadow-sm ${
+                      isSelected ? 'bg-white text-[#E60012]' : 'bg-white/10 text-slate-200 border border-white/20'
                     }`}>
                       {label}
                     </span>
 
-                    {/* Words Text - Guaranteed Visible */}
-                    <span className={`relative z-10 text-[10px] sm:text-xs md:text-sm font-bold leading-tight line-clamp-2 text-left ${
-                      isSelected ? 'text-white drop-shadow font-extrabold' : 'text-slate-100'
+                    {/* Words Text - High Contrast & Large */}
+                    <span className={`relative z-10 text-[11px] sm:text-xs md:text-sm lg:text-base font-bold sm:font-black leading-tight line-clamp-2 text-left ${
+                      isSelected ? 'text-white drop-shadow-md font-black' : 'text-slate-100'
                     }`}>
                       {currentQ.options[label]}
                     </span>
