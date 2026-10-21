@@ -185,6 +185,7 @@ export default function Runner3DScene({
   gateProgress = 0, // 0 to 1 (0 = far away, 1 = collision line)
   feedbackType = null, // 'correct' | 'wrong' | null
   currentSpeed = 0.028,
+  isPaused = false,
   className = '',
 }) {
   const mountRef = useRef(null);
@@ -195,6 +196,15 @@ export default function Runner3DScene({
   const animFrameRef = useRef(null);
   const targetXRef = useRef(LANE_X[playerLane]);
   const currentXRef = useRef(LANE_X[playerLane]);
+  const isPausedRef = useRef(isPaused);
+
+  // Sync isPaused and pause/resume animation mixer
+  useEffect(() => {
+    isPausedRef.current = isPaused;
+    if (mixerRef.current) {
+      mixerRef.current.timeScale = isPaused ? 0 : 1;
+    }
+  }, [isPaused]);
 
   // Keep target lane in sync
   useEffect(() => {
@@ -350,6 +360,9 @@ export default function Runner3DScene({
           mixerRef.current = mixer;
           const runAction = mixer.clipAction(gltf.animations[0]);
           runAction.play();
+          if (isPausedRef.current) {
+            mixer.timeScale = 0; // Freeze while paused
+          }
         }
       })
       .catch((err) => {
@@ -364,8 +377,21 @@ export default function Runner3DScene({
 
     // 8. Render & Animation Loop
     let lastTime = performance.now();
+    let hasRenderedPreview = false;
+
     const animate = (timestamp) => {
       animFrameRef.current = requestAnimationFrame(animate);
+
+      // If paused (e.g. during tutorial), render a single static preview frame and sleep
+      if (isPausedRef.current) {
+        lastTime = timestamp;
+        if (!hasRenderedPreview) {
+          renderer.render(scene, camera);
+          hasRenderedPreview = true;
+        }
+        return;
+      }
+      hasRenderedPreview = false;
 
       const delta = (timestamp - lastTime) / 1000;
       lastTime = timestamp;

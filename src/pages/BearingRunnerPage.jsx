@@ -498,12 +498,13 @@ export default function BearingRunnerPage() {
         </div>
       )}
 
-      {/* ═══ 3D RUNNER SCENE ═══ */}
+      {/* ═══ 3D RUNNER SCENE (Paused during tutorial for max performance) ═══ */}
       <Runner3DScene
         playerLane={playerLane}
         gateProgress={lockerY / COLLISION_Y}
         feedbackType={feedbackType}
         currentSpeed={getLockerSpeed(qIdx)}
+        isPaused={phase === 'tutorial'}
         className="absolute inset-0 z-10"
       />
 
