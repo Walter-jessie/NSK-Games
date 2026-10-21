@@ -6,10 +6,6 @@ import { createArena, addArenaLights, blobShadow } from '../scene/arena.js';
 import { MACHINE_FX } from '../scene/machines.js';
 import { createWorker, createDrone, createBearingPickup } from '../scene/characters.js';
 import { outlineResolution } from '../scene/toon.js';
-import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
-import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
-import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
-import { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass.js';
 import { createPop, radialTexture } from '../scene/fx.js';
 import { guessTier, createFpsGuard, TIERS } from '../scene/quality.js';
 import { createArenaGame } from './arenaGameStore.js';
@@ -263,16 +259,6 @@ export class GameEngine {
     window.addEventListener('keyup', this.onKey);
     document.addEventListener('visibilitychange', this.onVisibility);
     this.resize();
-    // Bloom, gently. The arena is full of additive sparks, flame and alarm
-    // glows that only read as light when they bleed a little.
-    if (this.tier.bloom) {
-      this.composer = new EffectComposer(renderer);
-      this.composer.addPass(new RenderPass(this.scene, this.camera));
-      this.bloomPass = new UnrealBloomPass(new THREE.Vector2(1, 1), 0.42, 0.72, 0.86);
-      this.composer.addPass(this.bloomPass);
-      this.composer.addPass(new OutputPass());
-    }
-
     this.snapCamera();
     this.game.subscribe((e) => this.handleEvent(e));
     this.last = performance.now();
@@ -305,7 +291,6 @@ export class GameEngine {
       const mats = Array.isArray(o.material) ? o.material : o.material ? [o.material] : [];
       for (const m of mats) { m.map?.dispose?.(); m.dispose?.(); }
     });
-    this.composer?.dispose();
     this.renderer.dispose();
   }
 
@@ -335,10 +320,6 @@ export class GameEngine {
     // Narrow screens see a bit further so the player keeps the same view width.
     this.camera.fov = this.camera.aspect < 1.6 ? 44 : 38;
     this.camera.updateProjectionMatrix();
-    if (this.composer) {
-      this.composer.setPixelRatio(this.renderer.getPixelRatio());
-      this.composer.setSize(w, h);
-    }
   }
 
   downgrade() {
@@ -566,8 +547,7 @@ export class GameEngine {
     this.camFocus.lerp(this.tmp, 1 - Math.exp(-dt * 4));
     this.placeCamera();
 
-    if (this.composer) this.composer.render();
-    else this.renderer.render(this.scene, this.camera);
+    this.renderer.render(this.scene, this.camera);
     this.updateMarkers();
     this.onFrame?.(s);
   }

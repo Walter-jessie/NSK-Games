@@ -9,7 +9,6 @@ export const TIERS = {
     shadowMapSize: 0,
     statusLights: 0, // attacked machines glow with floor decals only
     envReflections: false,
-    bloom: false, // extra full-screen passes are the first thing a budget GPU loses
     sparks: 14,
     arcs: 2,
     outlines: true,
@@ -22,7 +21,6 @@ export const TIERS = {
     shadowMapSize: 1024,
     statusLights: 3,
     envReflections: true,
-    bloom: true,
     sparks: 28,
     arcs: 3,
     outlines: true,
