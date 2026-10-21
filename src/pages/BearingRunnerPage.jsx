@@ -430,25 +430,25 @@ export default function BearingRunnerPage() {
         <div className="absolute top-0 left-0 right-0 z-30 pointer-events-auto flex flex-col justify-start gap-2 px-3 pt-2 pb-2 bg-gradient-to-b from-[#050810]/98 via-[#050810]/90 to-transparent">
           {/* Question Row at Very Top with integrated Parts Counter */}
           {currentQ && (
-            <div key={`q-${qIdx}`} className="flex items-center gap-2 max-w-[min(94vw,160vh)] mx-auto w-full flex-shrink-0 game-question-enter">
-              {/* Parts Counter Badge (NSK Red Gradient - Fluid Height Scale) */}
-              <div className="px-3 py-1.5 rounded-xl bg-gradient-to-br from-[#E60012] via-[#d60011] to-[#99000c] border-2 border-red-300 text-white whitespace-nowrap shrink-0 shadow-md flex items-center justify-center gap-1.5 h-[clamp(38px,9vh,80px)]">
-                <span className="text-white/90 font-black uppercase text-[clamp(9px,1.9vh,15px)] tracking-widest">PARTS</span>
-                <span className="font-heading font-black text-[clamp(12px,2.6vh,22px)] text-white">{collectedParts.length}/10</span>
+            <div key={`q-${qIdx}`} className="flex items-center gap-2.5 max-w-[min(94vw,160vh)] mx-auto w-full flex-shrink-0 game-question-enter">
+              {/* Parts Counter Badge (Cyber Cyan/Blue Gradient - Fluid Height Scale) */}
+              <div className="px-3.5 py-1.5 rounded-2xl bg-gradient-to-br from-cyan-600 via-blue-600 to-indigo-800 border-2 border-cyan-300 text-white whitespace-nowrap shrink-0 shadow-[0_0_20px_rgba(6,182,212,0.5)] flex items-center justify-center gap-1.5 h-[clamp(46px,11vh,96px)]">
+                <span className="text-cyan-200 font-black uppercase text-[clamp(9px,1.9vh,15px)] tracking-widest">PARTS</span>
+                <span className="font-heading font-black text-[clamp(14px,2.9vh,26px)] text-white">{collectedParts.length}/10</span>
               </div>
 
-              {/* High-Contrast White Question Panel with Bold NSK Red Border - Fluid Height Scale */}
-              <div className="flex-1 bg-white border-[3px] border-[#E60012] rounded-xl px-4 py-1.5 shadow-md text-center flex items-center justify-center h-[clamp(38px,9vh,80px)]">
-                <p className="text-[clamp(11px,2.4vh,22px)] font-heading font-black text-slate-950 leading-snug tracking-wide uppercase line-clamp-2">
+              {/* High-Contrast White Question Panel with Bold Cyber Cyan Border - Enlarged & Normal Formatting */}
+              <div className="flex-1 bg-white border-[3px] border-cyan-500 rounded-2xl px-5 py-2 shadow-[0_0_25px_rgba(6,182,212,0.35)] text-center flex items-center justify-center h-[clamp(48px,11.5vh,100px)]">
+                <p className="text-[clamp(12px,2.7vh,25px)] font-heading font-black text-slate-900 leading-snug tracking-normal line-clamp-2">
                   {currentQ.question}
                 </p>
               </div>
             </div>
           )}
 
-          {/* Options: 4 Locked, Uniform Answer Cards (Never stretched into long slabs on 2K) */}
+          {/* Options: 4 Locked, Uniform Answer Cards (Cyber Cyan/Blue Theme) */}
           {currentQ && (
-            <div key={`o-${qIdx}`} className="grid grid-cols-4 gap-2 game-options-enter max-w-[min(94vw,160vh)] mx-auto w-full items-stretch h-[clamp(46px,10.5vh,96px)]">
+            <div key={`o-${qIdx}`} className="grid grid-cols-4 gap-2.5 game-options-enter max-w-[min(94vw,160vh)] mx-auto w-full items-stretch h-[clamp(48px,11.5vh,102px)]">
               {LANE_LABELS.map((label, idx) => {
                 const isSelected = playerLane === idx;
                 const isCorrectAnswer = currentQ.correct === label;
@@ -456,10 +456,10 @@ export default function BearingRunnerPage() {
                   <button
                     key={label}
                     onClick={() => jumpToLane(idx)}
-                    className={`relative py-1 px-2 rounded-xl transition-all duration-150 select-none flex items-center justify-center gap-2 h-full ${
+                    className={`relative py-1 px-2.5 rounded-2xl transition-all duration-150 select-none flex items-center justify-center gap-2 h-full ${
                       isSelected
-                        ? 'bg-gradient-to-r from-[#E60012] via-[#ff1a2e] to-[#cc0010] border-[3px] border-white text-white shadow-[0_0_20px_rgba(230,0,18,0.9)] ring-2 ring-red-400 scale-[1.02] z-20'
-                        : 'bg-[#0b101e]/95 border-2 border-slate-600/90 hover:border-white/50 hover:bg-[#12192e] backdrop-blur-md text-white shadow-md'
+                        ? 'bg-gradient-to-r from-cyan-600 via-blue-600 to-indigo-700 border-[3px] border-cyan-200 text-white shadow-[0_0_30px_rgba(6,182,212,0.85)] ring-2 ring-cyan-400 scale-[1.02] z-20'
+                        : 'bg-[#080d1a]/95 border-2 border-slate-700/80 hover:border-cyan-400/60 hover:bg-[#0f172a] backdrop-blur-md text-white shadow-md'
                     }`}
                   >
                     {/* [TESTING HELPER] Dot on correct answer */}
@@ -469,17 +469,17 @@ export default function BearingRunnerPage() {
                         className="absolute top-1 right-1 w-2.5 h-2.5 rounded-full bg-emerald-400 border border-emerald-200 shadow-sm shadow-emerald-400 animate-pulse pointer-events-none z-20"
                       />
                     )}
-                    {isSelected && <div className="absolute inset-0 game-option-shimmer pointer-events-none rounded-xl" />}
+                    {isSelected && <div className="absolute inset-0 game-option-shimmer pointer-events-none rounded-2xl" />}
                     
                     {/* Letter Badge (A, B, C, D) - Fluid Proportions */}
-                    <span className={`relative z-10 inline-flex w-[clamp(24px,5vh,48px)] h-[clamp(24px,5vh,48px)] rounded-lg items-center justify-center text-[clamp(11px,2.2vh,20px)] font-heading font-black shrink-0 shadow-sm ${
-                      isSelected ? 'bg-white text-[#E60012]' : 'bg-white/15 text-white border border-white/20'
+                    <span className={`relative z-10 inline-flex w-[clamp(26px,5.2vh,50px)] h-[clamp(26px,5.2vh,50px)] rounded-xl items-center justify-center text-[clamp(11px,2.2vh,20px)] font-heading font-black shrink-0 shadow-sm ${
+                      isSelected ? 'bg-white text-blue-700 shadow-md font-black' : 'bg-white/15 text-white border border-white/20'
                     }`}>
                       {label}
                     </span>
 
                     {/* Words Text - High Contrast & Clean Size */}
-                    <span className={`relative z-10 text-[clamp(11px,2.2vh,18px)] font-bold leading-tight line-clamp-2 text-left ${
+                    <span className={`relative z-10 text-[clamp(11px,2.3vh,19px)] font-bold leading-tight line-clamp-2 text-left ${
                       isSelected ? 'text-white drop-shadow-md font-black' : 'text-slate-100'
                     }`}>
                       {currentQ.options[label]}
@@ -535,7 +535,7 @@ export default function BearingRunnerPage() {
                 ? 'bg-emerald-500 border-emerald-400 shadow-sm shadow-emerald-500/60'
                 : 'bg-red-500 border-red-400 shadow-sm shadow-red-500/60';
             } else if (isCurrent) {
-              dotClass = 'bg-red-500 border-red-300 game-dot-pulse scale-125';
+              dotClass = 'bg-cyan-400 border-cyan-200 game-dot-pulse scale-125 shadow-sm shadow-cyan-400/80';
             }
             return (
               <div key={i} className={`w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full border transition-all ${dotClass}`} />
@@ -544,14 +544,14 @@ export default function BearingRunnerPage() {
         </div>
       )}
 
-      {/* ═══ BOTTOM PROGRESS BAR ═══ */}
+      {/* ═══ BOTTOM PROGRESS BAR (Cyber Cyan Theme) ═══ */}
       <div className="absolute bottom-0 left-0 right-0 z-40 h-1 bg-slate-950">
         <div
           className="h-full transition-all duration-300"
           style={{
             width: `${(qIdx / 10) * 100}%`,
-            background: 'linear-gradient(90deg, #E60012, #ff3333)',
-            boxShadow: '0 0 8px rgba(230,0,18,0.6)',
+            background: 'linear-gradient(90deg, #06b6d4, #2563eb)',
+            boxShadow: '0 0 10px rgba(6,182,212,0.8)',
           }}
         />
       </div>
@@ -567,14 +567,14 @@ export default function BearingRunnerPage() {
           {/* Left half tap zone */}
           <div
             onClick={moveLeft}
-            className="flex-1 h-full cursor-pointer active:bg-white/[0.02] transition-colors"
+            className="flex-1 h-full cursor-pointer active:bg-cyan-400/[0.04] transition-colors"
             style={{ touchAction: 'manipulation' }}
             title="Tap left to steer left"
           />
           {/* Right half tap zone */}
           <div
             onClick={moveRight}
-            className="flex-1 h-full cursor-pointer active:bg-white/[0.02] transition-colors"
+            className="flex-1 h-full cursor-pointer active:bg-cyan-400/[0.04] transition-colors"
             style={{ touchAction: 'manipulation' }}
             title="Tap right to steer right"
           />
@@ -595,7 +595,7 @@ export default function BearingRunnerPage() {
             className={`absolute bottom-[2.5vh] left-[2.5vh] z-40 w-[clamp(56px,14vh,120px)] h-[clamp(56px,14vh,120px)] rounded-[clamp(14px,3vh,26px)] flex items-center justify-center transition-all select-none shadow-[0_8px_25px_rgba(0,0,0,0.85)] border-2 ${
               playerLane === 0
                 ? 'bg-slate-900/40 border-white/5 text-slate-600 opacity-25 cursor-not-allowed'
-                : 'bg-slate-900/95 backdrop-blur-xl border-white/35 text-white hover:border-red-500 hover:bg-slate-800 active:bg-red-600 active:scale-95 active:border-red-400 active:shadow-red-600/80 ring-1 ring-white/15'
+                : 'bg-slate-900/95 backdrop-blur-xl border-cyan-500/40 text-white hover:border-cyan-400 hover:bg-slate-800 active:bg-cyan-600 active:scale-95 active:border-cyan-300 active:shadow-cyan-500/80 ring-1 ring-cyan-400/30'
             }`}
             style={{ touchAction: 'manipulation' }}
           >
@@ -615,7 +615,7 @@ export default function BearingRunnerPage() {
             className={`absolute bottom-[2.5vh] right-[2.5vh] z-40 w-[clamp(56px,14vh,120px)] h-[clamp(56px,14vh,120px)] rounded-[clamp(14px,3vh,26px)] flex items-center justify-center transition-all select-none shadow-[0_8px_25px_rgba(0,0,0,0.85)] border-2 ${
               playerLane === LANE_COUNT - 1
                 ? 'bg-slate-900/40 border-white/5 text-slate-600 opacity-25 cursor-not-allowed'
-                : 'bg-slate-900/95 backdrop-blur-xl border-white/35 text-white hover:border-red-500 hover:bg-slate-800 active:bg-red-600 active:scale-95 active:border-red-400 active:shadow-red-600/80 ring-1 ring-white/15'
+                : 'bg-slate-900/95 backdrop-blur-xl border-cyan-500/40 text-white hover:border-cyan-400 hover:bg-slate-800 active:bg-cyan-600 active:scale-95 active:border-cyan-300 active:shadow-cyan-500/80 ring-1 ring-cyan-400/30'
             }`}
             style={{ touchAction: 'manipulation' }}
           >
@@ -626,67 +626,67 @@ export default function BearingRunnerPage() {
         </>
       )}
 
-      {/* ═══ TUTORIAL OVERLAY (Ultra-Compact Mobile Landscape Layout) ═══ */}
+      {/* ═══ TUTORIAL OVERLAY (Original Design with Enlarged Dimensions) ═══ */}
       {phase === 'tutorial' && (
-        <div className="absolute inset-0 z-50 flex items-center justify-center bg-[#050810]/97 backdrop-blur-md px-3 py-1.5 overflow-hidden">
-          <div className="max-w-sm w-full text-center flex flex-col justify-between my-auto py-1">
+        <div className="absolute inset-0 z-50 flex items-center justify-center bg-[#050810]/97 backdrop-blur-md px-4 py-2 select-none overflow-y-auto">
+          <div className="max-w-lg w-full text-center flex flex-col justify-between my-auto py-2 px-3">
             {/* Title */}
             <div>
-              <h2 className="font-heading font-black text-base sm:text-lg text-white tracking-wider uppercase mb-0.5">
+              <h2 className="font-heading font-black text-xl sm:text-2xl text-white tracking-wider uppercase mb-1">
                 BEARING RUNNER
               </h2>
-              <div className="w-12 h-0.5 bg-red-600 mx-auto rounded-full mb-1" />
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/5 border border-white/10 text-[9px] font-semibold text-slate-300">
+              <div className="w-16 h-1 bg-cyan-500 mx-auto rounded-full mb-2" />
+              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-cyan-950/60 border border-cyan-400/30 text-xs sm:text-sm font-semibold text-cyan-200 shadow-sm">
                 <span>⬅️ ➡️</span>
                 <span>Switch Lanes &amp; Select Answers</span>
               </div>
             </div>
 
-            {/* Minimal Instructions */}
-            <div className="space-y-1 text-left my-1.5">
-              <div className="flex items-center gap-2">
-                <span className="w-5 h-5 rounded-md bg-white/10 flex items-center justify-center text-[10px] font-heading font-black text-red-400 flex-shrink-0">
+            {/* Instructions (Original 3 Steps - Enlarged) */}
+            <div className="space-y-2.5 text-left my-3">
+              <div className="flex items-center gap-3">
+                <span className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-cyan-500/20 border border-cyan-400/40 flex items-center justify-center text-xs sm:text-sm font-heading font-black text-cyan-300 flex-shrink-0">
                   1
                 </span>
-                <p className="text-[11px] text-slate-300 leading-tight">
+                <p className="text-xs sm:text-sm text-slate-200 leading-snug">
                   Choose the <span className="text-white font-bold">correct answer lane</span>
                 </p>
               </div>
 
-              <div className="flex items-center gap-2">
-                <span className="w-5 h-5 rounded-md bg-white/10 flex items-center justify-center text-[10px] font-heading font-black text-red-400 flex-shrink-0">
+              <div className="flex items-center gap-3">
+                <span className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-cyan-500/20 border border-cyan-400/40 flex items-center justify-center text-xs sm:text-sm font-heading font-black text-cyan-300 flex-shrink-0">
                   2
                 </span>
-                <p className="text-[11px] text-slate-300 leading-tight">
+                <p className="text-xs sm:text-sm text-slate-200 leading-snug">
                   Get a <span className="text-white font-bold">bearing part</span> for each correct answer
                 </p>
               </div>
 
-              <div className="flex items-center gap-2">
-                <span className="w-5 h-5 rounded-md bg-white/10 flex items-center justify-center text-[10px] font-heading font-black text-red-400 flex-shrink-0">
+              <div className="flex items-center gap-3">
+                <span className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-cyan-500/20 border border-cyan-400/40 flex items-center justify-center text-xs sm:text-sm font-heading font-black text-cyan-300 flex-shrink-0">
                   3
                 </span>
-                <p className="text-[11px] text-slate-300 leading-tight">
+                <p className="text-xs sm:text-sm text-slate-200 leading-snug">
                   Collect all parts to <span className="text-white font-bold">build your bearing</span> ⚙️
                 </p>
               </div>
             </div>
 
-            {/* Touch input icons */}
-            <div className="flex items-center justify-center gap-3 my-1">
-              <div className="w-8 h-8 rounded-lg bg-white/8 border border-white/15 flex items-center justify-center text-sm text-slate-400">
+            {/* Touch input icons - Enlarged */}
+            <div className="flex items-center justify-center gap-4 my-2">
+              <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-white/10 border border-cyan-400/30 flex items-center justify-center text-base sm:text-lg text-cyan-200 shadow-sm">
                 ◀
               </div>
-              <div className="w-8 h-8 rounded-lg bg-white/8 border border-white/15 flex items-center justify-center text-sm text-slate-400">
+              <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-white/10 border border-cyan-400/30 flex items-center justify-center text-base sm:text-lg text-cyan-200 shadow-sm">
                 ▶
               </div>
             </div>
 
-            {/* Play button */}
+            {/* Play button - Enlarged */}
             <button
               id="btn-tutorial-play"
               onClick={handleStartGame}
-              className="w-full py-2 rounded-xl bg-slate-900 hover:bg-red-600 active:bg-red-700 text-white font-heading font-black text-xs tracking-[0.2em] uppercase transition-all shadow-lg hover:shadow-red-600/30 active:scale-[0.98] border-2 border-white/10 hover:border-red-500"
+              className="w-full py-3 sm:py-3.5 rounded-2xl bg-slate-900 hover:bg-cyan-600 active:bg-cyan-700 text-white font-heading font-black text-xs sm:text-sm tracking-[0.25em] uppercase transition-all shadow-xl hover:shadow-cyan-600/40 active:scale-[0.98] border-2 border-cyan-400/50 hover:border-cyan-300 cursor-pointer"
             >
               ▶ &nbsp; PLAY
             </button>
@@ -694,21 +694,21 @@ export default function BearingRunnerPage() {
         </div>
       )}
 
-      {/* ═══ COUNTDOWN OVERLAY ═══ */}
+      {/* ═══ COUNTDOWN OVERLAY (Cyber Theme) ═══ */}
       {phase === 'countdown' && (
         <div className="absolute inset-0 z-50 flex flex-col items-center justify-center bg-[#050810]/97 backdrop-blur-md px-6 text-center">
           <div className="relative flex items-center justify-center">
-            <div className="absolute w-48 h-48 rounded-full border-2 border-red-500/20 game-ring-pulse" style={{ animationDelay: '0s' }} />
-            <div className="absolute w-64 h-64 rounded-full border border-red-500/10 game-ring-pulse" style={{ animationDelay: '0.3s' }} />
-            <div className="absolute w-80 h-80 rounded-full border border-red-500/5 game-ring-pulse" style={{ animationDelay: '0.6s' }} />
-            <span key={countdown} className="countdown-number text-red-500 relative z-10" style={{
-              textShadow: '0 0 60px rgba(230,0,18,0.8), 0 0 120px rgba(230,0,18,0.3)',
+            <div className="absolute w-48 h-48 rounded-full border-2 border-cyan-400/30 game-ring-pulse" style={{ animationDelay: '0s' }} />
+            <div className="absolute w-64 h-64 rounded-full border border-cyan-400/20 game-ring-pulse" style={{ animationDelay: '0.3s' }} />
+            <div className="absolute w-80 h-80 rounded-full border border-cyan-400/10 game-ring-pulse" style={{ animationDelay: '0.6s' }} />
+            <span key={countdown} className="countdown-number text-cyan-400 relative z-10" style={{
+              textShadow: '0 0 60px rgba(6,182,212,0.9), 0 0 120px rgba(6,182,212,0.4)',
               fontSize: '8rem',
             }}>
               {countdown > 0 ? countdown : 'GO!'}
             </span>
           </div>
-          <p className="text-base sm:text-lg text-slate-400 mt-8 font-heading font-bold tracking-[0.3em] uppercase">
+          <p className="text-base sm:text-lg text-cyan-300/80 mt-8 font-heading font-bold tracking-[0.3em] uppercase">
             GET READY
           </p>
         </div>

@@ -344,24 +344,24 @@ export default function HubPage() {
         </div>
       </main>
 
-      {/* ── PLAY BUTTON (Sleek, right-edge slanted trigger - Fluid Height Scale) ── */}
-      <div className="absolute top-[75%] right-0 -translate-y-1/2 z-40 pointer-events-auto">
+      {/* ── PLAY BUTTON (Prominent, right-edge slanted trigger - Moved lower & Enlarged) ── */}
+      <div className="absolute top-[81%] right-0 -translate-y-1/2 z-40 pointer-events-auto">
         <button
           id="btn-play-game"
           onClick={() => setShowDifficultyModal(true)}
-          className="group relative transition-all duration-300 hover:scale-[1.03] active:scale-[0.97] focus:outline-none"
+          className="group relative transition-all duration-300 hover:scale-[1.04] active:scale-[0.97] focus:outline-none"
           title="Start Challenge Campaign"
         >
           <div
-            className="w-[clamp(112px,25vh,340px)] h-[clamp(36px,8.5vh,100px)] pl-[clamp(18px,4vh,44px)] pr-[clamp(10px,2.5vh,28px)] bg-red-600 hover:bg-red-500 active:bg-red-700 text-white font-heading font-black text-[clamp(11px,2.5vh,26px)] tracking-widest uppercase transition-all shadow-xl shadow-red-600/40 flex items-center justify-center gap-[1.5vh] border-t border-l border-red-300/40"
+            className="w-[clamp(135px,29vh,400px)] h-[clamp(42px,10.2vh,120px)] pl-[clamp(24px,5vh,64px)] pr-[clamp(14px,3vh,36px)] bg-red-600 hover:bg-red-500 active:bg-red-700 text-white font-heading font-black text-[clamp(13px,2.9vh,30px)] tracking-widest uppercase transition-all shadow-2xl shadow-red-600/50 flex items-center justify-center gap-[1.8vh] border-t-2 border-l-2 border-red-300/50"
             style={{
               clipPath: 'polygon(18% 0%, 100% 0%, 100% 100%, 0% 100%)',
             }}
           >
-            <span className="text-[clamp(11px,2.5vh,26px)] transform group-hover:scale-110 transition-transform">
+            <span className="text-[clamp(14px,3.1vh,32px)] transform group-hover:scale-110 transition-transform drop-shadow-md">
               ▶
             </span>
-            <span className="drop-shadow-md">PLAY</span>
+            <span className="drop-shadow-lg tracking-wider">PLAY</span>
           </div>
         </button>
       </div>
