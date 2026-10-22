@@ -20,9 +20,28 @@ import './ui/plantArena.css';
  *  - seed:          number, makes runs repeatable (testing)
  *  - autoplay:      true runs a simple bot (testing / attract mode)
  */
-// One source for the thumbstick size, so the coach's cut-out lands exactly on
-// the stick instead of drifting from it.
-const JOY_RADIUS = 56;
+/**
+ * Thumbstick radius in pixels. Sized against the screen like the rest of the
+ * touch UI rather than fixed, so it is a generous target on a tablet without
+ * swallowing a third of a small phone in landscape. Still one source, so the
+ * coach's cut-out lands exactly on the stick instead of drifting from it.
+ */
+const joyRadiusFor = (h) => Math.round(Math.min(104, Math.max(64, h * 0.19)));
+
+function useJoyRadius() {
+  const [radius, setRadius] = useState(() => joyRadiusFor(window.innerHeight));
+  useEffect(() => {
+    const measure = () => setRadius(joyRadiusFor(window.innerHeight));
+    measure();
+    window.addEventListener('resize', measure);
+    window.addEventListener('orientationchange', measure);
+    return () => {
+      window.removeEventListener('resize', measure);
+      window.removeEventListener('orientationchange', measure);
+    };
+  }, []);
+  return radius;
+}
 
 export default function PlantArenaPage({ employeeId = 'NSK-GUEST', onSubmitScore, onExit, quality, seed, autoplay = false }) {
   const canvasRef = useRef(null);
@@ -36,6 +55,7 @@ export default function PlantArenaPage({ employeeId = 'NSK-GUEST', onSubmitScore
   const [muted, setMuted] = useState(audio.muted);
   const [opening, setOpening] = useState(false);
   const [coaching, setCoaching] = useState(false);
+  const joyRadius = useJoyRadius();
   // Mirrored in a ref so the joystick's engage handler can read it without
   // being rebuilt on every change, and without a state updater having to do
   // the reading for it.
@@ -158,8 +178,8 @@ export default function PlantArenaPage({ employeeId = 'NSK-GUEST', onSubmitScore
           {opening && <div className="pa-hint"><span>SMASH THE WOODEN CRATE</span></div>}
           {banner && !coaching && <div className="pa-banner">{banner}</div>}
           {toast && <div className="pa-toast">{toast}</div>}
-          {coaching && <JoystickCoach size={JOY_RADIUS * 2} />}
-          <VirtualJoystick onChange={joy} onEngage={joyEngaged} radius={JOY_RADIUS} />
+          {coaching && <JoystickCoach size={joyRadius * 2} />}
+          <VirtualJoystick onChange={joy} onEngage={joyEngaged} radius={joyRadius} />
           <SmartActionButton action={snap.action} onPress={press} />
         </div>
       )}

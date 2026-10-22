@@ -506,7 +506,6 @@ export default function BearingRunnerPage() {
             <div key={`o-${qIdx}`} className="grid grid-cols-4 gap-2.5 game-options-enter max-w-[min(94vw,160vh)] mx-auto w-full items-stretch h-[clamp(48px,11.5vh,102px)]">
               {LANE_LABELS.map((label, idx) => {
                 const isSelected = playerLane === idx;
-                const isCorrectAnswer = currentQ.correct === label;
                 return (
                   <button
                     key={label}
@@ -517,13 +516,6 @@ export default function BearingRunnerPage() {
                         : 'bg-[#080d1a]/95 border-2 border-slate-700/80 hover:border-cyan-400/60 hover:bg-[#0f172a] backdrop-blur-md text-white shadow-md'
                     }`}
                   >
-                    {/* [TESTING HELPER] Dot on correct answer */}
-                    {isCorrectAnswer && (
-                      <span
-                        title="[Testing Mode] Correct Answer"
-                        className="absolute top-1 right-1 w-2.5 h-2.5 rounded-full bg-emerald-400 border border-emerald-200 shadow-sm shadow-emerald-400 animate-pulse pointer-events-none z-20"
-                      />
-                    )}
                     {isSelected && <div className="absolute inset-0 game-option-shimmer pointer-events-none rounded-2xl" />}
                     
                     {/* Letter Badge (A, B, C, D) - Fluid Proportions */}
