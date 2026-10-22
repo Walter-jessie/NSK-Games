@@ -36,6 +36,10 @@ export default function PlantArenaPage({ employeeId = 'NSK-GUEST', onSubmitScore
   const [muted, setMuted] = useState(audio.muted);
   const [opening, setOpening] = useState(false);
   const [coaching, setCoaching] = useState(false);
+  // Mirrored in a ref so the joystick's engage handler can read it without
+  // being rebuilt on every change, and without a state updater having to do
+  // the reading for it.
+  const coachingRef = useRef(false);
   const submitted = useRef(false);
 
   // Create a fresh engine per run.
@@ -107,6 +111,7 @@ export default function PlantArenaPage({ employeeId = 'NSK-GUEST', onSubmitScore
   const start = useCallback(() => {
     // The coach comes first and the crate hint follows it, so the two are never
     // on screen together. The 5 s opening grace covers this, with no drones out.
+    coachingRef.current = true;
     setCoaching(true);
     audio.unlock();
     requestFullscreen().catch(() => {});
@@ -122,10 +127,10 @@ export default function PlantArenaPage({ employeeId = 'NSK-GUEST', onSubmitScore
   }, []);
   const joy = useCallback((x, z) => engineRef.current?.setJoystick(x, z), []);
   const joyEngaged = useCallback(() => {
-    setCoaching((on) => {
-      if (on) setOpening(true);
-      return false;
-    });
+    if (!coachingRef.current) return;
+    coachingRef.current = false;
+    setCoaching(false);
+    setOpening(true); // hand over to the crate hint
   }, []);
 
   const phase = snap?.phase ?? 'ready';

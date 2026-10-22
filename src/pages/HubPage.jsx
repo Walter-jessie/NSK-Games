@@ -388,12 +388,12 @@ export default function HubPage() {
         </div>
       </footer>
 
-      {/* ── DIFFICULTY MODAL (Compact 2x2 Grid · Fits Mobile Landscape Perfectly) ── */}
+      {/* ── DIFFICULTY MODAL (Compact 2x2 Grid · Fits Mobile Landscape Perfectly · Straight Industrial Panels) ── */}
       {showDifficultyModal && (
         <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-sm p-3 animate-scale-in">
-          <div className="relative bg-[#f8fafc] max-w-md w-full rounded-2xl shadow-2xl shadow-black/60 overflow-hidden border border-slate-300">
+          <div className="relative bg-[#f8fafc] max-w-md w-full rounded-none shadow-2xl shadow-black/70 overflow-hidden border-2 border-slate-400">
             {/* NSK Red accent top bar */}
-            <div className="h-1.5 w-full bg-gradient-to-r from-[#E60012] via-[#ff1a2e] to-[#E60012]" />
+            <div className="h-1.5 w-full bg-[#E60012]" />
 
             {/* Subtle CAD watermark */}
             <div
@@ -405,14 +405,14 @@ export default function HubPage() {
               {/* Header */}
               <div className="flex items-center justify-between pb-1.5 border-b border-slate-200">
                 <div className="flex items-center gap-2">
-                  <span className="w-2 h-3.5 rounded-sm bg-red-600" />
+                  <span className="w-2 h-3.5 bg-red-600" />
                   <h3 className="font-heading text-sm sm:text-base font-black text-slate-900 tracking-wide uppercase">
                     Select Difficulty
                   </h3>
                 </div>
                 <button
                   onClick={() => setShowDifficultyModal(false)}
-                  className="w-7 h-7 rounded-lg border border-slate-300 hover:border-red-600 bg-white hover:bg-red-50 flex items-center justify-center text-slate-500 hover:text-red-600 transition-all text-xs font-bold"
+                  className="w-7 h-7 rounded-none border border-slate-300 hover:border-red-600 bg-white hover:bg-red-50 flex items-center justify-center text-slate-500 hover:text-red-600 transition-all text-xs font-bold"
                   title="Close"
                 >
                   ✕
@@ -427,10 +427,10 @@ export default function HubPage() {
                     <div
                       key={lvl.id}
                       onClick={() => setSelectedDifficulty(lvl.id)}
-                      className={`flex items-center justify-between px-3 py-2 rounded-xl border-2 cursor-pointer transition-all active:scale-[0.98] ${
+                      className={`flex items-center justify-between px-3 py-2.5 rounded-none border-2 cursor-pointer transition-all active:scale-[0.98] ${
                         isSelected
                           ? 'bg-white border-red-600 shadow-md shadow-red-600/15 ring-1 ring-red-500/20'
-                          : 'bg-white border-slate-200 hover:border-slate-400'
+                          : 'bg-white border-slate-300 hover:border-slate-500'
                       }`}
                     >
                       <h4 className={`font-heading font-black text-xs sm:text-sm tracking-wider uppercase ${
@@ -439,11 +439,11 @@ export default function HubPage() {
                         {lvl.name}
                       </h4>
                       {isSelected ? (
-                        <span className="w-5 h-5 rounded-full bg-red-600 text-white flex items-center justify-center text-[10px] font-black shadow-sm">
+                        <span className="w-5 h-5 rounded-none bg-red-600 text-white flex items-center justify-center text-[10px] font-black shadow-sm">
                           ✓
                         </span>
                       ) : (
-                        <span className="w-5 h-5 rounded-full border border-slate-300" />
+                        <span className="w-5 h-5 rounded-none border-2 border-slate-300" />
                       )}
                     </div>
                   );
@@ -454,16 +454,15 @@ export default function HubPage() {
               <div className="flex gap-2 pt-1">
                 <button
                   onClick={() => setShowDifficultyModal(false)}
-                  className="flex-1 py-2 rounded-xl border border-slate-300 hover:border-red-600 bg-white hover:bg-red-50 text-slate-700 hover:text-red-600 text-xs font-heading font-bold uppercase tracking-wider text-center transition-all active:scale-[0.99]"
+                  className="flex-1 py-2.5 rounded-none border-2 border-slate-300 hover:border-red-600 bg-white hover:bg-red-50 text-slate-800 hover:text-red-600 text-xs font-heading font-black uppercase tracking-wider text-center transition-all active:scale-[0.99]"
                 >
                   Cancel
                 </button>
                 <button
                   id="btn-launch-game"
                   onClick={() => handleLaunchGame(selectedDifficulty)}
-                  className="flex-[1.5] py-2 rounded-xl bg-slate-900 hover:bg-red-600 active:bg-red-700 text-white text-xs sm:text-sm font-heading font-black uppercase tracking-widest text-center flex items-center justify-center gap-1.5 shadow-md shadow-slate-900/20 hover:shadow-red-600/30 transition-all active:scale-[0.99]"
+                  className="flex-[1.5] py-2.5 rounded-none bg-slate-900 hover:bg-red-600 active:bg-red-700 text-white text-xs sm:text-sm font-heading font-black uppercase tracking-widest text-center flex items-center justify-center gap-1.5 shadow-md shadow-slate-900/20 hover:shadow-red-600/30 border-2 border-slate-900 hover:border-red-600 transition-all active:scale-[0.99]"
                 >
-                  <span>▶</span>
                   <span>PLAY</span>
                 </button>
               </div>

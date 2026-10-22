@@ -65,27 +65,27 @@ export default function LeaderboardPage() {
   const getRankStyle = (i) => {
     if (i === 0)
       return {
-        bg: 'bg-gradient-to-r from-amber-50 via-white to-amber-50/50 border-amber-300/90 shadow-sm ring-1 ring-amber-300/40',
+        bg: 'bg-gradient-to-r from-amber-50/80 via-white to-amber-50/30 border-l-4 border-l-amber-500 border-t border-r border-b border-amber-200/90 shadow-xs',
         badge: '🥇',
         badgeClass: 'text-2xl',
         color: 'text-amber-600',
       };
     if (i === 1)
       return {
-        bg: 'bg-gradient-to-r from-slate-100 via-white to-slate-50 border-slate-300 shadow-sm ring-1 ring-slate-300/40',
+        bg: 'bg-gradient-to-r from-slate-100/80 via-white to-slate-50 border-l-4 border-l-slate-400 border-t border-r border-b border-slate-300 shadow-xs',
         badge: '🥈',
         badgeClass: 'text-2xl',
         color: 'text-slate-500',
       };
     if (i === 2)
       return {
-        bg: 'bg-gradient-to-r from-orange-50 via-white to-orange-50/50 border-orange-300 shadow-sm ring-1 ring-orange-300/40',
+        bg: 'bg-gradient-to-r from-orange-50/80 via-white to-orange-50/30 border-l-4 border-l-amber-700 border-t border-r border-b border-orange-200/90 shadow-xs',
         badge: '🥉',
         badgeClass: 'text-2xl',
         color: 'text-amber-700',
       };
     return {
-      bg: 'bg-white/85 backdrop-blur-xs border-slate-200/90 hover:border-slate-300 hover:bg-white shadow-xs',
+      bg: 'bg-white/90 backdrop-blur-xs border-l-4 border-l-slate-300 border-t border-r border-b border-slate-200/90 hover:border-l-slate-500 hover:bg-white shadow-xs',
       badge: `#${i + 1}`,
       badgeClass: 'font-mono font-black text-sm sm:text-base text-slate-500',
       color: 'text-slate-600',
@@ -111,13 +111,13 @@ export default function LeaderboardPage() {
         <line x1="0" y1="80" x2="100" y2="80" stroke="#cbd5e1" strokeWidth="0.15" strokeDasharray="1,2" />
       </svg>
 
-      {/* Header */}
-      <header className="relative z-10 flex flex-wrap items-center justify-between px-3 sm:px-5 py-2 sm:py-2.5 border-b border-slate-200 bg-white/90 backdrop-blur-md shadow-xs gap-2">
+      {/* Header — Straight sharp panels & borders matching home page */}
+      <header className="relative z-10 flex flex-wrap items-center justify-between px-3 sm:px-5 py-2 sm:py-2.5 border-b-2 border-slate-300 bg-white/95 backdrop-blur-md shadow-xs gap-2">
         {/* Left: Back button + Title */}
         <div className="flex items-center gap-2 sm:gap-3">
           <button
             onClick={() => navigate('/hub')}
-            className="text-slate-600 hover:text-slate-900 p-1.5 rounded-lg border border-slate-200 bg-white shadow-xs hover:bg-slate-50 transition-all flex items-center justify-center cursor-pointer"
+            className="text-slate-700 hover:text-slate-900 p-1.5 rounded-none border border-slate-300 bg-white shadow-xs hover:border-slate-800 hover:bg-slate-50 transition-all flex items-center justify-center cursor-pointer active:scale-95"
             title="Return to Training Hub"
           >
             <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -125,21 +125,21 @@ export default function LeaderboardPage() {
             </svg>
           </button>
           <div className="flex items-center gap-2">
-            <div className="w-1.5 h-4 sm:h-5 bg-[#E60012] rounded-full" />
-            <h1 className="font-heading text-xs sm:text-base font-black text-slate-900 tracking-tight leading-none">
+            <div className="w-1.5 h-4 sm:h-5 bg-[#E60012]" />
+            <h1 className="font-heading text-xs sm:text-base font-black text-slate-900 tracking-tight leading-none uppercase">
               LEADERBOARD
             </h1>
           </div>
         </div>
 
-        {/* Center: Game 1 vs Game 2 Buttons */}
-        <div className="flex items-center bg-slate-100 p-0.5 rounded-xl border border-slate-200/90 shadow-inner">
+        {/* Center: Game 1 vs Game 2 Buttons (Sharp straight panels) */}
+        <div className="flex items-center bg-slate-100 p-0.5 rounded-none border border-slate-300 shadow-inner">
           <button
             onClick={() => setActiveGame('game1')}
-            className={`px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-lg font-heading text-[11px] sm:text-xs font-black transition-all flex items-center gap-1.5 cursor-pointer ${
+            className={`px-3 sm:px-4 py-1.5 rounded-none font-heading text-[11px] sm:text-xs font-black transition-all flex items-center gap-1.5 cursor-pointer uppercase tracking-wider ${
               activeGame === 'game1'
                 ? 'bg-[#E60012] text-white shadow-xs'
-                : 'text-slate-600 hover:text-slate-900 hover:bg-white/60'
+                : 'text-slate-600 hover:text-slate-900 hover:bg-white'
             }`}
           >
             <span>🏃</span>
@@ -147,10 +147,10 @@ export default function LeaderboardPage() {
           </button>
           <button
             onClick={() => setActiveGame('game2')}
-            className={`px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-lg font-heading text-[11px] sm:text-xs font-black transition-all flex items-center gap-1.5 cursor-pointer ${
+            className={`px-3 sm:px-4 py-1.5 rounded-none font-heading text-[11px] sm:text-xs font-black transition-all flex items-center gap-1.5 cursor-pointer uppercase tracking-wider ${
               activeGame === 'game2'
                 ? 'bg-slate-900 text-white shadow-xs'
-                : 'text-slate-600 hover:text-slate-900 hover:bg-white/60'
+                : 'text-slate-600 hover:text-slate-900 hover:bg-white'
             }`}
           >
             <span>🔧</span>
@@ -161,13 +161,13 @@ export default function LeaderboardPage() {
         {/* Right: Guest Mode Toggle, Plant/Dept Filter, & Refresh Button */}
         <div className="flex items-center gap-1.5 sm:gap-2">
           {/* Guest Mode Separate Toggle */}
-          <div className="flex items-center bg-slate-100 p-0.5 rounded-lg border border-slate-200 text-[10px] sm:text-xs">
+          <div className="flex items-center bg-slate-100 p-0.5 rounded-none border border-slate-300 text-[10px] sm:text-xs">
             <button
               onClick={() => setUserTypeFilter('employees')}
-              className={`px-2 sm:px-2.5 py-1 rounded-md font-heading font-bold transition-all cursor-pointer ${
+              className={`px-2.5 sm:px-3 py-1 rounded-none font-heading font-black uppercase tracking-wider transition-all cursor-pointer ${
                 userTypeFilter === 'employees'
-                  ? 'bg-white text-slate-900 shadow-xs'
-                  : 'text-slate-500 hover:text-slate-900'
+                  ? 'bg-slate-900 text-white shadow-xs'
+                  : 'text-slate-500 hover:text-slate-900 hover:bg-white'
               }`}
               title="Official employee rankings"
             >
@@ -175,10 +175,10 @@ export default function LeaderboardPage() {
             </button>
             <button
               onClick={() => setUserTypeFilter('guests')}
-              className={`px-2 sm:px-2.5 py-1 rounded-md font-heading font-bold transition-all cursor-pointer ${
+              className={`px-2.5 sm:px-3 py-1 rounded-none font-heading font-black uppercase tracking-wider transition-all cursor-pointer ${
                 userTypeFilter === 'guests'
                   ? 'bg-amber-500 text-white shadow-xs font-black'
-                  : 'text-slate-500 hover:text-slate-900'
+                  : 'text-slate-500 hover:text-slate-900 hover:bg-white'
               }`}
               title="Guest runs"
             >
@@ -187,23 +187,23 @@ export default function LeaderboardPage() {
           </div>
 
           {/* Plant / Dept Filter */}
-          <div className="flex items-center bg-slate-100 p-0.5 rounded-lg border border-slate-200 text-[10px] sm:text-xs">
+          <div className="flex items-center bg-slate-100 p-0.5 rounded-none border border-slate-300 text-[10px] sm:text-xs">
             <button
               onClick={() => setDeptFilter('all')}
-              className={`px-2 sm:px-2.5 py-1 rounded-md font-heading font-bold transition-all cursor-pointer ${
+              className={`px-2.5 sm:px-3 py-1 rounded-none font-heading font-black uppercase tracking-wider transition-all cursor-pointer ${
                 deptFilter === 'all'
-                  ? 'bg-white text-slate-900 shadow-xs'
-                  : 'text-slate-500 hover:text-slate-900'
+                  ? 'bg-white text-slate-900 shadow-xs border border-slate-300'
+                  : 'text-slate-500 hover:text-slate-900 hover:bg-white'
               }`}
             >
               All Plant
             </button>
             <button
               onClick={() => setDeptFilter('dept')}
-              className={`px-2 sm:px-2.5 py-1 rounded-md font-heading font-bold transition-all cursor-pointer ${
+              className={`px-2.5 sm:px-3 py-1 rounded-none font-heading font-black uppercase tracking-wider transition-all cursor-pointer ${
                 deptFilter === 'dept'
-                  ? 'bg-white text-slate-900 shadow-xs'
-                  : 'text-slate-500 hover:text-slate-900'
+                  ? 'bg-white text-slate-900 shadow-xs border border-slate-300'
+                  : 'text-slate-500 hover:text-slate-900 hover:bg-white'
               }`}
             >
               My Dept
@@ -214,7 +214,7 @@ export default function LeaderboardPage() {
           <button
             onClick={() => fetchScores(true)}
             disabled={isRefreshing || isLoading}
-            className="text-slate-600 hover:text-slate-900 p-1.5 rounded-lg border border-slate-200 bg-white shadow-xs hover:bg-slate-50 active:scale-95 transition-all cursor-pointer"
+            className="text-slate-700 hover:text-slate-900 p-1.5 rounded-none border border-slate-300 bg-white shadow-xs hover:border-slate-800 hover:bg-slate-50 active:scale-95 transition-all cursor-pointer"
             title="Refresh rankings"
           >
             <svg
@@ -242,12 +242,12 @@ export default function LeaderboardPage() {
               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
             </svg>
-            <p className="text-xs sm:text-sm font-heading font-bold text-slate-600">Syncing rankings...</p>
+            <p className="text-xs sm:text-sm font-heading font-bold text-slate-600 uppercase tracking-wider">Syncing rankings...</p>
           </div>
         ) : filteredScores.length === 0 ? (
-          <div className="flex flex-col items-center justify-center h-full text-center max-w-md mx-auto p-6 rounded-2xl bg-white/90 border border-slate-200 shadow-sm">
+          <div className="flex flex-col items-center justify-center h-full text-center max-w-md mx-auto p-6 rounded-none bg-white/95 border-2 border-slate-300 shadow-sm">
             <span className="text-5xl mb-3">🏆</span>
-            <p className="font-heading font-black text-slate-900 text-xl tracking-tight">
+            <p className="font-heading font-black text-slate-900 text-xl tracking-tight uppercase">
               {userTypeFilter === 'guests' ? 'No Guest Runs Yet' : 'No Employee Scores Yet'}
             </p>
             <p className="text-xs font-medium text-slate-600 mt-1.5">
@@ -257,13 +257,13 @@ export default function LeaderboardPage() {
             </p>
             <button
               onClick={() => navigate(activeGame === 'game1' ? '/game/bearing-runner' : '/game/plant-arena')}
-              className="mt-4 py-2.5 px-5 rounded-xl font-heading font-black text-xs text-white bg-[#E60012] hover:bg-[#c90010] active:scale-98 transition-all shadow-md shadow-red-600/20 cursor-pointer"
+              className="mt-4 py-2.5 px-6 rounded-none font-heading font-black text-xs text-white bg-[#E60012] hover:bg-[#c90010] active:scale-98 transition-all shadow-md shadow-red-600/20 uppercase tracking-widest cursor-pointer"
             >
               {activeGame === 'game1' ? 'Launch Bearing Runner →' : 'Launch Plant Arena →'}
             </button>
           </div>
         ) : (
-          <div className="space-y-2.5 max-w-3xl mx-auto">
+          <div className="space-y-2 max-w-3xl mx-auto">
             {filteredScores.map((entry, i) => {
               const rank = getRankStyle(i);
               const isSelf = entry.employeeId === employeeId;
@@ -271,8 +271,8 @@ export default function LeaderboardPage() {
               return (
                 <div
                   key={`${entry.employeeId}-${i}`}
-                  className={`flex items-center gap-3 sm:gap-4 px-3.5 sm:px-4 py-2.5 sm:py-3 rounded-2xl border transition-all ${rank.bg} ${
-                    isSelf ? 'ring-2 ring-[#E60012] border-[#E60012]/40 bg-red-50/70' : ''
+                  className={`flex items-center gap-3 sm:gap-4 px-3.5 sm:px-4 py-2.5 sm:py-3 rounded-none transition-all ${rank.bg} ${
+                    isSelf ? 'ring-2 ring-[#E60012] border-l-[#E60012] bg-red-50/70' : ''
                   }`}
                 >
                   {/* Rank */}
@@ -285,32 +285,32 @@ export default function LeaderboardPage() {
                     <p className="text-sm sm:text-base font-heading font-black tracking-tight text-slate-900 truncate flex items-center gap-1.5">
                       <span>{entry.employeeId}</span>
                       {isSelf && (
-                        <span className="text-[9px] font-mono font-bold text-[#E60012] bg-red-100 border border-red-300 px-1 py-0.5 rounded uppercase">
+                        <span className="text-[9px] font-mono font-bold text-[#E60012] bg-red-100 border border-red-300 px-1 py-0.5 rounded-none uppercase">
                           YOU
                         </span>
                       )}
                       {entry.isGuest && (
-                        <span className="text-[9px] font-mono font-bold text-amber-700 bg-amber-100 border border-amber-300 px-1 py-0.5 rounded uppercase">
+                        <span className="text-[9px] font-mono font-bold text-amber-700 bg-amber-100 border border-amber-300 px-1 py-0.5 rounded-none uppercase">
                           GUEST
                         </span>
                       )}
                     </p>
-                    <p className="text-[11px] sm:text-xs font-semibold text-slate-500 truncate">
+                    <p className="text-[11px] sm:text-xs font-semibold text-slate-500 truncate uppercase tracking-wide">
                       {deptMap[entry.department] || entry.department || 'NSK Chennai'}
                     </p>
                   </div>
 
-                  {/* Both Game 1 and Game 2 Scores for this player */}
+                  {/* Both Game 1 and Game 2 Scores for this player (Sharp Straight Panels) */}
                   <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
                     {/* Game 1 Box */}
                     <div
-                      className={`px-2 sm:px-3 py-1 rounded-xl border text-right transition-all min-w-[76px] sm:min-w-[96px] ${
+                      className={`px-2.5 sm:px-3 py-1 rounded-none border text-right transition-all min-w-[76px] sm:min-w-[96px] ${
                         activeGame === 'game1'
-                          ? 'bg-red-50/90 border-[#E60012]/50 shadow-xs ring-1 ring-red-300'
-                          : 'bg-slate-100/70 border-slate-200 opacity-60'
+                          ? 'bg-red-50/90 border-2 border-[#E60012] shadow-xs'
+                          : 'bg-slate-100/70 border border-slate-300 opacity-60'
                       }`}
                     >
-                      <span className="text-[8px] sm:text-[9px] font-heading font-black uppercase tracking-wider block text-slate-500">
+                      <span className="text-[8px] sm:text-[9px] font-heading font-black uppercase tracking-wider block text-slate-600">
                         🏃 Game 1
                       </span>
                       {entry.game1?.played ? (
@@ -319,7 +319,7 @@ export default function LeaderboardPage() {
                             {entry.game1.correctCount}
                           </span>
                           <span className="text-[9px] sm:text-[10px] font-bold text-slate-500">/10</span>
-                          <span className="text-[9px] sm:text-[10px] font-mono font-semibold text-emerald-700 hidden sm:inline">
+                          <span className="text-[9px] sm:text-[10px] font-mono font-bold text-emerald-700 hidden sm:inline">
                             ({entry.game1.score}p)
                           </span>
                         </div>
@@ -330,14 +330,14 @@ export default function LeaderboardPage() {
 
                     {/* Game 2 Box */}
                     <div
-                      className={`px-2 sm:px-3 py-1 rounded-xl border text-right transition-all min-w-[76px] sm:min-w-[96px] ${
+                      className={`px-2.5 sm:px-3 py-1 rounded-none border text-right transition-all min-w-[76px] sm:min-w-[96px] ${
                         activeGame === 'game2'
-                          ? 'bg-slate-900 text-white border-slate-900 shadow-xs ring-1 ring-slate-700'
-                          : 'bg-slate-100/70 border-slate-200 opacity-60'
+                          ? 'bg-slate-900 text-white border-2 border-slate-900 shadow-xs'
+                          : 'bg-slate-100/70 border border-slate-300 opacity-60'
                       }`}
                     >
                       <span className={`text-[8px] sm:text-[9px] font-heading font-black uppercase tracking-wider block ${
-                        activeGame === 'game2' ? 'text-slate-300' : 'text-slate-500'
+                        activeGame === 'game2' ? 'text-slate-300' : 'text-slate-600'
                       }`}>
                         🔧 Game 2
                       </span>
@@ -353,16 +353,14 @@ export default function LeaderboardPage() {
                           }`}>
                             rep
                           </span>
-                          <span className={`text-[9px] sm:text-[10px] font-mono font-semibold hidden sm:inline ${
+                          <span className={`text-[9px] sm:text-[10px] font-mono font-bold hidden sm:inline ${
                             activeGame === 'game2' ? 'text-emerald-400' : 'text-emerald-700'
                           }`}>
                             ({entry.game2.score}p)
                           </span>
                         </div>
                       ) : (
-                        <span className={`text-[10px] sm:text-xs font-mono font-bold ${
-                          activeGame === 'game2' ? 'text-slate-400' : 'text-slate-400'
-                        }`}>
+                        <span className="text-[10px] sm:text-xs font-mono font-bold text-slate-400">
                           --
                         </span>
                       )}
