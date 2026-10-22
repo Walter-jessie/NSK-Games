@@ -25,7 +25,7 @@
        Guarantees every button, icon, and card occupies the exact same visual proportion
        of the screen across all mobile resolutions and display densities, exactly like Unity!
     */
-    font-size: clamp(13px, calc(100vh / 25), 58px);
+    font-size: clamp(13px, calc(100vh / 25), 17.5px);
     height: 100%;
     width: 100%;
     overflow: hidden;

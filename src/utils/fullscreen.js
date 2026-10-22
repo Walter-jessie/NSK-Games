@@ -29,12 +29,42 @@ export function isFullscreen() {
 }
 
 /**
- * Fullscreen Utility
- * In web mode, we avoid calling native DOM requestFullscreen so mobile browsers
- * (like Android Chrome) do not display the persistent bottom "exit full screen" toast.
+ * Request fullscreen with AAA-game immersive settings.
+ * `navigationUI: 'hide'` tells Android Chrome to use immersive sticky mode
+ * where the system bar auto-hides after a brief swipe-down peek.
  */
 export async function requestFullscreen() {
-  return true;
+  if (typeof document === 'undefined') return false;
+  const docEl = document.documentElement;
+  const opts = { navigationUI: 'hide' };
+
+  try {
+    if (docEl.requestFullscreen) {
+      await docEl.requestFullscreen(opts);
+      _wasFullscreenBeforeExit = true;
+      _cancelRecovery();
+      return true;
+    } else if (docEl.webkitRequestFullscreen) {
+      await docEl.webkitRequestFullscreen();
+      _wasFullscreenBeforeExit = true;
+      _cancelRecovery();
+      return true;
+    } else if (docEl.mozRequestFullScreen) {
+      await docEl.mozRequestFullScreen();
+      _wasFullscreenBeforeExit = true;
+      _cancelRecovery();
+      return true;
+    } else if (docEl.msRequestFullscreen) {
+      await docEl.msRequestFullscreen();
+      _wasFullscreenBeforeExit = true;
+      _cancelRecovery();
+      return true;
+    }
+  } catch (err) {
+    console.debug('Fullscreen request deferred/rejected:', err);
+    return false;
+  }
+  return false;
 }
 
 export async function exitFullscreen() {

@@ -249,7 +249,7 @@
 
 /* overlays */
 .pa-overlay { position: absolute; inset: 0; z-index: 4; display: grid; place-items: center; background: radial-gradient(#0b0e1499, #05060abb); backdrop-filter: blur(9px); -webkit-backdrop-filter: blur(9px); padding: 12px; }
-.pa-card { width: min(560px, 92vw); max-height: 92vh; overflow: auto; background: linear-gradient(#1a1e27, #0f1217); border: 2px solid #c4581d; border-radius: 16px; padding: clamp(12px, 3vh, 26px) clamp(16px, 4vw, 30px); box-shadow: 0 20px 60px #000c; }
+.pa-card { width: min(560px, 92vw); max-height: min(92vh, 92%); overflow: auto; background: linear-gradient(#1a1e27, #0f1217); border: 2px solid #c4581d; border-radius: 16px; padding: clamp(12px, 3vh, 26px) clamp(16px, 4vw, 30px); box-shadow: 0 20px 60px #000c; }
 .pa-card h1 { margin: 2px 0 8px; font-size: clamp(20px, 6vh, 38px); color: #ffc75a; text-shadow: 0 3px 0 #5a2a00; }
 .pa-kicker { font-size: clamp(9px, 1.8vh, 13px); color: #ff9a3c; letter-spacing: .2em; }
 .pa-lead { font-family: 'Segoe UI', Roboto, Arial, sans-serif; font-weight: 600; margin: 0 0 8px; font-size: clamp(11px, 2.4vh, 15px); color: #d6dbe4; }
@@ -307,7 +307,7 @@
 @keyframes pa-hint-out { 0%, 80% { opacity: 1; } 100% { opacity: 0; } }
 
 /* --- briefing screen --- */
-.pa-tut { width: min(620px, 94vw); max-height: 94vh; overflow: auto; text-align: center; padding: clamp(10px, 2.5vh, 22px) clamp(14px, 4vw, 28px); }
+.pa-tut { width: min(620px, 94vw); max-height: min(94vh, 94%); overflow: auto; text-align: center; padding: clamp(10px, 2.5vh, 22px) clamp(14px, 4vw, 28px); }
 .pa-tut-title { margin: 0; font-size: clamp(22px, 6.4vh, 42px); letter-spacing: .04em; color: #fff; }
 .pa-tut-rule { width: clamp(52px, 9vw, 84px); height: 4px; margin: .5em auto 1em; border-radius: 2px; background: #ffc75a; }
 .pa-tut-chip { display: inline-flex; align-items: center; gap: .55em; margin-bottom: 1.3em; padding: .5em 1.1em; border-radius: 999px; background: #140f08; border: 1px solid #c4581d; color: #ffc75a; font-family: 'Segoe UI', Roboto, Arial, sans-serif; font-weight: 600; font-size: clamp(10px, 2.1vh, 15px); }

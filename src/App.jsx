@@ -94,6 +94,10 @@ export default function App() {
     }
     setTermsAccepted(true);
     setShowTermsModal(false);
+    requestFullscreen().catch(() => {});
+    if (window.screen?.orientation?.lock) {
+      window.screen.orientation.lock('landscape').catch(() => {});
+    }
   }, []);
 
   useEffect(() => {
@@ -159,7 +163,7 @@ export default function App() {
         transform: flipAngle === 90 ? 'rotate(90deg) translateY(-100%)' : 'rotate(-90deg) translateX(-100%)',
         transformOrigin: 'top left',
         overflow: 'hidden',
-        fontSize: `clamp(13px, calc(${viewportDim.w}px / 25), 44px)`,
+        fontSize: `clamp(13px, calc(${viewportDim.w}px / 25), 17.5px)`,
       }
     : {
         width: '100%',

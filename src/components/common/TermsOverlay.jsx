@@ -23,7 +23,7 @@ export default function TermsOverlay({ isOpen, isGatekeeper = true, onAccept, on
 
   return (
     <div
-      className="fixed inset-0 z-[999999] flex items-center justify-center p-2.5 sm:p-4 select-none font-body overflow-hidden animate-fade-in"
+      className="fixed inset-0 z-[999999] flex items-center justify-center p-2 sm:p-3 select-none font-body overflow-hidden animate-fade-in"
       role="dialog"
       aria-modal="true"
       aria-labelledby="terms-modal-title"
@@ -36,7 +36,7 @@ export default function TermsOverlay({ isOpen, isGatekeeper = true, onAccept, on
 
       {/* ── Compact Sharp Straight Technical Card (Pure White, No Curves) ── */}
       <div
-        className="relative z-10 w-full max-w-lg bg-white border-2 border-slate-300 shadow-2xl flex flex-col max-h-[84vh] sm:max-h-[80vh] rounded-none overflow-hidden"
+        className="relative z-10 w-full max-w-[min(540px,94%)] bg-white border-2 border-slate-300 shadow-2xl flex flex-col max-h-[92%] h-auto rounded-none overflow-hidden"
         style={{
           boxShadow: '0 20px 40px -10px rgba(15, 23, 42, 0.35)',
         }}
@@ -56,18 +56,18 @@ export default function TermsOverlay({ isOpen, isGatekeeper = true, onAccept, on
         </div>
 
         {/* ── Header: Title + Subtitle + Official NSK Logo ── */}
-        <div className="relative z-10 px-3.5 sm:px-4 py-2 border-b border-slate-200 bg-white/95 flex items-center justify-between gap-2 shrink-0">
+        <div className="relative z-10 px-3 sm:px-4 py-1.5 border-b border-slate-200 bg-white/95 flex items-center justify-between gap-2 shrink-0">
           <div>
             <div className="flex items-center gap-1.5">
-              <span className="w-1.5 h-4 bg-[#E60012]" />
+              <span className="w-1.5 h-3.5 bg-[#E60012]" />
               <h2
                 id="terms-modal-title"
-                className="font-heading font-black text-sm sm:text-base text-slate-900 uppercase tracking-tight leading-none"
+                className="font-heading font-black text-xs sm:text-sm text-slate-900 uppercase tracking-tight leading-none"
               >
                 Terms of Use
               </h2>
             </div>
-            <p className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider mt-0.5 pl-3">
+            <p className="text-[9.5px] sm:text-[10px] font-semibold text-slate-500 uppercase tracking-wider mt-0.5 pl-3">
               Please read carefully before proceeding
             </p>
           </div>
@@ -76,7 +76,7 @@ export default function TermsOverlay({ isOpen, isGatekeeper = true, onAccept, on
             <img
               src="./nsk_logo.png"
               alt="NSK"
-              className="h-5 sm:h-6 w-auto object-contain"
+              className="h-4 sm:h-5 w-auto object-contain"
             />
             {!isGatekeeper && (
               <button
@@ -94,10 +94,10 @@ export default function TermsOverlay({ isOpen, isGatekeeper = true, onAccept, on
         </div>
 
         {/* ── Body: Callout Banner + Scrollable Legal Sections ── */}
-        <div className="relative z-10 flex-1 overflow-y-auto px-3.5 sm:px-4 py-2.5 space-y-2 text-[11px] sm:text-xs text-slate-600">
+        <div className="relative z-10 flex-1 min-h-0 overflow-y-auto px-3 sm:px-4 py-2 space-y-1.5 text-[10.5px] sm:text-xs text-slate-600">
           {/* Institutional Callout Panel */}
-          <div className="p-2 sm:p-2.5 bg-slate-50 border-l-3 border-l-[#E60012] border-t border-r border-b border-slate-200 rounded-none">
-            <p className="leading-snug text-[10.5px] sm:text-[11px] text-slate-700">
+          <div className="p-1.5 sm:p-2 bg-slate-50 border-l-3 border-l-[#E60012] border-t border-r border-b border-slate-200 rounded-none">
+            <p className="leading-snug text-[10px] sm:text-[10.5px] text-slate-700">
               Developed by <strong className="font-bold text-slate-900">Quexi Technologies</strong> for{' '}
               <strong className="font-bold text-slate-900">NSK Bearings India Pvt. Ltd.</strong> Content is for
               educational and event use only.
@@ -105,9 +105,9 @@ export default function TermsOverlay({ isOpen, isGatekeeper = true, onAccept, on
           </div>
 
           {/* Section 1: Educational Intent */}
-          <section className="border-b border-slate-100 pb-1.5">
-            <h3 className="font-heading font-black text-[11px] sm:text-xs text-slate-900 uppercase tracking-wider mb-0.5 flex items-center gap-1">
-              <span className="w-1 h-2.5 bg-slate-400" />
+          <section className="border-b border-slate-100 pb-1">
+            <h3 className="font-heading font-black text-[10.5px] sm:text-[11px] text-slate-900 uppercase tracking-wider mb-0.5 flex items-center gap-1">
+              <span className="w-1 h-2 bg-slate-400" />
               Educational Intent
             </h3>
             <p className="leading-snug text-slate-600 pl-2">
@@ -116,9 +116,9 @@ export default function TermsOverlay({ isOpen, isGatekeeper = true, onAccept, on
           </section>
 
           {/* Section 2: No Industrial Liability */}
-          <section className="border-b border-slate-100 pb-1.5">
-            <h3 className="font-heading font-black text-[11px] sm:text-xs text-slate-900 uppercase tracking-wider mb-0.5 flex items-center gap-1">
-              <span className="w-1 h-2.5 bg-slate-400" />
+          <section className="border-b border-slate-100 pb-1">
+            <h3 className="font-heading font-black text-[10.5px] sm:text-[11px] text-slate-900 uppercase tracking-wider mb-0.5 flex items-center gap-1">
+              <span className="w-1 h-2 bg-slate-400" />
               No Industrial Liability
             </h3>
             <p className="leading-snug text-slate-600 pl-2">
@@ -127,9 +127,9 @@ export default function TermsOverlay({ isOpen, isGatekeeper = true, onAccept, on
           </section>
 
           {/* Section 3: Safety Priority */}
-          <section className="border-b border-slate-100 pb-1.5">
-            <h3 className="font-heading font-black text-[11px] sm:text-xs text-slate-900 uppercase tracking-wider mb-0.5 flex items-center gap-1">
-              <span className="w-1 h-2.5 bg-[#E60012]" />
+          <section className="border-b border-slate-100 pb-1">
+            <h3 className="font-heading font-black text-[10.5px] sm:text-[11px] text-slate-900 uppercase tracking-wider mb-0.5 flex items-center gap-1">
+              <span className="w-1 h-2 bg-[#E60012]" />
               Safety Priority
             </h3>
             <p className="leading-snug text-slate-600 pl-2">
@@ -139,8 +139,8 @@ export default function TermsOverlay({ isOpen, isGatekeeper = true, onAccept, on
 
           {/* Section 4: Training & Code of Conduct */}
           <section className="pb-0.5">
-            <h3 className="font-heading font-black text-[11px] sm:text-xs text-slate-900 uppercase tracking-wider mb-0.5 flex items-center gap-1">
-              <span className="w-1 h-2.5 bg-slate-400" />
+            <h3 className="font-heading font-black text-[10.5px] sm:text-[11px] text-slate-900 uppercase tracking-wider mb-0.5 flex items-center gap-1">
+              <span className="w-1 h-2 bg-slate-400" />
               Code of Conduct
             </h3>
             <p className="leading-snug text-slate-600 pl-2">
@@ -150,8 +150,8 @@ export default function TermsOverlay({ isOpen, isGatekeeper = true, onAccept, on
         </div>
 
         {/* ── Footer: Copyright + ACCEPT Button (Compact & Single-Word) ── */}
-        <div className="relative z-10 px-3.5 sm:px-4 py-2 border-t border-slate-200 bg-slate-50/95 flex items-center justify-between gap-2 shrink-0">
-          <p className="text-[9px] sm:text-[10px] font-mono text-slate-500 tracking-tight">
+        <div className="relative z-10 px-3 sm:px-4 py-1.5 border-t border-slate-200 bg-slate-50/95 flex items-center justify-between gap-2 shrink-0">
+          <p className="text-[8.5px] sm:text-[9.5px] font-mono text-slate-500 tracking-tight">
             &copy; 2026 NSK Bearings India &middot; Quexi Technologies
           </p>
 
@@ -160,7 +160,7 @@ export default function TermsOverlay({ isOpen, isGatekeeper = true, onAccept, on
               <button
                 type="button"
                 onClick={onClose}
-                className="px-3 py-1.5 rounded-none font-heading font-black text-[11px] text-slate-700 bg-white hover:bg-slate-100 border border-slate-300 transition-all uppercase tracking-wider cursor-pointer"
+                className="px-2.5 py-1 rounded-none font-heading font-black text-[10px] text-slate-700 bg-white hover:bg-slate-100 border border-slate-300 transition-all uppercase tracking-wider cursor-pointer"
               >
                 Close
               </button>
@@ -169,7 +169,7 @@ export default function TermsOverlay({ isOpen, isGatekeeper = true, onAccept, on
             <button
               type="button"
               onClick={onAccept}
-              className="px-5 sm:px-6 py-1.5 sm:py-2 rounded-none font-heading font-black text-xs text-white bg-[#E60012] hover:bg-[#c90010] active:scale-98 transition-all shadow-sm uppercase tracking-wider cursor-pointer whitespace-nowrap"
+              className="px-4 sm:px-5 py-1 sm:py-1.5 rounded-none font-heading font-black text-[11px] sm:text-xs text-white bg-[#E60012] hover:bg-[#c90010] active:scale-98 transition-all shadow-sm uppercase tracking-wider cursor-pointer whitespace-nowrap"
             >
               ACCEPT
             </button>
