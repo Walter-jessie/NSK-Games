@@ -12,14 +12,10 @@ function checkIsStandalone() {
   );
 }
 
-function checkAlreadySeen() {
+function checkAlreadyDismissed() {
   if (typeof window === 'undefined') return false;
-  return (
-    localStorage.getItem('nsk_pwa_seen') === '1' ||
-    localStorage.getItem('nsk_pwa_installed') === '1' ||
-    localStorage.getItem('nsk_pwa_dismissed') === '1' ||
-    sessionStorage.getItem('nsk_pwa_dismissed') === '1'
-  );
+  // We only dismiss for the active session, or if already running as an installed PWA
+  return sessionStorage.getItem('nsk_pwa_dismissed') === '1';
 }
 
 /**
@@ -28,8 +24,8 @@ function checkAlreadySeen() {
  * - App Icon only
  * - INSTALL button
  * - CONTINUE IN BROWSER button
- * - Only shown on the first time clicking the link
- * - Never shown once installed or previously opened
+ * - Appears on mobile browsers in portrait mode
+ * - Yields to game when installed or user clicks Continue in Browser
  */
 export default function MobilePWAInstallOverlay({ forced = false }) {
   const [deferredPrompt, setDeferredPrompt] = useState(null);
@@ -41,21 +37,32 @@ export default function MobilePWAInstallOverlay({ forced = false }) {
   const [installStatus, setInstallStatus] = useState('idle'); // 'idle' | 'installing' | 'completed'
 
   useEffect(() => {
+    // Clean up any stale or accidental blocking flags from previous versions
+    try {
+      localStorage.removeItem('nsk_pwa_seen');
+      localStorage.removeItem('nsk_pwa_dismissed');
+    } catch (e) {
+      // Ignore
+    }
+
     // 1. Check if already running in standalone/fullscreen PWA mode
     if (checkIsStandalone()) {
       setIsStandalone(true);
       return;
     }
 
-    // 2. Check if user already saw, installed, or dismissed this previously
-    if (checkAlreadySeen()) {
+    // 2. Check if user dismissed for this browser session
+    if (checkAlreadyDismissed()) {
       setIsDismissed(true);
       return;
     }
 
     // 3. Detect mobile device & iOS
     const ua = (navigator.userAgent || '').toLowerCase();
-    const isMobileDevice = /android|iphone|ipad|ipod|mobile|touch/.test(ua) || (window.innerWidth <= 840);
+    const isMobileDevice =
+      /android|iphone|ipad|ipod|mobile|touch/.test(ua) ||
+      window.innerWidth <= 840 ||
+      window.location.search.includes('install');
     setIsMobile(isMobileDevice);
 
     const isIosDevice = /iphone|ipad|ipod/.test(ua);
@@ -76,7 +83,6 @@ export default function MobilePWAInstallOverlay({ forced = false }) {
 
     const handleAppInstalled = () => {
       localStorage.setItem('nsk_pwa_installed', '1');
-      localStorage.setItem('nsk_pwa_seen', '1');
       setInstallStatus('completed');
       setDeferredPrompt(null);
     };
@@ -88,22 +94,19 @@ export default function MobilePWAInstallOverlay({ forced = false }) {
     };
   }, []);
 
-  // Do not render if running as installed app, already seen/dismissed, or on desktop (unless forced via /install route)
+  // Do not render if running as installed app, already dismissed in this session, or on desktop (unless forced)
   if (!forced && (isStandalone || isDismissed || !isMobile)) {
     return null;
   }
 
   const handleDismiss = () => {
     setIsDismissed(true);
-    localStorage.setItem('nsk_pwa_seen', '1');
-    localStorage.setItem('nsk_pwa_dismissed', '1');
     sessionStorage.setItem('nsk_pwa_dismissed', '1');
     window.dispatchEvent(new Event('pwa-dismissed'));
     requestFullscreen().catch(() => {});
   };
 
   const handleInstallClick = async () => {
-    localStorage.setItem('nsk_pwa_seen', '1');
     if (deferredPrompt) {
       try {
         setInstallStatus('installing');

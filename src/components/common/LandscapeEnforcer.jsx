@@ -20,12 +20,11 @@ export default function LandscapeEnforcer() {
       window.matchMedia('(display-mode: minimal-ui)').matches ||
       window.navigator.standalone === true ||
       document.referrer.includes('android-app://');
-    const dismissed =
-      sessionStorage.getItem('nsk_pwa_dismissed') === '1' ||
-      localStorage.getItem('nsk_pwa_seen') === '1' ||
-      localStorage.getItem('nsk_pwa_installed') === '1' ||
-      localStorage.getItem('nsk_pwa_dismissed') === '1';
-    const isMobile = /android|iphone|ipad|ipod|mobile|touch/i.test(navigator.userAgent || '') || (window.innerWidth <= 840);
+    const dismissed = sessionStorage.getItem('nsk_pwa_dismissed') === '1';
+    const isMobile =
+      /android|iphone|ipad|ipod|mobile|touch/i.test(navigator.userAgent || '') ||
+      window.innerWidth <= 840 ||
+      window.location.search.includes('install');
     return isMobile && !standalone && !dismissed;
   });
 
