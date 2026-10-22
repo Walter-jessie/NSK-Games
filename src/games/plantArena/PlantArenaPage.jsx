@@ -50,7 +50,7 @@ export default function PlantArenaPage({ employeeId = 'NSK-GUEST', onSubmitScore
         case 'bearingCollected': audio.pickup(); break;
         case 'machineRepaired': audio.repair(); break;
         case 'machineAttacked': audio.attack(); break;
-        case 'machineFailed': audio.fail(); setToast('TEST RIG LOST!'); break;
+        case 'machineFailed': audio.fail(); setToast('MACHINE BREAKDOWN!'); break;
         case 'needBearings': audio.needBearings(); setToast('FIND AN NSK CRATE FOR BEARINGS'); break;
         case 'waveStarted':
           audio.wave();
@@ -161,16 +161,10 @@ export default function PlantArenaPage({ employeeId = 'NSK-GUEST', onSubmitScore
             <h1 className="pa-tut-title">PLANT ARENA</h1>
             <div className="pa-tut-rule" />
 
-            <div className="pa-tut-chip">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" strokeWidth="2" /><circle cx="12" cy="12" r="3" fill="currentColor" /></svg>
-              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" strokeWidth="2" /><path d="M8 12h8M12 8v8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" /></svg>
-              <span>Left Thumb Moves &amp; Right Thumb Acts</span>
-            </div>
-
             <ol className="pa-tut-steps">
               <li><span className="pa-tut-n">1</span><span>Smash crates to find <b>bearings</b></span></li>
               <li><span className="pa-tut-n">2</span><span>Only crates stamped <b>NSK</b> hold one</span></li>
-              <li><span className="pa-tut-n">3</span><span>Repair the <b>red test rigs</b> before their timers end</span></li>
+              <li><span className="pa-tut-n">3</span><span>Repair <b>failing machines</b> before their timer runs out</span></li>
             </ol>
 
             <button type="button" className="pa-tut-play" onClick={start}>
