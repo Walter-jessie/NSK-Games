@@ -7,20 +7,32 @@ const layout = JSON.parse(readFileSync(new URL('../data/factoryLayout.json', imp
 const step = (g, secs, input) => { for (let i = 0; i < secs * 30; i++) g.update(1 / 30, input); };
 let passed = 0;
 const test = (name, fn) => { fn(); passed++; console.log('ok -', name); };
+// Every run now opens with RULES.firstWaveDelay seconds of grace in which no
+// drone launches and the session clock is held, so tests that wait for a
+// strike have to step past it.
+const GRACE = 5;
 
-test('wave 1 sends exactly one drone that starts a 20 s timer on arrival', () => {
+test('no drone launches during the opening grace', () => {
   const g = createArenaGame(layout, { seed: 1 });
   g.start();
-  step(g, 6);
+  step(g, GRACE - 0.5);
+  assert.equal(g.state.drones.length, 0);
+  assert.equal(g.state.timeLeft, g.rules.sessionSeconds, 'clock is held during grace');
+});
+
+test('wave 1 sends exactly one drone that starts a 30 s timer on arrival', () => {
+  const g = createArenaGame(layout, { seed: 1 });
+  g.start();
+  step(g, GRACE + 6);
   const attacked = g.state.machines.filter((m) => m.status === 'attacked');
   assert.equal(attacked.length, 1);
-  assert.equal(attacked[0].timerMax, 20);
+  assert.equal(attacked[0].timerMax, 30);
 });
 
 test('an unrepaired machine fails, costs 34% and gets replaced by a new strike', () => {
   const g = createArenaGame(layout, { seed: 2 });
   g.start();
-  step(g, 30);
+  step(g, GRACE + 40);
   assert.equal(g.state.failures, 1);
   assert.equal(g.state.integrity, 66);
   assert.ok(g.state.machines.some((m) => m.status === 'attacked' || m.status === 'incoming'));
@@ -29,15 +41,15 @@ test('an unrepaired machine fails, costs 34% and gets replaced by a new strike',
 test('three failures lose the game', () => {
   const g = createArenaGame(layout, { seed: 3 });
   g.start();
-  step(g, 89);
+  step(g, 118);
   assert.equal(g.state.phase, 'lost');
   assert.equal(g.state.failures, 3);
 });
 
-test('smash crate, collect bearing, repair advances the wave and scores', () => {
+test('smash crate, collect bearing, repair scores and counts toward the wave', () => {
   const g = createArenaGame(layout, { seed: 4 });
   g.start();
-  step(g, 6);
+  step(g, GRACE + 6);
   const nsk = g.state.crates.find((c) => c.nsk);
   g.state.player.x = nsk.x + 1.2; g.state.player.z = nsk.z;
   step(g, 0.1);
@@ -57,26 +69,28 @@ test('smash crate, collect bearing, repair advances the wave and scores', () => 
   assert.equal(g.state.action.kind, 'repair');
   g.act();
   assert.equal(g.state.repairs, 1);
-  assert.equal(g.state.waveIndex, 1);
+  // Wave 1 advances after two repairs now, so one repair leaves us in it.
+  assert.equal(g.state.waveIndex, 0);
+  assert.equal(g.state.waveRepairs, 1);
   assert.ok(g.state.timerBonus > 0);
-  step(g, 8);
-  assert.equal(g.state.machines.filter((m) => m.status === 'attacked').length, 2);
+  step(g, 10);
+  assert.equal(g.state.machines.filter((m) => m.status === 'attacked').length, 1);
 });
 
 test('near an attacked machine with no bearings shows NEED BEARINGS', () => {
   const g = createArenaGame(layout, { seed: 5 });
   g.start();
-  step(g, 6);
+  step(g, GRACE + 6);
   const target = g.state.machines.find((m) => m.status === 'attacked');
   g.state.player.x = target.x; g.state.player.z = target.z + 2.6;
   step(g, 0.1);
   assert.equal(g.state.action.kind, 'needBearings');
 });
 
-test('surviving 90 s with integrity left is a win', () => {
+test('surviving the full session with integrity left is a win', () => {
   const g = createArenaGame(layout, { seed: 6, rules: { integrityPerFailure: 10, failuresToLose: 99 } });
   g.start();
-  step(g, 91);
+  step(g, GRACE + 121);
   assert.equal(g.state.phase, 'won');
   assert.equal(g.state.result.reason, 'time');
 });

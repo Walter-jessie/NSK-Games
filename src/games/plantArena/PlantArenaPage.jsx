@@ -4,7 +4,7 @@ import { GameEngine } from './engine/GameEngine.js';
 import { RULES } from './engine/arenaGameStore.js';
 import { audio } from './audio/audioService.js';
 import VirtualJoystick from './ui/VirtualJoystick.jsx';
-import { TopBar, StatusBlock, SmartActionButton, MiniMap } from './ui/PlantArenaHUD.jsx';
+import { TopBar, StatusBlock, SmartActionButton, MiniMap, JoystickCoach } from './ui/PlantArenaHUD.jsx';
 import { requestFullscreen } from '../../utils/fullscreen';
 import './ui/plantArena.css';
 
@@ -20,6 +20,10 @@ import './ui/plantArena.css';
  *  - seed:          number, makes runs repeatable (testing)
  *  - autoplay:      true runs a simple bot (testing / attract mode)
  */
+// One source for the thumbstick size, so the coach's cut-out lands exactly on
+// the stick instead of drifting from it.
+const JOY_RADIUS = 56;
+
 export default function PlantArenaPage({ employeeId = 'NSK-GUEST', onSubmitScore, onExit, quality, seed, autoplay = false }) {
   const canvasRef = useRef(null);
   const markersRef = useRef(null);
@@ -31,6 +35,7 @@ export default function PlantArenaPage({ employeeId = 'NSK-GUEST', onSubmitScore
   const [toast, setToast] = useState(null);
   const [muted, setMuted] = useState(audio.muted);
   const [opening, setOpening] = useState(false);
+  const [coaching, setCoaching] = useState(false);
   const submitted = useRef(false);
 
   // Create a fresh engine per run.
@@ -100,7 +105,9 @@ export default function PlantArenaPage({ employeeId = 'NSK-GUEST', onSubmitScore
   useEffect(() => { if (autoplay && engine) engine.start(); }, [autoplay, engine]);
 
   const start = useCallback(() => {
-    setOpening(true);
+    // The coach comes first and the crate hint follows it, so the two are never
+    // on screen together. The 5 s opening grace covers this, with no drones out.
+    setCoaching(true);
     audio.unlock();
     requestFullscreen().catch(() => {});
     if (screen.orientation?.lock) {
@@ -114,6 +121,12 @@ export default function PlantArenaPage({ employeeId = 'NSK-GUEST', onSubmitScore
     if (engineRef.current) setSnap(engineRef.current.snapshot());
   }, []);
   const joy = useCallback((x, z) => engineRef.current?.setJoystick(x, z), []);
+  const joyEngaged = useCallback(() => {
+    setCoaching((on) => {
+      if (on) setOpening(true);
+      return false;
+    });
+  }, []);
 
   const phase = snap?.phase ?? 'ready';
   return (
@@ -129,9 +142,10 @@ export default function PlantArenaPage({ employeeId = 'NSK-GUEST', onSubmitScore
             {muted ? 'SOUND OFF' : 'SOUND ON'}
           </button>
           {opening && <div className="pa-hint"><span>SMASH THE WOODEN CRATE</span></div>}
-          {banner && <div className="pa-banner">{banner}</div>}
+          {banner && !coaching && <div className="pa-banner">{banner}</div>}
           {toast && <div className="pa-toast">{toast}</div>}
-          <VirtualJoystick onChange={joy} />
+          {coaching && <JoystickCoach size={JOY_RADIUS * 2} />}
+          <VirtualJoystick onChange={joy} onEngage={joyEngaged} radius={JOY_RADIUS} />
           <SmartActionButton action={snap.action} onPress={press} />
         </div>
       )}

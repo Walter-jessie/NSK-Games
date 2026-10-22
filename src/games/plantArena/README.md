@@ -1,6 +1,6 @@
 # Game 2: NSK Plant Arena Repair
 
-A self-contained landscape 3D game for the NSK Bearing Challenge app. Rogue drones attack the 10 NSK test machines; the player smashes NSK crates for bearings and repairs red machines before their timers run out. 90 seconds, 8 repairs wins, 3 failed machines loses.
+A self-contained landscape 3D game for the NSK Bearing Challenge app. Rogue drones attack the 10 NSK test machines; the player smashes NSK crates for bearings and repairs red machines before their timers run out. 120 seconds, 6 repairs wins, 3 failed machines loses. The first 5 seconds are grace: no drones, and the clock is held.
 
 Everything lives in this one folder. It has no backend code and no network calls: it hands the final score to your app through a callback, and your app decides where it goes.
 
