@@ -102,8 +102,13 @@ function notationTexture(text, warm) {
   return tex;
 }
 
-function scatter(rand) {
-  const side = rand() < 0.5 ? -1 : 1;
+/**
+ * Place one panel. `side` is passed in rather than rolled: each panel keeps the
+ * side it was born on, so the field stays balanced left to right. Rolling it
+ * per panel, and again on every recycle, let a handful of panels drift onto the
+ * same side and left one wedge of the screen empty.
+ */
+function scatter(rand, side) {
   // Bias towards the near end. Spread evenly, most of the field bunches at the
   // horizon, which is exactly where the question panel starts.
   const near = Math.pow(rand(), 0.55);
@@ -149,10 +154,11 @@ export function createSkyProps({ count = 5, seed = 1 } = {}) {
     });
     const mesh = new THREE.Mesh(panelGeo, mat);
     mesh.frustumCulled = false;
-    const p = scatter(rand);
+    const side = i % 2 === 0 ? -1 : 1;
+    const p = scatter(rand, side);
     mesh.position.set(p.x, p.y, p.z);
 
-    const panel = { mesh, drift: 0.2 + rand() * 0.22, size: 0.8 + rand() * 0.7 };
+    const panel = { mesh, side, drift: 0.2 + rand() * 0.22, size: 0.8 + rand() * 0.7 };
     dress(panel);
     panels.push(panel);
     group.add(mesh);
@@ -165,7 +171,7 @@ export function createSkyProps({ count = 5, seed = 1 } = {}) {
       for (const panel of panels) {
         panel.mesh.position.z += advance * panel.drift;
         if (panel.mesh.position.z > Z_END) {
-          const n = scatter(rand);
+          const n = scatter(rand, panel.side);
           panel.mesh.position.set(n.x, n.y, Z_START);
           panel.drift = 0.2 + rand() * 0.22;
           panel.size = 0.8 + rand() * 0.7;

@@ -276,14 +276,14 @@ export default function ScoreResultPage() {
                         : 'bg-slate-50/60 border-slate-200/80 opacity-55'
                     }`}
                   >
-                    <span className="mb-0.5 flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 rounded bg-slate-800/90">
+                    <span className="mb-1 flex items-center justify-center w-full max-w-[42px] aspect-square rounded-md bg-slate-800/90">
                       {part.image ? (
-                        <img src={part.image} alt="" className="w-full h-full object-contain" />
+                        <img src={part.image} alt="" className="w-full h-full object-contain p-0.5" />
                       ) : (
-                        <span className="text-[10px] sm:text-xs leading-none">{part.icon}</span>
+                        <span className="text-lg sm:text-xl leading-none">{part.icon}</span>
                       )}
                     </span>
-                    <p className={`text-[7px] font-heading font-bold leading-tight truncate w-full ${
+                    <p className={`text-[8px] sm:text-[9px] font-heading font-bold leading-tight truncate w-full ${
                       isCollected ? 'text-slate-900' : 'text-slate-600'
                     }`}>
                       {part.name}

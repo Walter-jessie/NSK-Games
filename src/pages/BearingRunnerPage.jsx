@@ -569,10 +569,10 @@ export default function BearingRunnerPage() {
               <img
                 src={flyingPart.image}
                 alt=""
-                className="w-14 h-14 sm:w-16 sm:h-16 object-contain drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)]"
+                className="w-24 h-24 sm:w-28 sm:h-28 object-contain drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)]"
               />
             ) : (
-              <span className="text-5xl sm:text-6xl drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)] animate-pulse">{flyingPart.icon}</span>
+              <span className="text-7xl sm:text-8xl drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)] animate-pulse">{flyingPart.icon}</span>
             )}
             <div className="flex items-center gap-1.5 mt-2 bg-cyan-950/90 border border-cyan-400/40 px-3 py-0.5 rounded-full whitespace-nowrap shadow-md">
               <span className="text-[10px] text-cyan-400 font-heading font-black uppercase tracking-wider">

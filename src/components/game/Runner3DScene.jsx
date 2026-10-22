@@ -642,7 +642,7 @@ export default function Runner3DScene({
     // 7.5. Background notation field: symbols drifting out past the rails,
     // where the HUD is not. More of them than before, and fainter, so the bay
     // feels occupied without the text competing with the question panel.
-    const skyProps = createSkyProps({ count: 7 });
+    const skyProps = createSkyProps({ count: 8 }); // even, so the sides split 4/4
     scene.add(skyProps.group);
 
     // 8. Render & Animation Loop

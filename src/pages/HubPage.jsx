@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useAuthStore from '../stores/authStore';
 import useGameStore from '../stores/gameStore';
@@ -37,6 +37,26 @@ export default function HubPage() {
   const [showDifficultyModal, setShowDifficultyModal] = useState(false);
   const [selectedDifficulty, setSelectedDifficulty] = useState('medium');
   const [lockedToast, setLockedToast] = useState(false);
+
+  // Hidden 4-tap gesture on NSK Logo to switch directly to Game 2 (Plant Arena)
+  const logoTapRef = useRef({ count: 0, timer: null });
+
+  const handleLogoTap = () => {
+    if (logoTapRef.current.timer) {
+      clearTimeout(logoTapRef.current.timer);
+    }
+    logoTapRef.current.count += 1;
+
+    if (logoTapRef.current.count >= 4) {
+      logoTapRef.current.count = 0;
+      navigate('/game/plant-arena');
+      return;
+    }
+
+    logoTapRef.current.timer = setTimeout(() => {
+      logoTapRef.current.count = 0;
+    }, 1500);
+  };
 
   const handleGame2Click = () => {
     setLockedToast(true);
@@ -171,26 +191,17 @@ export default function HubPage() {
           </button>
         </div>
 
-        {/* Temporary Fast-Testing Dummy Button for Game 2 */}
-        <button
-          id="btn-fast-test-game2"
-          onClick={() => navigate('/game/plant-arena')}
-          className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-900/90 hover:bg-slate-800 text-amber-300 border border-amber-400/80 text-xs font-mono font-bold tracking-wider transition-all shadow-md active:scale-95 animate-pulse"
-          title="Fast Testing: Click to jump directly to Game 2 (Plant Arena Repair)"
+        {/* Top-Right: Pure NSK Logo (Tap 4 times to launch Game 2 Plant Arena) */}
+        <div
+          onClick={handleLogoTap}
+          className="flex items-center gap-2 cursor-pointer select-none active:scale-95 transition-transform"
+          style={{ touchAction: 'manipulation' }}
+          title="NSK"
         >
-          <span>🔬</span>
-          <span>TEST GAME 2</span>
-          <span className="text-[9px] bg-amber-400 text-slate-950 px-1 py-0.2 rounded font-black uppercase">
-            DEV
-          </span>
-        </button>
-
-        {/* Top-Right: Pure NSK Logo */}
-        <div className="flex items-center gap-2">
           <img
             src="./nsk_logo.png"
             alt="NSK"
-            className="h-[clamp(24px,5.8vh,68px)] w-auto object-contain drop-shadow-sm"
+            className="h-[clamp(24px,5.8vh,68px)] w-auto object-contain drop-shadow-sm pointer-events-none"
           />
         </div>
       </header>

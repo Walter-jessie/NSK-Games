@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useAuthStore from '../stores/authStore';
 import { getDepartmentOptions } from '../config/departments';
@@ -20,6 +20,31 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const login = useAuthStore((s) => s.login);
   const navigate = useNavigate();
+
+  // Hidden 4-tap gesture on NSK Logo to switch directly to Game 2 (Plant Arena)
+  const logoTapRef = useRef({ count: 0, timer: null });
+
+  const handleLogoTap = () => {
+    if (logoTapRef.current.timer) {
+      clearTimeout(logoTapRef.current.timer);
+    }
+    logoTapRef.current.count += 1;
+
+    if (logoTapRef.current.count >= 4) {
+      logoTapRef.current.count = 0;
+      // Ensure player is authenticated so ProtectedRoute allows entry to Game 2
+      if (!useAuthStore.getState().isLoggedIn) {
+        const guestId = `GUEST-${Math.floor(1000 + Math.random() * 9000)}`;
+        login(guestId, 'general');
+      }
+      navigate('/game/plant-arena');
+      return;
+    }
+
+    logoTapRef.current.timer = setTimeout(() => {
+      logoTapRef.current.count = 0;
+    }, 1500);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -135,9 +160,14 @@ export default function LoginPage() {
           />
         </svg>
 
-        {/* Top Right Corner: Pure NSK Logo */}
-        <div className="absolute top-2 right-4 sm:right-6 lg:right-10 flex items-center justify-end gap-2 z-30">
-          <img src="./nsk_logo.png" alt="NSK" className="h-[clamp(24px,5.8vh,68px)] w-auto object-contain" />
+        {/* Top Right Corner: Pure NSK Logo (Tap 4 times to launch Game 2 Plant Arena) */}
+        <div
+          onClick={handleLogoTap}
+          className="absolute top-2 right-4 sm:right-6 lg:right-10 flex items-center justify-end gap-2 z-30 cursor-pointer select-none active:scale-95 transition-transform"
+          style={{ touchAction: 'manipulation' }}
+          title="NSK"
+        >
+          <img src="./nsk_logo.png" alt="NSK" className="h-[clamp(24px,5.8vh,68px)] w-auto object-contain pointer-events-none" />
         </div>
 
         {/* Content Wrapper: Perfectly centered in visible white area */}
