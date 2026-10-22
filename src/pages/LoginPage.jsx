@@ -22,28 +22,23 @@ export default function LoginPage() {
   const navigate = useNavigate();
 
   // Hidden 4-tap gesture on NSK Logo to switch directly to Game 2 (Plant Arena)
-  const logoTapRef = useRef({ count: 0, timer: null });
+  const tapTimesRef = useRef([]);
 
   const handleLogoTap = () => {
-    if (logoTapRef.current.timer) {
-      clearTimeout(logoTapRef.current.timer);
-    }
-    logoTapRef.current.count += 1;
+    const now = Date.now();
+    // Keep all taps recorded within the last 3.5 seconds
+    tapTimesRef.current = tapTimesRef.current.filter((t) => now - t < 3500);
+    tapTimesRef.current.push(now);
 
-    if (logoTapRef.current.count >= 4) {
-      logoTapRef.current.count = 0;
+    if (tapTimesRef.current.length >= 4) {
+      tapTimesRef.current = [];
       // Ensure player is authenticated so ProtectedRoute allows entry to Game 2
       if (!useAuthStore.getState().isLoggedIn) {
         const guestId = `GUEST-${Math.floor(1000 + Math.random() * 9000)}`;
         login(guestId, 'general');
       }
       navigate('/game/plant-arena');
-      return;
     }
-
-    logoTapRef.current.timer = setTimeout(() => {
-      logoTapRef.current.count = 0;
-    }, 1500);
   };
 
   const handleSubmit = async (e) => {

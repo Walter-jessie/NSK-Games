@@ -59,6 +59,30 @@ function createDynamicBearing(partsCount = 10) {
     color: 0x8f959e, metalness: 1, roughness: 0.38, envMapIntensity: 1,
   });
 
+  // ── Nothing earned: show the target as a ghost ──
+  // Every slot below is gated on partsCount, so a run with no correct answers
+  // produced a completely empty viewport, which reads as a broken panel rather
+  // than as a score of zero. The phantom shows what was being built.
+  if (partsCount < 1) {
+    const ghost = new THREE.MeshStandardMaterial({
+      color: 0x9fb0c6,
+      metalness: 0.15,
+      roughness: 0.85,
+      transparent: true,
+      opacity: 0.17,
+      depthWrite: false,
+    });
+    staticInnerGroup.add(new THREE.Mesh(createInnerRingGeometry(), ghost));
+    rotatingOuterGroup.add(new THREE.Mesh(createOuterRingGeometry(), ghost));
+    rotatingOuterGroup.add(new THREE.Mesh(createCageGeometry(), ghost));
+    const ghostBall = new THREE.SphereGeometry(d.ballR, 20, 14);
+    for (const [x, y, z] of ballPositions()) {
+      const b = new THREE.Mesh(ghostBall, ghost);
+      b.position.set(x, y, z);
+      rotatingOuterGroup.add(b);
+    }
+  }
+
   // ── Slot 1: Inner Casing + Hub Cap + NSK Logo (STATIC - never rotates) ──
   if (partsCount >= 1) {
     const innerRing = new THREE.Mesh(createInnerRingGeometry(), innerSteel);

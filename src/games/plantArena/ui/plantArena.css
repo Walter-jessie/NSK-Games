@@ -5,11 +5,52 @@
 .pa-o { color: #ffb547; } .pa-g { color: #46f08a; } .pa-red { color: #ff5a48; }
 
 /* top bar */
-.pa-bar { position: absolute; top: 0; left: 0; right: 0; height: clamp(32px, 7.5vh, 54px); display: grid; grid-template-columns: 1fr auto; align-items: stretch; justify-items: end; padding-top: env(safe-area-inset-top); }
-.pa-bar > .pa-c { justify-self: center; }
-.pa-panel { background: linear-gradient(#1a1e27, #11141a); border-bottom: 2px solid #c4581d; display: flex; align-items: center; gap: .6em; padding: 0 1.1em 0 max(1.1em, env(safe-area-inset-left)); font-size: clamp(10px, 2.3vh, 18px); white-space: nowrap; clip-path: polygon(0 0, 100% 0, calc(100% - 18px) 100%, 0 100%); }
-.pa-panel.pa-c { clip-path: polygon(0 0, 100% 0, calc(100% - 18px) 100%, 18px 100%); padding: 0 2em; }
-.pa-panel.pa-r { clip-path: polygon(0 0, 100% 0, 100% 100%, 18px 100%); padding: 0 max(1.1em, env(safe-area-inset-right)) 0 1.6em; }
+/* top bar */
+.pa-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: clamp(32px, 7.5vh, 54px);
+  display: flex;
+  align-items: stretch;
+  justify-content: flex-end;
+  padding-top: env(safe-area-inset-top);
+  pointer-events: none;
+}
+.pa-panel {
+  background: linear-gradient(#1a1e27, #11141a);
+  border-bottom: 2px solid #c4581d;
+  display: flex;
+  align-items: center;
+  gap: .6em;
+  padding: 0 1.1em 0 max(1.1em, env(safe-area-inset-left));
+  font-size: clamp(10px, 2.3vh, 18px);
+  white-space: nowrap;
+}
+/* Centered WAVE display (100% screen center aligned) */
+.pa-panel.pa-c {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  transform: translateX(-50%);
+  clip-path: polygon(0 0, 100% 0, calc(100% - 18px) 100%, 18px 100%);
+  padding: 0 2.5em;
+  border-bottom: 3px solid #E60012;
+  background: linear-gradient(180deg, #1c222c, #0e1218);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+  color: #ffffff;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.pa-panel.pa-r {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 18px 100%);
+  padding: 0 max(1.1em, env(safe-area-inset-right)) 0 1.6em;
+}
 .pa-final { animation: pa-pulse .6s infinite alternate; }
 @keyframes pa-pulse { to { background: linear-gradient(#5a1414, #2a0b0b); } }
 .pa-meter { height: clamp(6px, 1.4vh, 10px); background: #2a2e37; border: 1px solid #000; border-radius: 6px; overflow: hidden; margin-top: 3px; }
@@ -18,49 +59,136 @@
 .pa-meter.pa-time { width: clamp(70px, 14vw, 190px); margin-top: 0; }
 .pa-meter.pa-time > i { background: linear-gradient(90deg, #ff9a2a, #ffc75a); transition: none; }
 
-.pa-chips { position: absolute; top: calc(clamp(32px, 7.5vh, 54px) + 8px); left: max(12px, env(safe-area-inset-left)); display: flex; gap: 8px; }
-.pa-chip { background: #11141acc; border: 1px solid #3a404c; border-radius: 8px; padding: 4px 10px; font-size: clamp(9px, 1.8vh, 14px); }
-.pa-chip.pa-empty, .pa-chip-sq.pa-empty { border-color: #ff5a48; animation: pa-blink 1s infinite; }
-@keyframes pa-blink { 50% { border-color: #3a404c; } }
+/* Top-Left: Repair objective panel */
+.pa-chips-top-left {
+  position: absolute;
+  top: calc(clamp(32px, 7.5vh, 54px) + 8px);
+  left: max(12px, env(safe-area-inset-left));
+  display: flex;
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* Bottom-Center: Bearing inventory backpack panel (User requested position & white inner panel) */
+.pa-chips-bottom-center {
+  position: absolute;
+  bottom: max(clamp(12px, 3vh, 24px), env(safe-area-inset-bottom));
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.pa-chip {
+  background: #ffffff;
+  border: 1px solid #3a404c;
+  border-radius: 8px;
+  padding: 4px 10px;
+  font-size: clamp(9px, 1.8vh, 14px);
+}
+
 .pa-chip-sq {
-  background: #11141aeb;
-  border: 2px solid #3a404c;
-  border-radius: 0;
-  width: clamp(48px, 10vh, 66px);
-  height: clamp(48px, 10vh, 66px);
+  width: clamp(72px, 14.8vh, 96px);
+  height: clamp(72px, 14.8vh, 96px);
+  border-radius: 6px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.45);
-  transition: border-color 0.2s;
+  gap: 2px;
+  padding: 4px;
+  transition: all 0.2s ease-out;
+  pointer-events: auto;
 }
+
+/* Bearing Card: Crisp WHITE inner panel with high-contrast frame & prominent count */
+.pa-chip-bearing {
+  background: #ffffff;
+  border: 2.5px solid #0f172a;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+.pa-chip-bearing.pa-empty {
+  border-color: #E60012;
+  box-shadow: 0 8px 24px rgba(230, 0, 18, 0.35), 0 2px 6px rgba(0, 0, 0, 0.2);
+  animation: pa-empty-alert 1.2s infinite ease-in-out;
+}
+@keyframes pa-empty-alert {
+  0%, 100% { border-color: #E60012; }
+  50% { border-color: #f59e0b; }
+}
+
+/* Repair Card: Crisp WHITE inner panel with high-contrast emerald frame */
+.pa-chip-repair {
+  background: #ffffff;
+  border: 2.5px solid #059669;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
 .pa-chip-icon {
-  width: clamp(18px, 3.8vh, 26px);
-  height: clamp(18px, 3.8vh, 26px);
+  width: clamp(26px, 5.2vh, 36px);
+  height: clamp(26px, 5.2vh, 36px);
   object-fit: contain;
   display: block;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
 }
 .pa-chip-emoji {
-  font-size: clamp(14px, 3vh, 20px);
+  font-size: clamp(22px, 4.6vh, 32px);
   line-height: 1;
   display: block;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
 }
-.pa-chip-count {
+
+.pa-chip-count-wrap {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  line-height: 1;
+  margin: 1px 0 0;
+}
+.pa-count-val {
   font-family: 'Arial Black', Impact, sans-serif;
   font-weight: 900;
-  font-size: clamp(10.5px, 2.1vh, 15px);
-  line-height: 1.1;
-  letter-spacing: -0.02em;
+  font-size: clamp(18px, 3.8vh, 26px);
+  line-height: 1;
 }
+.pa-count-val-bearing {
+  color: #0f172a;
+}
+.pa-chip-bearing.pa-empty .pa-count-val-bearing {
+  color: #dc2626;
+}
+.pa-count-val-repair {
+  color: #059669;
+}
+.pa-count-slash {
+  font-family: 'Arial Black', sans-serif;
+  font-size: clamp(11px, 2.2vh, 15px);
+  font-weight: 700;
+  color: #94a3b8;
+  margin: 0 1px;
+}
+.pa-count-max {
+  font-family: 'Arial Black', sans-serif;
+  font-size: clamp(12px, 2.4vh, 16px);
+  font-weight: 700;
+  color: #64748b;
+}
+
 .pa-chip-lbl {
   font-family: 'Arial Black', sans-serif;
   font-weight: 900;
-  font-size: clamp(7px, 1.3vh, 9px);
-  letter-spacing: 0.08em;
-  color: #94a3b8;
+  font-size: clamp(8px, 1.5vh, 10.5px);
+  letter-spacing: 0.1em;
   line-height: 1;
+}
+.pa-chip-bearing .pa-chip-lbl {
+  color: #E60012;
+}
+.pa-chip-repair .pa-chip-lbl {
+  color: #047857;
 }
 .pa-map { position: absolute; top: calc(clamp(32px, 7.5vh, 54px) + 8px); right: max(12px, env(safe-area-inset-right)); width: min(17vw, 30vh); aspect-ratio: 3 / 2; border-radius: 8px; }
 

@@ -25,6 +25,7 @@ const fmt = (secs) => {
 export function TopBar({ snap, sessionSeconds }) {
   return (
     <div className="pa-bar">
+      {/* Center-aligned WAVE display (absolute center of screen) */}
       <div className="pa-panel pa-c">
         WAVE {snap.wave + 1}/{snap.waveCount}
       </div>
@@ -38,21 +39,36 @@ export function TopBar({ snap, sessionSeconds }) {
 
 export function StatusBlock({ snap }) {
   return (
-    <div className="pa-chips">
-      {/* Square Bearing Card with icon.svg */}
-      <div className={`pa-chip-sq ${snap.bearings === 0 ? 'pa-empty' : ''}`} title="Bearings in Backpack">
-        <img src="./icon.svg" alt="Bearing" className="pa-chip-icon" />
-        <span className="pa-chip-count pa-o">{snap.bearings}/{snap.backpackSize}</span>
-        <span className="pa-chip-lbl">BEARINGS</span>
+    <>
+      {/* Top-Left: Square Repair Objective Card with White Inner Panel */}
+      <div className="pa-chips-top-left">
+        <div className="pa-chip-sq pa-chip-repair" title="Repairs Completed">
+          <span className="pa-chip-emoji" role="img" aria-label="repair">🔧</span>
+          <div className="pa-chip-count-wrap">
+            <span className="pa-count-val pa-count-val-repair">{snap.repairs}</span>
+            <span className="pa-count-slash">/</span>
+            <span className="pa-count-max">{snap.winRepairs}</span>
+          </div>
+          <span className="pa-chip-lbl">REPAIRS</span>
+        </div>
       </div>
 
-      {/* Square Repair Card with Wrench / Repair Emoji */}
-      <div className="pa-chip-sq" title="Repairs Completed">
-        <span className="pa-chip-emoji" role="img" aria-label="repair">🔧</span>
-        <span className="pa-chip-count pa-g">{snap.repairs}/{snap.winRepairs}</span>
-        <span className="pa-chip-lbl">REPAIRS</span>
+      {/* Bottom-Center: Square Bearing Count Panel with White Inner Panel & Highlighted Count */}
+      <div className="pa-chips-bottom-center">
+        <div
+          className={`pa-chip-sq pa-chip-bearing ${snap.bearings === 0 ? 'pa-empty' : ''}`}
+          title="Bearings in Backpack"
+        >
+          <img src="./icon.svg" alt="Bearing" className="pa-chip-icon" />
+          <div className="pa-chip-count-wrap">
+            <span className="pa-count-val pa-count-val-bearing">{snap.bearings}</span>
+            <span className="pa-count-slash">/</span>
+            <span className="pa-count-max">{snap.backpackSize}</span>
+          </div>
+          <span className="pa-chip-lbl">BEARINGS</span>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
