@@ -111,16 +111,9 @@ export default function MobilePWAInstallOverlay({ forced = false }) {
           <h2 className="text-sm font-heading font-black text-white tracking-wide uppercase mb-1">
             APP INSTALLED
           </h2>
-          <p className="text-xs text-slate-300 mb-5">
+          <p className="text-xs text-slate-300">
             Check your phone&apos;s home screen to open.
           </p>
-          <button
-            type="button"
-            onClick={handleDismiss}
-            className="w-full py-2.5 px-4 rounded-xl bg-white/10 hover:bg-white/15 text-slate-200 text-xs font-heading font-bold uppercase tracking-wider"
-          >
-            CONTINUE NOW
-          </button>
         </div>
       ) : (
         /* Minimal Clean View: Icon Only & 2 Buttons */
