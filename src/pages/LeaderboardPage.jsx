@@ -138,23 +138,21 @@ export default function LeaderboardPage() {
             onClick={() => setActiveGame('game1')}
             className={`px-3 sm:px-4 py-1.5 rounded-none font-heading text-[11px] sm:text-xs font-black transition-all flex items-center gap-1.5 cursor-pointer uppercase tracking-wider ${
               activeGame === 'game1'
-                ? 'bg-[#E60012] text-white shadow-xs'
+                ? 'bg-emerald-600 text-white shadow-xs'
                 : 'text-slate-600 hover:text-slate-900 hover:bg-white'
             }`}
           >
-            <span>🏃</span>
-            <span>Game 1: Bearing Runner</span>
+            Game 1: Bearing Runner
           </button>
           <button
             onClick={() => setActiveGame('game2')}
             className={`px-3 sm:px-4 py-1.5 rounded-none font-heading text-[11px] sm:text-xs font-black transition-all flex items-center gap-1.5 cursor-pointer uppercase tracking-wider ${
               activeGame === 'game2'
-                ? 'bg-slate-900 text-white shadow-xs'
+                ? 'bg-emerald-600 text-white shadow-xs'
                 : 'text-slate-600 hover:text-slate-900 hover:bg-white'
             }`}
           >
-            <span>🔧</span>
-            <span>Game 2: Plant Arena</span>
+            Game 2: Plant Arena
           </button>
         </div>
 
@@ -272,7 +270,7 @@ export default function LeaderboardPage() {
                 <div
                   key={`${entry.employeeId}-${i}`}
                   className={`flex items-center gap-3 sm:gap-4 px-3.5 sm:px-4 py-2.5 sm:py-3 rounded-none transition-all ${rank.bg} ${
-                    isSelf ? 'ring-2 ring-[#E60012] border-l-[#E60012] bg-red-50/70' : ''
+                    isSelf ? 'ring-2 ring-emerald-600 border-l-emerald-600 bg-emerald-50/40' : ''
                   }`}
                 >
                   {/* Rank */}
@@ -285,7 +283,7 @@ export default function LeaderboardPage() {
                     <p className="text-sm sm:text-base font-heading font-black tracking-tight text-slate-900 truncate flex items-center gap-1.5">
                       <span>{entry.employeeId}</span>
                       {isSelf && (
-                        <span className="text-[9px] font-mono font-bold text-[#E60012] bg-red-100 border border-red-300 px-1 py-0.5 rounded-none uppercase">
+                        <span className="text-[9px] font-mono font-bold text-emerald-800 bg-emerald-100 border border-emerald-300 px-1 py-0.5 rounded-none uppercase">
                           YOU
                         </span>
                       )}
@@ -300,28 +298,27 @@ export default function LeaderboardPage() {
                     </p>
                   </div>
 
-                  {/* Both Game 1 and Game 2 Scores for this player (Sharp Straight Panels) */}
+                  {/* Both Game 1 and Game 2 Scores for this player (Sharp Straight Panels, Green Color) */}
                   <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
                     {/* Game 1 Box */}
                     <div
-                      className={`px-2.5 sm:px-3 py-1 rounded-none border text-right transition-all min-w-[76px] sm:min-w-[96px] ${
+                      className={`px-2.5 sm:px-3 py-1 rounded-none border text-right transition-all min-w-[72px] sm:min-w-[84px] ${
                         activeGame === 'game1'
-                          ? 'bg-red-50/90 border-2 border-[#E60012] shadow-xs'
+                          ? 'bg-emerald-50/90 border-2 border-emerald-600 shadow-xs'
                           : 'bg-slate-100/70 border border-slate-300 opacity-60'
                       }`}
                     >
-                      <span className="text-[8px] sm:text-[9px] font-heading font-black uppercase tracking-wider block text-slate-600">
-                        🏃 Game 1
+                      <span className={`text-[8px] sm:text-[9px] font-heading font-black uppercase tracking-wider block ${
+                        activeGame === 'game1' ? 'text-emerald-800' : 'text-slate-600'
+                      }`}>
+                        Game 1
                       </span>
                       {entry.game1?.played ? (
-                        <div className="flex items-baseline justify-end gap-1">
+                        <div className="flex items-baseline justify-end gap-0.5">
                           <span className="font-heading font-black text-xs sm:text-sm text-slate-900 tabular-nums">
                             {entry.game1.correctCount}
                           </span>
                           <span className="text-[9px] sm:text-[10px] font-bold text-slate-500">/10</span>
-                          <span className="text-[9px] sm:text-[10px] font-mono font-bold text-emerald-700 hidden sm:inline">
-                            ({entry.game1.score}p)
-                          </span>
                         </div>
                       ) : (
                         <span className="text-[10px] sm:text-xs font-mono font-bold text-slate-400">--</span>
@@ -330,33 +327,24 @@ export default function LeaderboardPage() {
 
                     {/* Game 2 Box */}
                     <div
-                      className={`px-2.5 sm:px-3 py-1 rounded-none border text-right transition-all min-w-[76px] sm:min-w-[96px] ${
+                      className={`px-2.5 sm:px-3 py-1 rounded-none border text-right transition-all min-w-[72px] sm:min-w-[84px] ${
                         activeGame === 'game2'
-                          ? 'bg-slate-900 text-white border-2 border-slate-900 shadow-xs'
+                          ? 'bg-emerald-50/90 border-2 border-emerald-600 shadow-xs'
                           : 'bg-slate-100/70 border border-slate-300 opacity-60'
                       }`}
                     >
                       <span className={`text-[8px] sm:text-[9px] font-heading font-black uppercase tracking-wider block ${
-                        activeGame === 'game2' ? 'text-slate-300' : 'text-slate-600'
+                        activeGame === 'game2' ? 'text-emerald-800' : 'text-slate-600'
                       }`}>
-                        🔧 Game 2
+                        Game 2
                       </span>
                       {entry.game2?.played ? (
-                        <div className="flex items-baseline justify-end gap-1">
-                          <span className={`font-heading font-black text-xs sm:text-sm tabular-nums ${
-                            activeGame === 'game2' ? 'text-white' : 'text-slate-900'
-                          }`}>
+                        <div className="flex items-baseline justify-end gap-0.5">
+                          <span className="font-heading font-black text-xs sm:text-sm text-slate-900 tabular-nums">
                             {entry.game2.repairs}
                           </span>
-                          <span className={`text-[8px] sm:text-[9px] font-bold ${
-                            activeGame === 'game2' ? 'text-slate-300' : 'text-slate-500'
-                          }`}>
+                          <span className="text-[8px] sm:text-[9px] font-bold text-slate-500">
                             rep
-                          </span>
-                          <span className={`text-[9px] sm:text-[10px] font-mono font-bold hidden sm:inline ${
-                            activeGame === 'game2' ? 'text-emerald-400' : 'text-emerald-700'
-                          }`}>
-                            ({entry.game2.score}p)
                           </span>
                         </div>
                       ) : (
