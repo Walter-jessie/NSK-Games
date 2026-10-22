@@ -171,8 +171,18 @@ export default function BearingRunnerPage() {
     const delta = timestamp - lastFrameRef.current;
     lastFrameRef.current = timestamp;
 
+    // Held until the first touch. The runner keeps running and the track keeps
+    // scrolling, but the gate stays put, so no question time is spent while the
+    // coach is up. lastFrameRef is already advanced above, so the gate does not
+    // lurch forward by the whole wait when play finally starts.
+    if (coachingRef.current) {
+      animRef.current = requestAnimationFrame(gameLoop);
+      return;
+    }
+
     const currentSpeed = getLockerSpeed(qIdxRef.current);
-    // Continuous forward motion - lockerY never freezes!
+    // Continuous forward motion once play has been joined: between questions
+    // lockerY never freezes, only the hold above stops it.
     lockerYRef.current += currentSpeed * delta;
     setLockerY(lockerYRef.current);
 
@@ -311,6 +321,7 @@ export default function BearingRunnerPage() {
     coachingRef.current = false;
     setCoaching(false);
   }, []);
+
 
   const moveLeft = useCallback(() => {
     const isPlayActive = phaseRef.current === 'playing' || phaseRef.current === 'feedback';

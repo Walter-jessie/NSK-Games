@@ -23,11 +23,10 @@ const fmt = (secs) => {
 };
 
 export function TopBar({ snap, sessionSeconds }) {
-  const final = snap.wave === snap.waveCount - 1;
   return (
     <div className="pa-bar">
-      <div className={`pa-panel pa-c ${final ? 'pa-final' : ''}`}>
-        {final ? 'FINAL WAVE' : `WAVE ${snap.wave + 1}/${snap.waveCount}`} · <span className="pa-red">{snap.waveName.toUpperCase()}</span>
+      <div className="pa-panel pa-c">
+        WAVE {snap.wave + 1}/{snap.waveCount}
       </div>
       <div className="pa-panel pa-r">
         TIME LEFT: <span className={snap.timeLeft < 15 ? 'pa-red' : 'pa-o'}>{fmt(Math.max(0, snap.timeLeft))}</span>
@@ -39,14 +38,21 @@ export function TopBar({ snap, sessionSeconds }) {
 
 export function StatusBlock({ snap }) {
   return (
-    <>
-      <div className="pa-chips">
-        <div className={`pa-chip ${snap.bearings === 0 ? 'pa-empty' : ''}`}>
-          BEARINGS <span className="pa-o">{snap.bearings}/{snap.backpackSize}</span>
-        </div>
-        <div className="pa-chip">REPAIRS <span className="pa-g">{snap.repairs}/{snap.winRepairs}</span></div>
+    <div className="pa-chips">
+      {/* Square Bearing Card with icon.svg */}
+      <div className={`pa-chip-sq ${snap.bearings === 0 ? 'pa-empty' : ''}`} title="Bearings in Backpack">
+        <img src="./icon.svg" alt="Bearing" className="pa-chip-icon" />
+        <span className="pa-chip-count pa-o">{snap.bearings}/{snap.backpackSize}</span>
+        <span className="pa-chip-lbl">BEARINGS</span>
       </div>
-    </>
+
+      {/* Square Repair Card with Wrench / Repair Emoji */}
+      <div className="pa-chip-sq" title="Repairs Completed">
+        <span className="pa-chip-emoji" role="img" aria-label="repair">🔧</span>
+        <span className="pa-chip-count pa-g">{snap.repairs}/{snap.winRepairs}</span>
+        <span className="pa-chip-lbl">REPAIRS</span>
+      </div>
+    </div>
   );
 }
 

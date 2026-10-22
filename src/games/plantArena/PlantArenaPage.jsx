@@ -143,9 +143,6 @@ export default function PlantArenaPage({ employeeId = 'NSK-GUEST', onSubmitScore
           <TopBar snap={snap} sessionSeconds={RULES.sessionSeconds} />
           <StatusBlock snap={snap} />
           <MiniMap engine={engine} layout={layout} />
-          <button type="button" className="pa-mute" onClick={() => { audio.setMuted(!muted); setMuted(!muted); }}>
-            {muted ? 'SOUND OFF' : 'SOUND ON'}
-          </button>
           {opening && <div className="pa-hint"><span>SMASH THE WOODEN CRATE</span></div>}
           {banner && !coaching && <div className="pa-banner">{banner}</div>}
           {toast && <div className="pa-toast">{toast}</div>}
