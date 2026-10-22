@@ -531,10 +531,22 @@ export const MACHINE_DEFS = [
       base.scale.setScalar(1.35);
       base.userData.dynamic = true;
       body.add(base);
+      // Rule 4: a robot indexes and holds. Three sines of different periods made
+      // it look like it was stirring soup; a pick-and-place arm swings to a
+      // station, waits there, then swings on, and reaches down at each end.
+      const CYCLE = 3.6;
+      const smooth = (u) => u * u * (3 - 2 * u);
       animate((t, k) => {
-        base.rotation.y = Math.sin(t * 0.8 * k) * 0.9;
-        shoulder.rotation.z = Math.sin(t * 1.1 * k) * 0.35 - 0.15;
-        elbow.rotation.z = -0.6 + Math.sin(t * 1.4 * k + 1) * 0.4;
+        const tt = t * Math.max(0.3, k);
+        const phase = (tt % CYCLE) / CYCLE;
+        const outbound = Math.floor(tt / CYCLE) % 2 === 0;
+        const travel = phase < 0.34 ? smooth(phase / 0.34) : 1;
+        const g = outbound ? travel : 1 - travel;
+        base.rotation.y = -0.85 + g * 1.7;
+        // Down at both stations, lifted through the middle of the swing.
+        const down = 1 - Math.sin(g * Math.PI);
+        shoulder.rotation.z = -0.1 - down * 0.42;
+        elbow.rotation.z = -0.5 + down * 0.55;
       });
       // Rule 3 and the word "cell": fence it, at a height a person reads.
       fencePanel(s, 3.4, { p: [0, 0, -1.5] });
