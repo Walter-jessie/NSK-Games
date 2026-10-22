@@ -28,7 +28,7 @@
   font-size: clamp(10px, 2.3vh, 18px);
   white-space: nowrap;
 }
-/* Centered WAVE display (100% screen center aligned) — crisp white panel with emerald accent */
+/* Centered WAVE display (100% screen center aligned) — crisp white panel with NSK Red accent */
 .pa-panel.pa-c {
   position: absolute;
   left: 50%;
@@ -37,7 +37,7 @@
   transform: translateX(-50%);
   clip-path: polygon(0 0, 100% 0, calc(100% - 18px) 100%, 18px 100%);
   padding: 0 2.5em;
-  border-bottom: 3.5px solid #059669;
+  border-bottom: 3.5px solid #E60012;
   background: #ffffff;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
   color: #0f172a;
@@ -50,14 +50,14 @@
 .pa-panel.pa-r {
   clip-path: polygon(0 0, 100% 0, 100% 100%, 18px 100%);
   padding: 0 max(1.1em, env(safe-area-inset-right)) 0 1.6em;
-  border-bottom: 3.5px solid #059669;
+  border-bottom: 3.5px solid #E60012;
   background: #ffffff;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
   color: #0f172a;
   font-weight: 800;
 }
 .pa-time-val {
-  color: #059669;
+  color: #ea580c;
   font-family: 'Arial Black', Impact, sans-serif;
   font-weight: 900;
   margin-left: 2px;
@@ -68,7 +68,7 @@
 .pa-meter > i { display: block; height: 100%; background: linear-gradient(90deg, #3ee07b, #b6f04a); transition: width .3s; }
 .pa-meter > i.pa-low { background: linear-gradient(90deg, #ff4a3a, #ff9a3c); }
 .pa-meter.pa-time { width: clamp(70px, 14vw, 190px); margin-top: 0; background: #e2e8f0; border: 1px solid #cbd5e1; border-radius: 6px; }
-.pa-meter.pa-time > i { background: linear-gradient(90deg, #10b981, #059669); transition: none; }
+.pa-meter.pa-time > i { background: linear-gradient(90deg, #f59e0b, #ea580c); transition: none; }
 
 /* Top-Left: Repair objective panel */
 .pa-chips-top-left {

@@ -57,39 +57,6 @@ function benchTop() {
   return benchTopMaterial;
 }
 
-function nameplate(code, title, accent) {
-  const map = canvasTexture(512, 128, (ctx, w, h) => {
-    ctx.fillStyle = C.ink;
-    ctx.beginPath();
-    ctx.roundRect(0, 0, w, h, 26);
-    ctx.fill();
-    ctx.fillStyle = accent;
-    ctx.beginPath();
-    ctx.roundRect(8, 8, 128, h - 16, 20);
-    ctx.fill();
-    ctx.fillStyle = C.ink;
-    ctx.font = '900 44px "Arial Black", Arial, sans-serif';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText(code.replace('APP_', ''), 72, h / 2 + 2);
-    ctx.fillStyle = '#ffffff';
-    ctx.textAlign = 'left';
-    let size = 46;
-    ctx.font = `900 ${size}px "Arial Black", Arial, sans-serif`;
-    while (ctx.measureText(title).width > w - 170 && size > 20) {
-      size -= 2;
-      ctx.font = `900 ${size}px "Arial Black", Arial, sans-serif`;
-    }
-    ctx.fillText(title, 152, h / 2 + 2);
-  });
-  const mesh = new THREE.Mesh(
-    new THREE.PlaneGeometry(2.4, 0.6),
-    new THREE.MeshBasicMaterial({ map, transparent: true, toneMapped: false }),
-  );
-  mesh.name = 'nameplate';
-  return mesh;
-}
-
 // Stable per-machine randomness: the same rig always collapses the same way,
 // so a failure does not reshuffle itself on every frame or every run.
 function mulberry32(seed) {
@@ -114,8 +81,9 @@ function codeSeed(code) {
 
 /**
  * Wreckage shown once a rig is lost. Deliberately generic: a collapsed rig
- * reads the same whichever application it was, and the nameplate and the dead
- * lamp already say which one went down. Built once, hidden until needed.
+ * reads the same whichever application it was, and the greyed-out name tag and
+ * the dead lamp already say which one went down. Built once, hidden until
+ * needed.
  */
 const SCORCH = ['#24282f', '#32373f', '#1a1d23', '#3d3229'];
 function debrisPile(code) {
@@ -197,11 +165,6 @@ function bench(def) {
   lamp.position.y = 1.68;
   postGroup.add(lamp);
   root.add(postGroup);
-
-  const plate = nameplate(def.code, def.short, def.accent);
-  plate.position.set(0, TOP + 0.02, D / 2 + 0.36);
-  plate.rotation.x = -Math.PI / 2.6;
-  root.add(plate);
 
   const body = new THREE.Group();
   body.name = 'machine';

@@ -61,9 +61,9 @@ Anything replacing or detailing these should satisfy all five.
 | 05 | Wind Turbine Gearbox | The nacelle: rotor, main shaft and step-up gearbox | Main shaft, horizontal | "a wind turbine" | Tower, nacelle, gearbox block, three sweeping blades | Scale. Built at bench size it is a desk toy. Either cut away the nacelle to show the gearbox as the subject, or add a maintenance hatch and railing at human scale |
 | 06 | Bullet Train Bogie | The wheelset and suspension frame under a high-speed train | Axle journal boxes | "a train" | Sleepers, rails, frame, coil springs, journal boxes, nose shell, lit windows | The nose shell competes with the bogie for attention. Drop the shell to a section and let the wheelset dominate — the bogie is the product |
 | 07 | Medical Micro-Spindle | A surgical handpiece and its drive, inside a clean enclosure | Spindle, in the handpiece | "a precision medical tool" | Enclosure, screen, articulated arm, handpiece, instrument tray, bearing hologram | The hologram is doing the explaining because the part is too small to see. Keep it, and add a gloved hand or instrument for scale |
-| 08 | Air-Taxi Propulsor | An eVTOL rotor and its tilting mount | Rotor hub | "an aircraft rotor" | Mount base, ducted rotor | The thinnest of the ten. Needs duct depth, visible blade count, and a tilt mechanism — a rotor that cannot tilt is not a propulsor |
-| 09 | Jet Engine APU | The small turbine that runs an aircraft's systems on the ground | Turbine shaft | "a jet engine" | Casing, intake, exhaust | Needs an inlet you can see down, visible turbine stages through a cutaway, and exhaust heat shimmer. Currently reads as a cylinder |
-| 10 | HVAC Climate Compressor | A scroll compressor in a rooftop air-conditioning unit | Crankshaft | "an air conditioner" | Housing, fan | Needs the grille and the fan everyone recognises from a rooftop unit — that grille is the single cue that identifies it |
+| 08 | Air-Taxi Propulsor | An eVTOL rotor and its tilting mount | Rotor hub | "an aircraft rotor" | Pylon, ducted fan with a 5-blade rotor, side pod with its own spinning prop | No tilt mechanism, so it reads as a fixed fan. Nothing gives its size |
+| 09 | Jet Engine APU | The small turbine that runs an aircraft's systems on the ground | Turbine shaft | "a jet engine" | Tilted casing, intake ring, glowing exhaust, 8-blade turbine | Sits low and alone on its bench, so nothing breaks the horizontal. Nothing gives its size |
+| 10 | HVAC Climate Compressor | A scroll compressor in a rooftop air-conditioning unit | Crankshaft | "an air conditioner" | Finned condenser box, roof fan, compressor tank with bands, pipework, gauge | The grille, which is the single cue that identifies a rooftop unit |
 
 ## If these are being remodelled externally
 
@@ -73,3 +73,32 @@ the same surface — `group`, `setStatus`, `setDanger`, `update` — and the mov
 parts must stay as separately named objects, or rule 4 is lost and the rigs go
 inert. The `bearing` and `ringRadius` values already in each definition are the
 authored positions for rule 5.
+
+## What has since been built
+
+All ten were detailed in code against the five rules. Shared cues live at the
+top of `scene/machines.js` so they exist once rather than ten times: `raceAt`
+(rule 5), `railing` and `pallet` (rule 3), `fencePanel`, `grille` and `swarf`.
+`PartBuilder.addGroup` was added to `toon.js` to let a sub-assembly be dropped
+in under a transform.
+
+| # | Added |
+|---|---|
+| 01 | Extraction hood on a 2.9 m mast, four tie-down straps to floor rings, bay cones, roller race |
+| 02 | Charging dock with contact strips, loaded pallet, the drive hub race exposed |
+| 03 | Two safety fence panels and a cell beacon; **motion changed** from three sines to index-and-hold with a reach at each station; yaw race |
+| 04 | A cut groove in the workpiece, two piles of swarf, a pallet of bar stock, spindle race |
+| 05 | Service platform with two railings, access hatch, tower ladder, main shaft race |
+| 06 | Platform edge with the yellow tactile line, journal race |
+| 07 | Stool, theatre lamp on a 1.9 m stand, the real race beside the hologram |
+| 08 | Trunnion and actuator ram so the pylon reads as tilting, access ladder, hub race |
+| 09 | Test stand frame over the engine, wheeled ground cart, shaft race |
+| 10 | Louvred grille across the condenser face, service panel with handle, crankshaft race |
+
+Everything added goes through the static builder, so it merges into the same
+mesh and costs no extra draw calls. Triangle count was not measured.
+
+Still open: rule 4 for the rigs other than the arm. Wheels, blades, fans and
+turbines all turn, but they turn at a constant rate, so the motion identifies
+the shape rather than the duty. A dyno sweeping through a speed run, a bogie
+rolling in bursts and a compressor cycling on and off would each carry more.

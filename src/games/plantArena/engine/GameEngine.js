@@ -194,7 +194,9 @@ export class GameEngine {
     this.game = createArenaGame(layout, { seed: options.seed ?? Date.now(), extraColliders: this.arena.propColliders });
 
     this.worker = createWorker();
-    this.worker.group.scale.setScalar(1.3);
+    // Sized against the rigs rather than for its own sake: at 1.3 the worker
+    // stood as tall as a bench and undercut every scale cue on the machines.
+    this.worker.group.scale.setScalar(1.08);
     this.worker.group.add(blobShadow(0.7));
     scene.add(this.worker.group);
 
