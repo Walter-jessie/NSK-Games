@@ -1,0 +1,716 @@
+{
+  "department_id": "accounts_finance",
+  "department_name": "Accounts & Finance",
+  "version": "1.0",
+  "total_questions": 50,
+  "categories": [
+    "taxation",
+    "costing",
+    "accounting",
+    "treasury",
+    "controls",
+    "audit"
+  ],
+  "questions": [
+    {
+      "id": "AF-001",
+      "category": "taxation",
+      "difficulty": "easy",
+      "question": "What is the full form of GST?",
+      "options": {
+        "A": "Goods and Services Tax",
+        "B": "General Sales Tariff",
+        "C": "Government Service Toll",
+        "D": "Global Supply Tax"
+      },
+      "correct": "A",
+      "explanation": "GST stands for Goods and Services Tax, a unified indirect tax across India."
+    },
+    {
+      "id": "AF-002",
+      "category": "accounting",
+      "difficulty": "easy",
+      "question": "Money owed by customers for sales is called what?",
+      "options": {
+        "A": "Accounts payable",
+        "B": "Accounts receivable",
+        "C": "Operating cash",
+        "D": "Accrued payroll"
+      },
+      "correct": "B",
+      "explanation": "Accounts receivable represents money due from customers for delivered goods or services."
+    },
+    {
+      "id": "AF-003",
+      "category": "accounting",
+      "difficulty": "easy",
+      "question": "Money owed to suppliers for raw material is called?",
+      "options": {
+        "A": "Accounts payable",
+        "B": "Retained earnings",
+        "C": "Accounts receivable",
+        "D": "Fixed assets"
+      },
+      "correct": "A",
+      "explanation": "Accounts payable represents short-term obligations owed to suppliers and vendors."
+    },
+    {
+      "id": "AF-004",
+      "category": "taxation",
+      "difficulty": "easy",
+      "question": "Mandatory digital invoice registered on government portal is?",
+      "options": {
+        "A": "Proforma bill",
+        "B": "Delivery challan",
+        "C": "E-Invoice",
+        "D": "Cash memo"
+      },
+      "correct": "C",
+      "explanation": "E-Invoicing validates B2B transactions electronically on the Invoice Registration Portal (IRP)."
+    },
+    {
+      "id": "AF-005",
+      "category": "treasury",
+      "difficulty": "easy",
+      "question": "Which document confirms cash or cheque deposit into bank?",
+      "options": {
+        "A": "Purchase order",
+        "B": "Pay-in slip",
+        "C": "Debit note",
+        "D": "Bill of entry"
+      },
+      "correct": "B",
+      "explanation": "A pay-in slip or deposit challan acts as formal proof of deposit into the company's bank account."
+    },
+    {
+      "id": "AF-006",
+      "category": "controls",
+      "difficulty": "easy",
+      "question": "Requiring two authorized signatures on high-value cheques is?",
+      "options": {
+        "A": "Dual signing",
+        "B": "Petty cash",
+        "C": "Single audit",
+        "D": "Credit freeze"
+      },
+      "correct": "A",
+      "explanation": "Dual authorization ensures no single officer can disburse large corporate funds unilaterally."
+    },
+    {
+      "id": "AF-007",
+      "category": "costing",
+      "difficulty": "easy",
+      "question": "Total manufacturing cost equals fixed cost plus what?",
+      "options": {
+        "A": "Tax penalty",
+        "B": "Variable cost",
+        "C": "Dividend",
+        "D": "Asset scrap"
+      },
+      "correct": "B",
+      "explanation": "Total cost is the sum of fixed expenses (rent, salaries) and variable expenses (materials, energy)."
+    },
+    {
+      "id": "AF-008",
+      "category": "accounting",
+      "difficulty": "easy",
+      "question": "The standard Indian corporate financial year ends on?",
+      "options": {
+        "A": "31st December",
+        "B": "31st March",
+        "C": "30th June",
+        "D": "30th September"
+      },
+      "correct": "B",
+      "explanation": "In India, the official financial year runs from 1st April to 31st March."
+    },
+    {
+      "id": "AF-009",
+      "category": "taxation",
+      "difficulty": "easy",
+      "question": "TDS stands for what under Indian Income Tax?",
+      "options": {
+        "A": "Total Direct Surcharge",
+        "B": "Tax Deducted at Source",
+        "C": "Tariff Delivery Settlement",
+        "D": "Transaction Due System"
+      },
+      "correct": "B",
+      "explanation": "Tax Deducted at Source (TDS) collects tax at the point of making specified payments."
+    },
+    {
+      "id": "AF-010",
+      "category": "accounting",
+      "difficulty": "easy",
+      "question": "Gradual reduction in value of plant machinery over time is?",
+      "options": {
+        "A": "Appreciation",
+        "B": "Depreciation",
+        "C": "Inflation",
+        "D": "Rebate"
+      },
+      "correct": "B",
+      "explanation": "Depreciation allocates the cost of a tangible fixed asset over its useful production life."
+    },
+    {
+      "id": "AF-011",
+      "category": "controls",
+      "difficulty": "easy",
+      "question": "Comparing company cash books with bank statements is called?",
+      "options": {
+        "A": "Bank reconciliation",
+        "B": "Tax filing",
+        "C": "Stock audit",
+        "D": "Capitalization"
+      },
+      "correct": "A",
+      "explanation": "Bank reconciliation verifies that the ledger balance matches the actual bank statement balance."
+    },
+    {
+      "id": "AF-012",
+      "category": "costing",
+      "difficulty": "easy",
+      "question": "The list of raw materials required to assemble a bearing is?",
+      "options": {
+        "A": "BOM",
+        "B": "TDS",
+        "C": "FIFO",
+        "D": "LC"
+      },
+      "correct": "A",
+      "explanation": "Bill of Materials (BOM) specifies the exact components, quantities, and steel needed for production."
+    },
+    {
+      "id": "AF-013",
+      "category": "taxation",
+      "difficulty": "easy",
+      "question": "An E-Way Bill is mandatory for transporting goods valued over?",
+      "options": {
+        "A": "Rs 10,000",
+        "B": "Rs 50,000",
+        "C": "Rs 5,00,000",
+        "D": "Rs 1,00,000"
+      },
+      "correct": "B",
+      "explanation": "Inter-state consignment movement of goods exceeding Rs 50,000 requires a valid E-Way Bill."
+    },
+    {
+      "id": "AF-014",
+      "category": "audit",
+      "difficulty": "easy",
+      "question": "Statutory audit of corporate financial statements is done by?",
+      "options": {
+        "A": "Independent CA",
+        "B": "Plant supervisor",
+        "C": "Sales manager",
+        "D": "Logistics driver"
+      },
+      "correct": "A",
+      "explanation": "A practicing, independent Chartered Accountant appointed by shareholders conducts the statutory audit."
+    },
+    {
+      "id": "AF-015",
+      "category": "accounting",
+      "difficulty": "easy",
+      "question": "Excess of total business revenue over total expenses is?",
+      "options": {
+        "A": "Net profit",
+        "B": "Gross deficit",
+        "C": "Overhead",
+        "D": "Bad debt"
+      },
+      "correct": "A",
+      "explanation": "Net profit represents earnings remaining after deducting all manufacturing and operating expenses."
+    },
+    {
+      "id": "AF-016",
+      "category": "taxation",
+      "difficulty": "medium",
+      "question": "Input Tax Credit (ITC) under GST cannot be claimed on which?",
+      "options": {
+        "A": "Raw SUJ2 steel",
+        "B": "Factory machinery",
+        "C": "Personal club membership",
+        "D": "Cutting lubricant"
+      },
+      "correct": "C",
+      "explanation": "Section 17(5) blocks ITC on personal consumption, motor cars (with exceptions), and club memberships."
+    },
+    {
+      "id": "AF-017",
+      "category": "taxation",
+      "difficulty": "medium",
+      "question": "Monthly return detailing outward supplies of bearings is?",
+      "options": {
+        "A": "GSTR-1",
+        "B": "GSTR-7",
+        "C": "Form 26AS",
+        "D": "Form 10E"
+      },
+      "correct": "A",
+      "explanation": "GSTR-1 reports all outward sales invoices and credit notes issued during the month."
+    },
+    {
+      "id": "AF-018",
+      "category": "taxation",
+      "difficulty": "medium",
+      "question": "Monthly summary return used to pay net GST liability is?",
+      "options": {
+        "A": "GSTR-3B",
+        "B": "GSTR-9C",
+        "C": "GSTR-4",
+        "D": "GSTR-8"
+      },
+      "correct": "A",
+      "explanation": "GSTR-3B is the monthly self-declaration return for calculating and settling net GST cash liability."
+    },
+    {
+      "id": "AF-019",
+      "category": "costing",
+      "difficulty": "medium",
+      "question": "The difference between standard production cost and actual cost is?",
+      "options": {
+        "A": "Cost variance",
+        "B": "Rebate",
+        "C": "Royalty",
+        "D": "Carriage"
+      },
+      "correct": "A",
+      "explanation": "Cost variance measures deviations from budgeted standards to identify operational efficiency or waste."
+    },
+    {
+      "id": "AF-020",
+      "category": "costing",
+      "difficulty": "medium",
+      "question": "The production volume where revenue equals total cost is?",
+      "options": {
+        "A": "Break-even point",
+        "B": "Safety margin",
+        "C": "Peak capacity",
+        "D": "Order backlog"
+      },
+      "correct": "A",
+      "explanation": "Break-even point is the exact operating volume where operating profit is zero (no profit, no loss)."
+    },
+    {
+      "id": "AF-021",
+      "category": "accounting",
+      "difficulty": "medium",
+      "question": "Indian Accounting Standards aligned with global IFRS are?",
+      "options": {
+        "A": "Ind AS",
+        "B": "US GAAP",
+        "C": "UK FRS",
+        "D": "BSI Code"
+      },
+      "correct": "A",
+      "explanation": "Ind AS (Indian Accounting Standards) are converged with International Financial Reporting Standards."
+    },
+    {
+      "id": "AF-022",
+      "category": "accounting",
+      "difficulty": "medium",
+      "question": "Lease accounting for factory premises and assets is under?",
+      "options": {
+        "A": "Ind AS 116",
+        "B": "Ind AS 2",
+        "C": "Ind AS 7",
+        "D": "Ind AS 19"
+      },
+      "correct": "A",
+      "explanation": "Ind AS 116 requires lessees to recognize lease assets and liabilities on the balance sheet."
+    },
+    {
+      "id": "AF-023",
+      "category": "treasury",
+      "difficulty": "medium",
+      "question": "The time taken to turn raw material investment back into cash is?",
+      "options": {
+        "A": "Cash conversion cycle",
+        "B": "Lead cycle",
+        "C": "Takt cycle",
+        "D": "Billing run"
+      },
+      "correct": "A",
+      "explanation": "Cash Conversion Cycle (CCC) measures days of inventory + receivables minus payable days."
+    },
+    {
+      "id": "AF-024",
+      "category": "treasury",
+      "difficulty": "medium",
+      "question": "Bank instrument guaranteeing supplier fulfillment to customer is?",
+      "options": {
+        "A": "Bank guarantee",
+        "B": "Promissory slip",
+        "C": "Debit voucher",
+        "D": "Delivery memo"
+      },
+      "correct": "A",
+      "explanation": "A Bank Guarantee provides financial security if an agreed contract or delivery is breached."
+    },
+    {
+      "id": "AF-025",
+      "category": "treasury",
+      "difficulty": "medium",
+      "question": "Forward contracts are used by treasury primarily to manage?",
+      "options": {
+        "A": "Foreign exchange risk",
+        "B": "Machinery wear",
+        "C": "Office rent",
+        "D": "Employee leave"
+      },
+      "correct": "A",
+      "explanation": "Forward contracts lock in foreign currency rates to hedge against adverse currency fluctuations."
+    },
+    {
+      "id": "AF-026",
+      "category": "controls",
+      "difficulty": "medium",
+      "question": "Separating the person creating a payment from the one approving is?",
+      "options": {
+        "A": "Segregation of duties",
+        "B": "Single flow",
+        "C": "Fast track",
+        "D": "Direct credit"
+      },
+      "correct": "A",
+      "explanation": "Segregation of duties (Maker-Checker) prevents fraud and inadvertent bookkeeping errors."
+    },
+    {
+      "id": "AF-027",
+      "category": "controls",
+      "difficulty": "medium",
+      "question": "Three-way matching verifies invoice against Purchase Order and?",
+      "options": {
+        "A": "Goods Receipt Note (GRN)",
+        "B": "Sales brochure",
+        "C": "Visitor pass",
+        "D": "Insurance quote"
+      },
+      "correct": "A",
+      "explanation": "Accounts matches PO price, GRN received quantity, and Vendor Invoice before processing payment."
+    },
+    {
+      "id": "AF-028",
+      "category": "costing",
+      "difficulty": "medium",
+      "question": "Allocating factory electricity and tooling to products is called?",
+      "options": {
+        "A": "Overhead absorption",
+        "B": "Asset write-off",
+        "C": "Rebate accrual",
+        "D": "Cash discount"
+      },
+      "correct": "A",
+      "explanation": "Overhead absorption assigns indirect production expenses to cost units via machine or labor hours."
+    },
+    {
+      "id": "AF-029",
+      "category": "accounting",
+      "difficulty": "medium",
+      "question": "Expenses incurred in the period but not yet invoiced are?",
+      "options": {
+        "A": "Accrued expenses",
+        "B": "Prepaid rents",
+        "C": "Sunk costs",
+        "D": "Unearned income"
+      },
+      "correct": "A",
+      "explanation": "Accruals ensure expenses are recognized in the period they occur under matching principles."
+    },
+    {
+      "id": "AF-030",
+      "category": "audit",
+      "difficulty": "medium",
+      "question": "CARO in Indian statutory company audit stands for?",
+      "options": {
+        "A": "Companies Auditor's Report Order",
+        "B": "Corporate Asset Review Office",
+        "C": "Central Accounting Risk Outline",
+        "D": "Commercial Audit Rule Ordinance"
+      },
+      "correct": "A",
+      "explanation": "CARO specifies mandatory reporting clauses for auditors on inventory, fixed assets, and loans."
+    },
+    {
+      "id": "AF-031",
+      "category": "accounting",
+      "difficulty": "medium",
+      "question": "Investment in new CNC grinding lines is classified as?",
+      "options": {
+        "A": "Capex",
+        "B": "Opex",
+        "C": "Petty cash",
+        "D": "Bad expense"
+      },
+      "correct": "A",
+      "explanation": "Capital Expenditure (Capex) purchases long-term productive assets capitalized on the balance sheet."
+    },
+    {
+      "id": "AF-032",
+      "category": "costing",
+      "difficulty": "medium",
+      "question": "Direct raw material cost plus direct labor cost equals?",
+      "options": {
+        "A": "Prime cost",
+        "B": "Selling overhead",
+        "C": "Gross profit",
+        "D": "Sunk expense"
+      },
+      "correct": "A",
+      "explanation": "Prime cost consists of all direct production inputs directly traceable to the manufactured item."
+    },
+    {
+      "id": "AF-033",
+      "category": "taxation",
+      "difficulty": "medium",
+      "question": "Quarterly certificate issued to suppliers for deducted TDS is?",
+      "options": {
+        "A": "Form 16A",
+        "B": "Form 10F",
+        "C": "Form 3CD",
+        "D": "Form 60"
+      },
+      "correct": "A",
+      "explanation": "Form 16A certifies income tax deducted on non-salary payments such as contractor or vendor fees."
+    },
+    {
+      "id": "AF-034",
+      "category": "treasury",
+      "difficulty": "medium",
+      "question": "A Letter of Credit (LC) is issued by which entity?",
+      "options": {
+        "A": "Importer's bank",
+        "B": "Shipping liner",
+        "C": "Customs officer",
+        "D": "Tax collector"
+      },
+      "correct": "A",
+      "explanation": "The buyer's (issuing) bank provides an irrevocable undertaking to pay the seller upon complying documents."
+    },
+    {
+      "id": "AF-035",
+      "category": "controls",
+      "difficulty": "medium",
+      "question": "Verifying physical warehouse bearings against ERP ledger is?",
+      "options": {
+        "A": "Stock reconciliation",
+        "B": "Credit check",
+        "C": "Forex swap",
+        "D": "Lease review"
+      },
+      "correct": "A",
+      "explanation": "Physical inventory counts reconciled with book stocks detect shrinkage, damage, and ledger discrepancies."
+    },
+    {
+      "id": "AF-036",
+      "category": "costing",
+      "difficulty": "hard",
+      "question": "A favorable Material Price Variance occurs when?",
+      "options": {
+        "A": "Actual price < Standard price",
+        "B": "Actual price > Standard price",
+        "C": "Scrap rate > Standard",
+        "D": "Usage exceeds BOM"
+      },
+      "correct": "A",
+      "explanation": "When procurement purchases raw steel at a lower price than standard budget, the variance is favorable."
+    },
+    {
+      "id": "AF-037",
+      "category": "accounting",
+      "difficulty": "hard",
+      "question": "Which accounting standard governs Revenue from Contracts?",
+      "options": {
+        "A": "Ind AS 115",
+        "B": "Ind AS 16",
+        "C": "Ind AS 36",
+        "D": "Ind AS 102"
+      },
+      "correct": "A",
+      "explanation": "Ind AS 115 sets out the 5-step model for recognizing revenue from contracts with customers."
+    },
+    {
+      "id": "AF-038",
+      "category": "taxation",
+      "difficulty": "hard",
+      "question": "Under GST Section 16(4), the deadline to claim input credit is?",
+      "options": {
+        "A": "30th November",
+        "B": "31st March",
+        "C": "30th June",
+        "D": "31st August"
+      },
+      "correct": "A",
+      "explanation": "ITC for an annual period must be claimed by 30th November following the end of the financial year."
+    },
+    {
+      "id": "AF-039",
+      "category": "treasury",
+      "difficulty": "hard",
+      "question": "Hedging import steel commitments protects NSK against?",
+      "options": {
+        "A": "Rupee depreciation",
+        "B": "Rupee strengthening",
+        "C": "Domestic tax cut",
+        "D": "Lower freight"
+      },
+      "correct": "A",
+      "explanation": "If the rupee weakens against the Japanese Yen or US Dollar, import costs increase unless hedged."
+    },
+    {
+      "id": "AF-040",
+      "category": "costing",
+      "difficulty": "hard",
+      "question": "Discounted cash flow metric for evaluating machine payback is?",
+      "options": {
+        "A": "Net Present Value (NPV)",
+        "B": "Book value",
+        "C": "Inventory turnover",
+        "D": "Current ratio"
+      },
+      "correct": "A",
+      "explanation": "Net Present Value calculates the present value of future cash inflows discounted at the hurdle rate."
+    },
+    {
+      "id": "AF-041",
+      "category": "accounting",
+      "difficulty": "hard",
+      "question": "Right-of-Use (ROU) assets on the balance sheet arise from?",
+      "options": {
+        "A": "Operating leases",
+        "B": "Equity shares",
+        "C": "Customer deposits",
+        "D": "Petty cash"
+      },
+      "correct": "A",
+      "explanation": "Under Ind AS 116, leased properties and equipment are recorded as Right-of-Use assets."
+    },
+    {
+      "id": "AF-042",
+      "category": "taxation",
+      "difficulty": "hard",
+      "question": "Under Reverse Charge Mechanism (RCM), tax is paid directly by?",
+      "options": {
+        "A": "Recipient of service",
+        "B": "Overseas vendor",
+        "C": "Transporter driver",
+        "D": "Bank teller"
+      },
+      "correct": "A",
+      "explanation": "In RCM cases (e.g., Goods Transport Agency, legal services), the recipient settles GST directly."
+    },
+    {
+      "id": "AF-043",
+      "category": "audit",
+      "difficulty": "hard",
+      "question": "Internal Financial Controls (IFC) testing is mandated under?",
+      "options": {
+        "A": "Companies Act 2013",
+        "B": "Motor Vehicles Act",
+        "C": "Factories Act 1948",
+        "D": "Customs Tariff Act"
+      },
+      "correct": "A",
+      "explanation": "Section 134(5)(e) mandates board responsibility and auditor verification of operating financial controls."
+    },
+    {
+      "id": "AF-044",
+      "category": "treasury",
+      "difficulty": "hard",
+      "question": "DSO measures the average number of days to collect what?",
+      "options": {
+        "A": "Trade receivables",
+        "B": "Scrap sales",
+        "C": "Worker wages",
+        "D": "Raw steel orders"
+      },
+      "correct": "A",
+      "explanation": "Days Sales Outstanding (DSO) reflects credit control efficiency in collecting cash from customers."
+    },
+    {
+      "id": "AF-045",
+      "category": "costing",
+      "difficulty": "hard",
+      "question": "Contribution margin per unit equals selling price minus?",
+      "options": {
+        "A": "Variable cost per unit",
+        "B": "Total fixed overhead",
+        "C": "Corporate income tax",
+        "D": "Depreciation"
+      },
+      "correct": "A",
+      "explanation": "Contribution margin = Unit Selling Price − Unit Variable Cost, funding fixed overhead and profit."
+    },
+    {
+      "id": "AF-046",
+      "category": "taxation",
+      "difficulty": "hard",
+      "question": "TDS under Section 194Q is deducted on goods purchase over?",
+      "options": {
+        "A": "Rs 50 Lakhs",
+        "B": "Rs 10 Lakhs",
+        "C": "Rs 1 Crore",
+        "D": "Rs 25 Lakhs"
+      },
+      "correct": "A",
+      "explanation": "Section 194Q requires buyers with turnover > Rs 10 Crore to deduct 0.1% TDS on purchases exceeding Rs 50 Lakhs."
+    },
+    {
+      "id": "AF-047",
+      "category": "controls",
+      "difficulty": "hard",
+      "question": "The Maker-Checker governance principle prevents an employee from?",
+      "options": {
+        "A": "Initiating & approving same entry",
+        "B": "Working overtime",
+        "C": "Accessing email",
+        "D": "Signing attendance"
+      },
+      "correct": "A",
+      "explanation": "Maker-checker requires a separate reviewer to validate transactions initiated by the preparer."
+    },
+    {
+      "id": "AF-048",
+      "category": "accounting",
+      "difficulty": "hard",
+      "question": "Standard useful life of general plant machinery under Schedule II is?",
+      "options": {
+        "A": "15 years",
+        "B": "30 years",
+        "C": "5 years",
+        "D": "3 years"
+      },
+      "correct": "A",
+      "explanation": "Schedule II of Companies Act 2013 prescribes 15 years as indicative useful life for factory plant machinery."
+    },
+    {
+      "id": "AF-049",
+      "category": "treasury",
+      "difficulty": "hard",
+      "question": "Net Working Capital is defined as current assets minus?",
+      "options": {
+        "A": "Current liabilities",
+        "B": "Share capital",
+        "C": "Long term debt",
+        "D": "Plant machinery"
+      },
+      "correct": "A",
+      "explanation": "Working capital = Current Assets − Current Liabilities; shows liquidity to meet day-to-day commitments."
+    },
+    {
+      "id": "AF-050",
+      "category": "audit",
+      "difficulty": "hard",
+      "question": "Arm's length pricing rules apply to cross-border deals with?",
+      "options": {
+        "A": "Associated enterprises",
+        "B": "Local retail buyers",
+        "C": "Scrap dealers",
+        "D": "Utility providers"
+      },
+      "correct": "A",
+      "explanation": "Transfer pricing regulations mandate arm's length pricing on transactions between group entities."
+    }
+  ]
+}

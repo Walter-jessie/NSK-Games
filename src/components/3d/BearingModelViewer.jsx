@@ -82,14 +82,24 @@ function createDynamicBearing(partsCount = 10) {
     }
 
     // toneMapped:false holds exact NSK red; ACES otherwise pulls it to orange.
+    // The plate stands clear of the cap face rather than hugging it. At 0.005
+    // the logo and the cap were close enough to trade pixels, and the tilted
+    // view made it shimmer across the whole badge. polygonOffset keeps it in
+    // front whatever distance the camera is pulled to.
+    const LOGO_LIFT = 0.02;
     const logoW = capR * 1.5;
     const logoMat = new THREE.MeshBasicMaterial({
-      map: getNskLogoTexture(), alphaTest: 0.45, toneMapped: false,
+      map: getNskLogoTexture(),
+      alphaTest: 0.45,
+      toneMapped: false,
+      polygonOffset: true,
+      polygonOffsetFactor: -4,
+      polygonOffsetUnits: -4,
     });
     const logoGeo = new THREE.PlaneGeometry(logoW, logoW * (341 / 1024));
     for (const side of [1, -1]) {
       const logo = new THREE.Mesh(logoGeo, logoMat);
-      logo.position.z = side * (capT / 2 + 0.005);
+      logo.position.z = side * (capT / 2 + LOGO_LIFT);
       if (side === -1) logo.rotation.y = Math.PI; // readable from behind too
       staticInnerGroup.add(logo);
     }

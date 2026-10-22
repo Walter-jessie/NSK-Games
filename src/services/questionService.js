@@ -1,4 +1,5 @@
 import generalQuestions from '../data/questions/general.json';
+import othersQuestions from '../data/questions/others.json';
 import manufacturingQuestions from '../data/questions/manufacturing.json';
 import itcQuestions from '../data/questions/itc.json';
 import pteSalesQuestions from '../data/questions/pte_sales.json';
@@ -8,18 +9,24 @@ import supplyChainQuestions from '../data/questions/supply_chain.json';
 import complianceQuestions from '../data/questions/compliance.json';
 import hrGaQuestions from '../data/questions/hr_ga.json';
 import corporatePlanningQuestions from '../data/questions/corporate_planning.json';
+import accountsFinanceQuestions from '../data/questions/accounts_finance.json';
 
 const DEPARTMENT_BANKS = {
+  plant_cn: manufacturingQuestions,
   manufacturing: manufacturingQuestions,
   itc: itcQuestions,
   pte_sales: pteSalesQuestions,
+  industrial_business_unit: industrialSalesQuestions,
   industrial_sales: industrialSalesQuestions,
-  it: itQuestions,
+  bcld: supplyChainQuestions,
   supply_chain: supplyChainQuestions,
+  accounts_finance: accountsFinanceQuestions,
+  corporate_planning: corporatePlanningQuestions,
+  others: othersQuestions,
+  general: othersQuestions,
+  it: itQuestions,
   compliance: complianceQuestions,
   hr_ga: hrGaQuestions,
-  corporate_planning: corporatePlanningQuestions,
-  general: generalQuestions,
 };
 
 function shuffle(array) {
@@ -104,7 +111,7 @@ function placeAnswerAt(question, targetLabel) {
  * Resolves question bank by department ID (handles sub-departments)
  */
 export function getDepartmentBank(deptId) {
-  if (!deptId) return generalQuestions;
+  if (!deptId) return othersQuestions;
   // 1. Plant C/N (all manufacturing sub-departments)
   if (deptId.startsWith('plant_cn') || deptId.startsWith('manufacturing')) {
     return manufacturingQuestions;
@@ -119,15 +126,27 @@ export function getDepartmentBank(deptId) {
   }
   // 4. Accounts & Finance
   if (deptId === 'accounts_finance') {
+    return accountsFinanceQuestions;
+  }
+  // 5. Corporate Planning
+  if (deptId === 'corporate_planning') {
     return corporatePlanningQuestions;
   }
-  // 5. Others / General
+  // 6. ITC
+  if (deptId === 'itc') {
+    return itcQuestions;
+  }
+  // 7. PT&EE Sales
+  if (deptId === 'pte_sales') {
+    return pteSalesQuestions;
+  }
+  // 8. Others / General Corporate
   if (deptId === 'others' || deptId === 'general') {
-    return generalQuestions;
+    return othersQuestions;
   }
   if (DEPARTMENT_BANKS[deptId]) return DEPARTMENT_BANKS[deptId];
   const baseDept = deptId.split('_')[0];
-  return DEPARTMENT_BANKS[baseDept] || generalQuestions;
+  return DEPARTMENT_BANKS[baseDept] || othersQuestions;
 }
 
 /**
@@ -162,9 +181,9 @@ export function getQuestionsForGame(employeeId, deptId, count = 10, difficulty =
   let candidatePool = unseenQuestions.length >= count ? unseenQuestions : [...unseenQuestions, ...shuffle(seenQuestions)];
   let bankRecycled = unseenQuestions.length < count;
 
-  // If still fewer than count, supplement with general bank
+  // If still fewer than count, supplement with general corporate bank
   if (candidatePool.length < count) {
-    const generalExtras = generalQuestions.questions || [];
+    const generalExtras = othersQuestions.questions || [];
     candidatePool = [...candidatePool, ...generalExtras];
   }
 
