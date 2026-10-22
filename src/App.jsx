@@ -50,10 +50,16 @@ function PlantArenaRoute() {
 
   const handleSubmitScore = useCallback(
     (result) => {
-      // Game 2 scoring is paused as of now
-      console.log('[Plant Arena] Scoring paused for Game 2:', result);
+      submitScore({
+        employeeId: employeeId || 'NSK-GUEST',
+        department: department || 'plant_cn',
+        score: result.score || 0,
+        accuracy: result.integrity || 100,
+        correctCount: result.repairs || 0,
+        game: 'plant_arena',
+      }).catch((err) => console.warn('Submit Plant Arena score error:', err));
     },
-    []
+    [employeeId, department]
   );
 
   return (

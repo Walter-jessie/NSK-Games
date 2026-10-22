@@ -11,7 +11,9 @@ export default function LeaderboardPage() {
   const navigate = useNavigate();
   const { employeeId, department } = useAuthStore();
   const [scores, setScores] = useState([]);
-  const [filter, setFilter] = useState('all'); // 'all' | 'dept'
+  const [activeGame, setActiveGame] = useState('game1'); // 'game1' | 'game2'
+  const [deptFilter, setDeptFilter] = useState('all'); // 'all' | 'dept'
+  const [userTypeFilter, setUserTypeFilter] = useState('employees'); // 'employees' | 'guests'
   const [isLoading, setIsLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
@@ -20,7 +22,7 @@ export default function LeaderboardPage() {
     else setIsLoading(true);
 
     try {
-      const data = await getLeaderboard(50);
+      const data = await getLeaderboard();
       setScores(data);
     } catch (err) {
       console.warn('Failed to fetch leaderboard:', err);
@@ -34,8 +36,31 @@ export default function LeaderboardPage() {
     fetchScores();
   }, []);
 
-  const filteredScores =
-    filter === 'dept' ? scores.filter((s) => s.department === department) : scores;
+  // 1. Filter out guests unless guest toggle is selected
+  let filteredScores = scores.filter((p) => {
+    if (userTypeFilter === 'employees') return !p.isGuest;
+    return p.isGuest;
+  });
+
+  // 2. Department filter
+  if (deptFilter === 'dept' && department) {
+    filteredScores = filteredScores.filter((p) => p.department === department);
+  }
+
+  // 3. Sort according to active game
+  filteredScores.sort((a, b) => {
+    if (activeGame === 'game1') {
+      const aCount = a.game1?.played ? a.game1.correctCount : -1;
+      const bCount = b.game1?.played ? b.game1.correctCount : -1;
+      if (bCount !== aCount) return bCount - aCount;
+      return (b.game1?.score || 0) - (a.game1?.score || 0);
+    } else {
+      const aCount = a.game2?.played ? a.game2.repairs : -1;
+      const bCount = b.game2?.played ? b.game2.repairs : -1;
+      if (bCount !== aCount) return bCount - aCount;
+      return (b.game2?.score || 0) - (a.game2?.score || 0);
+    }
+  });
 
   const getRankStyle = (i) => {
     if (i === 0)
@@ -62,7 +87,7 @@ export default function LeaderboardPage() {
     return {
       bg: 'bg-white/85 backdrop-blur-xs border-slate-200/90 hover:border-slate-300 hover:bg-white shadow-xs',
       badge: `#${i + 1}`,
-      badgeClass: 'font-mono font-black text-base text-slate-500',
+      badgeClass: 'font-mono font-black text-sm sm:text-base text-slate-500',
       color: 'text-slate-600',
     };
   };
@@ -71,7 +96,7 @@ export default function LeaderboardPage() {
     <div className="relative h-full w-full flex flex-col overflow-hidden bg-[#f8fafc] text-slate-800 select-none font-body">
       {/* ── Blurred CAD Blueprint Background Watermark ── */}
       <div
-        className="absolute inset-0 bg-cover bg-center pointer-events-none z-0 opacity-25 filter blur-[4px]"
+        className="absolute inset-0 bg-cover bg-center pointer-events-none z-0 opacity-20 filter blur-[4px]"
         style={{ backgroundImage: `url(${homeBg})` }}
       />
 
@@ -84,48 +109,116 @@ export default function LeaderboardPage() {
         <line x1="0" y1="20" x2="100" y2="20" stroke="#cbd5e1" strokeWidth="0.15" strokeDasharray="1,2" />
         <line x1="0" y1="50" x2="100" y2="50" stroke="#cbd5e1" strokeWidth="0.15" strokeDasharray="1,2" />
         <line x1="0" y1="80" x2="100" y2="80" stroke="#cbd5e1" strokeWidth="0.15" strokeDasharray="1,2" />
-        <g style={{ transformOrigin: '15px 25px' }}>
-          <line x1="12" y1="25" x2="18" y2="25" stroke="#94a3b8" strokeWidth="0.3" />
-          <line x1="15" y1="22" x2="15" y2="28" stroke="#94a3b8" strokeWidth="0.3" />
-        </g>
-        <g style={{ transformOrigin: '85px 75px' }}>
-          <line x1="82" y1="75" x2="88" y2="75" stroke="#94a3b8" strokeWidth="0.3" />
-          <line x1="85" y1="72" x2="85" y2="78" stroke="#94a3b8" strokeWidth="0.3" />
-        </g>
       </svg>
 
       {/* Header */}
-      <header className="relative z-10 flex items-center justify-between px-3 sm:px-6 py-2.5 sm:py-3.5 border-b border-slate-200 bg-white/85 backdrop-blur-md shadow-xs">
-        <div className="flex items-center gap-2 sm:gap-3.5">
+      <header className="relative z-10 flex flex-wrap items-center justify-between px-3 sm:px-5 py-2 sm:py-2.5 border-b border-slate-200 bg-white/90 backdrop-blur-md shadow-xs gap-2">
+        {/* Left: Back button + Title */}
+        <div className="flex items-center gap-2 sm:gap-3">
           <button
             onClick={() => navigate('/hub')}
-            className="text-slate-600 hover:text-slate-900 p-1.5 sm:p-2 rounded-lg sm:rounded-xl border border-slate-200 bg-white shadow-xs hover:bg-slate-50 transition-all flex items-center justify-center cursor-pointer"
+            className="text-slate-600 hover:text-slate-900 p-1.5 rounded-lg border border-slate-200 bg-white shadow-xs hover:bg-slate-50 transition-all flex items-center justify-center cursor-pointer"
             title="Return to Training Hub"
           >
             <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
             </svg>
           </button>
-          <div className="flex items-center gap-2 sm:gap-3">
-            <div className="w-1.5 h-4 sm:h-6 bg-[#E60012] rounded-full" />
-            <div>
-              <h1 className="font-heading text-sm sm:text-lg md:text-2xl font-black text-slate-900 tracking-tight leading-none flex items-center gap-2">
-                PLANT LEADERBOARD
-              </h1>
-            </div>
+          <div className="flex items-center gap-2">
+            <div className="w-1.5 h-4 sm:h-5 bg-[#E60012] rounded-full" />
+            <h1 className="font-heading text-xs sm:text-base font-black text-slate-900 tracking-tight leading-none">
+              LEADERBOARD
+            </h1>
           </div>
         </div>
 
-        {/* Filter Toggle & Refresh Button */}
-        <div className="flex items-center gap-2 sm:gap-3">
+        {/* Center: Game 1 vs Game 2 Buttons */}
+        <div className="flex items-center bg-slate-100 p-0.5 rounded-xl border border-slate-200/90 shadow-inner">
+          <button
+            onClick={() => setActiveGame('game1')}
+            className={`px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-lg font-heading text-[11px] sm:text-xs font-black transition-all flex items-center gap-1.5 cursor-pointer ${
+              activeGame === 'game1'
+                ? 'bg-[#E60012] text-white shadow-xs'
+                : 'text-slate-600 hover:text-slate-900 hover:bg-white/60'
+            }`}
+          >
+            <span>🏃</span>
+            <span>Game 1: Bearing Runner</span>
+          </button>
+          <button
+            onClick={() => setActiveGame('game2')}
+            className={`px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-lg font-heading text-[11px] sm:text-xs font-black transition-all flex items-center gap-1.5 cursor-pointer ${
+              activeGame === 'game2'
+                ? 'bg-slate-900 text-white shadow-xs'
+                : 'text-slate-600 hover:text-slate-900 hover:bg-white/60'
+            }`}
+          >
+            <span>🔧</span>
+            <span>Game 2: Plant Arena</span>
+          </button>
+        </div>
+
+        {/* Right: Guest Mode Toggle, Plant/Dept Filter, & Refresh Button */}
+        <div className="flex items-center gap-1.5 sm:gap-2">
+          {/* Guest Mode Separate Toggle */}
+          <div className="flex items-center bg-slate-100 p-0.5 rounded-lg border border-slate-200 text-[10px] sm:text-xs">
+            <button
+              onClick={() => setUserTypeFilter('employees')}
+              className={`px-2 sm:px-2.5 py-1 rounded-md font-heading font-bold transition-all cursor-pointer ${
+                userTypeFilter === 'employees'
+                  ? 'bg-white text-slate-900 shadow-xs'
+                  : 'text-slate-500 hover:text-slate-900'
+              }`}
+              title="Official employee rankings"
+            >
+              Employees
+            </button>
+            <button
+              onClick={() => setUserTypeFilter('guests')}
+              className={`px-2 sm:px-2.5 py-1 rounded-md font-heading font-bold transition-all cursor-pointer ${
+                userTypeFilter === 'guests'
+                  ? 'bg-amber-500 text-white shadow-xs font-black'
+                  : 'text-slate-500 hover:text-slate-900'
+              }`}
+              title="Guest runs"
+            >
+              Guests
+            </button>
+          </div>
+
+          {/* Plant / Dept Filter */}
+          <div className="flex items-center bg-slate-100 p-0.5 rounded-lg border border-slate-200 text-[10px] sm:text-xs">
+            <button
+              onClick={() => setDeptFilter('all')}
+              className={`px-2 sm:px-2.5 py-1 rounded-md font-heading font-bold transition-all cursor-pointer ${
+                deptFilter === 'all'
+                  ? 'bg-white text-slate-900 shadow-xs'
+                  : 'text-slate-500 hover:text-slate-900'
+              }`}
+            >
+              All Plant
+            </button>
+            <button
+              onClick={() => setDeptFilter('dept')}
+              className={`px-2 sm:px-2.5 py-1 rounded-md font-heading font-bold transition-all cursor-pointer ${
+                deptFilter === 'dept'
+                  ? 'bg-white text-slate-900 shadow-xs'
+                  : 'text-slate-500 hover:text-slate-900'
+              }`}
+            >
+              My Dept
+            </button>
+          </div>
+
+          {/* Refresh Button */}
           <button
             onClick={() => fetchScores(true)}
             disabled={isRefreshing || isLoading}
-            className="text-slate-600 hover:text-slate-900 p-1.5 sm:p-2.5 rounded-lg sm:rounded-xl border border-slate-200 bg-white shadow-xs hover:bg-slate-50 active:scale-95 transition-all cursor-pointer"
+            className="text-slate-600 hover:text-slate-900 p-1.5 rounded-lg border border-slate-200 bg-white shadow-xs hover:bg-slate-50 active:scale-95 transition-all cursor-pointer"
             title="Refresh rankings"
           >
             <svg
-              className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${isRefreshing ? 'animate-spin text-[#E60012]' : ''}`}
+              className={`w-3.5 h-3.5 ${isRefreshing ? 'animate-spin text-[#E60012]' : ''}`}
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -138,108 +231,142 @@ export default function LeaderboardPage() {
               />
             </svg>
           </button>
-
-          <div className="flex items-center bg-slate-100 p-0.5 sm:p-1 rounded-lg sm:rounded-xl border border-slate-200 text-xs sm:text-sm">
-            <button
-              onClick={() => setFilter('all')}
-              className={`px-3.5 py-1.5 rounded-lg font-heading font-bold transition-all cursor-pointer ${
-                filter === 'all'
-                  ? 'bg-white text-slate-900 shadow-xs'
-                  : 'text-slate-600 hover:text-slate-900'
-              }`}
-            >
-              All Plant
-            </button>
-            <button
-              onClick={() => setFilter('dept')}
-              className={`px-3.5 py-1.5 rounded-lg font-heading font-bold transition-all cursor-pointer ${
-                filter === 'dept'
-                  ? 'bg-white text-slate-900 shadow-xs'
-                  : 'text-slate-600 hover:text-slate-900'
-              }`}
-            >
-              My Dept
-            </button>
-          </div>
-
-          {/* NSK Branding */}
-          <span className="font-heading font-black text-2xl tracking-tighter text-[#E60012] ml-2 hidden sm:inline-block">
-            NSK
-          </span>
         </div>
       </header>
 
       {/* Content */}
-      <main className="relative z-10 flex-1 overflow-y-auto p-4 sm:p-6 md:p-8">
+      <main className="relative z-10 flex-1 overflow-y-auto p-3 sm:p-5">
         {isLoading ? (
           <div className="flex flex-col items-center justify-center h-full">
-            <svg className="animate-spin h-9 w-9 text-[#E60012] mb-3" viewBox="0 0 24 24">
+            <svg className="animate-spin h-8 w-8 text-[#E60012] mb-3" viewBox="0 0 24 24">
               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
             </svg>
-            <p className="text-sm font-heading font-bold text-slate-600">Syncing plant rankings...</p>
+            <p className="text-xs sm:text-sm font-heading font-bold text-slate-600">Syncing rankings...</p>
           </div>
         ) : filteredScores.length === 0 ? (
-          <div className="flex flex-col items-center justify-center h-full text-center max-w-md mx-auto p-8 rounded-2xl bg-white/90 border border-slate-200 shadow-sm">
-            <span className="text-6xl mb-4">🏆</span>
-            <p className="font-heading font-black text-slate-900 text-2xl tracking-tight">No Scores Yet</p>
-            <p className="text-sm font-medium text-slate-600 mt-2">
-              Be the first trainee to complete the Bearing Challenge and establish the plant record!
+          <div className="flex flex-col items-center justify-center h-full text-center max-w-md mx-auto p-6 rounded-2xl bg-white/90 border border-slate-200 shadow-sm">
+            <span className="text-5xl mb-3">🏆</span>
+            <p className="font-heading font-black text-slate-900 text-xl tracking-tight">
+              {userTypeFilter === 'guests' ? 'No Guest Runs Yet' : 'No Employee Scores Yet'}
+            </p>
+            <p className="text-xs font-medium text-slate-600 mt-1.5">
+              {activeGame === 'game1'
+                ? 'Be the first to complete the Bearing Runner and establish the plant record!'
+                : 'Be the first to repair the line in Plant Arena!'}
             </p>
             <button
-              onClick={() => navigate('/game/bearing-runner')}
-              className="mt-6 py-3 px-6 rounded-xl font-heading font-black text-sm text-white bg-[#E60012] hover:bg-[#c90010] active:scale-98 transition-all shadow-md shadow-red-600/20 cursor-pointer"
+              onClick={() => navigate(activeGame === 'game1' ? '/game/bearing-runner' : '/game/plant-arena')}
+              className="mt-4 py-2.5 px-5 rounded-xl font-heading font-black text-xs text-white bg-[#E60012] hover:bg-[#c90010] active:scale-98 transition-all shadow-md shadow-red-600/20 cursor-pointer"
             >
-              Launch Bearing Runner →
+              {activeGame === 'game1' ? 'Launch Bearing Runner →' : 'Launch Plant Arena →'}
             </button>
           </div>
         ) : (
-          <div className="space-y-3 max-w-2xl mx-auto">
+          <div className="space-y-2.5 max-w-3xl mx-auto">
             {filteredScores.map((entry, i) => {
               const rank = getRankStyle(i);
               const isSelf = entry.employeeId === employeeId;
-              const correctAnswers =
-                entry.correctCount !== undefined
-                  ? entry.correctCount
-                  : entry.accuracy !== undefined
-                  ? Math.round((Number(entry.accuracy) / 100) * 10)
-                  : 0;
 
               return (
                 <div
                   key={`${entry.employeeId}-${i}`}
-                  className={`flex items-center gap-4 px-4 sm:px-5 py-3.5 rounded-2xl border transition-all ${rank.bg} ${
+                  className={`flex items-center gap-3 sm:gap-4 px-3.5 sm:px-4 py-2.5 sm:py-3 rounded-2xl border transition-all ${rank.bg} ${
                     isSelf ? 'ring-2 ring-[#E60012] border-[#E60012]/40 bg-red-50/70' : ''
                   }`}
                 >
-                  <span className={`w-9 text-center font-heading font-black flex items-center justify-center ${rank.badgeClass} ${rank.color}`}>
+                  {/* Rank */}
+                  <span className={`w-8 text-center font-heading font-black flex items-center justify-center ${rank.badgeClass} ${rank.color}`}>
                     {rank.badge}
                   </span>
 
+                  {/* Player details */}
                   <div className="flex-1 min-w-0">
-                    <p className="text-base sm:text-lg font-heading font-black tracking-tight text-slate-900 truncate flex items-center gap-2">
+                    <p className="text-sm sm:text-base font-heading font-black tracking-tight text-slate-900 truncate flex items-center gap-1.5">
                       <span>{entry.employeeId}</span>
                       {isSelf && (
-                        <span className="text-[10px] font-mono font-bold text-[#E60012] bg-red-100 border border-red-300 px-1.5 py-0.5 rounded uppercase">
+                        <span className="text-[9px] font-mono font-bold text-[#E60012] bg-red-100 border border-red-300 px-1 py-0.5 rounded uppercase">
                           YOU
                         </span>
                       )}
+                      {entry.isGuest && (
+                        <span className="text-[9px] font-mono font-bold text-amber-700 bg-amber-100 border border-amber-300 px-1 py-0.5 rounded uppercase">
+                          GUEST
+                        </span>
+                      )}
                     </p>
-                    <p className="text-xs sm:text-sm font-semibold text-slate-500 truncate mt-0.5">
+                    <p className="text-[11px] sm:text-xs font-semibold text-slate-500 truncate">
                       {deptMap[entry.department] || entry.department || 'NSK Chennai'}
                     </p>
                   </div>
 
-                  <div className="text-right shrink-0">
-                    <div className="flex items-baseline justify-end gap-1">
-                      <span className="font-heading font-black text-lg sm:text-2xl text-slate-900 tabular-nums">
-                        {correctAnswers}
+                  {/* Both Game 1 and Game 2 Scores for this player */}
+                  <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+                    {/* Game 1 Box */}
+                    <div
+                      className={`px-2 sm:px-3 py-1 rounded-xl border text-right transition-all min-w-[76px] sm:min-w-[96px] ${
+                        activeGame === 'game1'
+                          ? 'bg-red-50/90 border-[#E60012]/50 shadow-xs ring-1 ring-red-300'
+                          : 'bg-slate-100/70 border-slate-200 opacity-60'
+                      }`}
+                    >
+                      <span className="text-[8px] sm:text-[9px] font-heading font-black uppercase tracking-wider block text-slate-500">
+                        🏃 Game 1
                       </span>
-                      <span className="text-xs sm:text-sm font-bold text-slate-500">/ 10</span>
+                      {entry.game1?.played ? (
+                        <div className="flex items-baseline justify-end gap-1">
+                          <span className="font-heading font-black text-xs sm:text-sm text-slate-900 tabular-nums">
+                            {entry.game1.correctCount}
+                          </span>
+                          <span className="text-[9px] sm:text-[10px] font-bold text-slate-500">/10</span>
+                          <span className="text-[9px] sm:text-[10px] font-mono font-semibold text-emerald-700 hidden sm:inline">
+                            ({entry.game1.score}p)
+                          </span>
+                        </div>
+                      ) : (
+                        <span className="text-[10px] sm:text-xs font-mono font-bold text-slate-400">--</span>
+                      )}
                     </div>
-                    <span className="text-[10px] sm:text-[11px] font-heading font-bold text-emerald-700 uppercase tracking-wider block">
-                      Correct Answers
-                    </span>
+
+                    {/* Game 2 Box */}
+                    <div
+                      className={`px-2 sm:px-3 py-1 rounded-xl border text-right transition-all min-w-[76px] sm:min-w-[96px] ${
+                        activeGame === 'game2'
+                          ? 'bg-slate-900 text-white border-slate-900 shadow-xs ring-1 ring-slate-700'
+                          : 'bg-slate-100/70 border-slate-200 opacity-60'
+                      }`}
+                    >
+                      <span className={`text-[8px] sm:text-[9px] font-heading font-black uppercase tracking-wider block ${
+                        activeGame === 'game2' ? 'text-slate-300' : 'text-slate-500'
+                      }`}>
+                        🔧 Game 2
+                      </span>
+                      {entry.game2?.played ? (
+                        <div className="flex items-baseline justify-end gap-1">
+                          <span className={`font-heading font-black text-xs sm:text-sm tabular-nums ${
+                            activeGame === 'game2' ? 'text-white' : 'text-slate-900'
+                          }`}>
+                            {entry.game2.repairs}
+                          </span>
+                          <span className={`text-[8px] sm:text-[9px] font-bold ${
+                            activeGame === 'game2' ? 'text-slate-300' : 'text-slate-500'
+                          }`}>
+                            rep
+                          </span>
+                          <span className={`text-[9px] sm:text-[10px] font-mono font-semibold hidden sm:inline ${
+                            activeGame === 'game2' ? 'text-emerald-400' : 'text-emerald-700'
+                          }`}>
+                            ({entry.game2.score}p)
+                          </span>
+                        </div>
+                      ) : (
+                        <span className={`text-[10px] sm:text-xs font-mono font-bold ${
+                          activeGame === 'game2' ? 'text-slate-400' : 'text-slate-400'
+                        }`}>
+                          --
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </div>
               );
@@ -250,4 +377,3 @@ export default function LeaderboardPage() {
     </div>
   );
 }
-
