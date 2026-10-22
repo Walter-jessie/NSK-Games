@@ -105,9 +105,28 @@ function placeAnswerAt(question, targetLabel) {
  */
 export function getDepartmentBank(deptId) {
   if (!deptId) return generalQuestions;
-  const baseDept = deptId.split('_')[0];
-  if (baseDept === 'manufacturing') return manufacturingQuestions;
+  // 1. Plant C/N (all manufacturing sub-departments)
+  if (deptId.startsWith('plant_cn') || deptId.startsWith('manufacturing')) {
+    return manufacturingQuestions;
+  }
+  // 2. BCLD (Business Control & Logistics)
+  if (deptId === 'bcld' || deptId.startsWith('supply_chain')) {
+    return supplyChainQuestions;
+  }
+  // 3. Industrial Business Unit
+  if (deptId === 'industrial_business_unit' || deptId.startsWith('industrial_sales')) {
+    return industrialSalesQuestions;
+  }
+  // 4. Accounts & Finance
+  if (deptId === 'accounts_finance') {
+    return corporatePlanningQuestions;
+  }
+  // 5. Others / General
+  if (deptId === 'others' || deptId === 'general') {
+    return generalQuestions;
+  }
   if (DEPARTMENT_BANKS[deptId]) return DEPARTMENT_BANKS[deptId];
+  const baseDept = deptId.split('_')[0];
   return DEPARTMENT_BANKS[baseDept] || generalQuestions;
 }
 

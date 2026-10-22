@@ -537,7 +537,15 @@ export default function BearingRunnerPage() {
           style={{ top: '48%', left: '50%' }}
         >
           <div className="flex flex-col items-center px-4 py-2.5 rounded-2xl bg-slate-950/85 border border-cyan-400/50 shadow-[0_0_35px_rgba(56,189,248,0.45)] backdrop-blur-md">
-            <span className="text-5xl sm:text-6xl drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)] animate-pulse">{flyingPart.icon}</span>
+            {flyingPart.image ? (
+              <img
+                src={flyingPart.image}
+                alt=""
+                className="w-14 h-14 sm:w-16 sm:h-16 object-contain drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)]"
+              />
+            ) : (
+              <span className="text-5xl sm:text-6xl drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)] animate-pulse">{flyingPart.icon}</span>
+            )}
             <div className="flex items-center gap-1.5 mt-2 bg-cyan-950/90 border border-cyan-400/40 px-3 py-0.5 rounded-full whitespace-nowrap shadow-md">
               <span className="text-[10px] text-cyan-400 font-heading font-black uppercase tracking-wider">
                 {flyingPart.kind === 'process' ? '+ PROCESS' : '+ PART'}

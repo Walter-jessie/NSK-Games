@@ -12,17 +12,23 @@
  *
  * `kind` drives the badge the runner pops when the item is collected, so a
  * process is not announced as a part.
+ *
+ * An entry carries either `image` or `icon`, never both. `image` is a rendered
+ * PNG in public/images/parts, used where a glyph could not carry the part:
+ * the four real components, plus the shield and the snap ring, whose nearest
+ * emoji were a tyre and a wedding ring. The rest keep an emoji because it
+ * reads fine at badge size. Both render sites must handle either.
  */
 export const BEARING_PARTS = [
-  { name: 'Inner Casing', icon: '⚙️', type: 'Bore & Raceway', slot: 1, model: true, kind: 'part' },
-  { name: 'Bearing Balls', icon: '🔵', type: 'SUJ2 Spheres', slot: 2, model: true, kind: 'part' },
-  { name: 'Outer Casing', icon: '🔩', type: 'Hardened Raceway', slot: 3, model: true, kind: 'part' },
-  { name: 'Retainer Cage', icon: '🛡️', type: 'Steel Separator', slot: 4, model: true, kind: 'part' },
+  { name: 'Inner Casing', image: './images/parts/01_inner-casing.png', type: 'Bore & Raceway', slot: 1, model: true, kind: 'part' },
+  { name: 'Bearing Balls', image: './images/parts/02_bearing-balls.png', type: 'SUJ2 Spheres', slot: 2, model: true, kind: 'part' },
+  { name: 'Outer Casing', image: './images/parts/03_outer-casing.png', type: 'Hardened Raceway', slot: 3, model: true, kind: 'part' },
+  { name: 'Retainer Cage', image: './images/parts/04_retainer-cage.png', type: 'Steel Separator', slot: 4, model: true, kind: 'part' },
   { name: 'Grinding', icon: '✨', type: 'Raceway Finishing', slot: 5, model: false, kind: 'process' },
   { name: 'Synthetic Grease', icon: '🧴', type: 'Polyurea Lube', slot: 6, model: false, kind: 'part' },
-  { name: 'Dust Shield', icon: '🛞', type: 'Labyrinth Shield', slot: 7, model: false, kind: 'part' },
+  { name: 'Dust Shield', image: './images/parts/07_dust-shield.png', type: 'Labyrinth Shield', slot: 7, model: false, kind: 'part' },
   { name: 'Retainer Rivets', icon: '📎', type: 'Cage Alignment', slot: 8, model: false, kind: 'part' },
-  { name: 'Snap Ring', icon: '💍', type: 'Axial Lock', slot: 9, model: false, kind: 'part' },
+  { name: 'Snap Ring', image: './images/parts/09_snap-ring.png', type: 'Axial Lock', slot: 9, model: false, kind: 'part' },
   { name: 'Bearing Housing', icon: '🏗️', type: 'Rigid Cast Support', slot: 10, model: false, kind: 'part' },
 ];
 

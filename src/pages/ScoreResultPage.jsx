@@ -276,7 +276,13 @@ export default function ScoreResultPage() {
                         : 'bg-slate-50/60 border-slate-200/80 opacity-55'
                     }`}
                   >
-                    <div className="text-xs sm:text-sm leading-none mb-0.5">{part.icon}</div>
+                    <span className="mb-0.5 flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 rounded bg-slate-800/90">
+                      {part.image ? (
+                        <img src={part.image} alt="" className="w-full h-full object-contain" />
+                      ) : (
+                        <span className="text-[10px] sm:text-xs leading-none">{part.icon}</span>
+                      )}
+                    </span>
                     <p className={`text-[7px] font-heading font-bold leading-tight truncate w-full ${
                       isCollected ? 'text-slate-900' : 'text-slate-600'
                     }`}>
