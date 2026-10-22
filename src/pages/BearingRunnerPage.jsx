@@ -21,44 +21,44 @@ export const DIFFICULTY_CONFIG = {
     id: 'easy',
     name: 'Apprentice',
     badge: '🟢 EASY',
-    speed: 0.0052,     // 15 seconds per question (78 / (0.0052 * 1000) = 15.0s)
+    speed: 0.0078,     // 10 seconds per question (78 / (0.0078 * 1000) = 10.0s)
     multiplier: 1.0,
     color: '#10B981',
-    description: '15s per question · Calm rhythm & safety basics',
+    description: '10s per question · Calm rhythm & safety basics',
   },
   medium: {
     id: 'medium',
     name: 'Operator',
     badge: '🔵 MEDIUM',
-    speed: 0.0065,     // 12 seconds per question (78 / (0.0065 * 1000) = 12.0s)
+    speed: 0.00975,    // 8 seconds per question (78 / (0.00975 * 1000) = 8.0s)
     multiplier: 1.25,
     color: '#3B82F6',
-    description: '12s per question · Standard factory tempo',
+    description: '8s per question · Standard factory tempo',
   },
   hard: {
     id: 'hard',
     name: 'Plant Master',
     badge: '🔴 HARD',
-    speed: 0.00867,    // 9 seconds per question (78 / (0.00867 * 1000) = 9.0s)
+    speed: 0.013,      // 6 seconds per question (78 / (0.013 * 1000) = 6.0s)
     multiplier: 1.5,
     color: '#EF4444',
-    description: '9s per question · Fast diagnosis sprint',
+    description: '6s per question · Fast diagnosis sprint',
   },
   progressive: {
     id: 'progressive',
     name: 'Progressive',
     badge: '⚡ PROGRESSIVE',
-    speed: 0.0065,
+    speed: 0.0078,
     multiplier: 1.35,
     color: '#F59E0B',
-    description: 'Ramps from Easy (15s) ➔ Medium (12s) ➔ Hard (9s)',
+    description: 'Ramps from Easy (10s) ➔ Medium (8s) ➔ Hard (6s)',
   },
 };
 
 function calcPoints(isCorrect, timeMs, streak, multiplier = 1.0) {
   if (!isCorrect) return 0;
   const base = 100;
-  const speedBonus = Math.max(0, Math.round((1 - timeMs / 16000) * 50));
+  const speedBonus = Math.max(0, Math.round((1 - timeMs / 11000) * 50));
   const streakMult = streak >= 3 ? 1.5 : 1;
   return Math.round((base + speedBonus) * streakMult * multiplier);
 }
@@ -74,9 +74,9 @@ export default function BearingRunnerPage() {
 
   const getLockerSpeed = useCallback((questionIndex) => {
     if (diffConfig.id === 'progressive') {
-      if (questionIndex < 3) return 0.0052;  // 15s (Q1-3)
-      if (questionIndex < 7) return 0.0065;  // 12s (Q4-7)
-      return 0.00867;                       // 9s (Q8-10)
+      if (questionIndex < 3) return 0.0078;  // 10s (Q1-3)
+      if (questionIndex < 7) return 0.00975; // 8s (Q4-7)
+      return 0.013;                         // 6s (Q8-10)
     }
     return diffConfig.speed;
   }, [diffConfig]);
