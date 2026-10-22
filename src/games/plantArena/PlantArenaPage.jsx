@@ -162,9 +162,9 @@ export default function PlantArenaPage({ employeeId = 'NSK-GUEST', onSubmitScore
             <div className="pa-tut-rule" />
 
             <ol className="pa-tut-steps">
-              <li><span className="pa-tut-n">1</span><span>Smash crates to find <b>bearings</b></span></li>
+              <li><span className="pa-tut-n">1</span><span>Smash crates to find <b>Bearings</b></span></li>
               <li><span className="pa-tut-n">2</span><span>Only crates stamped <b>NSK</b> hold one</span></li>
-              <li><span className="pa-tut-n">3</span><span>Repair <b>failing machines</b> before their timer runs out</span></li>
+              <li><span className="pa-tut-n">3</span><span>Repair <b>Failing Machines</b> before their timer runs out</span></li>
             </ol>
 
             <button type="button" className="pa-tut-play" onClick={start}>
