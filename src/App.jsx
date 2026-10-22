@@ -67,8 +67,37 @@ function PlantArenaRoute() {
 
 export default function App() {
   const [showSplash, setShowSplash] = useState(true);
+  const [flipAngle, setFlipAngle] = useState(90);
   const navigate = useNavigate();
   const initialNavRef = useRef(true);
+
+  // Dynamic viewport tracking for automatic mobile landscape display
+  const [viewportDim, setViewportDim] = useState(() => {
+    if (typeof window === 'undefined') return { isPortrait: false, w: 1000, h: 600 };
+    return {
+      isPortrait: window.innerHeight > window.innerWidth,
+      w: window.innerWidth,
+      h: window.innerHeight,
+    };
+  });
+
+  useEffect(() => {
+    const handleViewportChange = () => {
+      setViewportDim({
+        isPortrait: window.innerHeight > window.innerWidth,
+        w: window.innerWidth,
+        h: window.innerHeight,
+      });
+    };
+
+    window.addEventListener('resize', handleViewportChange);
+    window.addEventListener('orientationchange', handleViewportChange);
+
+    return () => {
+      window.removeEventListener('resize', handleViewportChange);
+      window.removeEventListener('orientationchange', handleViewportChange);
+    };
+  }, []);
 
   useEffect(() => {
     // Only reset to login on the initial app load/mount
@@ -106,15 +135,47 @@ export default function App() {
     };
   }, []);
 
+  // When device is in portrait (mobile orientation locked or upright),
+  // automatically run in landscape as default so the user naturally rotates their phone
+  // without having to enable auto-rotate in phone settings.
+  const isMobilePortrait = viewportDim.isPortrait;
+  const containerStyle = isMobilePortrait
+    ? {
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: `${viewportDim.h}px`,
+        height: `${viewportDim.w}px`,
+        transform: flipAngle === 90 ? 'rotate(90deg) translateY(-100%)' : 'rotate(-90deg) translateX(-100%)',
+        transformOrigin: 'top left',
+        overflow: 'hidden',
+        fontSize: `clamp(13px, calc(${viewportDim.w}px / 25), 44px)`,
+      }
+    : {
+        width: '100%',
+        height: '100%',
+        overflow: 'hidden',
+      };
+
   return (
-    <div className="h-full w-full bg-nsk-bg overflow-hidden relative">
+    <div className="h-full w-full bg-nsk-bg overflow-hidden relative" style={containerStyle}>
       {/* Cinematic NSK Logo Intro Splash Screen (Shown immediately on link click) */}
       {showSplash && (
         <CinematicSplashScreen onComplete={() => setShowSplash(false)} durationMs={3800} />
       )}
 
-      {/* ═══ Dedicated Landscape Enforcer (Prompts rotation if device held in portrait once splash completes) ═══ */}
-      {!showSplash && <LandscapeEnforcer />}
+      {/* Non-intrusive 180° Flip button (Only visible if device is portrait-locked and user tilts the opposite way) */}
+      {isMobilePortrait && (
+        <button
+          type="button"
+          onClick={() => setFlipAngle((prev) => (prev === 90 ? -90 : 90))}
+          className="fixed top-2.5 right-2.5 z-[999998] px-2.5 py-1 rounded-full bg-black/60 hover:bg-black/80 active:bg-cyan-600/80 text-white/80 hover:text-white border border-white/15 text-[10px] font-mono tracking-wider backdrop-blur-md transition-all flex items-center gap-1 select-none pointer-events-auto cursor-pointer"
+          title="Flip 180° orientation"
+        >
+          <span>🔄</span>
+          <span>FLIP</span>
+        </button>
+      )}
 
       <Suspense fallback={<LoadingScreen />}>
         <Routes>
