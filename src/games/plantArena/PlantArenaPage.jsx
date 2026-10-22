@@ -226,15 +226,6 @@ export default function PlantArenaPage({ employeeId = 'NSK-GUEST', onSubmitScore
           </div>
         </div>
       )}
-      <div className="pa-rotate">
-        <div>
-          <svg className="pa-rotate-icon" viewBox="0 0 48 32" aria-hidden="true">
-            <rect x="1.5" y="1.5" width="45" height="29" rx="4" fill="none" stroke="currentColor" strokeWidth="3" />
-            <rect x="7" y="7" width="34" height="18" rx="2" fill="currentColor" opacity="0.25" />
-          </svg>
-          Rotate your phone to landscape to play
-        </div>
-      </div>
     </div>
   );
 }
