@@ -1,21 +1,30 @@
-import { useRef, useState, useCallback, useEffect } from 'react';
+import { useRef, useState, useCallback } from 'react';
 
-// Ultra-responsive floating thumbstick:
-// Appears instantly where the thumb lands on the left zone.
-// Uses direct DOM transform updates for 0ms input lag and smooth 60-120Hz tracking.
-// onChange(x, z) gets a normalized vector in -1..1.
+// Fixed thumbstick anchored at the bottom-left of the movement zone.
+//
+// It used to be a floating stick that spawned wherever the thumb landed, which
+// meant the ring jumped around the screen from touch to touch and never sat
+// where the coach overlay points. The ring now stays put and only the knob
+// travels inside it; deflection is measured from the ring's own centre.
+//
+// Direct DOM transform updates on the knob, so input has no React render in
+// the way. onChange(x, z) gets a normalized vector in -1..1.
 export default function VirtualJoystick({ onChange, onEngage, radius = 56, deadZone = 0.04 }) {
   const pointer = useRef(null);
   const baseRef = useRef(null);
   const knobRef = useRef(null);
   const [active, setActive] = useState(false);
 
+  const moveKnob = (dx, dy) => {
+    if (knobRef.current) knobRef.current.style.transform = `translate3d(${dx}px, ${dy}px, 0)`;
+  };
+
   const updateStick = useCallback(
     (clientX, clientY) => {
       const p = pointer.current;
       if (!p) return;
-      let dx = clientX - p.ox;
-      let dy = clientY - p.oy;
+      let dx = clientX - p.cx;
+      let dy = clientY - p.cy;
       const len = Math.hypot(dx, dy);
       if (len > radius) {
         dx = (dx / len) * radius;
@@ -27,10 +36,7 @@ export default function VirtualJoystick({ onChange, onEngage, radius = 56, deadZ
       const scaled = mag < deadZone ? 0 : (mag - deadZone) / (1 - deadZone);
 
       onChange(nx * scaled, ny * scaled);
-
-      if (knobRef.current) {
-        knobRef.current.style.transform = `translate3d(${dx}px, ${dy}px, 0)`;
-      }
+      moveKnob(dx, dy);
     },
     [onChange, radius, deadZone]
   );
@@ -42,26 +48,14 @@ export default function VirtualJoystick({ onChange, onEngage, radius = 56, deadZ
     // and onChange alone would leave a player who taps without dragging stuck
     // behind it.
     onEngage?.();
-    const r = e.currentTarget.getBoundingClientRect();
+    const r = baseRef.current.getBoundingClientRect();
     pointer.current = {
       id: e.pointerId,
-      ox: e.clientX,
-      oy: e.clientY,
-      rx: r.left,
-      ry: r.top,
+      cx: r.left + r.width / 2,
+      cy: r.top + r.height / 2,
     };
     setActive(true);
-
-    // Initial position setup
-    requestAnimationFrame(() => {
-      if (baseRef.current) {
-        baseRef.current.style.left = `${e.clientX - r.left}px`;
-        baseRef.current.style.top = `${e.clientY - r.top}px`;
-      }
-      if (knobRef.current) {
-        knobRef.current.style.transform = 'translate3d(0px, 0px, 0)';
-      }
-    });
+    updateStick(e.clientX, e.clientY);
   };
 
   const handlePointerMove = (e) => {
@@ -74,6 +68,7 @@ export default function VirtualJoystick({ onChange, onEngage, radius = 56, deadZ
     if (pointer.current?.id !== e.pointerId) return;
     pointer.current = null;
     setActive(false);
+    moveKnob(0, 0);
     onChange(0, 0);
   };
 
@@ -85,19 +80,13 @@ export default function VirtualJoystick({ onChange, onEngage, radius = 56, deadZ
       onPointerUp={handlePointerEnd}
       onPointerCancel={handlePointerEnd}
     >
-      {active ? (
-        <div
-          ref={baseRef}
-          className="pa-joy-base"
-          style={{ width: radius * 2, height: radius * 2 }}
-        >
-          <div ref={knobRef} className="pa-joy-knob" />
-        </div>
-      ) : (
-        <div className="pa-joy-hint" style={{ width: radius * 2, height: radius * 2 }}>
-          <div className="pa-joy-knob" />
-        </div>
-      )}
+      <div
+        ref={baseRef}
+        className={`pa-joy-base${active ? ' pa-joy-active' : ''}`}
+        style={{ width: radius * 2, height: radius * 2 }}
+      >
+        <div ref={knobRef} className="pa-joy-knob" />
+      </div>
     </div>
   );
 }

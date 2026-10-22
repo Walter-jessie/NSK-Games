@@ -693,16 +693,30 @@ export default function BearingRunnerPage() {
               <h2 className="font-heading font-black text-xl sm:text-2xl text-white tracking-wider uppercase mb-1">
                 BEARING RUNNER
               </h2>
-              <div className="w-16 h-1 bg-cyan-500 mx-auto rounded-full mb-2" />
-              <div className="flex items-center justify-center gap-2.5 sm:gap-3 mb-1">
-                <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-white/10 border border-cyan-400/30 flex items-center justify-center text-base sm:text-lg text-cyan-200 shadow-sm flex-shrink-0">
-                  ◀
+              <div className="flex items-end justify-center gap-2.5 sm:gap-3 mb-1">
+                {/* Move Left */}
+                <div className="flex flex-col items-center">
+                  <span className="text-[9px] sm:text-[10px] font-heading font-black tracking-wider uppercase text-cyan-300 mb-1">
+                    MOVE LEFT
+                  </span>
+                  <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-white/10 border border-cyan-400/30 flex items-center justify-center text-base sm:text-lg text-cyan-200 shadow-sm flex-shrink-0">
+                    ◀
+                  </div>
                 </div>
-                <div className="inline-flex items-center gap-2 px-3.5 sm:px-4 py-2 rounded-full bg-cyan-950/60 border border-cyan-400/30 text-xs sm:text-sm font-semibold text-cyan-200 shadow-sm">
+
+                {/* Center Pill */}
+                <div className="inline-flex items-center gap-2 px-3.5 sm:px-4 py-2.5 rounded-full bg-cyan-950/60 border border-cyan-400/30 text-xs sm:text-sm font-semibold text-cyan-200 shadow-sm mb-0.5">
                   <span>Switch Lanes &amp; Select Answers</span>
                 </div>
-                <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-white/10 border border-cyan-400/30 flex items-center justify-center text-base sm:text-lg text-cyan-200 shadow-sm flex-shrink-0">
-                  ▶
+
+                {/* Move Right */}
+                <div className="flex flex-col items-center">
+                  <span className="text-[9px] sm:text-[10px] font-heading font-black tracking-wider uppercase text-cyan-300 mb-1">
+                    MOVE RIGHT
+                  </span>
+                  <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-white/10 border border-cyan-400/30 flex items-center justify-center text-base sm:text-lg text-cyan-200 shadow-sm flex-shrink-0">
+                    ▶
+                  </div>
                 </div>
               </div>
             </div>
