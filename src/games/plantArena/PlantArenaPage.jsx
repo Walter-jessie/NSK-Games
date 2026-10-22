@@ -177,7 +177,6 @@ export default function PlantArenaPage({ employeeId = 'NSK-GUEST', onSubmitScore
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4l13 8-13 8z" fill="currentColor" /></svg>
               <span>PLAY</span>
             </button>
-            {onExit && <button type="button" className="pa-tut-back" onClick={onExit}>BACK</button>}
           </div>
         </div>
       )}
