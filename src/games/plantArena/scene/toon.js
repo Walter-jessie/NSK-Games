@@ -149,6 +149,25 @@ export class PartBuilder {
     return this;
   }
 
+  /**
+   * Fold another builder's parts into this one under a transform, so a reusable
+   * sub-assembly (a guard rail, a pallet) can be written once and dropped
+   * anywhere. The sub-builder is emptied: it is always a throwaway.
+   */
+  addGroup(sub, { p = [0, 0, 0], r = [0, 0, 0], s = [1, 1, 1] } = {}) {
+    tmpEuler.set(r[0], r[1], r[2]);
+    tmpQuat.setFromEuler(tmpEuler);
+    tmpMatrix.compose(new THREE.Vector3(...p), tmpQuat, new THREE.Vector3(...s));
+    for (const key of ['solid', 'glow']) {
+      for (const g of sub[key]) {
+        g.applyMatrix4(tmpMatrix);
+        this[key].push(g);
+      }
+      sub[key] = [];
+    }
+    return this;
+  }
+
   box(w, h, d, color, t) { return this.add(new THREE.BoxGeometry(w, h, d), color, t); }
   cyl(rt, rb, h, color, t, seg = 10) { return this.add(new THREE.CylinderGeometry(rt, rb, h, seg), color, t); }
   sphere(r, color, t, ws = 10, hs = 8) { return this.add(new THREE.SphereGeometry(r, ws, hs), color, t); }

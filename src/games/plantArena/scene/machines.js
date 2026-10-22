@@ -331,6 +331,75 @@ function bench(def) {
 /* Machine definitions                                                 */
 /* ------------------------------------------------------------------ */
 
+/* ── Shared cues ─────────────────────────────────────────────────────────
+   Five things every rig needs, so they are written once here rather than ten
+   times below. See APPLICATIONS.md for why each exists.
+   ──────────────────────────────────────────────────────────────────────── */
+
+/**
+ * The bearing itself, in steel. Rule 5. This is a modelled part, not the
+ * glowing status ring that used to sit at these coordinates: that read as a
+ * light bolted on top of the rig, and was removed.
+ */
+const raceAt = (b, radius, p, r = [0, 0, 0]) =>
+  addBearing(b, radius, { p, r }, { outer: C.steel, seal: C.nskBlue });
+
+/** Guard rail at 1.1 m. The scale anchor for anything large. Rule 3. */
+function railing(b, len, { p = [0, 0, 0], r = [0, 0, 0] } = {}) {
+  const g = new PartBuilder('rail');
+  g.box(len, 0.05, 0.05, C.hazard, { p: [0, 1.05, 0] });
+  g.box(len, 0.04, 0.04, C.gunmetal, { p: [0, 0.6, 0] });
+  for (let x = -len / 2; x <= len / 2 + 0.01; x += len / 3) {
+    g.box(0.06, 1.1, 0.06, C.gunmetal, { p: [x, 0.55, 0] });
+  }
+  b.addGroup(g, { p, r });
+}
+
+/** Euro pallet, 1.2 x 0.8 m. Everyone knows how big one is. Rule 3. */
+function pallet(b, p, r = [0, 0, 0]) {
+  const g = new PartBuilder('pallet');
+  for (const z of [-0.33, 0, 0.33]) g.box(1.2, 0.08, 0.14, '#6b4a2b', { p: [0, 0.16, z] });
+  for (const x of [-0.5, 0, 0.5]) g.box(0.12, 0.09, 0.8, '#5a3d22', { p: [x, 0.05, 0] });
+  for (let i = 0; i < 6; i++) g.box(1.16, 0.03, 0.1, '#7d5832', { p: [0, 0.21, -0.35 + i * 0.14] });
+  b.addGroup(g, { p, r });
+}
+
+/** Mesh safety fence panel, 2 m tall. Turns a machine into a cell. Rule 3. */
+function fencePanel(b, len, { p = [0, 0, 0], r = [0, 0, 0] } = {}) {
+  const g = new PartBuilder('fence');
+  g.box(0.07, 2.0, 0.07, C.hazard, { p: [-len / 2, 1.0, 0] });
+  g.box(0.07, 2.0, 0.07, C.hazard, { p: [len / 2, 1.0, 0] });
+  g.box(len, 0.06, 0.05, C.hazard, { p: [0, 1.98, 0] });
+  g.box(len, 0.05, 0.04, C.gunmetal, { p: [0, 0.1, 0] });
+  // Mesh read as a few verticals: a real grid is thousands of triangles for
+  // something that is four pixels wide in play.
+  for (let i = 1; i < 7; i++) {
+    g.box(0.03, 1.85, 0.03, C.steelDark, { p: [-len / 2 + (len / 7) * i, 0.95, 0] });
+  }
+  b.addGroup(g, { p, r });
+}
+
+/** Louvred grille: the one cue that says "air conditioner". */
+function grille(b, w, h, color, { p = [0, 0, 0], r = [0, 0, 0] } = {}) {
+  const g = new PartBuilder('grille');
+  const rows = Math.max(3, Math.round(h / 0.14));
+  for (let i = 0; i < rows; i++) {
+    g.box(w, 0.05, 0.05, color, { p: [0, -h / 2 + (h / (rows - 1)) * i, 0], r: [0.5, 0, 0] });
+  }
+  b.addGroup(g, { p, r });
+}
+
+/** Swarf: curls of cut metal, so a mill looks like it has cut something. */
+function swarf(b, p, n = 7, seed = 1) {
+  const rand = mulberry32(seed);
+  for (let i = 0; i < n; i++) {
+    b.torus(0.04 + rand() * 0.05, 0.012, '#9aa3ae', {
+      p: [p[0] + (rand() * 2 - 1) * 0.45, p[1] + 0.02, p[2] + (rand() * 2 - 1) * 0.3],
+      r: [Math.PI / 2 + (rand() - 0.5), rand() * 3, 0],
+    }, 3, 8);
+  }
+}
+
 const wheel = (b, r, w, color = C.ink, hub = C.steel) => {
   b.cyl(r, r, w, color, { r: [Math.PI / 2, 0, 0] }, 14);
   b.cyl(r * 0.55, r * 0.55, w + 0.02, hub, { r: [Math.PI / 2, 0, 0] }, 10);
@@ -367,6 +436,26 @@ export const MACHINE_DEFS = [
           spin((b) => wheel(b, 0.4, 0.34), [x, 0.66, z], 'z', -16);
         }
       }
+      // Rule 2: an extraction hood on a mast, so the bay is not all car-height.
+      s.cyl(0.1, 0.12, 2.9, C.gunmetal, { p: [-2.0, 1.45, -1.3] }, 8);
+      s.box(1.5, 0.3, 0.9, C.steelDark, { p: [-1.5, 2.85, -1.3] });
+      s.cyl(0.42, 0.42, 0.45, C.ink, { p: [-1.2, 2.5, -1.3] }, 12);
+      // Restrained, not parked: straps from the sills down to the floor rings.
+      for (const sx of [-1, 1]) {
+        for (const sz of [-1, 1]) {
+          s.box(0.05, 0.9, 0.05, C.hazard, {
+            p: [sx * 1.55, 0.42, sz * 0.95], r: [sz * 0.5, 0, -sx * 0.45],
+          });
+          s.torus(0.1, 0.03, C.steelDark, { p: [sx * 1.9, 0.03, sz * 1.25], r: [Math.PI / 2, 0, 0] }, 4, 10);
+        }
+      }
+      // Rule 3: the car is the anchor; cones mark the bay at known height.
+      for (const cx of [-2.05, 2.05]) {
+        s.cone(0.17, 0.5, '#ff6a1f', { p: [cx, 0.25, 1.45] }, 8);
+        s.box(0.42, 0.03, 0.42, '#ff6a1f', { p: [cx, 0.02, 1.45] });
+      }
+      // Rule 5: the roller's own bearing, on the shaft end.
+      raceAt(s, 0.24, [-1.3, 0.14, 1.18]);
       return { bearing: [-1.3, 0.66, 1.12], ringRadius: 0.32 };
     },
   },
@@ -393,6 +482,17 @@ export const MACHINE_DEFS = [
         b.box(1.02, 0.12, 0.82, C.white, { p: [-0.1, 1.4, 0] });
       }, [0, 0.12, 0], 'y', 0.5);
       agv.name = 'agv';
+      // Rule 2: the charging dock it returns to, tall and unmistakable.
+      s.box(0.5, 2.3, 0.4, C.steelDark, { p: [-1.9, 1.15, -1.1] });
+      s.box(0.56, 0.5, 0.46, C.orange, { p: [-1.9, 2.2, -1.1] });
+      s.box(0.1, 0.5, 0.06, '#7ff0ff', { p: [-1.9, 1.0, -0.88], glow: true });
+      s.box(0.1, 0.5, 0.06, '#7ff0ff', { p: [-1.9, 1.0, -1.32], glow: true });
+      s.box(0.7, 0.04, 0.5, C.hazard, { p: [-1.6, 0.02, -1.1] });
+      // Rule 3: a pallet is the one object whose size nobody has to be told.
+      pallet(s, [1.75, 0.0, 0.95]);
+      s.box(0.9, 0.5, 0.6, C.woodAmber, { p: [1.75, 0.47, 0.95] });
+      // Rule 5: the drive hub itself, which is what the rig is named for.
+      raceAt(s, 0.34, [0, 0.95, 0], [Math.PI / 2, 0, 0]);
       return { bearing: [0, 1.07, 1.05], ringRadius: 0.3 };
     },
   },
@@ -436,6 +536,12 @@ export const MACHINE_DEFS = [
         shoulder.rotation.z = Math.sin(t * 1.1 * k) * 0.35 - 0.15;
         elbow.rotation.z = -0.6 + Math.sin(t * 1.4 * k + 1) * 0.4;
       });
+      // Rule 3 and the word "cell": fence it, at a height a person reads.
+      fencePanel(s, 3.4, { p: [0, 0, -1.5] });
+      fencePanel(s, 2.6, { p: [-2.0, 0, -0.2], r: [0, Math.PI / 2, 0] });
+      s.box(0.5, 0.34, 0.06, '#ffd34a', { p: [1.2, 1.5, -1.46], glow: true });
+      // Rule 5: the yaw bearing the whole arm turns on.
+      raceAt(s, 0.42, [0, 0.36, 0], [Math.PI / 2, 0, 0]);
       return { bearing: [0, 1.6, 0.78], ringRadius: 0.44 };
     },
   },
@@ -460,6 +566,18 @@ export const MACHINE_DEFS = [
         b.cone(0.06, 0.25, C.yellow, { p: [0, -1.06, 0], r: [Math.PI, 0, 0] }, 6);
         b.box(0.06, 0.6, 0.55, C.ink, { p: [0, -0.35, 0] });
       }, [0, 2.0, -0.1], 'y', 22);
+      // A mill that leaves no mark reads as a prop: cut the workpiece and
+      // leave the chips on the table.
+      s.box(0.16, 0.12, 0.62, '#2b2118', { p: [0, 1.06, 0] });
+      swarf(s, [0.55, 0.82, 0.25], 9, 404);
+      swarf(s, [-0.6, 0.82, -0.2], 6, 405);
+      // Rule 3: stock on a pallet, waiting to be cut.
+      pallet(s, [-1.95, 0.0, 1.25]);
+      for (let i = 0; i < 3; i++) {
+        s.cyl(0.14, 0.14, 1.0, C.steelDark, { p: [-1.95, 0.36 + i * 0.1, 1.05 + i * 0.16], r: [0, 0, Math.PI / 2] }, 10);
+      }
+      // Rule 5: the spindle bearing, at the nose.
+      raceAt(s, 0.3, [0, 1.98, -0.4], [Math.PI / 2, 0, 0]);
       return { bearing: [0, 1.75, 0.0], ringRadius: 0.36, ringRotation: [Math.PI / 2, 0, 0] };
     },
   },
@@ -481,6 +599,18 @@ export const MACHINE_DEFS = [
           b.box(0.34, 0.3, 0.09, C.nskRed, { p: [Math.sin(a) * 1.7, Math.cos(a) * 1.7, 0.1], r: [0, 0.25, -a] });
         }
       }, [-1.35, 2.3, 0.3], 'z', 3.2);
+      // Rule 3: this is the rig that most needs a human-scale reference, or a
+      // turbine nacelle reads as a desk toy. Service platform and rail.
+      s.box(2.0, 0.08, 1.4, C.gunmetal, { p: [-0.5, 1.78, -0.4] });
+      railing(s, 2.0, { p: [-0.5, 1.82, 0.26] });
+      railing(s, 1.4, { p: [-1.48, 1.82, -0.4], r: [0, Math.PI / 2, 0] });
+      // Access hatch and ladder down the tower.
+      s.box(0.46, 0.62, 0.05, C.gunmetal, { p: [0.4, 2.3, 0.18] });
+      for (let i = 0; i < 6; i++) {
+        s.box(0.34, 0.03, 0.03, C.steelDark, { p: [0.6, 0.35 + i * 0.26, -0.05] });
+      }
+      // Rule 5: the main shaft bearing between rotor and gearbox.
+      raceAt(s, 0.4, [-0.95, 2.3, -0.4], [0, Math.PI / 2, 0]);
       return { bearing: [-1.05, 2.3, 0.0], ringRadius: 0.42, ringRotation: [0, Math.PI / 2, 0] };
     },
   },
@@ -516,6 +646,16 @@ export const MACHINE_DEFS = [
         }, [x, 0.5, 0], 'z', -10);
         s.box(0.32, 0.32, 0.18, C.nskBlue, { p: [x, 0.5, 1.0] }); // journal box
       }
+      // Rule 3: platform edge with the yellow line. Platform height is the
+      // reference everybody has stood next to.
+      s.box(4.6, 0.95, 1.0, '#6a6f78', { p: [0, 0.48, 1.9] });
+      s.box(4.6, 0.06, 1.02, '#8f959e', { p: [0, 0.97, 1.9] });
+      s.box(4.6, 0.02, 0.16, C.hazard, { p: [0, 1.0, 1.44] });
+      for (let i = 0; i < 9; i++) {
+        s.box(0.09, 0.02, 0.12, '#2b2f36', { p: [-2.0 + i * 0.5, 1.01, 1.56] });
+      }
+      // Rule 5: the axle journal bearing, which is the part under all of this.
+      raceAt(s, 0.22, [0.9, 0.5, 1.2], [0, 0, Math.PI / 2]);
       return { bearing: [0.9, 0.5, 1.12], ringRadius: 0.24 };
     },
   },
@@ -554,6 +694,19 @@ export const MACHINE_DEFS = [
       body.add(base.build());
       s.box(0.5, 1.1, 0.5, C.white, { p: [0.9, 0.55, 0.2] });
       animate((t) => { holo.position.y = 2.15 + Math.sin(t * 2) * 0.08; });
+      // Rule 3: a stool and a theatre lamp, both at sizes a person knows, so
+      // the handpiece reads as something held in a hand.
+      s.cyl(0.26, 0.24, 0.07, '#30363f', { p: [1.0, 0.52, 1.25] }, 12);
+      s.cyl(0.05, 0.05, 0.45, C.steel, { p: [1.0, 0.27, 1.25] }, 8);
+      for (let i = 0; i < 5; i++) {
+        const a = (i / 5) * Math.PI * 2;
+        s.box(0.3, 0.03, 0.05, '#30363f', { p: [1.0 + Math.cos(a) * 0.15, 0.05, 1.25 + Math.sin(a) * 0.15], r: [0, -a, 0] });
+      }
+      s.cyl(0.07, 0.07, 1.9, C.white, { p: [-0.2, 0.95, -1.5] }, 8);
+      s.cyl(0.42, 0.5, 0.16, C.white, { p: [-0.2, 1.88, -1.5] }, 14);
+      s.cyl(0.36, 0.36, 0.05, '#fffbe8', { p: [-0.2, 1.78, -1.5], glow: true }, 14);
+      // Rule 5: the real race in the handpiece, beside the magnified hologram.
+      raceAt(s, 0.12, [0.45, 1.0, -0.3]);
       return { bearing: [0.9, 2.15, 0.2], ringRadius: 0.62 };
     },
   },
@@ -585,6 +738,18 @@ export const MACHINE_DEFS = [
         b.box(0.12, 0.03, 1.0, '#1a1a24', {});
       }, [1.6, 1.45, 0.3], 'y', 20);
       s.cyl(0.03, 0.03, 0.25, C.steel, { p: [1.6, 1.33, 0.3] }, 6);
+      // A propulsor that cannot tilt is not a propulsor: trunnion and ram.
+      s.cyl(0.16, 0.16, 0.7, C.gunmetal, { p: [0, 1.72, -0.3], r: [0, 0, Math.PI / 2] }, 10);
+      s.cyl(0.07, 0.07, 0.8, C.steel, { p: [0.42, 1.35, -0.3], r: [0, 0, -0.75] }, 8);
+      s.cyl(0.1, 0.1, 0.35, C.steelDark, { p: [0.17, 1.6, -0.3], r: [0, 0, -0.75] }, 8);
+      // Rule 3: access ladder up the pylon, rungs at a climbable pitch.
+      for (let i = 0; i < 5; i++) {
+        s.box(0.3, 0.03, 0.03, C.steelDark, { p: [-0.32, 0.45 + i * 0.28, -0.3] });
+      }
+      s.box(0.03, 1.5, 0.03, C.steelDark, { p: [-0.46, 0.95, -0.3] });
+      s.box(0.03, 1.5, 0.03, C.steelDark, { p: [-0.18, 0.95, -0.3] });
+      // Rule 5: the rotor hub bearing.
+      raceAt(s, 0.26, [0, 2.0, 0.3]);
       return { bearing: [0, 2.0, 0.25], ringRadius: 0.4 };
     },
   },
@@ -614,6 +779,25 @@ export const MACHINE_DEFS = [
           b.box(0.04, 0.6, 0.16, C.gunmetal, { p: [0, Math.cos(a) * 0.38, Math.sin(a) * 0.38], r: [a, 0.4, 0] });
         }
       }, [1.18, 0, 0], 'x', 25, engine);
+      // Rule 2: a test stand frame over the engine, so it is not one low drum.
+      for (const sx of [-1, 1]) {
+        s.box(0.14, 2.6, 0.14, C.gunmetal, { p: [sx * 1.6, 1.3, -1.1] });
+        s.box(0.14, 0.14, 1.4, C.gunmetal, { p: [sx * 1.6, 2.55, -0.45] });
+      }
+      s.box(3.3, 0.16, 0.16, C.gunmetal, { p: [0, 2.6, -1.1] });
+      s.box(0.6, 0.4, 0.3, C.nskRed, { p: [0, 2.35, -1.1] });
+      s.cyl(0.05, 0.05, 0.8, C.steelDark, { p: [0, 1.95, -1.1] }, 6);
+      // Rule 3: a wheeled ground cart, a size everyone has pushed.
+      s.box(1.1, 0.5, 0.7, '#2f4f7a', { p: [-1.9, 0.52, 1.1] });
+      s.box(1.14, 0.06, 0.74, C.steelDark, { p: [-1.9, 0.8, 1.1] });
+      for (const cx of [-2.3, -1.5]) {
+        for (const cz of [0.82, 1.38]) {
+          s.cyl(0.14, 0.14, 0.08, C.ink, { p: [cx, 0.14, cz], r: [Math.PI / 2, 0, 0] }, 8);
+        }
+      }
+      s.box(0.04, 0.6, 0.04, C.steelDark, { p: [-1.3, 1.1, 1.1], r: [0, 0, -0.4] });
+      // Rule 5: the turbine shaft bearing, at the intake end.
+      raceAt(s, 0.3, [1.35 * Math.cos(tilt), 1.15, -1.35 * Math.sin(tilt) + 0.42], [0, Math.PI / 2 + tilt, 0]);
       return { bearing: [1.35 * Math.cos(tilt), 1.15, -1.35 * Math.sin(tilt) + 0.5], ringRadius: 0.3, ringRotation: [0, Math.PI / 2 + tilt, 0] };
     },
   },
@@ -640,6 +824,17 @@ export const MACHINE_DEFS = [
           b.box(0.22, 0.03, 0.62, C.gunmetal, { p: [Math.sin(a) * 0.32, 0, Math.cos(a) * 0.32], r: [0.4, a, 0] });
         }
       }, [1.1, 2.15, -0.6], 'y', 14);
+      // The grille is the single cue that says "air conditioner" — without it
+      // this is a box with a fan on top.
+      grille(s, 1.6, 1.5, '#cfe9ff', { p: [1.1, 1.0, 0.22] });
+      s.box(1.84, 0.1, 0.12, '#6fb6e8', { p: [1.1, 1.78, 0.2] });
+      s.box(1.84, 0.1, 0.12, '#6fb6e8', { p: [1.1, 0.22, 0.2] });
+      // Service panel with a handle, at a height a technician opens.
+      s.box(0.05, 0.9, 0.7, '#7cc0ec', { p: [2.02, 1.1, -0.95] });
+      s.box(0.07, 0.06, 0.22, C.steelDark, { p: [2.05, 1.1, -0.72] });
+      s.box(0.26, 0.2, 0.03, C.hazard, { p: [2.03, 1.62, -0.95] });
+      // Rule 5: the crankshaft bearing at the compressor end.
+      raceAt(s, 0.3, [-0.1, 0.9, 0.3], [0, 0, Math.PI / 2]);
       return { bearing: [-0.9, 0.9, 0.93], ringRadius: 0.36 };
     },
   },
