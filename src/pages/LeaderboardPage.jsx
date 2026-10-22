@@ -138,7 +138,7 @@ export default function LeaderboardPage() {
             onClick={() => setActiveGame('game1')}
             className={`px-3 sm:px-4 py-1.5 rounded-none font-heading text-[11px] sm:text-xs font-black transition-all flex items-center gap-1.5 cursor-pointer uppercase tracking-wider ${
               activeGame === 'game1'
-                ? 'bg-emerald-600 text-white shadow-xs'
+                ? 'bg-[#E60012] text-white shadow-xs'
                 : 'text-slate-600 hover:text-slate-900 hover:bg-white'
             }`}
           >
@@ -148,7 +148,7 @@ export default function LeaderboardPage() {
             onClick={() => setActiveGame('game2')}
             className={`px-3 sm:px-4 py-1.5 rounded-none font-heading text-[11px] sm:text-xs font-black transition-all flex items-center gap-1.5 cursor-pointer uppercase tracking-wider ${
               activeGame === 'game2'
-                ? 'bg-emerald-600 text-white shadow-xs'
+                ? 'bg-[#E60012] text-white shadow-xs'
                 : 'text-slate-600 hover:text-slate-900 hover:bg-white'
             }`}
           >
