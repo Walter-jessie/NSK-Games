@@ -4,6 +4,7 @@ let ctx = null;
 let master = null;
 let muted = false;
 let sirenNodes = null;
+let attackNodes = null;
 
 function ensure() {
   if (!ctx) {
@@ -52,7 +53,7 @@ function noise(dur, { vol = 0.3, filter = 1200, delay = 0 } = {}) {
 
 export const audio = {
   unlock() { if (ensure() && ctx.state === 'suspended') ctx.resume(); },
-  setMuted(m) { muted = m; if (m) this.stopSiren(); },
+  setMuted(m) { muted = m; if (m) { this.stopSiren(); this.stopAttackLoop(); } },
   get muted() { return muted; },
   smash() { noise(0.25, { vol: 0.5, filter: 900 }); tone(140, 0.12, { type: 'triangle', vol: 0.25, slide: -60 }); },
   pickup() { tone(660, 0.08, { vol: 0.12 }); tone(990, 0.12, { vol: 0.12, delay: 0.07 }); },
@@ -93,5 +94,45 @@ export const audio = {
     sirenNodes.o.stop();
     sirenNodes.lfo.stop();
     sirenNodes = null;
+  },
+
+  /**
+   * Low throb that runs for as long as any rig is under attack. Deliberately
+   * mild: the klaxon already marks the moment a rig is hit, so this only has to
+   * say "something is still wrong" without talking over the game.
+   */
+  startAttackLoop() {
+    if (!ensure() || muted || attackNodes) return;
+    const o = ctx.createOscillator();
+    const sub = ctx.createOscillator();
+    const lfo = ctx.createOscillator();
+    const lfoGain = ctx.createGain();
+    const g = ctx.createGain();
+    const lp = ctx.createBiquadFilter();
+    lp.type = 'lowpass';
+    lp.frequency.value = 420;
+    o.type = 'sawtooth';
+    o.frequency.value = 146;
+    sub.type = 'sine';
+    sub.frequency.value = 73;
+    // Slow swell rather than a wail: 0.55 Hz in and out.
+    lfo.frequency.value = 0.55;
+    lfoGain.gain.value = 0.016;
+    g.gain.value = 0.022;
+    lfo.connect(lfoGain).connect(g.gain);
+    o.connect(lp);
+    sub.connect(lp);
+    lp.connect(g).connect(master);
+    o.start();
+    sub.start();
+    lfo.start();
+    attackNodes = { o, sub, lfo };
+  },
+  stopAttackLoop() {
+    if (!attackNodes) return;
+    attackNodes.o.stop();
+    attackNodes.sub.stop();
+    attackNodes.lfo.stop();
+    attackNodes = null;
   },
 };

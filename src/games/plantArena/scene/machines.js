@@ -90,6 +90,76 @@ function nameplate(code, title, accent) {
   return mesh;
 }
 
+// Stable per-machine randomness: the same rig always collapses the same way,
+// so a failure does not reshuffle itself on every frame or every run.
+function mulberry32(seed) {
+  let a = seed >>> 0;
+  return () => {
+    a = (a + 0x6d2b79f5) >>> 0;
+    let t = a;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+function codeSeed(code) {
+  let h = 2166136261;
+  for (let i = 0; i < code.length; i++) {
+    h ^= code.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return h >>> 0;
+}
+
+/**
+ * Wreckage shown once a rig is lost. Deliberately generic: a collapsed rig
+ * reads the same whichever application it was, and the nameplate and the dead
+ * lamp already say which one went down. Built once, hidden until needed.
+ */
+const SCORCH = ['#24282f', '#32373f', '#1a1d23', '#3d3229'];
+function debrisPile(code) {
+  const rand = mulberry32(codeSeed(code));
+  const b = new PartBuilder('debris');
+  const pick = (arr) => arr[Math.floor(rand() * arr.length)];
+  const spread = (r) => (rand() * 2 - 1) * r;
+
+  // Broken casing: chunks tipped at random across the bench top.
+  for (let i = 0; i < 11; i++) {
+    const w = 0.2 + rand() * 0.38;
+    const hgt = 0.12 + rand() * 0.26;
+    b.box(w, hgt, 0.2 + rand() * 0.34, pick(SCORCH), {
+      p: [spread(1.75), hgt / 2 + 0.02, spread(1.25)],
+      r: [spread(0.5), rand() * Math.PI, spread(0.5)],
+    });
+  }
+  // Buckled panels, leaning over rather than lying flat.
+  for (let i = 0; i < 3; i++) {
+    b.box(0.72 + rand() * 0.5, 0.045, 0.5 + rand() * 0.4, pick(SCORCH), {
+      p: [spread(1.5), 0.2 + rand() * 0.2, spread(1.0)],
+      r: [Math.PI / 2.4 + spread(0.4), rand() * Math.PI, spread(0.6)],
+    });
+  }
+  // Pipe offcuts.
+  for (let i = 0; i < 2; i++) {
+    b.cyl(0.075, 0.075, 0.6 + rand() * 0.5, '#4a4f58', {
+      p: [spread(1.5), 0.09, spread(1.1)],
+      r: [Math.PI / 2, 0, rand() * Math.PI],
+    }, 8);
+  }
+  // Spilled bearings, the one nod to what the rig was full of.
+  for (let i = 0; i < 5; i++) {
+    b.torus(0.1 + rand() * 0.07, 0.035, '#8b929c', {
+      p: [spread(1.7), 0.05, spread(1.2)],
+      r: [Math.PI / 2 + spread(0.35), spread(0.4), 0],
+    }, 3, 10);
+  }
+  const g = b.build({ outline: 1.6 });
+  g.name = 'debris';
+  g.visible = false;
+  return g;
+}
+
 // A part that spins around an axis at a pivot.
 function spinner(build, pivot, axis, speed) {
   const b = new PartBuilder('spinner');
@@ -178,6 +248,9 @@ function bench(def) {
   sparks.group.visible = false;
   root.add(sparks.group);
 
+  const debris = debrisPile(def.code);
+  body.add(debris);
+
   const state = { status: 'ok', speed: 1, savedTime: 0, danger: 1 };
   const green = new THREE.Color(C.green);
   const red = new THREE.Color(C.nskRed);
@@ -199,10 +272,17 @@ function bench(def) {
     for (const fn of animators) fn(t, state.speed);
     sparks.group.visible = state.status === 'attacked';
     if (sparks.group.visible) sparks.update(dt, t);
+    // Wreckage, and the rig itself dropping into it.
+    const lost = state.status === 'failed';
+    debris.visible = lost;
+    body.position.y = TOP - (lost ? 0.13 : 0);
+    body.rotation.z = lost ? 0.07 : 0;
     // Catches alight once the countdown is past halfway, building as it runs
     // out, so a rig in real trouble is obvious from across the arena.
     const burning = state.status === 'attacked' && state.danger < 0.5;
-    fire.setHeat(burning ? Math.min(1, (0.5 - state.danger) / 0.38) : 0);
+    // A lost rig keeps smouldering: going instantly cold read as nothing having
+    // happened at all.
+    fire.setHeat(burning ? Math.min(1, (0.5 - state.danger) / 0.38) : lost ? 0.22 : 0);
     fire.update(dt, t);
     alarmGlow.material.opacity = state.status === 'attacked' ? 0.85 + Math.sin(t * 8) * 0.15 : state.status === 'failed' ? 0.15 : 0;
     savedGlow.material.opacity = state.status === 'saved' ? 0.85 * (1 - state.savedTime / 2.5) : 0;
@@ -236,6 +316,8 @@ function bench(def) {
   return {
     code: def.code,
     title: def.title,
+    short: def.short,
+    accent: def.accent,
     group: root,
     setStatus(s, { hold = false } = {}) { state.status = s; state.savedTime = 0; state.holdSaved = hold; },
     // Fraction of the repair countdown still left, 1 down to 0.

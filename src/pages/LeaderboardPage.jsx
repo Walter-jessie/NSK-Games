@@ -327,7 +327,7 @@ export default function LeaderboardPage() {
 
                     {/* Game 2 Box */}
                     <div
-                      className={`px-2.5 sm:px-3 py-1 rounded-none border text-right transition-all min-w-[72px] sm:min-w-[84px] ${
+                      className={`px-2.5 sm:px-3 py-1 rounded-none border text-right transition-all min-w-[76px] sm:min-w-[92px] ${
                         activeGame === 'game2'
                           ? 'bg-emerald-50/90 border-2 border-emerald-600 shadow-xs'
                           : 'bg-slate-100/70 border border-slate-300 opacity-60'
@@ -339,12 +339,12 @@ export default function LeaderboardPage() {
                         Game 2
                       </span>
                       {entry.game2?.played ? (
-                        <div className="flex items-baseline justify-end gap-0.5">
+                        <div className="flex items-baseline justify-end gap-1">
                           <span className="font-heading font-black text-xs sm:text-sm text-slate-900 tabular-nums">
                             {entry.game2.repairs}
                           </span>
-                          <span className="text-[8px] sm:text-[9px] font-bold text-slate-500">
-                            rep
+                          <span className="text-[8px] sm:text-[9px] font-bold text-slate-500 lowercase">
+                            {entry.game2.repairs === 1 ? 'repair' : 'repairs'}
                           </span>
                         </div>
                       ) : (

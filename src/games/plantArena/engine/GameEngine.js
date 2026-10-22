@@ -271,7 +271,7 @@ export class GameEngine {
   act() { return this.game.act(); }
   setJoystick(x, z) { this.input.joyX = x; this.input.joyZ = z; }
   snapshot() { return this.game.snapshot(); }
-  setMarkersLayer(el) { this.markersLayer = el; this.markers = new Map(); }
+  setMarkersLayer(el) { this.markersLayer = el; this.markers = new Map(); this.nameMarkers = new Map(); }
 
   dispose() {
     this.disposed = true;
@@ -494,6 +494,54 @@ export class GameEngine {
     }
     for (const [code, el] of this.markers) {
       if (!seen.has(code)) { el.remove(); this.markers.delete(code); }
+    }
+
+    // Application name tags. The nameplate modelled on the bench is laid back
+    // and foreshortened by this camera, so it cannot be read in play. These are
+    // anchored to the rig but drawn in screen space, which stays sharp at any
+    // angle, and only appear for rigs near the player so ten labels never
+    // crowd the view at once. An attacked rig shows its repair marker instead.
+    const nameSeen = new Set();
+    if (playing) {
+      const px = this.game.state.player.x;
+      const pz = this.game.state.player.z;
+      const RANGE = 17;
+      for (const m of this.game.state.machines) {
+        const rig = this.arena.machines.get(m.code);
+        if (!rig || m.status === 'attacked') continue;
+        const dist = Math.hypot(m.x - px, m.z - pz);
+        if (dist > RANGE) continue;
+        this.tmp.set(m.x, 2.9, m.z).project(this.camera);
+        if (this.tmp.z > 1) continue;
+        const sx = (this.tmp.x * 0.5 + 0.5) * w;
+        let sy = (-this.tmp.y * 0.5 + 0.5) * h;
+        if (sx < 12 || sx > w - 12) continue;
+        // Clamp rather than skip: a rig high in frame still gets its tag,
+        // pushed clear of the top bar instead of disappearing behind it.
+        sy = Math.max(barH + 20, Math.min(h - 14, sy));
+        if (sx > w - mapW - 40 && sy < mapBottom) continue;
+        nameSeen.add(m.code);
+        let el = this.nameMarkers.get(m.code);
+        if (!el) {
+          el = document.createElement('div');
+          el.className = 'pa-name';
+          el.innerHTML = '<i></i><span></span>';
+          el.querySelector('i').textContent = m.code.replace('APP_', '');
+          el.querySelector('span').textContent = rig.short || rig.title || m.code;
+          el.style.setProperty('--a', rig.accent || '#ffc247');
+          this.markersLayer.appendChild(el);
+          this.nameMarkers.set(m.code, el);
+        }
+        // Nearer rigs read louder, so the one you are walking at is obvious.
+        const near = Math.max(0, Math.min(1, (RANGE - dist) / 7));
+        el.style.opacity = (0.34 + near * 0.66).toFixed(2);
+        el.style.transform =
+          `translate(${sx}px, ${sy}px) translate(-50%, -100%) scale(${(0.82 + near * 0.26).toFixed(3)})`;
+        el.classList.toggle('pa-name-dead', m.status === 'failed');
+      }
+    }
+    for (const [code, el] of this.nameMarkers) {
+      if (!nameSeen.has(code)) { el.remove(); this.nameMarkers.delete(code); }
     }
   }
 

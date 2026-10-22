@@ -157,8 +157,8 @@ export default function ScoreResultPage() {
       {/* ═══════════════════════════════════════════════════════════════════
           RIGHT COLUMN (40% WIDTH): Correct Answers, Parts Gallery & Performance
           ═══════════════════════════════════════════════════════════════════ */}
-      <div className="relative w-[40%] h-full flex flex-col justify-between p-2 sm:p-3 z-10 overflow-y-auto">
-        <div className="space-y-1.5 sm:space-y-2">
+      <div className="relative w-[40%] h-full flex flex-col justify-between p-2 sm:p-2.5 z-10 overflow-hidden">
+        <div className="flex-1 overflow-y-auto space-y-1 sm:space-y-1.5 min-h-0 pr-0.5">
           {/* Header Row: Employee & Pure NSK Red Logo */}
           <div className="flex items-center justify-between pb-1 border-b border-slate-200">
             <div>
@@ -295,8 +295,8 @@ export default function ScoreResultPage() {
           </div>
         </div>
 
-        {/* Section 4: Action Button */}
-        <div className="pt-1 border-t border-slate-200 mt-1">
+        {/* Section 4: Action Button — PINNED to bottom, always visible on screen */}
+        <div className="shrink-0 pt-1.5 border-t border-slate-200 mt-1 bg-white/95">
           <button
             type="button"
             onClick={() => navigate('/game/plant-arena')}

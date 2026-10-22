@@ -59,6 +59,7 @@ export default function PlantArenaPage({ employeeId = 'NSK-GUEST', onSubmitScore
           break;
         case 'gameOver':
           audio.stopSiren();
+          audio.stopAttackLoop();
           if (e.result === 'won') audio.win(); else audio.lose();
           break;
         default:
@@ -76,6 +77,7 @@ export default function PlantArenaPage({ employeeId = 'NSK-GUEST', onSubmitScore
     return () => {
       clearInterval(id);
       audio.stopSiren();
+      audio.stopAttackLoop();
       eng.dispose();
       if (window.__plantArena === eng) delete window.__plantArena;
       engineRef.current = null;
@@ -88,6 +90,16 @@ export default function PlantArenaPage({ employeeId = 'NSK-GUEST', onSubmitScore
   // then out of the way. It used to sit there until the first crate was
   // smashed, which left it on screen during play.
   useEffect(() => { if (!opening) return undefined; const t = setTimeout(() => setOpening(false), 3000); return () => clearTimeout(t); }, [opening]);
+
+  // Low alarm while any rig is under attack. Driven from the snapshot rather
+  // than from events, so a repair, a failure and the end of the run all stop it
+  // without each needing its own case.
+  const underAttack = (snap?.attacked?.length ?? 0) > 0 && snap?.phase === 'playing';
+  useEffect(() => {
+    if (underAttack && !muted) audio.startAttackLoop();
+    else audio.stopAttackLoop();
+  }, [underAttack, muted]);
+  useEffect(() => () => audio.stopAttackLoop(), []);
 
   // Report the score once when a run ends.
   useEffect(() => {
@@ -178,12 +190,15 @@ export default function PlantArenaPage({ employeeId = 'NSK-GUEST', onSubmitScore
           <div className={`pa-card ${phase === 'won' ? 'pa-won' : 'pa-lost'}`}>
             <div className="pa-kicker">{phase === 'won' ? (snap.result?.reason === 'time' ? 'PLANT SURVIVED' : 'MISSION COMPLETE') : 'PLANT SHUTDOWN'}</div>
             <h1>{phase === 'won' ? 'VICTORY!' : 'DEFEAT'}</h1>
+            <div className="pa-primary-hero">
+              <span className="pa-primary-hero-lbl">MACHINES / APPLICATIONS SAVED</span>
+              <b className="pa-primary-hero-val">{snap.repairs}</b>
+            </div>
             <div className="pa-stats">
-              <div><span>REPAIRS</span><b>{snap.repairs}</b></div>
               <div><span>INTEGRITY</span><b>{snap.integrity}%</b></div>
               <div><span>TIME LEFT</span><b>{Math.round(snap.timeLeft)}s</b></div>
+              <div><span>SCORE</span><b>{snap.score.toLocaleString()}</b></div>
             </div>
-            <div className="pa-score">SCORE <b>{snap.score.toLocaleString()}</b></div>
             <div className="pa-row">
               <button type="button" className="pa-btn pa-btn-go" onClick={() => setRunId((r) => r + 1)}>PLAY AGAIN</button>
               {onExit && <button type="button" className="pa-btn" onClick={onExit}>EXIT</button>}

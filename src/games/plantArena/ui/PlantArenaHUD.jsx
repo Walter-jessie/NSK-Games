@@ -30,7 +30,7 @@ export function TopBar({ snap, sessionSeconds }) {
         WAVE {snap.wave + 1}/{snap.waveCount}
       </div>
       <div className="pa-panel pa-r">
-        TIME LEFT: <span className={snap.timeLeft < 15 ? 'pa-red' : 'pa-o'}>{fmt(Math.max(0, snap.timeLeft))}</span>
+        TIME LEFT: <span className="pa-time-val">{fmt(Math.max(0, snap.timeLeft))}</span>
         <div className="pa-meter pa-time"><i style={{ width: `${(snap.timeLeft / sessionSeconds) * 100}%` }} /></div>
       </div>
     </div>
@@ -40,7 +40,7 @@ export function TopBar({ snap, sessionSeconds }) {
 export function StatusBlock({ snap }) {
   return (
     <>
-      {/* Top-Left: Square Repair Objective Card with White Inner Panel */}
+      {/* Top-Left: Square Repair Objective Card with White Inner Panel & Fixed Green Accent */}
       <div className="pa-chips-top-left">
         <div className="pa-chip-sq pa-chip-repair" title="Repairs Completed">
           <span className="pa-chip-emoji" role="img" aria-label="repair">🔧</span>
@@ -53,10 +53,10 @@ export function StatusBlock({ snap }) {
         </div>
       </div>
 
-      {/* Bottom-Center: Square Bearing Count Panel with White Inner Panel & Highlighted Count */}
+      {/* Bottom-Center: Square Bearing Count Panel with White Inner Panel & Fixed Green Accent */}
       <div className="pa-chips-bottom-center">
         <div
-          className={`pa-chip-sq pa-chip-bearing ${snap.bearings === 0 ? 'pa-empty' : ''}`}
+          className="pa-chip-sq pa-chip-bearing"
           title="Bearings in Backpack"
         >
           <img src="./icon.svg" alt="Bearing" className="pa-chip-icon" />
