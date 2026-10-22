@@ -687,7 +687,7 @@ export default function BearingRunnerPage() {
       {/* ═══ TUTORIAL OVERLAY (Original Design with Enlarged Dimensions) ═══ */}
       {phase === 'tutorial' && (
         <div className="absolute inset-0 z-50 flex items-center justify-center bg-[#050810]/97 backdrop-blur-md px-4 py-2 select-none overflow-y-auto">
-          <div className="max-w-lg w-full text-center flex flex-col justify-between my-auto py-2 px-3">
+          <div className="max-w-xl w-full text-center flex flex-col justify-between my-auto py-2 px-3">
             {/* Title */}
             <div>
               <h2 className="font-heading font-black text-xl sm:text-2xl text-white tracking-wider uppercase mb-1">
@@ -737,11 +737,11 @@ export default function BearingRunnerPage() {
               </div>
             </div>
 
-            {/* Play button - Enlarged */}
+            {/* Play button - Increased width and height */}
             <button
               id="btn-tutorial-play"
               onClick={handleStartGame}
-              className="w-full py-3 sm:py-3.5 rounded-2xl bg-slate-900 hover:bg-cyan-600 active:bg-cyan-700 text-white font-heading font-black text-xs sm:text-sm tracking-[0.25em] uppercase transition-all shadow-xl hover:shadow-cyan-600/40 active:scale-[0.98] border-2 border-cyan-400/50 hover:border-cyan-300 cursor-pointer"
+              className="w-full py-4 sm:py-4.5 rounded-2xl bg-slate-900 hover:bg-cyan-600 active:bg-cyan-700 text-white font-heading font-black text-sm sm:text-base tracking-[0.3em] uppercase transition-all shadow-xl hover:shadow-cyan-600/40 active:scale-[0.98] border-2 border-cyan-400/60 hover:border-cyan-300 cursor-pointer"
             >
               PLAY
             </button>
