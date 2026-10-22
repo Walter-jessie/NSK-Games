@@ -4,18 +4,23 @@
 // Coordinates are world space: x east, z south (blueprint north = -z).
 
 export const RULES = {
-  sessionSeconds: 90,
-  winRepairs: 8,
+  sessionSeconds: 120,
+  winRepairs: 6,
+  // Three failures still ends the run: with the longer machine timers below, a
+  // player who does nothing reaches the third failure around 105 s, inside the
+  // session. Allowing a fourth would let them idle their way to a win.
   failuresToLose: 3,
   integrityPerFailure: 34,
+  firstWaveDelay: 5, // grace at the start: no drones, and the clock holds
   backpackSize: 5,
-  smashRange: 2.2, // metres from crate centre
-  repairRange: 1.5, // metres from the machine's bench edge
-  pickupRange: 1.75,
-  playerSpeed: 7,
+  smashRange: 2.6, // metres from crate centre
+  repairRange: 2.0, // metres from the machine's bench edge
+  pickupRange: 2.2,
+  playerSpeed: 8.5,
   playerRadius: 0.4,
-  droneSpeed: 11,
-  restrikeDelay: 2,
+  droneSpeed: 9,
+  restrikeDelay: 3.5,
+  relaunchDelay: 1.6, // gap between launches while a wave tops itself up
   savedSeconds: 2.5,
   repairLockSeconds: 0.6,
   scatterSpeed: 3.4,      // how hard a bearing is thrown clear of the crate
@@ -82,6 +87,7 @@ export function createArenaGame(layout, { seed = Date.now(), extraColliders = []
     score: 0,
     result: null,
     strikeCooldown: 0,
+    graceLeft: 0,
     repairLock: 0,
     action: { kind: 'none' },
     player: { ...toWorld(layout.arena.spawn), facing: Math.PI, speed01: 0 },
@@ -129,7 +135,7 @@ export function createArenaGame(layout, { seed = Date.now(), extraColliders = []
   function topUpStrikes(dt) {
     state.strikeCooldown -= dt;
     if (state.strikeCooldown > 0) return;
-    if (activeStrikes() < wave().drones && launchStrike()) state.strikeCooldown = 0.7;
+    if (activeStrikes() < wave().drones && launchStrike()) state.strikeCooldown = R.relaunchDelay;
   }
 
   function releaseDrone(m) {
@@ -249,7 +255,7 @@ export function createArenaGame(layout, { seed = Date.now(), extraColliders = []
         if (state.waveRepairs >= w.advanceAfterRepairs) {
           state.waveIndex += 1;
           state.waveRepairs = 0;
-          state.strikeCooldown = 0.4;
+          state.strikeCooldown = R.relaunchDelay;
           emit('waveStarted', { wave: state.waveIndex, name: wave().name, final: state.waveIndex === waves.length - 1 });
           return true;
         }
@@ -279,7 +285,15 @@ export function createArenaGame(layout, { seed = Date.now(), extraColliders = []
       return;
     }
     state.elapsed += dt;
-    state.timeLeft = Math.max(0, state.timeLeft - dt);
+    // Opening grace. The session clock does not run and no drone launches, so
+    // the player can find their feet and a first bearing before anything is
+    // under attack. topUpStrikes is already held off by strikeCooldown.
+    if (state.graceLeft > 0) {
+      state.graceLeft = Math.max(0, state.graceLeft - dt);
+      if (state.graceLeft === 0) emit('graceEnded');
+    } else {
+      state.timeLeft = Math.max(0, state.timeLeft - dt);
+    }
     state.repairLock = Math.max(0, state.repairLock - dt);
     movePlayer(dt, input);
 
@@ -403,6 +417,8 @@ export function createArenaGame(layout, { seed = Date.now(), extraColliders = []
     start() {
       if (state.phase !== 'ready') return;
       state.phase = 'playing';
+      state.graceLeft = R.firstWaveDelay;
+      state.strikeCooldown = R.firstWaveDelay;
       emit('waveStarted', { wave: 0, name: wave().name, final: false });
     },
     update,
@@ -413,6 +429,7 @@ export function createArenaGame(layout, { seed = Date.now(), extraColliders = []
       return {
         phase: state.phase,
         timeLeft: state.timeLeft,
+        graceLeft: state.graceLeft,
         wave: state.waveIndex,
         waveCount: waves.length,
         waveName: wave().name,

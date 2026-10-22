@@ -1,5 +1,22 @@
 import { useEffect, useRef } from 'react';
 
+/**
+ * First-run coach: dims the whole screen and leaves a clear hole over the
+ * joystick, with the instruction in the middle. `size` must match the
+ * joystick's diameter, so the page passes one constant to both.
+ */
+export function JoystickCoach({ size = 112 }) {
+  return (
+    <div className="pa-coach">
+      <div className="pa-coach-spot" style={{ width: size, height: size }} />
+      <div className="pa-coach-msg">
+        <span className="pa-coach-title">TOUCH THE JOYSTICK</span>
+        <span className="pa-coach-sub">Hold and drag to walk the plant floor</span>
+      </div>
+    </div>
+  );
+}
+
 const fmt = (secs) => {
   const t = Math.ceil(secs);
   return `${Math.floor(t / 60)}:${String(t % 60).padStart(2, '0')}`;

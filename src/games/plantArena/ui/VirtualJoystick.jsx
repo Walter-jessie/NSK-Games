@@ -4,7 +4,7 @@ import { useRef, useState, useCallback, useEffect } from 'react';
 // Appears instantly where the thumb lands on the left zone.
 // Uses direct DOM transform updates for 0ms input lag and smooth 60-120Hz tracking.
 // onChange(x, z) gets a normalized vector in -1..1.
-export default function VirtualJoystick({ onChange, radius = 56, deadZone = 0.04 }) {
+export default function VirtualJoystick({ onChange, onEngage, radius = 56, deadZone = 0.04 }) {
   const pointer = useRef(null);
   const baseRef = useRef(null);
   const knobRef = useRef(null);
@@ -38,6 +38,10 @@ export default function VirtualJoystick({ onChange, radius = 56, deadZone = 0.04
   const handlePointerDown = (e) => {
     if (pointer.current) return;
     e.currentTarget.setPointerCapture(e.pointerId);
+    // Fires on touch, before any movement: the coach overlay asks for a touch,
+    // and onChange alone would leave a player who taps without dragging stuck
+    // behind it.
+    onEngage?.();
     const r = e.currentTarget.getBoundingClientRect();
     pointer.current = {
       id: e.pointerId,

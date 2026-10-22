@@ -694,9 +694,16 @@ export default function BearingRunnerPage() {
                 BEARING RUNNER
               </h2>
               <div className="w-16 h-1 bg-cyan-500 mx-auto rounded-full mb-2" />
-              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-cyan-950/60 border border-cyan-400/30 text-xs sm:text-sm font-semibold text-cyan-200 shadow-sm">
-                <span>⬅️ ➡️</span>
-                <span>Switch Lanes &amp; Select Answers</span>
+              <div className="flex items-center justify-center gap-2.5 sm:gap-3 mb-1">
+                <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-white/10 border border-cyan-400/30 flex items-center justify-center text-base sm:text-lg text-cyan-200 shadow-sm flex-shrink-0">
+                  ◀
+                </div>
+                <div className="inline-flex items-center gap-2 px-3.5 sm:px-4 py-2 rounded-full bg-cyan-950/60 border border-cyan-400/30 text-xs sm:text-sm font-semibold text-cyan-200 shadow-sm">
+                  <span>Switch Lanes &amp; Select Answers</span>
+                </div>
+                <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-white/10 border border-cyan-400/30 flex items-center justify-center text-base sm:text-lg text-cyan-200 shadow-sm flex-shrink-0">
+                  ▶
+                </div>
               </div>
             </div>
 
@@ -727,16 +734,6 @@ export default function BearingRunnerPage() {
                 <p className="text-xs sm:text-sm text-slate-200 leading-snug">
                   Collect all parts to <span className="text-white font-bold">build your bearing</span> ⚙️
                 </p>
-              </div>
-            </div>
-
-            {/* Touch input icons - Enlarged */}
-            <div className="flex items-center justify-center gap-4 my-2">
-              <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-white/10 border border-cyan-400/30 flex items-center justify-center text-base sm:text-lg text-cyan-200 shadow-sm">
-                ◀
-              </div>
-              <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-white/10 border border-cyan-400/30 flex items-center justify-center text-base sm:text-lg text-cyan-200 shadow-sm">
-                ▶
               </div>
             </div>
 

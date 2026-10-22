@@ -58,7 +58,15 @@ export const audio = {
   pickup() { tone(660, 0.08, { vol: 0.12 }); tone(990, 0.12, { vol: 0.12, delay: 0.07 }); },
   repair() { [523, 659, 784, 1046].forEach((f, i) => tone(f, 0.14, { type: 'triangle', vol: 0.18, delay: i * 0.07 })); },
   needBearings() { tone(220, 0.15, { vol: 0.15 }); tone(180, 0.2, { vol: 0.15, delay: 0.12 }); },
-  attack() { tone(880, 0.12, { type: 'sawtooth', vol: 0.12 }); tone(660, 0.12, { type: 'sawtooth', vol: 0.12, delay: 0.14 }); },
+  // Machine under attack. A two-note klaxon over a low thud: the pair of quiet
+  // high blips this replaces was inaudible under the siren and the engine hum,
+  // so players never heard the one cue that says "go now".
+  attack() {
+    noise(0.16, { vol: 0.3, filter: 2000 });
+    tone(320, 0.26, { type: 'sawtooth', vol: 0.3, slide: -120 });
+    tone(320, 0.26, { type: 'sawtooth', vol: 0.3, slide: -120, delay: 0.28 });
+    tone(95, 0.44, { type: 'triangle', vol: 0.24, slide: -35, delay: 0.02 });
+  },
   fail() { noise(0.6, { vol: 0.4, filter: 400 }); tone(110, 0.6, { type: 'sawtooth', vol: 0.2, slide: -60 }); },
   wave() { tone(392, 0.12, { vol: 0.15 }); tone(587, 0.2, { vol: 0.15, delay: 0.12 }); },
   win() { [523, 659, 784, 1046, 1318].forEach((f, i) => tone(f, 0.22, { type: 'triangle', vol: 0.2, delay: i * 0.11 })); },
