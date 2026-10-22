@@ -7,6 +7,7 @@ import { requestFullscreen, isFullscreen } from './utils/fullscreen';
 
 import LoginPage from './pages/LoginPage';
 import LandscapeEnforcer from './components/common/LandscapeEnforcer';
+import TermsOverlay from './components/common/TermsOverlay';
 
 // Lazy-load secondary pages for smaller initial bundle
 const HubPage = lazy(() => import('./pages/HubPage'));
@@ -73,9 +74,33 @@ function PlantArenaRoute() {
 
 export default function App() {
   const [showSplash, setShowSplash] = useState(true);
+  const [termsAccepted, setTermsAccepted] = useState(() => {
+    try {
+      return sessionStorage.getItem('nsk_terms_accepted') === 'true';
+    } catch {
+      return false;
+    }
+  });
+  const [showTermsModal, setShowTermsModal] = useState(false);
   const [flipAngle, setFlipAngle] = useState(90);
   const navigate = useNavigate();
   const initialNavRef = useRef(true);
+
+  const handleAcceptTerms = useCallback(() => {
+    try {
+      sessionStorage.setItem('nsk_terms_accepted', 'true');
+    } catch (e) {
+      console.warn('sessionStorage unavailable:', e);
+    }
+    setTermsAccepted(true);
+    setShowTermsModal(false);
+  }, []);
+
+  useEffect(() => {
+    const handleOpenTerms = () => setShowTermsModal(true);
+    window.addEventListener('nsk-open-terms', handleOpenTerms);
+    return () => window.removeEventListener('nsk-open-terms', handleOpenTerms);
+  }, []);
 
   // Dynamic viewport tracking for automatic mobile landscape display
   const [viewportDim, setViewportDim] = useState(() => {
@@ -148,6 +173,14 @@ export default function App() {
       {showSplash && (
         <CinematicSplashScreen onComplete={() => setShowSplash(false)} durationMs={3800} />
       )}
+
+      {/* Terms of Use Gatekeeper Overlay (White CAD theme, appears at start right after logo splash) */}
+      <TermsOverlay
+        isOpen={(!termsAccepted && !showSplash) || showTermsModal}
+        isGatekeeper={!termsAccepted}
+        onAccept={handleAcceptTerms}
+        onClose={() => setShowTermsModal(false)}
+      />
 
       {/* Non-intrusive 180° Flip button (Only visible if device is portrait-locked and user tilts the opposite way) */}
       {isMobilePortrait && (

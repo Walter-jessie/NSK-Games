@@ -238,6 +238,17 @@ export default function LoginPage() {
               <span>👤</span>
               <span>GUEST MODE</span>
             </button>
+
+            {/* Terms of Use & Legal Disclaimer */}
+            <div className="text-center mt-[1.2vh]">
+              <button
+                type="button"
+                onClick={() => window.dispatchEvent(new CustomEvent('nsk-open-terms'))}
+                className="text-[9px] sm:text-[10px] font-mono text-slate-600 hover:text-[#E60012] underline decoration-slate-400 hover:decoration-[#E60012] transition-colors uppercase tracking-wider cursor-pointer"
+              >
+                Terms of Use &amp; Disclaimer
+              </button>
+            </div>
           </div>
 
           {/* Bottom Spacer */}
