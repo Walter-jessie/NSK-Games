@@ -28,6 +28,8 @@ export function isFullscreen() {
   );
 }
 
+let _lastRequestTime = 0;
+
 /**
  * Request fullscreen with AAA-game immersive settings.
  * `navigationUI: 'hide'` tells Android Chrome to use immersive sticky mode
@@ -35,6 +37,16 @@ export function isFullscreen() {
  */
 export async function requestFullscreen() {
   if (typeof document === 'undefined') return false;
+
+  // If already fullscreen, never re-trigger the browser API.
+  // Re-triggering causes the Android OS security notification ("Swipe down to exit") to repeatedly pop up.
+  if (isFullscreen()) return true;
+
+  // Debounce to prevent multiple buttons or rapid touches from repeatedly triggering OS toasts
+  const now = performance.now();
+  if (now - _lastRequestTime < 1500) return false;
+  _lastRequestTime = now;
+
   const docEl = document.documentElement;
   const opts = { navigationUI: 'hide' };
 
