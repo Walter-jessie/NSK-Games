@@ -29,46 +29,12 @@ export function isFullscreen() {
 }
 
 /**
- * Request fullscreen with AAA-game immersive settings.
- * `navigationUI: 'hide'` tells Android Chrome to use immersive sticky mode
- * where the system bar auto-hides after a brief swipe-down peek.
+ * Fullscreen Utility
+ * In web mode, we avoid calling native DOM requestFullscreen so mobile browsers
+ * (like Android Chrome) do not display the persistent bottom "exit full screen" toast.
  */
 export async function requestFullscreen() {
-  if (typeof document === 'undefined') return false;
-  const docEl = document.documentElement;
-
-  // Options for smoother system bar behavior (Android Chrome 87+)
-  const opts = { navigationUI: 'hide' };
-
-  try {
-    if (docEl.requestFullscreen) {
-      await docEl.requestFullscreen(opts);
-      _wasFullscreenBeforeExit = true;
-      _cancelRecovery();
-      return true;
-    } else if (docEl.webkitRequestFullscreen) {
-      // Safari/older WebKit don't support opts, just enter fullscreen
-      await docEl.webkitRequestFullscreen();
-      _wasFullscreenBeforeExit = true;
-      _cancelRecovery();
-      return true;
-    } else if (docEl.mozRequestFullScreen) {
-      await docEl.mozRequestFullScreen();
-      _wasFullscreenBeforeExit = true;
-      _cancelRecovery();
-      return true;
-    } else if (docEl.msRequestFullscreen) {
-      await docEl.msRequestFullscreen();
-      _wasFullscreenBeforeExit = true;
-      _cancelRecovery();
-      return true;
-    }
-  } catch (err) {
-    // Browser may reject if not triggered by direct user gesture
-    console.debug('Fullscreen request deferred/rejected:', err);
-    return false;
-  }
-  return false;
+  return true;
 }
 
 export async function exitFullscreen() {
@@ -133,56 +99,5 @@ function _onRecoveryTouch() {
  *        called when recovery overlay should show/hide
  */
 export function initFullscreenRecovery(onRecoveryStateChange) {
-  _recoveryCallback = onRecoveryStateChange || null;
-
-  const handleFullscreenChange = () => {
-    if (isFullscreen()) {
-      // Entered fullscreen — clear any recovery state
-      _wasFullscreenBeforeExit = true;
-      _cancelRecovery();
-      if (_recoveryCallback) _recoveryCallback(false);
-      return;
-    }
-
-    // Fullscreen just exited
-    if (!_wasFullscreenBeforeExit) return; // intentional exit, skip recovery
-
-    // System notification bar swipe-down detected!
-    // Activate recovery mode: re-enter fullscreen on next touch within 3s
-    _recoveryActive = true;
-    if (_recoveryCallback) _recoveryCallback(true);
-
-    // Listen for the next touch/click to re-enter immediately
-    const touchHandler = () => {
-      _onRecoveryTouch();
-      window.removeEventListener('touchstart', touchHandler, true);
-      window.removeEventListener('click', touchHandler, true);
-    };
-    window.addEventListener('touchstart', touchHandler, { capture: true, passive: true });
-    window.addEventListener('click', touchHandler, { capture: true, passive: true });
-
-    // Auto-retract after 3 seconds: hide the recovery overlay,
-    // but keep listening for re-entry on next gesture (via App.jsx global handler)
-    _recoveryTimerId = setTimeout(() => {
-      _recoveryActive = false;
-      if (_recoveryCallback) _recoveryCallback(false);
-      window.removeEventListener('touchstart', touchHandler, true);
-      window.removeEventListener('click', touchHandler, true);
-    }, 3000);
-  };
-
-  document.addEventListener('fullscreenchange', handleFullscreenChange);
-  document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
-  document.addEventListener('mozfullscreenchange', handleFullscreenChange);
-  document.addEventListener('MSFullscreenChange', handleFullscreenChange);
-
-  // Return cleanup function
-  return () => {
-    _cancelRecovery();
-    _recoveryCallback = null;
-    document.removeEventListener('fullscreenchange', handleFullscreenChange);
-    document.removeEventListener('webkitfullscreenchange', handleFullscreenChange);
-    document.removeEventListener('mozfullscreenchange', handleFullscreenChange);
-    document.removeEventListener('MSFullscreenChange', handleFullscreenChange);
-  };
+  return () => {};
 }

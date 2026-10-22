@@ -2,6 +2,7 @@ import React, { useEffect, useLayoutEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { clone as cloneSkeleton } from 'three/examples/jsm/utils/SkeletonUtils.js';
+import { createSkyProps } from './skyProps';
 
 // Global cache for optimized 4.9MB runner model so it only downloads and parses once across entire session
 let cachedRunnerGltf = null;
@@ -638,6 +639,11 @@ export default function Runner3DScene({
     scene.add(gates);
     gatesRef.current = gates;
 
+    // 7.5. Background prop field, kept deliberately sparse: two of each shape
+    // and a single notation panel, out past the rails where the HUD is not.
+    const skyProps = createSkyProps({ count: 2 });
+    scene.add(skyProps.group);
+
     // 8. Render & Animation Loop
     let lastTime = performance.now();
     let hasRenderedPreview = false;
@@ -686,6 +692,10 @@ export default function Runner3DScene({
       if (motes.userData && motes.userData.update) {
         motes.userData.update(advance, timestamp);
       }
+
+      // 1.6. Drift the background prop field. Seconds, not the raw timestamp:
+      // the spin rates are per-second.
+      skyProps.update(advance, timestamp / 1000);
 
       // 2. Position portal gates in the exact same render frame (eliminates 1-frame React delay)
       if (gatesRef.current) {
@@ -741,6 +751,8 @@ export default function Runner3DScene({
         mixerRef.current = null;
       }
       playerRef.current = null;
+      scene.remove(skyProps.group);
+      skyProps.dispose();
       renderer.dispose();
       if (renderer.domElement && container.contains(renderer.domElement)) {
         container.removeChild(renderer.domElement);

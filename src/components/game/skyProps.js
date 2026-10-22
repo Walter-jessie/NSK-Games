@@ -162,7 +162,10 @@ export function createSkyProps({ count = 5, seed = 1 } = {}) {
   // reads differently without a texture atlas.
   const panelGeo = new THREE.PlaneGeometry(5.4, 1.35);
   const panels = [];
-  for (let i = 0; i < 3; i++) {
+  // Panels scale with `count` as well. Left at a fixed three, a small count
+  // thinned the shapes out but left the text field as busy as ever.
+  const panelCount = Math.max(1, Math.round(count / 2));
+  for (let i = 0; i < panelCount; i++) {
     const text = NOTATION[Math.floor(rand() * NOTATION.length)];
     const mat = new THREE.MeshBasicMaterial({
       map: notationTexture(text),
@@ -182,7 +185,7 @@ export function createSkyProps({ count = 5, seed = 1 } = {}) {
   // RPM dials, square rather than the wide notation panels.
   const dialGeo = new THREE.PlaneGeometry(1.7, 1.7);
   const dialTex = rpmTexture();
-  for (let i = 0; i < 2; i++) {
+  for (let i = 0; i < Math.max(1, Math.round(count / 3)); i++) {
     const mat = new THREE.MeshBasicMaterial({
       map: dialTex,
       transparent: true,

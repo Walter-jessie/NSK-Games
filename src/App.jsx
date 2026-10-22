@@ -108,31 +108,10 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    // Attempt landscape orientation lock where supported
+    // Attempt landscape orientation lock where supported without forcing fullscreen DOM popup
     if (window.screen?.orientation?.lock) {
       window.screen.orientation.lock('landscape').catch(() => {});
     }
-
-    // Silent auto-fullscreen on first user interaction without any UI bars or popups
-    const handleFirstGesture = () => {
-      if (!isFullscreen()) {
-        requestFullscreen()
-          .then(() => {
-            if (window.screen?.orientation?.lock) {
-              window.screen.orientation.lock('landscape').catch(() => {});
-            }
-          })
-          .catch(() => {});
-      }
-    };
-
-    window.addEventListener('pointerdown', handleFirstGesture, { once: true, passive: true });
-    window.addEventListener('click', handleFirstGesture, { once: true, passive: true });
-
-    return () => {
-      window.removeEventListener('pointerdown', handleFirstGesture);
-      window.removeEventListener('click', handleFirstGesture);
-    };
   }, []);
 
   // When device is in portrait (mobile orientation locked or upright),
