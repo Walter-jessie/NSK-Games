@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { requestFullscreen } from '../../utils/fullscreen';
 
 /**
  * Mobile PWA Install Page / Overlay
@@ -96,6 +97,7 @@ export default function MobilePWAInstallOverlay({ forced = false }) {
     setIsDismissed(true);
     sessionStorage.setItem('nsk_pwa_dismissed', '1');
     window.dispatchEvent(new Event('pwa-dismissed'));
+    requestFullscreen().catch(() => {});
   };
 
   return (

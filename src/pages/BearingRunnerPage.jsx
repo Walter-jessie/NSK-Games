@@ -6,6 +6,7 @@ import { getQuestionsForGame, markQuestionsAnswered } from '../services/question
 import { submitScore } from '../services/supabaseService';
 import soundEffects from '../services/audioService';
 import Runner3DScene, { loadRunnerModel } from '../components/game/Runner3DScene';
+import { requestFullscreen } from '../utils/fullscreen';
 import { BEARING_PARTS } from '../config/bearingParts';
 
 // ─── Game Constants ───────────────────────────────────────────
@@ -126,6 +127,7 @@ export default function BearingRunnerPage() {
 
   // ─── Start Game (from tutorial → countdown → playing) ──
   const handleStartGame = useCallback(() => {
+    requestFullscreen().catch(() => {});
     setPhase('countdown');
     let count = COUNTDOWN_SECS;
     soundEffects.playCountdownBeep(false);

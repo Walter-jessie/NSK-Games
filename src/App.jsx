@@ -3,6 +3,7 @@ import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import useAuthStore from './stores/authStore';
 import CinematicSplashScreen from './components/common/CinematicSplashScreen';
 import MobilePWAInstallOverlay from './components/common/MobilePWAInstallOverlay';
+import { requestFullscreen, isFullscreen } from './utils/fullscreen';
 
 import LoginPage from './pages/LoginPage';
 import LandscapeEnforcer from './components/common/LandscapeEnforcer';
@@ -78,10 +79,31 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    // Attempt landscape orientation lock where supported without forcing fullscreen dialog
+    // Attempt landscape orientation lock where supported
     if (window.screen?.orientation?.lock) {
       window.screen.orientation.lock('landscape').catch(() => {});
     }
+
+    // Silent auto-fullscreen on first user interaction without any UI bars or popups
+    const handleFirstGesture = () => {
+      if (!isFullscreen()) {
+        requestFullscreen()
+          .then(() => {
+            if (window.screen?.orientation?.lock) {
+              window.screen.orientation.lock('landscape').catch(() => {});
+            }
+          })
+          .catch(() => {});
+      }
+    };
+
+    window.addEventListener('pointerdown', handleFirstGesture, { once: true, passive: true });
+    window.addEventListener('click', handleFirstGesture, { once: true, passive: true });
+
+    return () => {
+      window.removeEventListener('pointerdown', handleFirstGesture);
+      window.removeEventListener('click', handleFirstGesture);
+    };
   }, []);
 
   return (

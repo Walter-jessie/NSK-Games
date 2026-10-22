@@ -5,6 +5,7 @@ import { RULES } from './engine/arenaGameStore.js';
 import { audio } from './audio/audioService.js';
 import VirtualJoystick from './ui/VirtualJoystick.jsx';
 import { TopBar, StatusBlock, SmartActionButton, MiniMap } from './ui/PlantArenaHUD.jsx';
+import { requestFullscreen } from '../../utils/fullscreen';
 import './ui/plantArena.css';
 
 /**
@@ -101,6 +102,7 @@ export default function PlantArenaPage({ employeeId = 'NSK-GUEST', onSubmitScore
   const start = useCallback(() => {
     setOpening(true);
     audio.unlock();
+    requestFullscreen().catch(() => {});
     if (screen.orientation?.lock) {
       screen.orientation.lock('landscape').catch(() => {});
     }

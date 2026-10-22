@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useAuthStore from '../stores/authStore';
 import { getDepartmentOptions } from '../config/departments';
+import { requestFullscreen } from '../utils/fullscreen';
 import homeBg from '../assets/home_bg.jpg';
 
 const deptOptions = getDepartmentOptions();
@@ -34,12 +35,14 @@ export default function LoginPage() {
     }
 
     setIsLoading(true);
+    requestFullscreen().catch(() => {});
     await new Promise((r) => setTimeout(r, 600));
     login(employeeId.trim(), department);
     navigate('/hub');
   };
 
   const handleGuestLogin = () => {
+    requestFullscreen().catch(() => {});
     const guestId = `GUEST-${Math.floor(1000 + Math.random() * 9000)}`;
     login(guestId, 'general');
     navigate('/hub');
