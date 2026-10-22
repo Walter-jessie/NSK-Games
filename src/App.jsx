@@ -160,14 +160,25 @@ export default function App() {
     };
   }, [handleViewportChange]);
 
-  // Keep root rem font size and --app-vh strictly calibrated to the landscape short-axis
-  // regardless of physical rotation, navigation, back button, or fullscreen transitions.
+  // Keep the root rem size and the --app-* units calibrated to the LAID-OUT box
+  // rather than the real viewport, regardless of physical rotation, navigation,
+  // back button or fullscreen transitions. In the rotated branch the laid-out
+  // width is the device's height and vice versa, so raw vh/vw would be exactly
+  // the wrong way round; every vh/vw in the app now reads these instead.
   useEffect(() => {
-    const short = viewportDim.isPortrait ? viewportDim.w : viewportDim.h;
-    const px = Math.min(17.5, Math.max(13, short / 25));
-    document.documentElement.style.fontSize = `${px.toFixed(2)}px`;
-    document.documentElement.style.setProperty('--app-vh', `${(short / 100).toFixed(2)}px`);
-    document.documentElement.style.setProperty('--app-height', `${short}px`);
+    const { isPortrait, w, h } = viewportDim;
+    const layoutW = isPortrait ? h : w;
+    const layoutH = isPortrait ? w : h;
+    const px = Math.min(17.5, Math.max(13, layoutH / 25));
+    const root = document.documentElement;
+    root.style.fontSize = `${px.toFixed(2)}px`;
+    root.style.setProperty('--app-vh', `${(layoutH / 100).toFixed(2)}px`);
+    root.style.setProperty('--app-vw', `${(layoutW / 100).toFixed(2)}px`);
+    root.style.setProperty('--app-height', `${layoutH}px`);
+    root.style.setProperty('--app-width', `${layoutW}px`);
+    // The rotate prompts hang off this: the app presents landscape itself, so
+    // they must not fire merely because the handset is physically upright.
+    root.dataset.appLandscape = layoutW >= layoutH ? 'true' : 'false';
   }, [viewportDim]);
 
   useEffect(() => {

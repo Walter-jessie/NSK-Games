@@ -15,7 +15,7 @@
   html {
     /* ══════ UNITY-STYLE CANVAS SCALER (LANDSCAPE MATCH HEIGHT) ══════
        Reference Height = 400px (1080p FHD+ Indian standard 20:9 mobile landscape).
-       Base scale: 1rem = 16px at 400px height (font-size = 100vh / 25).
+       Base scale: 1rem = 16px at 400px height (font-size = calc(100 * var(--app-vh, 3.9px)) / 25).
        - At 360px height (720p budget): 1rem = 14.4px
        - At 400px height (1080p mobile FHD+): 1rem = 16.0px
        - At 440px height (iPhone 16 Pro Max): 1rem = 17.6px
@@ -25,7 +25,7 @@
        Guarantees every button, icon, and card occupies the exact same visual proportion
        of the screen across all mobile resolutions and display densities, exactly like Unity!
     */
-    font-size: clamp(13px, calc(100vh / 25), 17.5px);
+    font-size: clamp(13px, calc(calc(100 * var(--app-vh, 3.9px)) / 25), 17.5px);
     height: 100%;
     width: 100%;
     overflow: hidden;
@@ -357,10 +357,10 @@
 .portrait-rotate-prompt {
   display: none;
 }
-@media (orientation: portrait), (max-aspect-ratio: 1/1) {
-  .portrait-rotate-prompt {
-    display: flex !important;
-  }
+/* Same gate as .pa-rotate: the app presents landscape by rotating its own
+   container, so this prompt follows the app's state, not the handset's. */
+html[data-app-landscape='false'] .portrait-rotate-prompt {
+  display: flex !important;
 }
 @keyframes rotatePhoneAnim {
   0%, 15% { transform: rotate(0deg); }
@@ -811,11 +811,11 @@
     opacity: 1;
   }
   78% {
-    transform: translate(calc(20vw - 50%), calc(-22vh)) scale(0.85);
+    transform: translate(calc(calc(20 * var(--app-vw, 8.4px)) - 50%), calc(-22 * var(--app-vh, 3.9px))) scale(0.85);
     opacity: 0.95;
   }
   100% {
-    transform: translate(calc(44vw - 50%), calc(-44vh)) scale(0.25);
+    transform: translate(calc(calc(44 * var(--app-vw, 8.4px)) - 50%), calc(-44 * var(--app-vh, 3.9px))) scale(0.25);
     opacity: 0;
   }
 }

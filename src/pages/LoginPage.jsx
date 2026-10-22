@@ -71,7 +71,7 @@ export default function LoginPage() {
   return (
     <div className="relative h-full w-full overflow-hidden bg-[#070b14] select-none font-body">
       {/* ── LEFT SIDE: Cinematic Industrial NSK Bearing Hero (Centered in left visible region) ── */}
-      <div className="absolute left-0 top-0 bottom-0 h-full w-full sm:w-[calc(40%+13.5vh)] overflow-hidden bg-[#070b14]">
+      <div className="absolute left-0 top-0 bottom-0 h-full w-full sm:w-[calc(40%+calc(13.5_*_var(--app-vh,_3.9px)))] overflow-hidden bg-[#070b14]">
         <img
           src="./images/nsk_bearing_hero.jpg"
           alt="NSK Precision Bearing Assembly"
@@ -124,7 +124,7 @@ export default function LoginPage() {
         </svg>
 
         {/* NSK Red Accent Slanting Lines along the Diagonal Edge */}
-        {/* NSK Red Accent Slanting Lines along the Diagonal Edge (Exact 12.9vh slope) */}
+        {/* NSK Red Accent Slanting Lines along the Diagonal Edge (Exact calc(12.9_*_var(--app-vh,_3.9px)) slope) */}
         <svg
           className="nsk-diagonal-line absolute top-0 bottom-0 left-0 pointer-events-none z-30 overflow-visible"
           style={{ width: 'calc(12.9 * var(--app-vh, 3.9px))', height: '100%' }}
@@ -162,21 +162,21 @@ export default function LoginPage() {
           style={{ touchAction: 'manipulation' }}
           title="NSK"
         >
-          <img src="./nsk_logo.png" alt="NSK" className="h-[clamp(24px,5.8vh,68px)] w-auto object-contain pointer-events-none" />
+          <img src="./nsk_logo.png" alt="NSK" className="h-[clamp(24px,calc(5.8_*_var(--app-vh,_3.9px)),68px)] w-auto object-contain pointer-events-none" />
         </div>
 
         {/* Content Wrapper: Perfectly centered in visible white area */}
         <div className="relative z-20 h-full flex flex-col justify-center pl-10 pr-6 py-2 overflow-y-auto">
           {/* Centered Mobile-Friendly Form - Scales with screen height on 360p, 720p, 1080p, and 2K */}
-          <div className="w-full max-w-[min(640px,75vh)] mx-auto my-auto">
-            <h1 className="font-heading font-black text-[clamp(18px,4.8vh,48px)] tracking-wide text-slate-900 uppercase mb-[1.5vh] text-left">
+          <div className="w-full max-w-[min(640px,calc(75_*_var(--app-vh,_3.9px)))] mx-auto my-auto">
+            <h1 className="font-heading font-black text-[clamp(18px,calc(4.8_*_var(--app-vh,_3.9px)),48px)] tracking-wide text-slate-900 uppercase mb-[calc(1.5_*_var(--app-vh,_3.9px))] text-left">
               LOGIN
             </h1>
 
-            <form onSubmit={handleSubmit} className="space-y-[1.5vh]">
+            <form onSubmit={handleSubmit} className="space-y-[calc(1.5_*_var(--app-vh,_3.9px))]">
               {/* Employee ID */}
               <div>
-                <label className="block font-mono text-[clamp(9px,2.1vh,18px)] font-bold tracking-wider text-slate-700 uppercase mb-0.5">
+                <label className="block font-mono text-[clamp(9px,calc(2.1_*_var(--app-vh,_3.9px)),18px)] font-bold tracking-wider text-slate-700 uppercase mb-0.5">
                   EMPLOYEE ID
                 </label>
                 <div className="relative">
@@ -186,7 +186,7 @@ export default function LoginPage() {
                     value={employeeId}
                     onChange={(e) => setEmployeeId(e.target.value)}
                     placeholder="Enter your Employee ID"
-                    className="w-full px-3 py-[clamp(6px,1.6vh,16px)] rounded-xl border-2 border-slate-300 bg-white text-slate-900 font-mono text-[clamp(11px,2.4vh,20px)] placeholder-slate-400 focus:outline-none focus:border-red-600 focus:ring-4 focus:ring-red-600/15 shadow-sm transition-all caret-red-600 accent-red-600"
+                    className="w-full px-3 py-[clamp(6px,calc(1.6_*_var(--app-vh,_3.9px)),16px)] rounded-xl border-2 border-slate-300 bg-white text-slate-900 font-mono text-[clamp(11px,calc(2.4_*_var(--app-vh,_3.9px)),20px)] placeholder-slate-400 focus:outline-none focus:border-red-600 focus:ring-4 focus:ring-red-600/15 shadow-sm transition-all caret-red-600 accent-red-600"
                     autoComplete="off"
                   />
                 </div>
@@ -194,7 +194,7 @@ export default function LoginPage() {
 
               {/* Department */}
               <div>
-                <label className="block font-mono text-[clamp(9px,2.1vh,18px)] font-bold tracking-wider text-slate-700 uppercase mb-0.5">
+                <label className="block font-mono text-[clamp(9px,calc(2.1_*_var(--app-vh,_3.9px)),18px)] font-bold tracking-wider text-slate-700 uppercase mb-0.5">
                   PLANT DEPARTMENT
                 </label>
                 <div className="relative">
@@ -202,7 +202,7 @@ export default function LoginPage() {
                     id="department-select"
                     value={department}
                     onChange={(e) => setDepartment(e.target.value)}
-                    className="w-full px-3 py-[clamp(6px,1.6vh,16px)] rounded-xl border-2 border-slate-300 bg-white text-slate-900 text-[clamp(11px,2.4vh,20px)] font-medium focus:outline-none focus:border-red-600 focus:ring-4 focus:ring-red-600/15 shadow-sm transition-all appearance-none cursor-pointer pr-8 accent-red-600"
+                    className="w-full px-3 py-[clamp(6px,calc(1.6_*_var(--app-vh,_3.9px)),16px)] rounded-xl border-2 border-slate-300 bg-white text-slate-900 text-[clamp(11px,calc(2.4_*_var(--app-vh,_3.9px)),20px)] font-medium focus:outline-none focus:border-red-600 focus:ring-4 focus:ring-red-600/15 shadow-sm transition-all appearance-none cursor-pointer pr-8 accent-red-600"
                   >
                     <option value="">Select your department</option>
                     {deptOptions.map((d) => (
@@ -230,7 +230,7 @@ export default function LoginPage() {
                 id="login-button"
                 type="submit"
                 disabled={isLoading}
-                className="w-full mt-1 py-[clamp(8px,2vh,22px)] px-4 rounded-xl bg-slate-900 hover:bg-red-600 active:bg-red-700 text-white font-heading font-black text-[clamp(11px,2.4vh,22px)] tracking-widest uppercase transition-all shadow-md shadow-slate-900/20 hover:shadow-red-600/25 focus:outline-none focus:ring-4 focus:ring-red-600/30 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 active:scale-[0.99]"
+                className="w-full mt-1 py-[clamp(8px,calc(2_*_var(--app-vh,_3.9px)),22px)] px-4 rounded-xl bg-slate-900 hover:bg-red-600 active:bg-red-700 text-white font-heading font-black text-[clamp(11px,calc(2.4_*_var(--app-vh,_3.9px)),22px)] tracking-widest uppercase transition-all shadow-md shadow-slate-900/20 hover:shadow-red-600/25 focus:outline-none focus:ring-4 focus:ring-red-600/30 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 active:scale-[0.99]"
               >
                 {isLoading ? (
                   <span className="flex items-center gap-2 font-mono text-xs">
@@ -247,9 +247,9 @@ export default function LoginPage() {
             </form>
 
             {/* Divider */}
-            <div className="flex items-center gap-2 my-[1.2vh]">
+            <div className="flex items-center gap-2 my-[calc(1.2_*_var(--app-vh,_3.9px))]">
               <div className="flex-1 h-px bg-slate-200" />
-              <span className="font-mono text-[clamp(8px,1.8vh,14px)] text-slate-400 uppercase tracking-widest">OR</span>
+              <span className="font-mono text-[clamp(8px,calc(1.8_*_var(--app-vh,_3.9px)),14px)] text-slate-400 uppercase tracking-widest">OR</span>
               <div className="flex-1 h-px bg-slate-200" />
             </div>
 
@@ -258,14 +258,14 @@ export default function LoginPage() {
               id="guest-mode-button"
               type="button"
               onClick={handleGuestLogin}
-              className="w-full py-[clamp(7px,1.8vh,20px)] px-3 rounded-xl border-2 border-slate-300 hover:border-red-600 bg-white hover:bg-red-50/60 active:bg-red-100/60 text-slate-700 hover:text-red-600 font-heading font-bold text-[clamp(10px,2.3vh,18px)] tracking-wider uppercase transition-all shadow-sm focus:outline-none focus:ring-4 focus:ring-red-600/20 flex items-center justify-center gap-1.5 active:scale-[0.99]"
+              className="w-full py-[clamp(7px,calc(1.8_*_var(--app-vh,_3.9px)),20px)] px-3 rounded-xl border-2 border-slate-300 hover:border-red-600 bg-white hover:bg-red-50/60 active:bg-red-100/60 text-slate-700 hover:text-red-600 font-heading font-bold text-[clamp(10px,calc(2.3_*_var(--app-vh,_3.9px)),18px)] tracking-wider uppercase transition-all shadow-sm focus:outline-none focus:ring-4 focus:ring-red-600/20 flex items-center justify-center gap-1.5 active:scale-[0.99]"
             >
               <span>👤</span>
               <span>GUEST MODE</span>
             </button>
 
             {/* Terms of Use & Legal Disclaimer */}
-            <div className="text-center mt-[1.2vh]">
+            <div className="text-center mt-[calc(1.2_*_var(--app-vh,_3.9px))]">
               <button
                 type="button"
                 onClick={() => window.dispatchEvent(new CustomEvent('nsk-open-terms'))}

@@ -88,11 +88,11 @@ export default function RunnerCoach({
         ))}
       </svg>
 
-      <div className="absolute left-1/2 top-[28%] -translate-x-1/2 w-[min(82vw,640px)] text-center">
-        <p className="font-heading font-black uppercase tracking-wider text-white text-[clamp(16px,4.2vh,32px)] drop-shadow-[0_2px_18px_rgba(0,0,0,0.95)]">
+      <div className="absolute left-1/2 top-[28%] -translate-x-1/2 w-[min(calc(82_*_var(--app-vw,_8.4px)),640px)] text-center">
+        <p className="font-heading font-black uppercase tracking-wider text-white text-[clamp(16px,calc(4.2_*_var(--app-vh,_3.9px)),32px)] drop-shadow-[0_2px_18px_rgba(0,0,0,0.95)]">
           {message}
         </p>
-        <p className="mt-2 text-cyan-100/90 text-[clamp(11px,2.2vh,16px)] drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)]">
+        <p className="mt-2 text-cyan-100/90 text-[clamp(11px,calc(2.2_*_var(--app-vh,_3.9px)),16px)] drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)]">
           {sub}
         </p>
       </div>

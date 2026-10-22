@@ -469,7 +469,7 @@ export default function BearingRunnerPage() {
 
       {/* Feedback Banner (Positioned directly below enlarged Q&A HUD, never covers runner) */}
       {feedbackType && (
-        <div className="absolute top-[44vh] sm:top-[47vh] left-1/2 -translate-x-1/2 z-40 pointer-events-none flex items-center justify-center animate-bounce">
+        <div className="absolute top-[calc(44_*_var(--app-vh,_3.9px))] sm:top-[calc(47_*_var(--app-vh,_3.9px))] left-1/2 -translate-x-1/2 z-40 pointer-events-none flex items-center justify-center animate-bounce">
           <div className={`px-4 sm:px-6 py-1 sm:py-1.5 rounded-full font-heading font-black text-xs sm:text-sm md:text-base tracking-widest shadow-2xl border-2 flex items-center gap-2 backdrop-blur-md ${
             feedbackType === 'correct'
               ? 'bg-emerald-950/90 text-emerald-300 border-emerald-400 shadow-emerald-500/50'
@@ -485,16 +485,16 @@ export default function BearingRunnerPage() {
         <div className="absolute top-0 left-0 right-0 z-30 pointer-events-auto flex flex-col justify-start gap-2 px-3 pt-2 pb-2 bg-gradient-to-b from-[#050810]/98 via-[#050810]/90 to-transparent">
           {/* Question Row at Very Top with integrated Parts Counter */}
           {currentQ && (
-            <div key={`q-${qIdx}`} className="flex items-center gap-2.5 max-w-[min(94vw,160vh)] mx-auto w-full flex-shrink-0 game-question-enter">
+            <div key={`q-${qIdx}`} className="flex items-center gap-2.5 max-w-[min(calc(94_*_var(--app-vw,_8.4px)),calc(160_*_var(--app-vh,_3.9px)))] mx-auto w-full flex-shrink-0 game-question-enter">
               {/* Parts Counter Badge (Cyber Cyan/Blue Gradient - Fluid Height Scale) */}
-              <div className="px-3.5 py-1.5 rounded-2xl bg-gradient-to-br from-cyan-600 via-blue-600 to-indigo-800 border-2 border-cyan-300 text-white whitespace-nowrap shrink-0 shadow-[0_0_20px_rgba(6,182,212,0.5)] flex items-center justify-center gap-2 h-[clamp(56px,13.5vh,125px)]">
-                <span className="text-cyan-200 font-black uppercase text-[clamp(11px,2.4vh,20px)] tracking-widest">PARTS</span>
-                <span className="font-heading font-black text-[clamp(17px,3.6vh,34px)] text-white">{collectedParts.length}/10</span>
+              <div className="px-3.5 py-1.5 rounded-2xl bg-gradient-to-br from-cyan-600 via-blue-600 to-indigo-800 border-2 border-cyan-300 text-white whitespace-nowrap shrink-0 shadow-[0_0_20px_rgba(6,182,212,0.5)] flex items-center justify-center gap-2 h-[clamp(56px,calc(13.5_*_var(--app-vh,_3.9px)),125px)]">
+                <span className="text-cyan-200 font-black uppercase text-[clamp(11px,calc(2.4_*_var(--app-vh,_3.9px)),20px)] tracking-widest">PARTS</span>
+                <span className="font-heading font-black text-[clamp(17px,calc(3.6_*_var(--app-vh,_3.9px)),34px)] text-white">{collectedParts.length}/10</span>
               </div>
 
               {/* High-Contrast White Question Panel with Bold Cyber Cyan Border - Big Bold Legible Question */}
-              <div className="flex-1 bg-white border-[3px] border-cyan-500 rounded-2xl px-6 py-2 shadow-[0_0_25px_rgba(6,182,212,0.35)] text-center flex items-center justify-center h-[clamp(56px,13.5vh,125px)]">
-                <p className="text-[clamp(18px,4.4vh,38px)] font-heading font-black text-slate-900 leading-tight tracking-normal line-clamp-2">
+              <div className="flex-1 bg-white border-[3px] border-cyan-500 rounded-2xl px-6 py-2 shadow-[0_0_25px_rgba(6,182,212,0.35)] text-center flex items-center justify-center h-[clamp(56px,calc(13.5_*_var(--app-vh,_3.9px)),125px)]">
+                <p className="text-[clamp(18px,calc(4.4_*_var(--app-vh,_3.9px)),38px)] font-heading font-black text-slate-900 leading-tight tracking-normal line-clamp-2">
                   {currentQ.question}
                 </p>
               </div>
@@ -503,7 +503,7 @@ export default function BearingRunnerPage() {
 
           {/* Options: 4 Locked, Uniform Answer Cards (Cyber Cyan/Blue Theme) */}
           {currentQ && (
-            <div key={`o-${qIdx}`} className="grid grid-cols-4 gap-2.5 game-options-enter max-w-[min(94vw,160vh)] mx-auto w-full items-stretch h-[clamp(48px,11.5vh,102px)]">
+            <div key={`o-${qIdx}`} className="grid grid-cols-4 gap-2.5 game-options-enter max-w-[min(calc(94_*_var(--app-vw,_8.4px)),calc(160_*_var(--app-vh,_3.9px)))] mx-auto w-full items-stretch h-[clamp(48px,calc(11.5_*_var(--app-vh,_3.9px)),102px)]">
               {LANE_LABELS.map((label, idx) => {
                 const isSelected = playerLane === idx;
                 return (
@@ -519,14 +519,14 @@ export default function BearingRunnerPage() {
                     {isSelected && <div className="absolute inset-0 game-option-shimmer pointer-events-none rounded-2xl" />}
                     
                     {/* Letter Badge (A, B, C, D) - Fluid Proportions */}
-                    <span className={`relative z-10 inline-flex w-[clamp(26px,5.2vh,50px)] h-[clamp(26px,5.2vh,50px)] rounded-xl items-center justify-center text-[clamp(11px,2.2vh,20px)] font-heading font-black shrink-0 shadow-sm ${
+                    <span className={`relative z-10 inline-flex w-[clamp(26px,calc(5.2_*_var(--app-vh,_3.9px)),50px)] h-[clamp(26px,calc(5.2_*_var(--app-vh,_3.9px)),50px)] rounded-xl items-center justify-center text-[clamp(11px,calc(2.2_*_var(--app-vh,_3.9px)),20px)] font-heading font-black shrink-0 shadow-sm ${
                       isSelected ? 'bg-white text-blue-700 shadow-md font-black' : 'bg-white/15 text-white border border-white/20'
                     }`}>
                       {label}
                     </span>
 
                     {/* Words Text - High Contrast & Clean Size */}
-                    <span className={`relative z-10 text-[clamp(11px,2.3vh,19px)] font-bold leading-tight line-clamp-2 text-left ${
+                    <span className={`relative z-10 text-[clamp(11px,calc(2.3_*_var(--app-vh,_3.9px)),19px)] font-bold leading-tight line-clamp-2 text-left ${
                       isSelected ? 'text-white drop-shadow-md font-black' : 'text-slate-100'
                     }`}>
                       {currentQ.options[label]}
@@ -561,10 +561,10 @@ export default function BearingRunnerPage() {
               <img
                 src={flyingPart.image}
                 alt=""
-                className="w-[clamp(84px,23vh,168px)] h-[clamp(84px,23vh,168px)] object-contain drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)]"
+                className="w-[clamp(84px,calc(23_*_var(--app-vh,_3.9px)),168px)] h-[clamp(84px,calc(23_*_var(--app-vh,_3.9px)),168px)] object-contain drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)]"
               />
             ) : (
-              <span className="text-[clamp(66px,18vh,132px)] leading-none drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)] animate-pulse">{flyingPart.icon}</span>
+              <span className="text-[clamp(66px,calc(18_*_var(--app-vh,_3.9px)),132px)] leading-none drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)] animate-pulse">{flyingPart.icon}</span>
             )}
             <div className="flex items-center gap-1.5 mt-2 bg-cyan-950/90 border border-cyan-400/40 px-3 py-0.5 rounded-full whitespace-nowrap shadow-md">
               <span className="text-[10px] text-cyan-400 font-heading font-black uppercase tracking-wider">
@@ -614,7 +614,7 @@ export default function BearingRunnerPage() {
       {/* ═══ SCREEN SWIPE & TAP ZONE (single unified zone, tap/swipe handled in handleTouchEnd) ═══ */}
       {(phase === 'playing' || phase === 'feedback') && (
         <div
-          className="absolute inset-x-0 bottom-0 top-[44vh] sm:top-[47vh] z-20 pointer-events-auto select-none"
+          className="absolute inset-x-0 bottom-0 top-[calc(44_*_var(--app-vh,_3.9px))] sm:top-[calc(47_*_var(--app-vh,_3.9px))] z-20 pointer-events-auto select-none"
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
           style={{ touchAction: 'none' }}
@@ -634,14 +634,14 @@ export default function BearingRunnerPage() {
               e.stopPropagation();
               moveLeft();
             }}
-            className={`absolute bottom-[2vh] left-[2vh] z-40 w-[clamp(100px,28vh,200px)] h-[clamp(118px,34vh,230px)] rounded-[clamp(20px,5vh,38px)] flex items-center justify-center transition-all select-none shadow-[0_10px_35px_rgba(0,0,0,0.85)] border-2 ${
+            className={`absolute bottom-[calc(2_*_var(--app-vh,_3.9px))] left-[calc(2_*_var(--app-vh,_3.9px))] z-40 w-[clamp(100px,calc(28_*_var(--app-vh,_3.9px)),200px)] h-[clamp(118px,calc(34_*_var(--app-vh,_3.9px)),230px)] rounded-[clamp(20px,calc(5_*_var(--app-vh,_3.9px)),38px)] flex items-center justify-center transition-all select-none shadow-[0_10px_35px_rgba(0,0,0,0.85)] border-2 ${
               playerLane === 0
                 ? 'bg-slate-900/40 border-white/5 text-slate-600 opacity-25 cursor-not-allowed'
                 : 'bg-slate-900/95 backdrop-blur-xl border-cyan-500/40 text-white hover:border-cyan-400 hover:bg-slate-800 active:bg-cyan-600 active:scale-95 active:border-cyan-300 active:shadow-cyan-500/80 ring-1 ring-cyan-400/30'
             }`}
             style={{ touchAction: 'none' }}
           >
-            <svg className="w-[clamp(56px,16vh,115px)] h-[clamp(56px,16vh,115px)] drop-shadow-md" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={4}>
+            <svg className="w-[clamp(56px,calc(16_*_var(--app-vh,_3.9px)),115px)] h-[clamp(56px,calc(16_*_var(--app-vh,_3.9px)),115px)] drop-shadow-md" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={4}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
             </svg>
           </button>
@@ -656,14 +656,14 @@ export default function BearingRunnerPage() {
               e.stopPropagation();
               moveRight();
             }}
-            className={`absolute bottom-[2vh] right-[2vh] z-40 w-[clamp(100px,28vh,200px)] h-[clamp(118px,34vh,230px)] rounded-[clamp(20px,5vh,38px)] flex items-center justify-center transition-all select-none shadow-[0_10px_35px_rgba(0,0,0,0.85)] border-2 ${
+            className={`absolute bottom-[calc(2_*_var(--app-vh,_3.9px))] right-[calc(2_*_var(--app-vh,_3.9px))] z-40 w-[clamp(100px,calc(28_*_var(--app-vh,_3.9px)),200px)] h-[clamp(118px,calc(34_*_var(--app-vh,_3.9px)),230px)] rounded-[clamp(20px,calc(5_*_var(--app-vh,_3.9px)),38px)] flex items-center justify-center transition-all select-none shadow-[0_10px_35px_rgba(0,0,0,0.85)] border-2 ${
               playerLane === LANE_COUNT - 1
                 ? 'bg-slate-900/40 border-white/5 text-slate-600 opacity-25 cursor-not-allowed'
                 : 'bg-slate-900/95 backdrop-blur-xl border-cyan-500/40 text-white hover:border-cyan-400 hover:bg-slate-800 active:bg-cyan-600 active:scale-95 active:border-cyan-300 active:shadow-cyan-500/80 ring-1 ring-cyan-400/30'
             }`}
             style={{ touchAction: 'none' }}
           >
-            <svg className="w-[clamp(56px,16vh,115px)] h-[clamp(56px,16vh,115px)] drop-shadow-md" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={4}>
+            <svg className="w-[clamp(56px,calc(16_*_var(--app-vh,_3.9px)),115px)] h-[clamp(56px,calc(16_*_var(--app-vh,_3.9px)),115px)] drop-shadow-md" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={4}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
             </svg>
           </button>

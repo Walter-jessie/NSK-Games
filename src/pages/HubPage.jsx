@@ -74,7 +74,7 @@ export default function HubPage() {
   return (
     <div className="relative h-full w-full overflow-hidden bg-[#070b14] select-none font-body">
       {/* ── LEFT SIDE: Industrial Hero Image (Centered to Left Visible Region) ── */}
-      <div className="absolute left-0 top-0 bottom-0 h-full w-full sm:w-[calc(40%+13.5vh)] overflow-hidden bg-[#070b14]">
+      <div className="absolute left-0 top-0 bottom-0 h-full w-full sm:w-[calc(40%+calc(13.5_*_var(--app-vh,_3.9px)))] overflow-hidden bg-[#070b14]">
         <img
           src="./images/login_hero.jpg"
           alt="NSK Plant Engineer with Precision Bearing"
@@ -127,7 +127,7 @@ export default function HubPage() {
           <line className="anim-guide-dash" x1="65" y1="100" x2="100" y2="48" stroke="#94a3b8" strokeWidth="0.25" strokeDasharray="1,2" />
         </svg>
 
-        {/* NSK Red Accent Slanting Lines along the Diagonal Edge (Exact 12.9vh slope parallel to Game Panels) */}
+        {/* NSK Red Accent Slanting Lines along the Diagonal Edge (Exact calc(12.9_*_var(--app-vh,_3.9px)) slope parallel to Game Panels) */}
         <svg
           className="nsk-diagonal-line absolute top-0 bottom-0 left-0 pointer-events-none z-30 overflow-visible"
           style={{ width: 'calc(12.9 * var(--app-vh, 3.9px))', height: '100%' }}
@@ -196,7 +196,7 @@ export default function HubPage() {
           <img
             src="./nsk_logo.png"
             alt="NSK"
-            className="h-[clamp(24px,5.8vh,68px)] w-auto object-contain drop-shadow-sm pointer-events-none"
+            className="h-[clamp(24px,calc(5.8_*_var(--app-vh,_3.9px)),68px)] w-auto object-contain drop-shadow-sm pointer-events-none"
           />
         </div>
       </header>
@@ -359,12 +359,12 @@ export default function HubPage() {
           title="Start Challenge Campaign"
         >
           <div
-            className="w-[clamp(135px,29vh,400px)] h-[clamp(42px,10.2vh,120px)] pl-[clamp(24px,5vh,64px)] pr-[clamp(14px,3vh,36px)] bg-red-600 hover:bg-red-500 active:bg-red-700 text-white font-heading font-black text-[clamp(13px,2.9vh,30px)] tracking-widest uppercase transition-all shadow-2xl shadow-red-600/50 flex items-center justify-center gap-[1.8vh] border-t-2 border-l-2 border-red-300/50"
+            className="w-[clamp(135px,calc(29_*_var(--app-vh,_3.9px)),400px)] h-[clamp(42px,calc(10.2_*_var(--app-vh,_3.9px)),120px)] pl-[clamp(24px,calc(5_*_var(--app-vh,_3.9px)),64px)] pr-[clamp(14px,calc(3_*_var(--app-vh,_3.9px)),36px)] bg-red-600 hover:bg-red-500 active:bg-red-700 text-white font-heading font-black text-[clamp(13px,calc(2.9_*_var(--app-vh,_3.9px)),30px)] tracking-widest uppercase transition-all shadow-2xl shadow-red-600/50 flex items-center justify-center gap-[calc(1.8_*_var(--app-vh,_3.9px))] border-t-2 border-l-2 border-red-300/50"
             style={{
               clipPath: 'polygon(18% 0%, 100% 0%, 100% 100%, 0% 100%)',
             }}
           >
-            <span className="text-[clamp(14px,3.1vh,32px)] transform group-hover:scale-110 transition-transform drop-shadow-md">
+            <span className="text-[clamp(14px,calc(3.1_*_var(--app-vh,_3.9px)),32px)] transform group-hover:scale-110 transition-transform drop-shadow-md">
               ▶
             </span>
             <span className="drop-shadow-lg tracking-wider">PLAY</span>
@@ -382,12 +382,12 @@ export default function HubPage() {
             title="View Plant Leaderboard"
           >
             <div
-              className="w-[clamp(176px,38vh,520px)] h-[clamp(28px,6.8vh,80px)] bg-slate-900 hover:bg-red-600 active:bg-red-700 text-white font-heading font-black text-[clamp(10px,2.2vh,22px)] tracking-widest uppercase transition-all shadow-lg shadow-slate-950/70 hover:shadow-red-600/50 flex items-center justify-center gap-[1.5vh] border-t border-x border-white/20 hover:border-red-400"
+              className="w-[clamp(176px,calc(38_*_var(--app-vh,_3.9px)),520px)] h-[clamp(28px,calc(6.8_*_var(--app-vh,_3.9px)),80px)] bg-slate-900 hover:bg-red-600 active:bg-red-700 text-white font-heading font-black text-[clamp(10px,calc(2.2_*_var(--app-vh,_3.9px)),22px)] tracking-widest uppercase transition-all shadow-lg shadow-slate-950/70 hover:shadow-red-600/50 flex items-center justify-center gap-[calc(1.5_*_var(--app-vh,_3.9px))] border-t border-x border-white/20 hover:border-red-400"
               style={{
                 clipPath: 'polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%)',
               }}
             >
-              <span className="text-[clamp(11px,2.3vh,24px)] transform group-hover:rotate-12 transition-transform">🏆</span>
+              <span className="text-[clamp(11px,calc(2.3_*_var(--app-vh,_3.9px)),24px)] transform group-hover:rotate-12 transition-transform">🏆</span>
               <span className="drop-shadow-md">LEADERBOARD</span>
             </div>
           </button>

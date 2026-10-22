@@ -68,7 +68,7 @@ export default function CinematicSplashScreen({ onComplete, durationMs = 4000 })
         <img
           src="./nsk_logo.png"
           alt="NSK"
-          className="w-64 sm:w-80 md:w-[420px] max-w-[80vw] max-h-[35vh] h-auto object-contain"
+          className="w-64 sm:w-80 md:w-[420px] max-w-[calc(80_*_var(--app-vw,_8.4px))] max-h-[calc(35_*_var(--app-vh,_3.9px))] h-auto object-contain"
         />
       </div>
     </div>
