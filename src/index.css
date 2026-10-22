@@ -317,12 +317,12 @@
 /* Diagonal Split Layout (Locked to 0.129 slope - EXACTLY parallel to Game Panels in dedicated landscape mode) */
 .detroit-diagonal-container {
   width: 66%;
-  clip-path: polygon(12.9vh 0, 100% 0, 100% 100%, 0% 100%);
+  clip-path: polygon(calc(12.9 * var(--app-vh, 3.9px)) 0, 100% 0, 100% 100%, 0% 100%);
 }
 
 /* Slanted Game Panels in Hub Page: Locked 3:4 aspect ratio that scales dynamically with screen height */
 .hub-game-panel {
-  height: clamp(190px, 54vh, 900px);
+  height: clamp(180px, calc(54 * var(--app-vh, 3.9px)), 340px);
   aspect-ratio: 0.76 / 1;
   width: auto;
 }
@@ -330,9 +330,9 @@
 /* Connecting dashed line between game panels */
 .hub-panel-connector {
   height: 2px;
-  width: clamp(30px, 8.5vh, 140px);
-  margin-left: -3.5vh;
-  margin-right: -3.5vh;
+  width: clamp(30px, calc(8.5 * var(--app-vh, 3.9px)), 140px);
+  margin-left: calc(-3.5 * var(--app-vh, 3.9px));
+  margin-right: calc(-3.5 * var(--app-vh, 3.9px));
 }
 
 /* Hero NSK Bearing Image (Centered to Left Visible Region) */

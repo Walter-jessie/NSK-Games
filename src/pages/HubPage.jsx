@@ -130,7 +130,7 @@ export default function HubPage() {
         {/* NSK Red Accent Slanting Lines along the Diagonal Edge (Exact 12.9vh slope parallel to Game Panels) */}
         <svg
           className="nsk-diagonal-line absolute top-0 bottom-0 left-0 pointer-events-none z-30 overflow-visible"
-          style={{ width: '12.9vh', height: '100%' }}
+          style={{ width: 'calc(12.9 * var(--app-vh, 3.9px))', height: '100%' }}
           preserveAspectRatio="none"
           viewBox="0 0 100 100"
         >

@@ -101,8 +101,8 @@ export async function toggleFullscreen() {
 }
 
 // ─── AAA Game Fullscreen Recovery System ─────────────────────
-// When the system notification bar causes fullscreen to exit,
-// auto re-enter on the next user touch within 3 seconds.
+// When the system notification bar or back button causes fullscreen to exit,
+// auto re-enter on the next user touch/click.
 
 function _cancelRecovery() {
   if (_recoveryTimerId) {
@@ -110,15 +110,6 @@ function _cancelRecovery() {
     _recoveryTimerId = null;
   }
   _recoveryActive = false;
-}
-
-function _onRecoveryTouch() {
-  if (!_recoveryActive) return;
-  _cancelRecovery();
-  // Re-enter fullscreen immediately on this user gesture
-  requestFullscreen().catch(() => {});
-  // Notify UI to hide the recovery overlay
-  if (_recoveryCallback) _recoveryCallback(false);
 }
 
 /**
@@ -129,5 +120,66 @@ function _onRecoveryTouch() {
  *        called when recovery overlay should show/hide
  */
 export function initFullscreenRecovery(onRecoveryStateChange) {
-  return () => {};
+  if (typeof document === 'undefined') return () => {};
+
+  _recoveryCallback = onRecoveryStateChange || null;
+
+  const triggerRecovery = async () => {
+    if (!_recoveryActive) return;
+    _cancelRecovery();
+    window.removeEventListener('pointerdown', triggerRecovery, true);
+    window.removeEventListener('touchstart', triggerRecovery, true);
+    window.removeEventListener('click', triggerRecovery, true);
+
+    try {
+      await requestFullscreen();
+      if (window.screen?.orientation?.lock) {
+        await window.screen.orientation.lock('landscape').catch(() => {});
+      }
+    } catch (e) {
+      console.debug('Recovery fullscreen request failed:', e);
+    }
+
+    if (_recoveryCallback) _recoveryCallback(false);
+  };
+
+  const armRecoveryListeners = () => {
+    window.addEventListener('pointerdown', triggerRecovery, { capture: true, once: true });
+    window.addEventListener('touchstart', triggerRecovery, { capture: true, once: true });
+    window.addEventListener('click', triggerRecovery, { capture: true, once: true });
+  };
+
+  const handleFullscreenChange = () => {
+    const fs = isFullscreen();
+    if (fs) {
+      _wasFullscreenBeforeExit = true;
+      _cancelRecovery();
+      if (_recoveryCallback) _recoveryCallback(false);
+      // Re-enforce orientation lock while in fullscreen
+      if (window.screen?.orientation?.lock) {
+        window.screen.orientation.lock('landscape').catch(() => {});
+      }
+    } else if (_wasFullscreenBeforeExit) {
+      // Fullscreen was lost unexpectedly (e.g. Back button or system gesture)
+      _recoveryActive = true;
+      if (_recoveryCallback) _recoveryCallback(true);
+      armRecoveryListeners();
+    }
+  };
+
+  document.addEventListener('fullscreenchange', handleFullscreenChange);
+  document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+  document.addEventListener('mozfullscreenchange', handleFullscreenChange);
+  document.addEventListener('MSFullscreenChange', handleFullscreenChange);
+
+  return () => {
+    document.removeEventListener('fullscreenchange', handleFullscreenChange);
+    document.removeEventListener('webkitfullscreenchange', handleFullscreenChange);
+    document.removeEventListener('mozfullscreenchange', handleFullscreenChange);
+    document.removeEventListener('MSFullscreenChange', handleFullscreenChange);
+    window.removeEventListener('pointerdown', triggerRecovery, true);
+    window.removeEventListener('touchstart', triggerRecovery, true);
+    window.removeEventListener('click', triggerRecovery, true);
+    _cancelRecovery();
+  };
 }

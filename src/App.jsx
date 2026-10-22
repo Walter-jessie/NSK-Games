@@ -1,9 +1,9 @@
 import React, { lazy, Suspense, useState, useEffect, useCallback, useRef } from 'react';
-import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
 import useAuthStore from './stores/authStore';
 import CinematicSplashScreen from './components/common/CinematicSplashScreen';
 import MobilePWAInstallOverlay from './components/common/MobilePWAInstallOverlay';
-import { requestFullscreen, isFullscreen } from './utils/fullscreen';
+import { requestFullscreen, isFullscreen, initFullscreenRecovery } from './utils/fullscreen';
 
 import LoginPage from './pages/LoginPage';
 import LandscapeEnforcer from './components/common/LandscapeEnforcer';
@@ -84,6 +84,7 @@ export default function App() {
   const [showTermsModal, setShowTermsModal] = useState(false);
   const [flipAngle, setFlipAngle] = useState(90);
   const navigate = useNavigate();
+  const location = useLocation();
   const initialNavRef = useRef(true);
 
   const handleAcceptTerms = useCallback(() => {
@@ -106,33 +107,68 @@ export default function App() {
     return () => window.removeEventListener('nsk-open-terms', handleOpenTerms);
   }, []);
 
+  useEffect(() => {
+    return initFullscreenRecovery();
+  }, []);
+
+  // Chrome offers its own "install this app" banner as soon as a site has a
+  // manifest and a service worker. Swallow it to avoid random resize bursts.
+  useEffect(() => {
+    const swallow = (e) => { e.preventDefault(); return false; };
+    window.addEventListener('beforeinstallprompt', swallow);
+    return () => window.removeEventListener('beforeinstallprompt', swallow);
+  }, []);
+
   // Dynamic viewport tracking for automatic mobile landscape display
-  const [viewportDim, setViewportDim] = useState(() => {
+  const getDims = useCallback(() => {
     if (typeof window === 'undefined') return { isPortrait: false, w: 1000, h: 600 };
+    const vv = window.visualViewport;
+    const w = vv ? vv.width : window.innerWidth;
+    const h = vv ? vv.height : window.innerHeight;
     return {
-      isPortrait: window.innerHeight > window.innerWidth,
-      w: window.innerWidth,
-      h: window.innerHeight,
+      isPortrait: h > w,
+      w: Math.round(w),
+      h: Math.round(h),
     };
-  });
+  }, []);
+
+  const [viewportDim, setViewportDim] = useState(getDims);
+
+  const handleViewportChange = useCallback(() => {
+    setViewportDim(getDims());
+  }, [getDims]);
 
   useEffect(() => {
-    const handleViewportChange = () => {
-      setViewportDim({
-        isPortrait: window.innerHeight > window.innerWidth,
-        w: window.innerWidth,
-        h: window.innerHeight,
-      });
-    };
-
     window.addEventListener('resize', handleViewportChange);
     window.addEventListener('orientationchange', handleViewportChange);
+    window.addEventListener('popstate', handleViewportChange);
+    document.addEventListener('fullscreenchange', handleViewportChange);
+    document.addEventListener('webkitfullscreenchange', handleViewportChange);
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', handleViewportChange);
+    }
 
     return () => {
       window.removeEventListener('resize', handleViewportChange);
       window.removeEventListener('orientationchange', handleViewportChange);
+      window.removeEventListener('popstate', handleViewportChange);
+      document.removeEventListener('fullscreenchange', handleViewportChange);
+      document.removeEventListener('webkitfullscreenchange', handleViewportChange);
+      if (window.visualViewport) {
+        window.visualViewport.removeEventListener('resize', handleViewportChange);
+      }
     };
-  }, []);
+  }, [handleViewportChange]);
+
+  // Keep root rem font size and --app-vh strictly calibrated to the landscape short-axis
+  // regardless of physical rotation, navigation, back button, or fullscreen transitions.
+  useEffect(() => {
+    const short = viewportDim.isPortrait ? viewportDim.w : viewportDim.h;
+    const px = Math.min(17.5, Math.max(13, short / 25));
+    document.documentElement.style.fontSize = `${px.toFixed(2)}px`;
+    document.documentElement.style.setProperty('--app-vh', `${(short / 100).toFixed(2)}px`);
+    document.documentElement.style.setProperty('--app-height', `${short}px`);
+  }, [viewportDim]);
 
   useEffect(() => {
     // Only reset to login on the initial app load/mount
@@ -142,12 +178,13 @@ export default function App() {
     }
   }, []);
 
+  // Maintain landscape orientation lock and re-sync dimensions across navigation and back actions
   useEffect(() => {
-    // Attempt landscape orientation lock where supported without forcing fullscreen DOM popup
+    handleViewportChange();
     if (window.screen?.orientation?.lock) {
       window.screen.orientation.lock('landscape').catch(() => {});
     }
-  }, []);
+  }, [location.pathname, handleViewportChange]);
 
   // When device is in portrait (mobile orientation locked or upright),
   // automatically run in landscape as default so the user naturally rotates their phone
