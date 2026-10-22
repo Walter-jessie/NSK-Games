@@ -143,7 +143,7 @@ export function createSkyProps({ count = 5, seed = 1 } = {}) {
   for (let i = 0; i < count; i++) {
     const mat = new THREE.MeshBasicMaterial({
       transparent: true,
-      opacity: 0.24,
+      opacity: 0.16,
       depthWrite: false,
       toneMapped: false,
     });

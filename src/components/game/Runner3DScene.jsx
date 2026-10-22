@@ -639,9 +639,10 @@ export default function Runner3DScene({
     scene.add(gates);
     gatesRef.current = gates;
 
-    // 7.5. Background notation field, kept deliberately sparse: a handful of
-    // drifting symbols out past the rails, where the HUD is not.
-    const skyProps = createSkyProps({ count: 4 });
+    // 7.5. Background notation field: symbols drifting out past the rails,
+    // where the HUD is not. More of them than before, and fainter, so the bay
+    // feels occupied without the text competing with the question panel.
+    const skyProps = createSkyProps({ count: 7 });
     scene.add(skyProps.group);
 
     // 8. Render & Animation Loop
