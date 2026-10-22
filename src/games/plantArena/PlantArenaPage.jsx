@@ -50,7 +50,7 @@ export default function PlantArenaPage({ employeeId = 'NSK-GUEST', onSubmitScore
         case 'bearingCollected': audio.pickup(); break;
         case 'machineRepaired': audio.repair(); break;
         case 'machineAttacked': audio.attack(); break;
-        case 'machineFailed': audio.fail(); setToast('MACHINE BREAKDOWN!'); break;
+        case 'machineFailed': audio.fail(); setToast('APPLICATION FAILED!'); break;
         case 'needBearings': audio.needBearings(); setToast('FIND AN NSK CRATE FOR BEARINGS'); break;
         case 'waveStarted':
           audio.wave();
@@ -162,9 +162,10 @@ export default function PlantArenaPage({ employeeId = 'NSK-GUEST', onSubmitScore
             <div className="pa-tut-rule" />
 
             <ol className="pa-tut-steps">
-              <li><span className="pa-tut-n">1</span><span>Smash crates to find <b>Bearings</b></span></li>
-              <li><span className="pa-tut-n">2</span><span>Only crates stamped <b>NSK</b> hold one</span></li>
-              <li><span className="pa-tut-n">3</span><span>Repair <b>Failing Machines</b> before their timer runs out</span></li>
+              <li><span className="pa-tut-n">1</span><span>Enemy Drones <b>(Dust &amp; Contamination)</b> attack the applications</span></li>
+              <li><span className="pa-tut-n">2</span><span>Smash crates to find <b>Bearings</b></span></li>
+              <li><span className="pa-tut-n">3</span><span>Only crates stamped <b>NSK</b> hold one</span></li>
+              <li><span className="pa-tut-n">4</span><span>Repair <b>Failing Applications</b> before their timer runs out</span></li>
             </ol>
 
             <button type="button" className="pa-tut-play" onClick={start}>

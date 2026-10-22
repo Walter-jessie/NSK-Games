@@ -895,3 +895,17 @@
 }
 
 
+
+/* Bearing Runner first-run coach: the ring around each lit arrow breathes so
+   the two cut-outs read as "press me" rather than as holes in the dimming. */
+.runner-coach { animation: runnerCoachIn 0.25s ease-out; }
+.runner-coach-ring { animation: runnerCoachRing 1.25s ease-in-out infinite alternate; }
+
+@keyframes runnerCoachIn {
+  from { opacity: 0; }
+}
+
+@keyframes runnerCoachRing {
+  from { stroke: #67e8f9; stroke-opacity: 0.55; }
+  to { stroke: #ffffff; stroke-opacity: 1; }
+}

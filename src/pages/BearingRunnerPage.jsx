@@ -8,6 +8,7 @@ import soundEffects from '../services/audioService';
 import Runner3DScene, { loadRunnerModel } from '../components/game/Runner3DScene';
 import { requestFullscreen } from '../utils/fullscreen';
 import { BEARING_PARTS } from '../config/bearingParts';
+import RunnerCoach from '../components/game/RunnerCoach';
 
 // ─── Game Constants ───────────────────────────────────────────
 const LANE_COUNT = 4;
@@ -84,6 +85,10 @@ export default function BearingRunnerPage() {
   // ─── State ──────────────────────────────────────────
   const [phase, setPhase] = useState('tutorial'); // tutorial | countdown | playing | feedback | done
   const [countdown, setCountdown] = useState(COUNTDOWN_SECS);
+  // First-run coach over the steering arrows. Mirrored in a ref so the move
+  // handlers can clear it without being rebuilt on every render.
+  const [coaching, setCoaching] = useState(false);
+  const coachingRef = useRef(false);
   const [playerLane, setPlayerLane] = useState(1);
   const [questions, setQuestions] = useState([]);
   const [qIdx, setQIdx] = useState(0);
@@ -143,6 +148,8 @@ export default function BearingRunnerPage() {
         soundEffects.playCountdownBeep(true);
         clearInterval(timer);
         setPhase('playing');
+        coachingRef.current = true;
+        setCoaching(true);
         questionStartRef.current = performance.now();
         lastFrameRef.current = performance.now();
         lockerYRef.current = 0;
@@ -297,9 +304,18 @@ export default function BearingRunnerPage() {
   // ─── Lane Movement Controls ─────────────────────────
   const lastMoveTimeRef = useRef(0);
 
+  // Either arrow clears the coach, before the debounce below can swallow the
+  // press: the first tap is the one that dismisses it.
+  const clearCoach = useCallback(() => {
+    if (!coachingRef.current) return;
+    coachingRef.current = false;
+    setCoaching(false);
+  }, []);
+
   const moveLeft = useCallback(() => {
     const isPlayActive = phaseRef.current === 'playing' || phaseRef.current === 'feedback';
     if (!isPlayActive) return;
+    clearCoach();
     const now = performance.now();
     // Guard against duplicate touchstart + synthetic click double-firing (220ms debounce)
     if (now - lastMoveTimeRef.current < 220) return;
@@ -316,6 +332,7 @@ export default function BearingRunnerPage() {
   const moveRight = useCallback(() => {
     const isPlayActive = phaseRef.current === 'playing' || phaseRef.current === 'feedback';
     if (!isPlayActive) return;
+    clearCoach();
     const now = performance.now();
     // Guard against duplicate touchstart + synthetic click double-firing (220ms debounce)
     if (now - lastMoveTimeRef.current < 220) return;
@@ -607,6 +624,7 @@ export default function BearingRunnerPage() {
           <button
             type="button"
             aria-label="Steer Left"
+            data-coach-target=""
             disabled={playerLane === 0}
             onPointerDown={(e) => {
               e.preventDefault();
@@ -628,6 +646,7 @@ export default function BearingRunnerPage() {
           <button
             type="button"
             aria-label="Steer Right"
+            data-coach-target=""
             disabled={playerLane === LANE_COUNT - 1}
             onPointerDown={(e) => {
               e.preventDefault();
@@ -645,6 +664,7 @@ export default function BearingRunnerPage() {
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
             </svg>
           </button>
+          {coaching && <RunnerCoach />}
         </>
       )}
 
