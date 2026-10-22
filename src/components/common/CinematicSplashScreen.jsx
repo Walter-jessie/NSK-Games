@@ -43,7 +43,7 @@ export default function CinematicSplashScreen({ onComplete, durationMs = 4000 })
     <div
       onClick={handleInteraction}
       onTouchStart={handleInteraction}
-      className={`fixed inset-0 z-[999999] flex items-center justify-center bg-black overflow-hidden select-none transition-opacity duration-1000 ease-in-out ${
+      className={`fixed inset-0 z-[1000000] flex items-center justify-center bg-black overflow-hidden select-none transition-opacity duration-1000 ease-in-out ${
         phase === 'exiting' ? 'opacity-0 pointer-events-none' : 'opacity-100'
       }`}
       style={{ touchAction: 'none' }}

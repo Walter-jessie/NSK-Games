@@ -12,44 +12,22 @@ export default function LandscapeEnforcer() {
     return window.innerHeight > window.innerWidth;
   });
 
-  const [isInstallPending, setIsInstallPending] = useState(() => {
-    if (typeof window === 'undefined') return false;
-    const standalone =
-      window.matchMedia('(display-mode: standalone)').matches ||
-      window.matchMedia('(display-mode: fullscreen)').matches ||
-      window.matchMedia('(display-mode: minimal-ui)').matches ||
-      window.navigator.standalone === true ||
-      document.referrer.includes('android-app://');
-    const dismissed = sessionStorage.getItem('nsk_pwa_dismissed') === '1';
-    const isMobile =
-      /android|iphone|ipad|ipod|mobile|touch/i.test(navigator.userAgent || '') ||
-      window.innerWidth <= 840 ||
-      window.location.search.includes('install');
-    return isMobile && !standalone && !dismissed;
-  });
-
   useEffect(() => {
     const checkOrientation = () => {
       setIsPortrait(window.innerHeight > window.innerWidth);
     };
 
-    const handlePWADismissed = () => {
-      setIsInstallPending(false);
-    };
-
     window.addEventListener('resize', checkOrientation);
     window.addEventListener('orientationchange', checkOrientation);
-    window.addEventListener('pwa-dismissed', handlePWADismissed);
 
     return () => {
       window.removeEventListener('resize', checkOrientation);
       window.removeEventListener('orientationchange', checkOrientation);
-      window.removeEventListener('pwa-dismissed', handlePWADismissed);
     };
   }, []);
 
-  // Do not show rotate prompt if the minimal PWA Install screen is currently pending
-  if (isInstallPending) {
+  // Do not prompt rotation if in landscape or on the /install backup route
+  if (!isPortrait || (typeof window !== 'undefined' && window.location.pathname === '/install')) {
     return null;
   }
 

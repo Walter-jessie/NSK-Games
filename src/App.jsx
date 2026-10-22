@@ -108,20 +108,18 @@ export default function App() {
 
   return (
     <div className="h-full w-full bg-nsk-bg overflow-hidden relative">
-      {/* Cinematic NSK Logo Intro Splash Screen (Shown immediately on app launch) */}
+      {/* Cinematic NSK Logo Intro Splash Screen (Shown immediately on link click) */}
       {showSplash && (
         <CinematicSplashScreen onComplete={() => setShowSplash(false)} durationMs={3800} />
       )}
 
-      {/* ═══ Mobile PWA Install Overlay (First screen on mobile) ═══ */}
-      <MobilePWAInstallOverlay />
-
-      {/* ═══ Dedicated Landscape Enforcer (Prompts rotation if device held in portrait) ═══ */}
-      <LandscapeEnforcer />
+      {/* ═══ Dedicated Landscape Enforcer (Prompts rotation if device held in portrait once splash completes) ═══ */}
+      {!showSplash && <LandscapeEnforcer />}
 
       <Suspense fallback={<LoadingScreen />}>
         <Routes>
           <Route path="/" element={<LoginPage />} />
+          {/* Backup route: PWA install overlay preserved safely as requested */}
           <Route path="/install" element={<MobilePWAInstallOverlay forced />} />
           <Route path="/hub" element={<ProtectedRoute><HubPage /></ProtectedRoute>} />
           <Route path="/game/bearing-runner" element={<ProtectedRoute><BearingRunnerPage /></ProtectedRoute>} />
