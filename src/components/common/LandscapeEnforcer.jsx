@@ -16,8 +16,15 @@ export default function LandscapeEnforcer() {
     if (typeof window === 'undefined') return false;
     const standalone =
       window.matchMedia('(display-mode: standalone)').matches ||
-      window.navigator.standalone === true;
-    const dismissed = sessionStorage.getItem('nsk_pwa_dismissed') === '1';
+      window.matchMedia('(display-mode: fullscreen)').matches ||
+      window.matchMedia('(display-mode: minimal-ui)').matches ||
+      window.navigator.standalone === true ||
+      document.referrer.includes('android-app://');
+    const dismissed =
+      sessionStorage.getItem('nsk_pwa_dismissed') === '1' ||
+      localStorage.getItem('nsk_pwa_seen') === '1' ||
+      localStorage.getItem('nsk_pwa_installed') === '1' ||
+      localStorage.getItem('nsk_pwa_dismissed') === '1';
     const isMobile = /android|iphone|ipad|ipod|mobile|touch/i.test(navigator.userAgent || '') || (window.innerWidth <= 840);
     return isMobile && !standalone && !dismissed;
   });

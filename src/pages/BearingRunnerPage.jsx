@@ -93,6 +93,8 @@ export default function BearingRunnerPage() {
   const [deptInfo, setDeptInfo] = useState({ name: 'Plant Floor', total: 10 });
   const [collectedParts, setCollectedParts] = useState([]);
   const [flyingPart, setFlyingPart] = useState(null);
+  const [completedScore, setCompletedScore] = useState(null);
+  const [countdownToResult, setCountdownToResult] = useState(5);
 
   // ─── Refs ───────────────────────────────────────────
   const animRef = useRef(null);
@@ -154,7 +156,7 @@ export default function BearingRunnerPage() {
 
   // ─── Game Loop (NEVER STOPS - runner flows continuously) ──
   const gameLoop = useCallback((timestamp) => {
-    if (phaseRef.current !== 'playing') {
+    if (phaseRef.current !== 'playing' && phaseRef.current !== 'feedback' && phaseRef.current !== 'completed_popup') {
       animRef.current = requestAnimationFrame(gameLoop);
       return;
     }
@@ -168,12 +170,12 @@ export default function BearingRunnerPage() {
     setLockerY(lockerYRef.current);
 
     // 1. Collision line reached: score answer and flash feedback
-    if (lockerYRef.current >= COLLISION_Y && !isTransitioningRef.current) {
+    if (phaseRef.current === 'playing' && lockerYRef.current >= COLLISION_Y && !isTransitioningRef.current) {
       handleCollision();
     }
 
     // 2. Gate has zoomed completely past behind runner & camera: smoothly load next question
-    if (lockerYRef.current >= PASS_THROUGH_Y && isTransitioningRef.current) {
+    if (phaseRef.current === 'playing' && lockerYRef.current >= PASS_THROUGH_Y && isTransitioningRef.current) {
       advanceToNextQuestion();
     }
 
@@ -181,7 +183,7 @@ export default function BearingRunnerPage() {
   }, [getLockerSpeed]);
 
   useEffect(() => {
-    if (phase === 'playing' || phase === 'feedback') {
+    if (phase === 'playing' || phase === 'feedback' || phase === 'completed_popup') {
       lastFrameRef.current = performance.now();
       animRef.current = requestAnimationFrame(gameLoop);
     }
@@ -189,6 +191,24 @@ export default function BearingRunnerPage() {
       if (animRef.current) cancelAnimationFrame(animRef.current);
     };
   }, [phase, gameLoop]);
+
+  // ─── 5-Second Timer to Results Page on Completion ──────────
+  useEffect(() => {
+    if (phase !== 'completed_popup') return;
+
+    const timer = setInterval(() => {
+      setCountdownToResult((prev) => {
+        if (prev <= 1) {
+          clearInterval(timer);
+          navigate('/results');
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [phase, navigate]);
 
   // ─── Collision Handler (Triggered when passing through gate) ─
   const handleCollision = useCallback(() => {
@@ -216,13 +236,6 @@ export default function BearingRunnerPage() {
       } else {
         soundEffects.playCorrect();
       }
-      // Collect bearing part (showcase prominently for 1.6s before incrementing bag).
-      // Parts are awarded by how many answers are right, not by which question
-      // we are on, so the first correct answer always gives the outer ring and
-      // the assembly on the results page builds in the same order.
-      // recordAnswer has already run, so this count includes the current answer.
-      // collectedParts is not used here: its push is deferred by 1.6s and would
-      // still be stale on fast answers.
       const correctSoFar = useGameStore.getState().results.filter((r) => r.isCorrect).length;
       const partIdx = Math.min(correctSoFar - 1, BEARING_PARTS.length - 1);
       const part = BEARING_PARTS[partIdx];
@@ -244,26 +257,29 @@ export default function BearingRunnerPage() {
 
     // Only finish when ALL 10 questions have been answered
     if (nextIdx >= 10) {
-      endGame();
-      setPhase('done');
-
-      const answeredIds = questionsRef.current.map((item) => item.id);
-      markQuestionsAnswered(employeeId, answeredIds);
-
       const storeState = useGameStore.getState();
       const correctCount = storeState.results.filter((r) => r.isCorrect).length;
       const accuracy = Math.round((correctCount / 10) * 100);
 
-      await submitScore({
+      // Immediately display completion popup showing only score out of 10
+      setCompletedScore({ correct: correctCount, total: 10 });
+      setCountdownToResult(5);
+      setPhase('completed_popup');
+      endGame();
+
+      // Submit score and mark questions answered in background without awaiting or freezing UI
+      const answeredIds = questionsRef.current.map((item) => item.id);
+      markQuestionsAnswered(employeeId, answeredIds);
+
+      submitScore({
         employeeId,
         department,
         score: storeState.score,
         accuracy,
         correctCount,
         difficulty: diffConfig.id,
-      });
+      }).catch((err) => console.warn('Submit score background error:', err));
 
-      setTimeout(() => navigate('/results'), 400);
       return;
     }
 
@@ -276,7 +292,7 @@ export default function BearingRunnerPage() {
     questionStartRef.current = performance.now();
     lastFrameRef.current = performance.now();
     isTransitioningRef.current = false;
-  }, [department, employeeId, endGame, navigate, diffConfig.id]);
+  }, [department, employeeId, endGame, diffConfig.id]);
 
   // ─── Lane Movement Controls ─────────────────────────
   const lastMoveTimeRef = useRef(0);
@@ -285,8 +301,8 @@ export default function BearingRunnerPage() {
     const isPlayActive = phaseRef.current === 'playing' || phaseRef.current === 'feedback';
     if (!isPlayActive) return;
     const now = performance.now();
-    // Guard against duplicate touchstart + synthetic click double-firing (snappy 60ms)
-    if (now - lastMoveTimeRef.current < 60) return;
+    // Guard against duplicate touchstart + synthetic click double-firing (220ms debounce)
+    if (now - lastMoveTimeRef.current < 220) return;
     lastMoveTimeRef.current = now;
 
     setPlayerLane((prev) => {
@@ -301,8 +317,8 @@ export default function BearingRunnerPage() {
     const isPlayActive = phaseRef.current === 'playing' || phaseRef.current === 'feedback';
     if (!isPlayActive) return;
     const now = performance.now();
-    // Guard against duplicate touchstart + synthetic click double-firing (snappy 60ms)
-    if (now - lastMoveTimeRef.current < 60) return;
+    // Guard against duplicate touchstart + synthetic click double-firing (220ms debounce)
+    if (now - lastMoveTimeRef.current < 220) return;
     lastMoveTimeRef.current = now;
 
     setPlayerLane((prev) => {
@@ -317,7 +333,7 @@ export default function BearingRunnerPage() {
     const isPlayActive = phaseRef.current === 'playing' || phaseRef.current === 'feedback';
     if (!isPlayActive) return;
     const now = performance.now();
-    if (now - lastMoveTimeRef.current < 60) return;
+    if (now - lastMoveTimeRef.current < 220) return;
     lastMoveTimeRef.current = now;
 
     if (laneIndex >= 0 && laneIndex < LANE_COUNT) {
@@ -327,7 +343,7 @@ export default function BearingRunnerPage() {
     }
   }, []);
 
-  // Screen Swipe Detection for intuitive mobile steering
+  // Screen Swipe & Tap Detection for intuitive mobile steering
   const touchStartXRef = useRef(0);
   const touchStartYRef = useRef(0);
 
@@ -340,11 +356,20 @@ export default function BearingRunnerPage() {
 
   const handleTouchEnd = useCallback((e) => {
     if (!e.changedTouches || !e.changedTouches[0]) return;
-    const diffX = e.changedTouches[0].clientX - touchStartXRef.current;
-    const diffY = e.changedTouches[0].clientY - touchStartYRef.current;
-    // Horizontal swipe threshold: 35px, horizontal dominance over vertical
-    if (Math.abs(diffX) > 35 && Math.abs(diffX) > Math.abs(diffY)) {
+    const touch = e.changedTouches[0];
+    const diffX = touch.clientX - touchStartXRef.current;
+    const diffY = touch.clientY - touchStartYRef.current;
+
+    // Horizontal swipe threshold: 30px, horizontal dominance over vertical
+    if (Math.abs(diffX) > 30 && Math.abs(diffX) > Math.abs(diffY)) {
       if (diffX < 0) {
+        moveLeft();
+      } else {
+        moveRight();
+      }
+    } else if (Math.abs(diffX) < 15 && Math.abs(diffY) < 15) {
+      // Tap on left vs right side of the screen
+      if (touch.clientX < window.innerWidth / 2) {
         moveLeft();
       } else {
         moveRight();
@@ -558,39 +583,17 @@ export default function BearingRunnerPage() {
         />
       </div>
 
-      {/* ═══ SCREEN TAP & SWIPE ZONES (Tap left half to steer left, right half to steer right) ═══ */}
+      {/* ═══ SCREEN SWIPE & TAP ZONE (single unified zone, tap/swipe handled in handleTouchEnd) ═══ */}
       {(phase === 'playing' || phase === 'feedback') && (
         <div
-          className="absolute inset-x-0 bottom-0 top-[44vh] sm:top-[47vh] z-20 flex pointer-events-auto select-none"
+          className="absolute inset-x-0 bottom-0 top-[44vh] sm:top-[47vh] z-20 pointer-events-auto select-none"
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
-          style={{ touchAction: 'manipulation' }}
-        >
-          {/* Left half tap zone */}
-          <div
-            onPointerDown={(e) => {
-              e.preventDefault();
-              moveLeft();
-            }}
-            className="flex-1 h-full cursor-pointer active:bg-cyan-400/[0.04] transition-colors"
-            style={{ touchAction: 'manipulation' }}
-            title="Tap left to steer left"
-          />
-          {/* Right half tap zone */}
-          <div
-            onPointerDown={(e) => {
-              e.preventDefault();
-              moveRight();
-            }}
-            className="flex-1 h-full cursor-pointer active:bg-cyan-400/[0.04] transition-colors"
-            style={{ touchAction: 'manipulation' }}
-            title="Tap right to steer right"
-          />
-        </div>
+          style={{ touchAction: 'none' }}
+        />
       )}
 
-      {/* ═══ TOUCH STEERING CONTROLS (Fluid Height Scale: Proportional across 720p, 1080p & 2K) ═══ */}
-      {/* ═══ TOUCH STEERING CONTROLS (Enlarged Arcade Paddle Size per User Specification) ═══ */}
+      {/* ═══ TOUCH STEERING CONTROLS (Only onPointerDown, no onClick duplicate) ═══ */}
       {(phase === 'playing' || phase === 'feedback') && (
         <>
           <button
@@ -599,10 +602,6 @@ export default function BearingRunnerPage() {
             disabled={playerLane === 0}
             onPointerDown={(e) => {
               e.preventDefault();
-              e.stopPropagation();
-              moveLeft();
-            }}
-            onClick={(e) => {
               e.stopPropagation();
               moveLeft();
             }}
@@ -627,10 +626,6 @@ export default function BearingRunnerPage() {
               e.stopPropagation();
               moveRight();
             }}
-            onClick={(e) => {
-              e.stopPropagation();
-              moveRight();
-            }}
             className={`absolute bottom-[2vh] right-[2vh] z-40 w-[clamp(100px,28vh,200px)] h-[clamp(118px,34vh,230px)] rounded-[clamp(20px,5vh,38px)] flex items-center justify-center transition-all select-none shadow-[0_10px_35px_rgba(0,0,0,0.85)] border-2 ${
               playerLane === LANE_COUNT - 1
                 ? 'bg-slate-900/40 border-white/5 text-slate-600 opacity-25 cursor-not-allowed'
@@ -643,6 +638,42 @@ export default function BearingRunnerPage() {
             </svg>
           </button>
         </>
+      )}
+
+      {/* ═══ COMPLETION POPUP (Score out of 10, auto-navigates to results in 5s) ═══ */}
+      {phase === 'completed_popup' && completedScore && (
+        <div className="absolute inset-0 z-50 flex items-center justify-center bg-[#050810]/90 backdrop-blur-lg px-6 text-center animate-fade-in">
+          <div className="max-w-xs w-full px-6 py-8 rounded-3xl bg-slate-950/95 border-2 border-cyan-400/50 shadow-[0_0_60px_rgba(6,182,212,0.3)]">
+            {/* Trophy */}
+            <div className="text-5xl mb-3 animate-bounce">
+              {completedScore.correct >= 8 ? '🏆' : completedScore.correct >= 5 ? '⭐' : '💪'}
+            </div>
+            {/* Title */}
+            <h2 className="font-heading font-black text-lg sm:text-xl text-white tracking-wider uppercase mb-2">
+              GAME COMPLETE!
+            </h2>
+            {/* Score */}
+            <div className="flex items-center justify-center gap-1 mb-4">
+              <span className="font-heading font-black text-5xl sm:text-6xl text-cyan-400" style={{ textShadow: '0 0 30px rgba(6,182,212,0.6)' }}>
+                {completedScore.correct}
+              </span>
+              <span className="font-heading font-bold text-2xl sm:text-3xl text-slate-400">/</span>
+              <span className="font-heading font-bold text-2xl sm:text-3xl text-slate-400">{completedScore.total}</span>
+            </div>
+            {/* Auto-redirect countdown */}
+            <p className="text-xs text-slate-400 mt-2">
+              Results in {countdownToResult}s...
+            </p>
+            {/* Skip button */}
+            <button
+              type="button"
+              onClick={() => navigate('/results')}
+              className="mt-4 w-full py-2.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 active:bg-cyan-700 text-white font-heading font-bold text-xs uppercase tracking-wider transition-all cursor-pointer"
+            >
+              VIEW RESULTS NOW
+            </button>
+          </div>
+        </div>
       )}
 
       {/* ═══ TUTORIAL OVERLAY (Original Design with Enlarged Dimensions) ═══ */}

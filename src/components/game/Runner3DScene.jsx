@@ -424,7 +424,8 @@ export default function Runner3DScene({
     scene.fog = new THREE.FogExp2(0x223449, 0.016);
 
     // 2. 2.5D Highway Camera (Behind & slightly above runner)
-    const camera = new THREE.PerspectiveCamera(52, width / height, 0.1, 100);
+    // Near plane at 0.5 tightens depth range, dramatically increasing depth buffer resolution to eliminate Z-fighting
+    const camera = new THREE.PerspectiveCamera(52, width / height, 0.5, 90);
     camera.position.set(0, 2.8, 4.5);
     camera.lookAt(0, 1.1, -12);
 
@@ -442,13 +443,11 @@ export default function Runner3DScene({
     container.appendChild(renderer.domElement);
 
     // 4. Industrial Factory Floor & 4 Lanes
-    // Flat plane: the old 40 length segments produced 80 triangles for a
-    // surface that only ever needed two.
     const floorGeo = new THREE.PlaneGeometry(12, 80);
     const floorMat = new THREE.MeshStandardMaterial({
       color: 0x111726,
-      roughness: 0.4,
-      metalness: 0.5,
+      roughness: 0.45,
+      metalness: 0.4,
       polygonOffset: true,
       polygonOffsetFactor: 2,
       polygonOffsetUnits: 2,
@@ -456,24 +455,9 @@ export default function Runner3DScene({
     const floor = new THREE.Mesh(floorGeo, floorMat);
     floor.rotation.x = -Math.PI / 2;
     floor.position.set(0, 0, -25);
+    floor.renderOrder = 0;
     scene.add(floor);
     floorRef.current = floor;
-
-    // Lane Dividers - elevated cleanly above the floor plane with depth offset
-    const dividerGeo = new THREE.BoxGeometry(0.04, 0.01, 80);
-    const dividerMat = new THREE.MeshBasicMaterial({
-      color: 0x1e3a8a,
-      transparent: true,
-      opacity: 0.45,
-      polygonOffset: true,
-      polygonOffsetFactor: 1,
-      polygonOffsetUnits: 1,
-    });
-    [-2.0, 0.0, 2.0].forEach((divX) => {
-      const divider = new THREE.Mesh(dividerGeo, dividerMat);
-      divider.position.set(divX, 0.018, -25);
-      scene.add(divider);
-    });
 
     // Factory safety marking down both edges of the bay, with the dark keyline
     const edgeMat = new THREE.MeshStandardMaterial({
@@ -483,8 +467,8 @@ export default function Runner3DScene({
       emissive: 0x6b4e00,
       emissiveIntensity: 0.6,
       polygonOffset: true,
-      polygonOffsetFactor: 0.5,
-      polygonOffsetUnits: 0.5,
+      polygonOffsetFactor: -1,
+      polygonOffsetUnits: -2,
     });
     const keylineMat = new THREE.MeshBasicMaterial({ color: 0x0b0f18 });
     [-4.18, 4.18].forEach((ex) => {
@@ -497,25 +481,29 @@ export default function Runner3DScene({
       scene.add(keyline);
     });
 
-    // Animated highway road dashes at 3.8m intervals - elevated above dividers
+    // Animated highway road dashes at 3.8m intervals - rendered cleanly as flat planes with depthWrite: false
+    // Eliminates all Z-fighting, overlapping and glitching with the road floor
     const DASH_ROWS = 15;
     const DASH_LANES = [-2.0, 0.0, 2.0];
     const DASH_COUNT = DASH_ROWS * DASH_LANES.length;
     const dashMat = new THREE.MeshBasicMaterial({
       color: 0x38bdf8,
       transparent: true,
-      opacity: 0.85,
+      opacity: 0.9,
+      depthTest: true,
+      depthWrite: false,
       polygonOffset: true,
-      polygonOffsetFactor: -1,
-      polygonOffsetUnits: -1,
+      polygonOffsetFactor: -4,
+      polygonOffsetUnits: -4,
     });
     const dashes = new THREE.InstancedMesh(
-      new THREE.BoxGeometry(0.09, 0.014, 1.6),
+      new THREE.PlaneGeometry(0.11, 1.8),
       dashMat,
       DASH_COUNT,
     );
     dashes.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
     dashes.frustumCulled = false;
+    dashes.renderOrder = 3;
     const dashX = new Float32Array(DASH_COUNT);
     const dashZ = new Float32Array(DASH_COUNT);
     const dummy = new THREE.Object3D();
@@ -529,10 +517,10 @@ export default function Runner3DScene({
     }
     scene.add(dashes);
 
-    // Seed every instance matrix at elevated y = 0.038
+    // Seed every instance matrix elevated above floor with X rotation
     for (let i = 0; i < DASH_COUNT; i++) {
-      dummy.position.set(dashX[i], 0.038, dashZ[i]);
-      dummy.rotation.set(0, 0, 0);
+      dummy.position.set(dashX[i], 0.035, dashZ[i]);
+      dummy.rotation.set(-Math.PI / 2, 0, 0);
       dummy.scale.set(1, 1, 1);
       dummy.updateMatrix();
       dashes.setMatrixAt(i, dummy.matrix);
@@ -670,8 +658,8 @@ export default function Runner3DScene({
         let z = dashZ[i] + advance;
         if (z > 9.6) z -= 53.2; // 14 intervals * 3.8m
         dashZ[i] = z;
-        dummy.position.set(dashX[i], 0.038, z);
-        dummy.rotation.set(0, 0, 0);
+        dummy.position.set(dashX[i], 0.035, z);
+        dummy.rotation.set(-Math.PI / 2, 0, 0);
         dummy.scale.set(1, 1, 1);
         dummy.updateMatrix();
         dashes.setMatrixAt(i, dummy.matrix);
