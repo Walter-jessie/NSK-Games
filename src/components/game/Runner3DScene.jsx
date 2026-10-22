@@ -157,6 +157,17 @@ function create3DGates() {
   const BEAM_Y = 2.95;
   const POST_X = SPAN / 2;
 
+  // Clearance rule for this assembly. Every part either keeps CLEAR between
+  // its faces and any parallel face of a different material, or is buried at
+  // least CLEAR inside an opaque part so the face never renders. Parts that
+  // merely touched, or sat a few millimetres apart, flickered against each
+  // other once the gantry was far enough down the track for the depth buffer
+  // to stop separating them.
+  const CLEAR = 0.03;
+  const POST_H = BEAM_Y + 0.35;   // leg runs past the beam and caps it
+  const SIGN_Z = 0.25;            // sign plate stands clear of the beam face
+  const FRAME_Z = 0.23;           // lit portal frame stands clear of the steel
+
   // Painted steel, not bare metal: this scene has no environment map, and a
   // high-metalness material with nothing to reflect renders almost black.
   const steel = new THREE.MeshStandardMaterial({ color: 0xb9c4d2, metalness: 0.25, roughness: 0.5 });
@@ -168,17 +179,19 @@ function create3DGates() {
   beam.position.set(0, BEAM_Y, 0);
   gatesAssembly.add(beam);
 
-  const flange = new THREE.Mesh(new THREE.BoxGeometry(SPAN, 0.1, 0.52), steelDark);
-  flange.position.set(0, BEAM_Y - 0.26, 0);
+  // Raised so its top is inside the beam. Flush against the beam underside,
+  // the two shared one plane and fought over it.
+  const flange = new THREE.Mesh(new THREE.BoxGeometry(SPAN - 0.1, 0.1, 0.52), steelDark);
+  flange.position.set(0, BEAM_Y - 0.23, 0);
   gatesAssembly.add(flange);
 
   // ── End posts, with hazard banding at knee height ──
   for (const side of [-1, 1]) {
-    const post = new THREE.Mesh(new THREE.BoxGeometry(0.28, BEAM_Y + 0.2, 0.28), steel);
-    post.position.set(side * POST_X, (BEAM_Y + 0.2) / 2, 0);
+    const post = new THREE.Mesh(new THREE.BoxGeometry(0.28, POST_H, 0.28), steel);
+    post.position.set(side * POST_X, POST_H / 2, 0);
     gatesAssembly.add(post);
 
-    const band = new THREE.Mesh(new THREE.BoxGeometry(0.32, 0.34, 0.32), hazard);
+    const band = new THREE.Mesh(new THREE.BoxGeometry(0.28 + CLEAR * 2, 0.34, 0.28 + CLEAR * 2), hazard);
     band.position.set(side * POST_X, 0.55, 0);
     gatesAssembly.add(band);
 
@@ -190,9 +203,9 @@ function create3DGates() {
   }
 
   // ── Inner pillars, floor to beam, dividing the four openings ──
-  const PILLAR_H = BEAM_Y - 0.31; // stops under the beam flange
+  const PILLAR_H = BEAM_Y - 0.24; // top buried inside the flange, clear of the beam
   const pillarGeo = new THREE.BoxGeometry(0.16, PILLAR_H, 0.24);
-  const pillarBandGeo = new THREE.BoxGeometry(0.2, 0.26, 0.28);
+  const pillarBandGeo = new THREE.BoxGeometry(0.16 + CLEAR * 2, 0.26, 0.24 + CLEAR * 2);
   for (const x of [-2, 0, 2]) {
     const pillar = new THREE.Mesh(pillarGeo, steelDark);
     pillar.position.set(x, PILLAR_H / 2, 0);
@@ -223,12 +236,15 @@ function create3DGates() {
     const sign = new THREE.Mesh(new THREE.BoxGeometry(1.44, 0.72, 0.1), [
       steelDark, steelDark, steelDark, steelDark, signMat, signMat,
     ]);
-    sign.position.set(x, BEAM_Y + 0.52, 0.06);
+    // In front of the beam's front face. Inside the beam's depth the plate's
+    // lower edge was occluded by the beam and read as a cut-off sign.
+    sign.position.set(x, BEAM_Y + 0.52, SIGN_Z);
     gatesAssembly.add(sign);
 
-    // Short hanger from beam to sign
-    const hanger = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.2, 0.08), steelDark);
-    hanger.position.set(x, BEAM_Y + 0.22, 0.06);
+    // Stub bracket bolting the plate to the beam face. Its old depth sat 1cm
+    // behind the sign's own faces, which flickered through the lane letter.
+    const hanger = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.16, 0.1), steelDark);
+    hanger.position.set(x, BEAM_Y + 0.05, 0.19);
     gatesAssembly.add(hanger);
 
     // Lane colour laid on the floor, elevated cleanly with depth bias to prevent Z-fighting
@@ -271,12 +287,12 @@ function create3DGates() {
     const glow = new THREE.MeshBasicMaterial({ color: theme.hex });
 
     const lintel = new THREE.Mesh(new THREE.BoxGeometry(openW, 0.07, 0.1), glow);
-    lintel.position.set(x, openH + 0.05, 0.13);
+    lintel.position.set(x, openH + 0.05, FRAME_Z);
     gatesAssembly.add(lintel);
 
     for (const side of [-1, 1]) {
       const jamb = new THREE.Mesh(new THREE.BoxGeometry(0.05, openH, 0.1), glow);
-      jamb.position.set(x + side * (openW / 2), openH / 2 + 0.05, 0.13);
+      jamb.position.set(x + side * (openW / 2), openH / 2 + 0.05, FRAME_Z);
       gatesAssembly.add(jamb);
     }
   });
