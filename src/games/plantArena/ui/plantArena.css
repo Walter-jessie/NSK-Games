@@ -156,6 +156,7 @@
 }
 .pa-count-val-bearing {
   color: #0f172a;
+  font-size: clamp(20px, 4.4vh, 30px);
 }
 .pa-chip-bearing.pa-empty .pa-count-val-bearing {
   color: #dc2626;

@@ -62,8 +62,6 @@ export function StatusBlock({ snap }) {
           <img src="./icon.svg" alt="Bearing" className="pa-chip-icon" />
           <div className="pa-chip-count-wrap">
             <span className="pa-count-val pa-count-val-bearing">{snap.bearings}</span>
-            <span className="pa-count-slash">/</span>
-            <span className="pa-count-max">{snap.backpackSize}</span>
           </div>
           <span className="pa-chip-lbl">BEARINGS</span>
         </div>
