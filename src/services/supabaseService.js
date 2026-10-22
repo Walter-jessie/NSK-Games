@@ -2,6 +2,17 @@ import supabase from '../config/supabase';
 
 const LOCAL_STORAGE_KEY = 'nsk_leaderboard';
 
+// Production deployment baseline timestamp: all test/debug records before this moment are purged
+export const DEPLOYMENT_CUTOFF_DATE = '2026-10-22T17:45:00.000Z';
+
+export function clearLocalLeaderboard() {
+  try {
+    localStorage.removeItem(LOCAL_STORAGE_KEY);
+  } catch (err) {
+    console.warn('Failed to clear local leaderboard:', err);
+  }
+}
+
 /**
  * Saves game score to both local cache and Supabase cloud.
  */
@@ -144,11 +155,12 @@ export async function getLeaderboard() {
     }
   };
 
-  // 1. Try Supabase cloud first (fetch up to 1000 runs)
+  // 1. Try Supabase cloud first (only fetch fresh records created after deployment cutoff)
   try {
     const { data, error } = await supabase
       .from('leaderboard')
       .select('*')
+      .gte('created_at', DEPLOYMENT_CUTOFF_DATE)
       .order('created_at', { ascending: false })
       .limit(1000);
 
@@ -159,10 +171,17 @@ export async function getLeaderboard() {
     console.warn('Supabase fetch failed:', err);
   }
 
-  // 2. Also merge LocalStorage cache
+  // 2. Also merge LocalStorage cache (filtering out pre-deployment test entries)
   try {
     const local = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY) || '[]');
-    local.forEach((row) => processRow(row));
+    const fresh = local.filter((row) => {
+      const d = row.created_at || row.date;
+      return d && d >= DEPLOYMENT_CUTOFF_DATE;
+    });
+    if (fresh.length !== local.length) {
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(fresh));
+    }
+    fresh.forEach((row) => processRow(row));
   } catch (err) {
     console.warn('LocalStorage read failed:', err);
   }

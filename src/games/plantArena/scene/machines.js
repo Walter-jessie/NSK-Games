@@ -151,17 +151,12 @@ function bench(def) {
     },
     animate(fn) { animators.push(fn); },
   };
-  const info = def.build(ctx) || {};
+  // The defs still return bearing / ringRadius / ringRotation hints. Nothing
+  // reads them now that the green status ring is gone; they stay as a record of
+  // where each machine's bearing sits, should a marker be wanted there again.
+  def.build(ctx);
   body.add(ctx.static.build());
   mergeStatic(body);
-
-  // Glowing NSK bearing ring that shows machine health.
-  const ringMat = new THREE.MeshBasicMaterial({ color: C.green, toneMapped: false, transparent: true, opacity: 0.9 });
-  const ring = new THREE.Mesh(new THREE.TorusGeometry(info.ringRadius ?? 0.42, 0.06, 6, 24), ringMat);
-  ring.name = 'healthRing';
-  ring.position.set(...(info.bearing ?? [0, 1, 1]));
-  if (info.ringRotation) ring.rotation.set(...info.ringRotation);
-  body.add(ring);
 
   // Alarm / saved glows and sparks (all unlit additive, cheap on mobile).
   const alarmGlow = floorGlow(4.4, '#ff2a12', 0, { plateau: true });
@@ -219,23 +214,18 @@ function bench(def) {
     if (state.status === 'saved') { benchGlow.visible = true; benchGlow.material.opacity = savedGlow.material.opacity * 0.6; }
     if (running) {
       lampMat.color.copy(green);
-      ringMat.color.copy(green);
       lampHalo.material.color.copy(green);
       lampHalo.material.opacity = 0.55;
-      ring.scale.setScalar(1);
       body.position.x = 0;
     } else if (state.status === 'attacked') {
       const blink = Math.sin(t * 12) > 0;
       lampMat.color.copy(blink ? red : dead);
       lampHalo.material.color.copy(red);
       lampHalo.material.opacity = blink ? 0.8 : 0.1;
-      ringMat.color.copy(red);
-      ring.scale.setScalar(1 + Math.sin(t * 10) * 0.12);
       body.position.x = Math.sin(t * 61) * 0.025;
     } else {
       lampMat.color.copy(dead);
       lampHalo.material.opacity = 0;
-      ringMat.color.copy(dead);
       body.position.x = 0;
     }
   }
@@ -247,7 +237,6 @@ function bench(def) {
     code: def.code,
     title: def.title,
     group: root,
-    ring,
     setStatus(s, { hold = false } = {}) { state.status = s; state.savedTime = 0; state.holdSaved = hold; },
     // Fraction of the repair countdown still left, 1 down to 0.
     setDanger(v) { state.danger = v; },
