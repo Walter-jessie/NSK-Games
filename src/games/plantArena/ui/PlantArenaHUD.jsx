@@ -73,7 +73,7 @@ export function StatusBlock({ snap }) {
 }
 
 const ACTIONS = {
-  smash: { cls: 'pa-act-smash', label: ['SMASH', 'CRATE'] },
+  smash: { cls: 'pa-act-smash', label: ['OPEN'] },
   repair: { cls: 'pa-act-repair', label: ['REPAIR', 'APPLICATION'] },
   needBearings: { cls: 'pa-act-need', label: ['NEED', 'BEARINGS'] },
 };
@@ -87,8 +87,9 @@ export function SmartActionButton({ action, onPress }) {
       className={`pa-act ${a.cls}`}
       onPointerDown={(e) => { e.preventDefault(); onPress(); }}
     >
-      <span>{a.label[0]}</span>
-      <span>{a.label[1]}</span>
+      {a.label.map((text, idx) => (
+        <span key={idx}>{text}</span>
+      ))}
     </button>
   );
 }

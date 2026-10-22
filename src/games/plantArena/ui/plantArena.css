@@ -217,8 +217,15 @@
 .pa-act { pointer-events: auto; position: absolute; right: max(clamp(24px, 5vw, 60px), env(safe-area-inset-right)); bottom: clamp(18px, 5vh, 48px); width: clamp(84px, 24vh, 150px); aspect-ratio: 1; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; font: inherit; font-size: clamp(10px, 2.3vh, 17px); line-height: 1.1; text-align: center; border: 3px solid; touch-action: none; animation: pa-pop2 .2s ease-out; }
 .pa-act:active { transform: scale(.94); }
 .pa-act-hidden { opacity: 0; pointer-events: none; }
-.pa-act-icon { font-size: 1.5em; }
-.pa-act-smash { background: radial-gradient(#ffc75a, #d9771c); border-color: #ffe2a8; color: #3a1a00; box-shadow: 0 0 22px #ff9a2aaa; }
+.pa-act-smash {
+  background: radial-gradient(#ffc75a, #d9771c);
+  border-color: #ffe2a8;
+  color: #3a1a00;
+  box-shadow: 0 0 22px #ff9a2aaa;
+  font-size: clamp(20px, 5.2vh, 36px);
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
 .pa-act-repair { background: radial-gradient(#3ef08a, #16a34a); border-color: #b9ffd2; color: #05210f; box-shadow: 0 0 22px #3ee07baa; animation: pa-glow 0.8s infinite alternate; }
 .pa-act-need { background: radial-gradient(#6b4a1a, #3a2608); border-color: #ffb547; color: #ffd28a; }
 @keyframes pa-glow { to { box-shadow: 0 0 40px #3ee07b; } }
