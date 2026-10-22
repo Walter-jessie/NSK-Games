@@ -743,7 +743,7 @@ export default function BearingRunnerPage() {
               onClick={handleStartGame}
               className="w-full py-3 sm:py-3.5 rounded-2xl bg-slate-900 hover:bg-cyan-600 active:bg-cyan-700 text-white font-heading font-black text-xs sm:text-sm tracking-[0.25em] uppercase transition-all shadow-xl hover:shadow-cyan-600/40 active:scale-[0.98] border-2 border-cyan-400/50 hover:border-cyan-300 cursor-pointer"
             >
-              ▶ &nbsp; PLAY
+              PLAY
             </button>
           </div>
         </div>
